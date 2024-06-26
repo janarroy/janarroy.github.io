@@ -28,6 +28,10 @@ body {
 .navigation-menu li a:hover, .dropdown:hover .dropbtn {
     background-color: #000040; /* Darker blue background on hover */
 }
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
 .dropdown-content {
     display: none;
@@ -45,8 +49,6 @@ body {
     display: block;
     text-align: left;
 }
-
-.dropdown-content a:hover {background-color: #f1f1f1}
 
 .dropdown:hover .dropdown-content {
     display: block;
