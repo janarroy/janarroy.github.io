@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html>
-.navigation-menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #000080; /* Dark blue background */
-}
-
-.navigation-menu li {
-    float: left;
-}
-
-.navigation-menu li a {
-    display: block;
-    color: white; /* White text */
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.navigation-menu li a:hover {
-    background-color: #000040; /* Darker blue background on hover */
-}
+<nav>
+    <ul class="navigation-menu">
+        <li class="dropdown">
+            <a href="#about-us" class="dropbtn">About Us</a>
+            <div class="dropdown-content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+        </li>
+        <li><a href="#watkins-fellows">Watkins Fellows</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 <head>
     <title>Watkins Fellows</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
