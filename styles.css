@@ -2,18 +2,18 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #0000FF; /* Bright blue background */
+    color: #FFFFFF; /* Bright white text */
 }
 
 h1 {
-    color: #333;
+    color: #FFFFFF; /* Bright white text */
     text-align: center;
     padding: 20px 0;
 }
 
 p {
     text-align: center;
-    color: #666;
 }
 
 .grid {
@@ -36,12 +36,8 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #333;
 }
 
-.polaroid p {
-    text-align: center;
-}
 .polaroid p {
     text-align: center;
 }
