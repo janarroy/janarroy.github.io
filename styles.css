@@ -29,14 +29,16 @@ p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.polaroid img {
+.image-placeholder {
     width: 100%;
-    height: auto;
+    height: 200px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
 }
 
-.polaroid p {
-    text-align: center;
-}
 .polaroid p {
     text-align: center;
 }
