@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #0000FF; /* Bright blue background */
+    background-color: #89CFF0; /* Light blue background */
     color: #FFFFFF; /* Bright white text */
 }
 
@@ -38,6 +38,9 @@ p {
     align-items: center;
 }
 
+.polaroid p {
+    text-align: center;
+}
 .polaroid p {
     text-align: center;
 }
