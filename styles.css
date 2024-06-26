@@ -15,3 +15,25 @@ p {
     text-align: center;
     color: #666;
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.polaroid {
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.polaroid img {
+    width: 100%;
+    height: auto;
+}
+
+.polaroid p {
+    text-align: center;
+}
