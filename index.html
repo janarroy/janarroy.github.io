@@ -1,20 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Watkins Fellows</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-    <h1>Watkins Fellows</h1>
-    <p>Thank you</p>
-    <p>Jane, thank you for your donation, here's an update on how we are doing:</p>
-    <div class="grid">
-        <!-- Repeat this block for each photo -->
-        <div class="polaroid">
-            <div class="image-placeholder">Image will go here</div>
-            <p>Image caption</p>
-        </div>
-        <!-- End of block -->
-    </div>
-</body>
-</html>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+}
+
+p {
+    text-align: center;
+    color: #666;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.polaroid {
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+.polaroid p {
+    text-align: center;
+}
