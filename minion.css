@@ -1,9 +1,18 @@
-.minion {
+.minion, .mini-minion {
     width: 100px;
     height: 200px;
     background-color: #ffcc00;
     position: relative;
     margin: 0 auto;
+}
+
+.mini-minion {
+    width: 50px;
+    height: 100px;
+    background-color: purple;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
 .eye {
@@ -16,6 +25,13 @@
     left: 25px;
 }
 
+.mini-minion .eye {
+    width: 25px;
+    height: 25px;
+    top: 25px;
+    left: 12.5px;
+}
+
 .mouth {
     width: 60px;
     height: 20px;
@@ -24,4 +40,11 @@
     position: absolute;
     top: 120px;
     left: 20px;
+}
+
+.mini-minion .mouth {
+    width: 30px;
+    height: 10px;
+    top: 60px;
+    left: 10px;
 }
