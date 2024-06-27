@@ -214,6 +214,10 @@ p {
 }
 
 #about-Us {
+    margin-top: auto;
+}
+
+#about-Us {
     margin-top: 100vh;
     position: absolute;
     bottom: 0;
