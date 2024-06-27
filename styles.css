@@ -214,6 +214,10 @@ p {
     left: 20px;
 }
 
+.spacer {
+    flex-grow: 1;
+}
+
 #about-Us {
     margin-top: auto;
 }
