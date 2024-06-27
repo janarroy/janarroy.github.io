@@ -219,17 +219,12 @@ p {
 }
 
 #about-Us {
-    margin-top: auto;
-}
-
-#about-Us {
+     margin-top: auto;
     position: relative;
     bottom: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
 }
 
