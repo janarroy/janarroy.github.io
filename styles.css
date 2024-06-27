@@ -219,8 +219,7 @@ p {
 }
 
 #about-Us {
-    margin-top: 100vh;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     display: flex;
