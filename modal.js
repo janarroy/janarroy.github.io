@@ -4,10 +4,10 @@ function openModal(element) {
     var past = element.getAttribute('data-past');
     document.getElementById('modal-bio').textContent = bio;
     document.getElementById('modal-past').textContent = past;
-    modal.style.display = 'block';
+    modal.style.opacity = 1;
 }
 
 function closeModal() {
     var modal = document.getElementById('modal');
-    modal.style.display = 'none';
+    modal.style.opacity = 0;
 }
