@@ -111,7 +111,7 @@ p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%; /* This will make the polaroid images take up the full width of their grid item */
     max-width: 180px; /* This will limit the width of the polaroids */
-    margin: 10px; /* This will center the polaroids in their grid item */
+    margin: -20px; /* This will center the polaroids in their grid item */
     border: 2px solid black; /* This will add a 2px solid black border around the polaroids */
     transition: box-shadow .3s ease; /* This will make the shadow animate smoothly */
 }
