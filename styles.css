@@ -212,14 +212,17 @@ p {
     bottom: 20px;
     left: 20px;
 }
+
 #about-Us {
-    margin-top: auto;
-}
-#about-us {
     margin-top: 100vh;
     position: absolute;
     bottom: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 #about-us {
