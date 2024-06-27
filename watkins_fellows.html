@@ -21,44 +21,51 @@
     <p>Jane, thank you for your donation, here's an update on how we are doing:</p>
     <div class="grid">
         <!-- Repeat this block for each photo -->
-        <div class="polaroid">
+        <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="Heaven.jpg" alt="Heaven Fellow">
         <p>Class of 2023</p>
     </div>
-         <div class="polaroid">
+        <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW1.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
-         <div class="polaroid">
+         <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW2.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
-        <div class="polaroid">
+        <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW3.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
-         <div class="polaroid">
+        <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW4.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
-         <div class="polaroid">
+         <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW5.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
-         <div class="polaroid">
+         <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW6.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
-         <div class="polaroid">
+         <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW7.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
-          <div class="polaroid">
+        <div class="polaroid" data-bio="Bio goes here..." data-past="Past goes here..." onclick="openModal(this)">
         <img src="FELLOW8.jpg" alt="Description of the image">
         <p>Image caption</p>
     </div>
         <!-- Repeat the block 11 more times -->
-        <!-- ... -->
+     <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">Title goes here...</h2>
+            <p id="modal-bio">Bio goes here...</p>
+            <p id="modal-past">Past goes here...</p>
+        </div>
+    </div>
         <!-- End of block -->
     </div>
 </body>
