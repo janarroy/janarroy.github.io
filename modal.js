@@ -13,3 +13,18 @@ function closeModal() {
     modal.style.display = "none"; // Add this line
     modal.style.opacity = 0;
 }
+
+document.querySelectorAll('.polaroid').forEach(polaroid => {
+    polaroid.addEventListener('click', event => {
+        event.stopPropagation();
+        polaroid.querySelector('.overlay').style.opacity = '1';
+        polaroid.querySelector('.overlay').style.visibility = 'visible';
+    });
+});
+
+document.querySelectorAll('.overlay').forEach(overlay => {
+    overlay.addEventListener('click', () => {
+        overlay.style.opacity = '0';
+        overlay.style.visibility = 'hidden';
+    });
+});
