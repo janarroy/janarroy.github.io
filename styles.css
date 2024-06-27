@@ -110,6 +110,8 @@ p {
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%; /* This will make the polaroid images take up the full width of their grid item */
+    max-width: 180px; /* This will limit the width of the polaroids */
+    margin: auto; /* This will center the polaroids in their grid item */
 }
 
 .polaroid img {
