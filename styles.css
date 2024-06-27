@@ -141,10 +141,10 @@ p {
 
 .image-container {
     position: absolute;
-    right: 0; /* Adjust this value to move the image left or right */
+    right: 5%; /* Adjust this value to move the image left or right */
     top: 50%; /* Center the image vertically */
-    width: 50%; /* Make the image take up 50% of the webpage width */
-    height: 100%; /* Make the image take up 100% of the webpage height */
+    width: 45%; /* Adjust this value to change the size of the image */
+    height: 90%; /* Adjust this value to change the size of the image */
     transform: translateY(-50%); /* This will center the image vertically */
 }
 
@@ -152,4 +152,6 @@ p {
     object-fit: cover; /* This will make the image cover the entire .image-container */
     width: 100%; /* This will make the image take up the full width of the .image-container */
     height: 100%; /* This will make the image take up the full height of the .image-container */
+    border: 10px solid black; /* This will add a black border around the image */
+    box-shadow: 0 0 10px black; /* This will add a black shadow around the image for a 3D effect */
 }
