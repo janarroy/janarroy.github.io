@@ -32,7 +32,7 @@ document.querySelectorAll('.overlay').forEach(overlay => {
 document.querySelectorAll('.close-button').forEach(button => {
     button.addEventListener('click', event => {
         event.stopPropagation();
-        button.parentElement.style.opacity = '0';
-        button.parentElement.style.visibility = 'hidden';
+        event.target.parentElement.style.opacity = '0';
+        event.target.parentElement.style.visibility = 'hidden';
     });
 });
