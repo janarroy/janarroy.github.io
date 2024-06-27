@@ -28,3 +28,11 @@ document.querySelectorAll('.overlay').forEach(overlay => {
         overlay.style.visibility = 'hidden';
     });
 });
+
+document.querySelectorAll('.close-button').forEach(button => {
+    button.addEventListener('click', event => {
+        event.stopPropagation();
+        button.parentElement.style.opacity = '0';
+        button.parentElement.style.visibility = 'hidden';
+    });
+});
