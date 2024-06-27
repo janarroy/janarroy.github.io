@@ -6,6 +6,12 @@ body {
     color: #000000; /* Black text */
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .navigation-menu {
     list-style-type: none;
     margin: 0;
@@ -17,6 +23,7 @@ body {
     top: 0;
     width: 100%;
 }
+
 
 .navigation-menu li {
     list-style: none;
@@ -215,6 +222,10 @@ p {
     padding: 50px 0; /* This will add some space above and below the section */
     background-color: #f9f9f9; /* This will give the section a light grey background */
     text-align: center; /* This will center the text */
+}
+
+#about-Us {
+    margin-top: auto;
 }
 
 #about-us h2 {
