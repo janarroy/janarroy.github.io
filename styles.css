@@ -205,6 +205,11 @@ p {
     bottom: 20px;
     left: 20px;
 }
+#about-us {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
 
 #about-us {
     padding: 50px 0; /* This will add some space above and below the section */
