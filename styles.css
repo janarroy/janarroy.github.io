@@ -138,3 +138,10 @@ p {
     font-size: 50px; /* Increase the font size to 50px */
     font-weight: bold; /* Bold text */
 }
+
+.image-container {
+    position: absolute;
+    right: 10%; /* Adjust this value to move the image left or right */
+    top: 50%; /* Center the image vertically */
+    transform: translateY(-50%); /* This will center the image vertically */
+}
