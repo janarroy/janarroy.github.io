@@ -15,10 +15,11 @@ body {
 }
 
 .navigation-menu li {
-    float: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: inline-block;
+}
+
+.navigation-menu ul {
+    text-align: center;
 }
 
 .navigation-menu li a, .dropbtn {
