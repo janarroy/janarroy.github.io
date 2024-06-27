@@ -215,7 +215,7 @@ p {
 }
 
 .spacer {
-    flex-grow: 1;
+    height:50px;
 }
 
 #about-Us {
