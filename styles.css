@@ -99,9 +99,9 @@ p {
 }
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* This will create as many columns as can fit in the container, with each column being at least 250px wide and sharing the available space equally */
-    gap: 20px; /* This will create a 20px gap between the grid items */
-    justify-content: center; /* This will center the grid items horizontally */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
     padding: 20px;
 }
 
@@ -109,11 +109,11 @@ p {
     background-color: #fff;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%; /* This will make the polaroid images take up the full width of their grid item */
-    max-width: 300px; /* This will limit the width of the polaroids. Adjust this value to change the size of the photos. */
-    margin: auto; /* This will center the polaroids in their grid item */
-    border: 2px solid black; /* This will add a 2px solid black border around the polaroids */
-    transition: box-shadow .3s ease; /* This will make the shadow animate smoothly */
+    width: 100%;
+    max-width: 250px; /* Adjusted to match the minimum size specified in grid-template-columns */
+    margin: auto;
+    border: 2px solid black;
+    transition: box-shadow .3s ease;
 }
 
 .polaroid:hover {
