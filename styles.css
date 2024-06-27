@@ -216,6 +216,7 @@ p {
     margin-top: auto;
 }
 #about-us {
+    margin-top: 100vh;
     position: absolute;
     bottom: 0;
     width: 100%;
