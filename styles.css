@@ -218,7 +218,7 @@ p {
     flex-grow: 1;
 }
 
-#about-us {
+#about-Us {
      margin-top: auto;
     position: relative;
     bottom: 0;
@@ -228,23 +228,23 @@ p {
     height: 100vh;
 }
 
-#about-us {
+#about-Us {
     padding: 50px 0; /* This will add some space above and below the section */
     background-color: #f9f9f9; /* This will give the section a light grey background */
     text-align: center; /* This will center the text */
 }
 
 
-#about-us h2 {
+#about-Us h2 {
     font-size: 2em; /* This will make the header larger */
     margin-bottom: 20px; /* This will add some space below the header */
 }
 
-#about-us #mission-statement {
+#about-Us #mission-statement {
     margin-bottom: 20px; /* This will add some space below the mission statement */
 }
 
-#about-us #about-us-photo {
+#about-Us #about-Us-photo {
     /* Add any styles you want for the photo here */
 }
 .modal {
