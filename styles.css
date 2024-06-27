@@ -187,3 +187,9 @@ p {
 .learn-more-button:hover {
     background-color: #16397F; /* Darker Persian blue on hover */
 }
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust this value as needed */
+}
