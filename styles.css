@@ -2,15 +2,16 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #89CFF0; /* Light blue background */
-    color: #FFFFFF; /* Bright white text */
+    background-color: #FFFFFF; /* White background */
+    color: #000000; /* Black text */
 }
+
 .navigation-menu {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #000080; /* Dark blue background */
+    background-color: #FFFFFF; /* White background */
 }
 
 .navigation-menu li {
@@ -19,15 +20,17 @@ body {
 
 .navigation-menu li a, .dropbtn {
     display: block;
-    color: white; /* White text */
+    color: #000000; /* Black text */
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-weight: bold; /* Bold text */
 }
 
 .navigation-menu li a:hover, .dropdown:hover .dropbtn {
-    background-color: #000040; /* Darker blue background on hover */
+    background-color: #F0F0F0; /* Light grey background on hover */
 }
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -53,14 +56,16 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
 h1 {
-    color: #FFFFFF; /* Bright white text */
+    color: #000000; /* Black text */
     text-align: center;
     padding: 20px 0;
 }
 
 p {
     text-align: center;
+    color: #000000; /* Black text */
 }
 
 .grid {
@@ -87,16 +92,14 @@ p {
 
 .polaroid p {
     text-align: center;
-}
-.polaroid p {
-    text-align: center;
+    color: #000000; /* Black text */
 }
 
 .thank-you-note {
     font-family: 'Georgia', serif; /* A nice, readable font */
     font-size: 2em; /* Increased font size */
-    color: #FFFFFF; /* Bright white text */
-    background-color: #89CFF0; /* Light blue background */
+    color: #000000; /* Black text */
+    background-color: #FFFFFF; /* White background */
     padding: 20px;
     margin: 20px;
     text-align: center; /* Centered text */
