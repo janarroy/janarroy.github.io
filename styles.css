@@ -110,14 +110,15 @@ p {
 .title {
     position: absolute;
     left: 10%; /* Adjust this value to move the title left or right */
-    top: 10%; /* Adjust this value to move the title up or down */
+    top: 50%; /* Center the title vertically */
     color: #000000; /* Black text */
     font-family: Arial, sans-serif; /* Arial font */
     text-transform: uppercase; /* Uppercase text */
+    transform: translateY(-50%); /* This will center the title vertically */
 }
 
 .title h1 {
     margin: 0;
-    font-size: 3em; /* Big text */
+    font-size: 50px; /* Increase the font size to 50px */
     font-weight: bold; /* Bold text */
 }
