@@ -6,7 +6,7 @@ body {
     color: #000000; /* Black text */
 }
 
-.container {
+.page-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -212,6 +212,9 @@ p {
     bottom: 20px;
     left: 20px;
 }
+#about-Us {
+    margin-top: auto;
+}
 #about-us {
     position: absolute;
     bottom: 0;
@@ -224,9 +227,6 @@ p {
     text-align: center; /* This will center the text */
 }
 
-#about-Us {
-    margin-top: auto;
-}
 
 #about-us h2 {
     font-size: 2em; /* This will make the header larger */
