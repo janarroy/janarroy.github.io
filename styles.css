@@ -113,6 +113,12 @@ p {
     max-width: 180px; /* This will limit the width of the polaroids */
     margin: auto; /* This will center the polaroids in their grid item */
     border: 2px solid black; /* This will add a 2px solid black border around the polaroids */
+    transition: box-shadow .3s ease; /* This will make the shadow animate smoothly */
+}
+
+.polaroid:hover {
+    transform: scale(1.05); /* This will scale the polaroid images up to 105% of their original size */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* This will add a larger shadow when the polaroid is hovered over */
 }
 
 .polaroid img {
@@ -134,10 +140,6 @@ p {
     color: #000000; /* Black text */
 }
 
-.polaroid:hover {
-    transform: scale(1.05); /* This will scale the polaroid images up to 105% of their original size */
-    transition: transform .2s; /* This will make the scaling effect animate smoothly over 0.2 seconds */
-}
 
 .thank-you-note {
     font-family: 'Georgia', serif; /* A nice, readable font */
