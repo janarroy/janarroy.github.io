@@ -86,8 +86,8 @@ p {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr); /* This will create three equal-width columns */
+    gap: 20px; /* This will create a 20px gap between the grid items */
     padding: 20px;
 }
 
@@ -95,6 +95,12 @@ p {
     background-color: #fff;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* This will make the polaroid images take up the full width of their grid item */
+}
+
+.polaroid img {
+    width: 100%; /* This will make the images take up the full width of the .polaroid */
+    height: auto; /* This will maintain the aspect ratio of the images */
 }
 
 .image-placeholder {
