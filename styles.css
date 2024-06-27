@@ -15,7 +15,10 @@ body {
 }
 
 .navigation-menu li {
-    float: left;
+    float: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navigation-menu li a, .dropbtn {
@@ -31,6 +34,12 @@ body {
     background-color: #F0F0F0; /* Light grey background on hover */
 }
 
+<div class="navigation-menu">
+    <ul>
+        <!-- Your existing list items here -->
+        <li><a href="#donor">A Message to Our Donor</a></li>
+    </ul>
+</div>
 
 .navbar ul {
     display: flex;
