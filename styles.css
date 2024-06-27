@@ -133,6 +133,11 @@ p {
     color: #000000; /* Black text */
 }
 
+.polaroid:hover {
+    transform: scale(1.05); /* This will scale the polaroid images up to 105% of their original size */
+    transition: transform .2s; /* This will make the scaling effect animate smoothly over 0.2 seconds */
+}
+
 .thank-you-note {
     font-family: 'Georgia', serif; /* A nice, readable font */
     font-size: 2em; /* Increased font size */
