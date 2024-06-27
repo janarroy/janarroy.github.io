@@ -56,6 +56,18 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+.title {
+    position: absolute;
+    left: 10%; /* Adjust this value to move the title left or right */
+    top: 10%; /* Adjust this value to move the title up or down */
+    color: #000000; /* Black text */
+    font-weight: bold; /* Bold text */
+}
+
+.title h1 {
+    margin: 0;
+    font-size: 3em; /* Big text */
+}
 
 h1 {
     color: #000000; /* Black text */
