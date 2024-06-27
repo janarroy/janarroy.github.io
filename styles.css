@@ -99,7 +99,7 @@ p {
 }
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* This will create five equal-width columns */
+    grid-template-columns: repeat(4, 1fr); /* This will create five equal-width columns */
     gap: 20px; /* This will create a 20px gap between the grid items */
     justify-content: center; /* This will center the grid items horizontally */
     padding: 20px;
