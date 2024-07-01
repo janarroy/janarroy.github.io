@@ -17,8 +17,14 @@ function closeModal() {
 document.querySelectorAll('.polaroid').forEach(polaroid => {
     polaroid.addEventListener('click', event => {
         event.stopPropagation();
-        polaroid.querySelector('.overlay').style.opacity = '1';
-        polaroid.querySelector('.overlay').style.visibility = 'visible';
+        openModal(polaroid);
+    });
+});
+
+document.querySelectorAll('.close-button').forEach(button => {
+    button.addEventListener('click', event => {
+        event.stopPropagation();
+        closeModal();
     });
 });
 
@@ -26,13 +32,5 @@ document.querySelectorAll('.overlay').forEach(overlay => {
     overlay.addEventListener('click', () => {
         overlay.style.opacity = '0';
         overlay.style.visibility = 'hidden';
-    });
-});
-
-document.querySelectorAll('.close-button').forEach(button => {
-    button.addEventListener('click', event => {
-        event.stopPropagation();
-        event.target.parentElement.style.opacity = '0';
-        event.target.parentElement.style.visibility = 'hidden';
     });
 });
