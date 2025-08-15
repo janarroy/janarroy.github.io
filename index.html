@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jan Arroyo</title>
+  <meta name="description" content="Jan Arroyo – personal site" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="./">JAN</a>
+      <div class="nav-links">
+        <a class="btn" href="work.html">Work</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Landing / Splash -->
+  <header class="container splash">
+    <div class="splash-left">
+      <div class="console-line"><span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span></div>
+      <h1 class="name">I’m <span>Jan Arroyo</span></h1>
+      <p class="tag">TPM / APM · I like clean specs and useful products.</p>
+      <div class="cta-row">
+        <a class="primary" href="work.html">See my work</a>
+        <a class="ghost" href="mailto:jan@example.com">Email</a>
+        <a class="ghost" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      </div>
+    </div>
+    <div class="splash-right">
+      <!-- Replace with your own photo URL -->
+      <img class="me" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop" alt="Jan Arroyo"/>
+
+      <!-- Spotify widget: replace the src with your own track/playlist/artist embed URL -->
+      <div class="spotify-wrap">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT?utm_source=generator" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </div>
+  </header>
+
+  
+
+  <footer>
+    <div class="container">© <span id="y"></span> Jan Arroyo</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Simple typewriter for the console line
+    const el = document.getElementById('console-txt');
+    const text = el?.dataset.text || '';
+    let i = 0;
+    function type(){
+      if(!el) return;
+      el.textContent = text.slice(0, i++);
+      const speed = 40; // ms per char
+      if(i <= text.length) setTimeout(type, speed);
+    }
+    type();
+  </script>
+</body>
+</html>
