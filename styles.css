@@ -139,3 +139,26 @@
   
   .profile-container:hover .profile-overlay{ opacity: 1; }
   
+  /* Rotating line under the name */
+.rotate-line{
+    margin-top: 10px;
+    font-size: clamp(16px, 2.2vw, 18px);
+    color: var(--muted);
+    min-height: 1.6em;       /* keeps layout steady during typing */
+    letter-spacing: .1px;
+    white-space: nowrap;
+  }
+  
+  /* Global caret so both console and rotating text can use it */
+  .caret{
+    margin-left: 6px;
+    opacity: .9;
+    animation: blink 1s steps(1) infinite;
+  }
+  
+  /* Optional: different caret color than the console one */
+  .rotate-line .caret { color: #cfd3db; }   /* soft gray */
+  .console-line .caret { color: #86efac; }  /* green caret stays for console */
+  
+  @keyframes blink { 50% { opacity: .2; } }
+  

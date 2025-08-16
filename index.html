@@ -23,6 +23,10 @@
     <div class="splash-left">
       <div class="console-line"><span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span></div>
       <h1 class="name">I’m <span>Jan Arroyo</span></h1>
+      <!-- Rotating typewriter line -->
+    <div class="rotate-line">
+        <span id="rotate-text"></span><span class="caret">▍</span>
+    </div>
       <p class="tag">TPM / APM · I like clean specs and useful products.</p>
       <div class="cta-row">
         <a class="primary" href="work.html">See my work</a>
@@ -73,6 +77,45 @@
       if(i <= text.length) setTimeout(type, speed);
     }
     type();
+    const rotateEl = document.getElementById('rotate-text');
+  const phrases = [
+    "studying business + CS + AI at USC",
+    "an (avid) barista and baker",
+    "a founder building and growing crazy ideas",
+    "a decent runner",
+    "a PM trying to build cool things"
+  ];
+
+  function startRotateTyper(el, list, typeMs = 40, deleteMs = 20, holdMs = 1200) {
+    let i = 0, j = 0, typing = true;
+
+    function tick() {
+      const s = list[i];
+
+      if (typing) {
+        j++;
+        el.textContent = s.slice(0, j);
+        if (j === s.length) {
+          typing = false;
+          return setTimeout(tick, holdMs);
+        }
+        return setTimeout(tick, typeMs);
+      } else {
+        j--;
+        el.textContent = s.slice(0, j);
+        if (j === 0) {
+          typing = true;
+          i = (i + 1) % list.length;
+          return setTimeout(tick, 300);
+        }
+        return setTimeout(tick, deleteMs);
+      }
+    }
+
+    tick();
+  }
+
+  if (rotateEl) startRotateTyper(rotateEl, phrases);
   </script>
 </body>
 </html>
