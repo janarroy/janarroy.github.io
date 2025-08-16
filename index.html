@@ -35,25 +35,40 @@
       </div>
     </div>
     <div class="splash-right">
-      <!-- Profile image with rotate + overlay description -->
-<div class="profile-container">
-    <img src="images/Hawaii.JPG" alt="Jan Arroyo" class="profile-img" />
-    <div class="profile-overlay">
-      <p>Hi! I’m Jan, a USC student passionate about tech, consulting, and creating innovative projects.</p>
-    </div>
-  </div>
-  
-  <!-- Playlist (kept slim if you change height) -->
-  <div class="spotify-wrap">
-    <h3 class="spotify-title">My Current Playlist</h3>
-    <iframe style="border-radius:12px"
-      src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
-      width="100%" height="152" frameborder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
-  </div>
-  
+        <!-- About card with photo on top and description below -->
+        <article class="about-card">
+          <img src="images/Hawaii.JPG" alt="Jan Arroyo" class="about-photo" />
+          <div class="about-body">
+            <p class="about-intro">
+              I’ve been a builder for as long as I can remember. I like clear specs,
+              fast feedback loops, and shipping useful things with kind teams.
+            </p>
+            <ul class="about-bullets">
+              <li>🎓 studying business + CS + AI at USC</li>
+              <li>☕️ an (avid) barista and baker</li>
+              <li>🚀 a founder building and growing crazy ideas</li>
+              <li>🏃‍♂️ a decent runner</li>
+              <li>🧭 a PM trying to build cool things</li>
+            </ul>
+            <div class="about-links">
+              <a class="link-pill" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
+              <a class="link-pill" href="mailto:jan@example.com">Email</a>
+              <a class="link-pill" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+          </div>
+        </article>
+      
+        <!-- Playlist (thin, like your ref) -->
+        <div class="spotify-wrap" style="max-width:520px; width:100%; margin-top:14px;">
+          <h3 class="spotify-title">My Current Playlist</h3>
+          <iframe style="border-radius:12px"
+            src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
+            width="100%" height="152" frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+        </div>
+      </div>
+      
       
   </header>
 
