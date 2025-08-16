@@ -581,4 +581,11 @@ body.plain-bg{
     background: rgba(17,19,24,.25); cursor:pointer;
   }
   .race-slider .dots button.active{ background: rgba(17,19,24,.6); }
-  
+  .race-slideshow img, 
+.race-slideshow video {
+  width: 100%;
+  max-width: 600px; /* keeps things same size */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

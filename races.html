@@ -69,55 +69,29 @@
         </div>
       </section>
       
-      <section class="race-card">
-        <header class="race-header">
-          <h2>Surf City Marathon</h2>
-          <time datetime="2025-02-02">February 2, 2025</time>
-        </header>
-      
-        <!-- Slideshow -->
-        <div class="slideshow-container">
-          <!-- Image 1 -->
-          <div class="mySlides surf-city">
-            <img src="images/races/SurfCity1.JPG" alt="Surf City Marathon 2025 – photo 1">
+      <section class="race">
+        <h2>Surf City Marathon</h2>
+        <p class="race-date">February 2, 2025</p>
+        <div class="race-slideshow">
+          <div class="slide active">
+            <img src="images/races/surfcity1.png" alt="Surf City Marathon 1">
           </div>
-      
-          <!-- Image 2 -->
-          <div class="mySlides surf-city">
-            <img src="images/races/SurfCity2.JPG" alt="Surf City Marathon 2025 – photo 2">
+          <div class="slide">
+            <img src="images/races/surfcity2.png" alt="Surf City Marathon 2">
           </div>
-      
-          <!-- Image 3 -->
-          <div class="mySlides surf-city">
-            <img src="images/races/SurfCity3.JPG" alt="Surf City Marathon 2025 – photo 3">
+          <div class="slide">
+            <img src="images/races/surfcity3.png" alt="Surf City Marathon 3">
           </div>
-      
-          <!-- Video -->
-          <div class="mySlides surf-city">
+          <div class="slide">
             <video controls>
-              <source src="images/races/SurfCity4.mov" type="video/mp4">
+              <source src="images/races/surfcity.mov" type="video/quicktime">
               Your browser does not support the video tag.
             </video>
           </div>
       
-          <!-- Navigation Arrows -->
-          <a class="prev" onclick="plusSlides(-1, 'surf-city')">&#10094;</a>
-          <a class="next" onclick="plusSlides(1, 'surf-city')">&#10095;</a>
+          <a class="prev" onclick="changeSlide(-1, this)">&#10094;</a>
+          <a class="next" onclick="changeSlide(1, this)">&#10095;</a>
         </div>
-      
-        <!-- Dots -->
-        <div class="dot-container">
-          <span class="dot surf-city" onclick="currentSlide(1, 'surf-city')"></span>
-          <span class="dot surf-city" onclick="currentSlide(2, 'surf-city')"></span>
-          <span class="dot surf-city" onclick="currentSlide(3, 'surf-city')"></span>
-          <span class="dot surf-city" onclick="currentSlide(4, 'surf-city')"></span>
-        </div>
-      
-        <!-- Description -->
-        <p>
-          My first full marathon! Surf City 2025 was a huge milestone. The ocean views and crowd
-          energy kept me going all the way through 26.2 miles. 🌊🏃‍♂️
-        </p>
       </section>
       
       
