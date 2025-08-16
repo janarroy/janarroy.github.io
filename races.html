@@ -26,44 +26,47 @@
     <h1 class="page-title">Races</h1>
     <p class="tag">Marathons & distance events I’ve run.</p>
 
-    <section class="panel">
-      <div class="timeline">
-        <!-- Example items; duplicate as needed -->
-        <article class="item">
-          <h4>Chicago Marathon</h4>
-          <div class="org">World Marathon Major</div>
-          <div class="time">Oct 2024 — 03:39:12</div>
-          <ul>
-            <li>Negative split, felt great through 30k.</li>
-            <li>Fuel: Maurten 100 (x4) + 750ml water.</li>
-          </ul>
-        </article>
-
-        <article class="item">
-          <h4>LA Marathon</h4>
-          <div class="org">Stadium to the Sea</div>
-          <div class="time">Mar 2024 — 03:52:44</div>
-          <ul>
-            <li>Hot day; dialed pacing early.</li>
-          </ul>
-        </article>
+    <!-- === Race: Long Beach Half Marathon (Oct 6, 2024) === -->
+<section class="race" data-date="2024-10-06">
+    <div class="race-grid panel">
+      <!-- Slider -->
+      <div class="race-slider" data-race="long-beach-2024">
+        <div class="slides">
+          <!-- Replace with your actual image filenames -->
+          <img src="images/races/LongBeachHalf1.JPG" alt="Long Beach Half Marathon 2024 – photo 1">
+          <img src="images/races/LongBeachHalf2.JPG" alt="Long Beach Half Marathon 2024 – photo 2">
+          <img src="images/races/LongBeachHalf3.JPG" alt="Long Beach Half Marathon 2024 – photo 3">
+        </div>
+  
+        <!-- Controls -->
+        <button class="nav prev" aria-label="Previous photo">‹</button>
+        <button class="nav next" aria-label="Next photo">›</button>
+  
+        <!-- Dots (auto-populated) -->
+        <div class="dots"></div>
       </div>
-    </section>
+  
+      <!-- Write-up -->
+      <aside class="race-notes">
+        <h2 class="race-title">Long Beach Half Marathon</h2>
+        <div class="race-meta">October 6, 2024 · 13.1 miles</div>
+        <p>
+          First half! Gorgeous course along the waterfront. Settled into pace early,
+          stayed patient through miles 8–10, and kicked on the final stretch. Learned a lot
+          about fueling and not going out too hot 😅.
+        </p>
+        <ul class="race-bullets">
+          <li>Course: flat + coastal breeze</li>
+          <li>Fuel: gels + water every station</li>
+          <li>Shoes: (fill in)</li>
+          <li>Goal next time: negative split</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+  
 
-    <section>
-      <h2 class="page-title" style="margin-top:24px;">Gallery</h2>
-      <div class="masonry">
-        <!-- Card example -->
-        <a class="card" href="images/races/chicago-full.jpg" data-large="images/races/chicago-full.jpg">
-          <div class="thumb"><img src="images/races/chicago-thumb.jpg" alt="Chicago finish"/></div>
-          <div class="meta">
-            <span class="tag">Chicago 2024</span>
-            <h3>Finish line</h3>
-            <p>Last 400m kick down Michigan Ave.</p>
-          </div>
-        </a>
-      </div>
-    </section>
+
   </main>
 
   <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
@@ -75,13 +78,66 @@
   </div></div>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-    const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbClose = document.getElementById('lbClose');
-    document.querySelectorAll('.card').forEach(c => c.addEventListener('click', e => {
-      e.preventDefault(); lb.classList.add('open'); lbImg.src = c.dataset.large || c.href;
-    }));
-    lbClose.onclick = () => lb.classList.remove('open');
-    lb.onclick = e => { if (e.target === lb) lb.classList.remove('open'); };
+    // Year in footer (if you use the same pattern)
+    document.getElementById('y') && (document.getElementById('y').textContent = new Date().getFullYear());
+  
+    // Sort races by date (newest → oldest)
+    (function sortRaces(){
+      const container = document.querySelector('main.container.work') || document.querySelector('main');
+      if(!container) return;
+      const races = Array.from(container.querySelectorAll('.race'));
+      races.sort((a,b) => (b.dataset.date||'').localeCompare(a.dataset.date||''));
+      races.forEach(r => container.insertBefore(r, container.querySelector('footer, script')));
+    })();
+  
+    // Simple slider
+    (function initSliders(){
+      document.querySelectorAll('.race-slider').forEach(slider => {
+        const track = slider.querySelector('.slides');
+        const slides = Array.from(track.children);
+        if (!slides.length) return;
+  
+        let idx = 0;
+        const prev = slider.querySelector('.prev');
+        const next = slider.querySelector('.next');
+        const dotsWrap = slider.querySelector('.dots');
+  
+        // Build dots
+        dotsWrap.innerHTML = '';
+        slides.forEach((_, i) => {
+          const d = document.createElement('button');
+          if (i === 0) d.classList.add('active');
+          d.addEventListener('click', () => go(i));
+          dotsWrap.appendChild(d);
+        });
+        const dots = Array.from(dotsWrap.children);
+  
+        function render(){
+          track.style.transform = `translateX(${-idx * 100}%)`;
+          dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+        }
+        function go(i){
+          idx = (i + slides.length) % slides.length;
+          render();
+        }
+        prev.addEventListener('click', () => go(idx - 1));
+        next.addEventListener('click', () => go(idx + 1));
+  
+        // Swipe (mobile)
+        let startX = 0, dragging = false;
+        slider.addEventListener('pointerdown', e => { dragging = true; startX = e.clientX; });
+        slider.addEventListener('pointerup', e => {
+          if(!dragging) return; dragging = false;
+          const dx = e.clientX - startX;
+          if (dx > 40) go(idx - 1);
+          if (dx < -40) go(idx + 1);
+        });
+  
+        render();
+      });
+    })();
   </script>
+  
+
 </body>
 </html>
