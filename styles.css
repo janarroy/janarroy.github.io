@@ -469,3 +469,47 @@ body.plain-bg {
     background: var(--bg) !important; /* no gradient; stable color */
   }
   
+  /* Races page: force solid background */
+body.plain-bg{
+    background: var(--bg) !important;
+    background-image: none !important;   /* override any gradients */
+  }
+  html.plain-bg {                          /* safety if you ever add the class here */
+    background: var(--bg) !important;
+    background-image: none !important;
+  }
+  
+  /* Race grid with header row inside the panel */
+.race-grid{
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    grid-template-areas:
+      "bar   bar"
+      "media notes";
+    gap: 16px;
+  }
+  @media (max-width: 900px){
+    .race-grid{
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "bar"
+        "media"
+        "notes";
+    }
+  }
+  .race-bar{
+    grid-area: bar;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    /* pull across the panel padding so it looks like a card header */
+    margin: -18px -18px 8px;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(17,19,24,.10);
+    border-top-left-radius: 16px; border-top-right-radius: 16px;
+    background: var(--panel);
+  }
+  .race-bar h2{ margin: 0; font-size: 22px; }
+  .race-bar .race-date{ color: var(--muted); font-size: 14px; }
+  
+  .race-slider{ grid-area: media; }
+  .race-notes{ grid-area: notes; }
+  

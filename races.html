@@ -21,60 +21,47 @@
       </div>
     </div>
   </nav>
-  <header class="container" style="padding-top:28px;">
-    <h1 class="page-title" style="margin:0 0 6px;">Races</h1>
-    <p class="tag">Most recent → oldest</p>
-  </header>
-  
+
   <main class="container work">
     <h1 class="page-title">Races</h1>
     <p class="tag">Marathons & distance events I’ve run.</p>
 
     <!-- === Race: Long Beach Half Marathon (Oct 6, 2024) === -->
     <section class="race" data-date="2024-10-06" id="long-beach-2024">
-        <div class="race-heading">
-          <h2>Long Beach Half Marathon</h2>
-          <div class="race-date">October 6, 2024</div>
+        <div class="race-grid panel">
+          <!-- Header bar inside the card -->
+          <div class="race-bar">
+            <h2>Long Beach Half Marathon</h2>
+            <span class="race-date">October 6, 2024</span>
+          </div>
+      
+          <!-- Slider (left) -->
+          <div class="race-slider" data-race="long-beach-2024">
+            <div class="slides">
+              <img src="images/races/long-beach-2024-1.jpg" alt="Long Beach Half Marathon 2024 – photo 1">
+              <img src="images/races/long-beach-2024-2.jpg" alt="Long Beach Half Marathon 2024 – photo 2">
+              <img src="images/races/long-beach-2024-3.jpg" alt="Long Beach Half Marathon 2024 – photo 3">
+            </div>
+            <button class="nav prev" aria-label="Previous photo">‹</button>
+            <button class="nav next" aria-label="Next photo">›</button>
+            <div class="dots"></div>
+          </div>
+      
+          <!-- Notes (right) -->
+          <aside class="race-notes">
+            <h3 class="race-title">Long Beach Half Marathon</h3>
+            <div class="race-meta">October 6, 2024 · 13.1 miles</div>
+            <p>First half! Gorgeous course along the waterfront. Settled into pace early, stayed patient through miles 8–10, and kicked on the final stretch. Learned a lot about fueling and not going out too hot 😅.</p>
+            <ul class="race-bullets">
+              <li>Course: flat + coastal breeze</li>
+              <li>Fuel: gels + water every station</li>
+              <li>Shoes: (fill in)</li>
+              <li>Goal next time: negative split</li>
+            </ul>
+          </aside>
         </div>
-    <div class="race-grid panel">
-      <!-- Slider -->
-      <div class="race-slider" data-race="long-beach-2024">
-        <div class="slides">
-          <!-- Replace with your actual image filenames -->
-          <img src="images/races/LongBeachHalf1.JPG" alt="Long Beach Half Marathon 2024 – photo 1">
-          <img src="images/races/LongBeachHalf2.JPG" alt="Long Beach Half Marathon 2024 – photo 2">
-          <img src="images/races/LongBeachHalf3.JPG" alt="Long Beach Half Marathon 2024 – photo 3">
-        </div>
-  
-        <!-- Controls -->
-        <button class="nav prev" aria-label="Previous photo">‹</button>
-        <button class="nav next" aria-label="Next photo">›</button>
-  
-        <!-- Dots (auto-populated) -->
-        <div class="dots"></div>
-      </div>
-  
-      <!-- Write-up -->
-      <aside class="race-notes">
-        <h2 class="race-title">Long Beach Half Marathon</h2>
-        <div class="race-meta">October 6, 2024 · 13.1 miles</div>
-        <p>
-          First half! Gorgeous course along the waterfront. Settled into pace early,
-          stayed patient through miles 8–10, and kicked on the final stretch. Learned a lot
-          about fueling and not going out too hot 😅.
-        </p>
-        <ul class="race-bullets">
-          <li>Course: flat + coastal breeze</li>
-          <li>Fuel: gels + water every station</li>
-          <li>Shoes: (fill in)</li>
-          <li>Goal next time: negative split</li>
-        </ul>
-      </aside>
-    </div>
-  </section>
-  
-
-
+      </section>
+      
   </main>
 
   <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
