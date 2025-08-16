@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bake – Jan Arroyo</title>
+  <meta name="description" content="Bakes, cooks, and recent eats by Jan Arroyo" />
+  <link href="styles.css?v=7" rel="stylesheet" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="./">JAN</a>
+      <div class="nav-links">
+        <a class="btn" href="work.html">Projects</a>
+        <a class="btn" href="races.html">Races</a>
+        <a class="btn" href="bake.html">Bake</a>
+        <a class="btn" href="travel.html">Travel</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container work">
+    <h1 class="page-title">Bake</h1>
+    <p class="tag">Things I’ve baked/cooked — and recent favorites from Beli.</p>
+
+    <!-- Beli widget -->
+    <a class="beli-card" href="https://beli.link/your-profile" target="_blank" rel="noopener">
+      <div class="beli-left"><div class="beli-plate">🍽️</div></div>
+      <div class="beli-right">
+        <div class="beli-title">Recent eats on Beli</div>
+        <ul class="beli-list" id="beli-list"><li>Loading recent bites…</li></ul>
+        <div class="beli-cta">View my Beli →</div>
+      </div>
+    </a>
+
+    <section style="margin-top:18px;">
+      <div class="masonry">
+        <!-- Example food cards -->
+        <a class="card" href="images/bake/pain-de-campagne-full.jpg" data-large="images/bake/pain-de-campagne-full.jpg">
+          <div class="thumb"><img src="images/bake/pain-de-campagne-thumb.jpg" alt="Pain de campagne"/></div>
+          <div class="meta">
+            <span class="tag">Bread</span>
+            <h3>Pain de campagne</h3>
+            <p>50/50 AP + bread, 75% hydration, 12h cold proof.</p>
+          </div>
+        </a>
+
+        <a class="card" href="images/bake/espresso-tonic-full.jpg" data-large="images/bake/espresso-tonic-full.jpg">
+          <div class="thumb"><img src="images/bake/espresso-tonic-thumb.jpg" alt="Espresso tonic"/></div>
+          <div class="meta">
+            <span class="tag">Coffee</span>
+            <h3>Espresso tonic</h3>
+            <p>Tonx + yuzu peel.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lb"><div class="lightbox-content">
+    <div class="lightbox-header"><strong>Photo</strong><button class="close" id="lbClose">Close</button></div>
+    <div class="lightbox-body"><img id="lbImg" alt=""></div>
+  </div></div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Lightbox
+    const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbClose = document.getElementById('lbClose');
+    document.querySelectorAll('.card').forEach(c => c.addEventListener('click', e => {
+      e.preventDefault(); lb.classList.add('open'); lbImg.src = c.dataset.large || c.href;
+    }));
+    lbClose.onclick = () => lb.classList.remove('open');
+    lb.onclick = e => { if (e.target === lb) lb.classList.remove('open'); };
+
+    // Beli feed (edit /data/beli.json in your repo to update quickly)
+    (async function(){
+      const listEl = document.getElementById('beli-list');
+      try {
+        const res = await fetch('data/beli.json?v=1', { cache: 'no-store' });
+        if (!res.ok) throw new Error('fetch failed');
+        const data = await res.json();
+        listEl.innerHTML = '';
+        (data || []).slice(0,3).forEach(item => {
+          const li = document.createElement('li');
+          const when = item.when ? ` • ${item.when}` : '';
+          const rating = item.rating ? ` • ${item.rating}` : '';
+          li.textContent = `• ${item.place} — ${item.blurb}${rating}${when}`;
+          listEl.appendChild(li);
+        });
+        if (!listEl.children.length) listEl.innerHTML = '<li>No recent bites yet.</li>';
+      } catch(e){
+        listEl.innerHTML = '<li>Couldn’t load recent bites.</li>';
+      }
+    })();
+  </script>
+</body>
+</html>
