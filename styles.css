@@ -597,4 +597,27 @@ body.plain-bg{
     display: block;
     background: #000;
   }
+  /* Uniform slider frame for all races */
+.race-slider{
+    position: relative;
+    width: 100%;
+    max-width: 720px;          /* adjust if you want wider/narrower */
+    aspect-ratio: 3 / 2;       /* fixed height derived from width */
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+  }
+  
+  /* Make each slide fill the frame */
+  .race-slider .slides{ height: 100%; }
+  .race-slider .slides > *{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;         /* crop edges to fill the frame */
+  }
+  
+  /* arrows/dots sit above media */
+  .race-slider .nav,
+  .race-slider .dots{ z-index: 2; }
   
