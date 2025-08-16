@@ -69,30 +69,53 @@
         </div>
       </section>
       
-      <section class="race">
+     <!-- === Race: Surf City Marathon (Feb 2, 2025) === -->
+<section class="race" data-date="2025-02-02" id="surf-city-2025">
+    <div class="race-grid panel">
+      <!-- Header inside the card -->
+      <div class="race-bar">
         <h2>Surf City Marathon</h2>
-        <p class="race-date">February 2, 2025</p>
-        <div class="race-slideshow">
-          <div class="slide active">
-            <img src="images/races/SurfCity1.JPG" alt="Surf City Marathon 1">
-          </div>
-          <div class="slide">
-            <img src="images/races/SurfCity2.JPG" alt="Surf City Marathon 2">
-          </div>
-          <div class="slide">
-            <img src="images/races/SurfCity3.JPG" alt="Surf City Marathon 3">
-          </div>
-          <div class="slide">
+        <span class="race-date">February 2, 2025</span>
+      </div>
+  
+      <!-- Body: slider + notes -->
+      <div class="race-body">
+        <!-- Slider (same component as Long Beach) -->
+        <div class="race-slider" data-race="surf-city-2025">
+          <div class="slides">
+            <img src="images/races/SurfCity1.JPG" alt="Surf City Marathon 2025 – photo 1">
+            <img src="images/races/SurfCity2.JPG" alt="Surf City Marathon 2025 – photo 2">
+            <img src="images/races/SurfCity3.JPG" alt="Surf City Marathon 2025 – photo 3">
+            <!-- video slide (mp4 recommended) -->
             <video controls>
-              <source src="images/races/SurfCity4.mp4" type="video/quicktime">
+              <source src="images/races/SurfCity4.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
-      
-          <a class="prev" onclick="changeSlide(-1, this)">&#10094;</a>
-          <a class="next" onclick="changeSlide(1, this)">&#10095;</a>
+          <button class="nav prev" aria-label="Previous photo">‹</button>
+          <button class="nav next" aria-label="Next photo">›</button>
+          <div class="dots"></div>
         </div>
-      </section>
+  
+        <!-- Notes -->
+        <aside class="race-notes">
+          <h3 class="race-title">Surf City Marathon</h3>
+          <div class="race-meta">February 2, 2025 · 26.2 miles</div>
+          <p>
+            First full! Ocean views, big crowds, and a tough-but-fun last 10K.
+            Learned a ton about pacing and fueling for the full distance.
+          </p>
+          <ul class="race-bullets">
+            <li>Course: out-and-back along PCH</li>
+            <li>Fuel: gels + electrolytes every 5–6 miles</li>
+            <li>Shoes: (fill in)</li>
+            <li>Next goal: stronger last 10K</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+  
       
       
   </main>

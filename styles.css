@@ -589,3 +589,12 @@ body.plain-bg{
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+/* Make video slides size exactly like image slides */
+.race-slider video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* use 'contain' if you prefer full frame without crop */
+    display: block;
+    background: #000;
+  }
+  
