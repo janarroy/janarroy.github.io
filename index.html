@@ -35,30 +35,42 @@
       </div>
     </div>
     <div class="splash-right">
-        <!-- About card with photo on top and description below -->
-        <article class="about-card">
-          <img src="images/Hawaii.JPG" alt="Jan Arroyo" class="about-photo" />
-          <div class="about-body">
-            <p class="about-intro">
-              I’ve been a builder for as long as I can remember. I like clear specs,
-              fast feedback loops, and shipping useful things with kind teams.
-            </p>
-            <ul class="about-bullets">
-              <li>🎓 studying business + CS + AI at USC</li>
-              <li>☕️ an (avid) barista and baker</li>
-              <li>🚀 a founder building and growing crazy ideas</li>
-              <li>🏃‍♂️ a decent runner</li>
-              <li>🧭 a PM trying to build cool things</li>
-            </ul>
-            <div class="about-links">
-              <a class="link-pill" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
-              <a class="link-pill" href="mailto:jan@example.com">Email</a>
-              <a class="link-pill" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        <!-- Flip card: front = full photo, back = about card with circle image -->
+        <div class="flip-card" id="aboutFlip">
+          <div class="flip-inner">
+            <!-- FRONT (your normal photo, original shape) -->
+            <div class="flip-face flip-front">
+              <!-- keep your real filename/case here -->
+              <img src="images/Hawaii.JPG" alt="Jan Arroyo">
+            </div>
+      
+            <!-- BACK (about panel with circular avatar) -->
+            <div class="flip-face flip-back">
+              <div class="about-back">
+                <!-- Upload your circle headshot as images/me-circle.jpg (or change src) -->
+                <img class="about-avatar" src="images/me-circle.jpg" alt="Jan – headshot">
+                <p class="about-intro">
+                  I’ve been a builder for as long as I can remember. I like clear specs,
+                  fast feedback loops, and shipping useful things with kind teams.
+                </p>
+                <ul class="about-bullets">
+                  <li>🎓 studying business + CS + AI at USC</li>
+                  <li>☕️ an (avid) barista and baker</li>
+                  <li>🚀 a founder building and growing crazy ideas</li>
+                  <li>🏃‍♂️ a decent runner</li>
+                  <li>🧭 a PM trying to build cool things</li>
+                </ul>
+                <div class="about-links">
+                  <a class="link-pill" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
+                  <a class="link-pill" href="mailto:jan@example.com">Email</a>
+                  <a class="link-pill" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+                </div>
+              </div>
             </div>
           </div>
-        </article>
+        </div>
       
-        <!-- Playlist (thin, like your ref) -->
+        <!-- (Keep your playlist block under this if you like) -->
         <div class="spotify-wrap" style="max-width:520px; width:100%; margin-top:14px;">
           <h3 class="spotify-title">My Current Playlist</h3>
           <iframe style="border-radius:12px"
@@ -68,6 +80,7 @@
             loading="lazy"></iframe>
         </div>
       </div>
+      
       
       
   </header>
@@ -131,6 +144,19 @@
   }
 
   if (rotateEl) startRotateTyper(rotateEl, phrases);
+
+  // Mobile tap toggle for the flip card
+  (function(){
+    const card = document.getElementById('aboutFlip');
+    if (!card) return;
+    card.addEventListener('click', function(){
+      // Only enable tap-toggle on touch-capable devices
+      if (matchMedia('(hover: none)').matches) {
+        card.classList.toggle('flipped');
+      }
+    });
+  })();
+  
   </script>
 </body>
 </html>

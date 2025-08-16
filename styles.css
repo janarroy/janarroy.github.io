@@ -237,3 +237,82 @@
   /* Spotify heading in light */
   .spotify-title{ margin:6px 0 8px; font-size:16px; color:#374151; font-weight:700; }
   
+  /* ===== Flip card (photo → about) ===== */
+.flip-card{
+    perspective: 1200px;
+    width: 100%;
+    max-width: 520px;
+  }
+  
+  .flip-inner{
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: transform .7s cubic-bezier(.2,.8,.2,1);
+    border-radius: 16px;
+  }
+  
+  /* Hover (desktop) or .flipped class (mobile JS below) */
+  .flip-card:hover .flip-inner,
+  .flip-card.flipped .flip-inner{
+    transform: rotateY(180deg);
+  }
+  
+  .flip-face{
+    position: relative;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(17,19,24,.06);
+    border: 1px solid rgba(17,19,24,.10);
+  }
+  
+  /* Front: full original photo shape */
+  .flip-front img{
+    display: block;
+    width: 100%;
+    height: auto;      /* keep natural aspect ratio */
+    object-fit: contain;
+  }
+  
+  /* Back: the about panel */
+  .flip-back{
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+    background: var(--panel);
+    color: var(--text);
+    display: grid;
+    place-items: start;
+  }
+  
+  .about-back{
+    width: 100%;
+    padding: 16px;
+  }
+  
+  .about-avatar{
+    width: 96px;
+    height: 96px;
+    border-radius: 9999px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid rgba(17,19,24,.12);
+    box-shadow: 0 6px 16px rgba(17,19,24,.08);
+    margin-bottom: 10px;
+  }
+  
+  .about-intro{ margin: 0 0 8px; }
+  .about-bullets{ margin: 8px 0 12px; padding-left: 18px; color: var(--muted); }
+  .about-bullets li{ margin: 4px 0; }
+  
+  .about-links{ display: flex; gap: 8px; flex-wrap: wrap; }
+  .link-pill{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:8px 12px; border-radius:999px; background:#fff;
+    color:var(--text); border:1px solid rgba(17,19,24,.12);
+    text-decoration:none; font-size:14px;
+  }
+  .link-pill:hover{ background: rgba(17,19,24,.05); }
+  
