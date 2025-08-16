@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jan Arroyo</title>
   <meta name="description" content="Jan Arroyo – personal site" />
-  <link href="styles.css" rel="stylesheet" />
+  <link href="styles.css?v=4" rel="stylesheet">
 </head>
 <body>
   <nav class="nav">
@@ -35,20 +35,18 @@
       </div>
     </div>
     <div class="splash-right">
-        <!-- Flip card: front = full photo, back = about card with circle image -->
+        <!-- FLIP CARD -->
         <div class="flip-card" id="aboutFlip">
           <div class="flip-inner">
-            <!-- FRONT (your normal photo, original shape) -->
+            <!-- FRONT: your normal photo -->
             <div class="flip-face flip-front">
-              <!-- keep your real filename/case here -->
               <img src="images/Hawaii.JPG" alt="Jan Arroyo">
             </div>
       
-            <!-- BACK (about panel with circular avatar) -->
+            <!-- BACK: circular headshot + about -->
             <div class="flip-face flip-back">
               <div class="about-back">
-                <!-- Upload your circle headshot as images/me-circle.jpg (or change src) -->
-                <img class="about-avatar" src="images/headshot.JPG" alt="Jan – headshot">
+                <img class="about-avatar" src="images/headshot.jpg" alt="Jan – headshot">
                 <p class="about-intro">
                   I’ve been a builder for as long as I can remember. I like clear specs,
                   fast feedback loops, and shipping useful things with kind teams.
@@ -60,18 +58,13 @@
                   <li>🏃‍♂️ a decent runner</li>
                   <li>🧭 a PM trying to build cool things</li>
                 </ul>
-                <div class="about-links">
-                  <a class="link-pill" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
-                  <a class="link-pill" href="mailto:jan@example.com">Email</a>
-                  <a class="link-pill" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
               </div>
             </div>
           </div>
         </div>
       
-        <!-- (Keep your playlist block under this if you like) -->
-        <div class="spotify-wrap" style="max-width:520px; width:100%; margin-top:14px;">
+        <!-- keep your playlist below if you want -->
+        <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:14px;">
           <h3 class="spotify-title">My Current Playlist</h3>
           <iframe style="border-radius:12px"
             src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
@@ -79,7 +72,7 @@
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"></iframe>
         </div>
-      </div>
+      </div>      
       
       
       
