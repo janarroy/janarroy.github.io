@@ -704,3 +704,21 @@ body.plain-bg{
 /* stat tiles spacing tweaks so they breathe a bit more */
 .race-caption .race-stats{ gap:12px; margin: 6px 0 4px; }
 .stat-number{ font-size: clamp(22px,2.2vw,30px); }
+
+.race-slider{ background:#fff; }          /* letterbox matches the card */
+.race-slider .slides{ align-items: center; }  /* center image vertically */
+.race-slider .slides > img,
+.race-slider .slides > video{ background:#fff; } /* no dark bars inside */
+
+@media (min-width: 901px){
+  .race-slider{ max-height: 620px; }  /* tweak to taste */
+}
+
+.race .race-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.race .race-bar h2{ margin:0; }
+.race .race-bar .race-date{ color:var(--muted); font-size:13px; }
