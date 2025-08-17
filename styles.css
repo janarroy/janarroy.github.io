@@ -722,3 +722,71 @@ body.plain-bg{
 }
 .race .race-bar h2{ margin:0; }
 .race .race-bar .race-date{ color:var(--muted); font-size:13px; }
+
+/* ==== FINAL OVERRIDES – put at the very end of styles.css ==== */
+
+/* Title left, date right (one line) */
+.race .race-bar{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+}
+.race .race-bar h2{ margin:0 !important; }
+.race .race-bar .race-date{ color:var(--muted); font-size:13px; }
+
+/* Two-column layout: media left (60%), notes right (40%) */
+.race-body{
+  display:grid !important;
+  grid-template-columns:minmax(0,60%) minmax(0,40%) !important;
+  grid-template-areas:"media notes" !important;
+  gap:18px !important;
+}
+.race-slider{ grid-area:media !important; }
+.race-caption{ grid-area:notes !important; }
+
+/* Auto-height slider — remove every fixed frame */
+.race-slider{
+  position:relative !important;
+  width:100% !important;
+  height:auto !important;
+  max-height:none !important;
+  aspect-ratio:auto !important;      /* kills earlier 4/3 frame */
+  border-radius:14px !important;
+  overflow:hidden !important;
+  background:#fff !important;        /* letterbox matches card */
+}
+.race-slider .slides{
+  display:grid !important;
+  grid-auto-flow:column !important;
+  grid-auto-columns:100% !important;
+  align-items:center !important;     /* vertical center */
+  height:auto !important;
+  transition:transform .45s ease !important;
+}
+.race-slider .slides > img,
+.race-slider .slides > video{
+  width:100% !important;
+  height:auto !important;            /* use natural aspect */
+  object-fit:contain !important;     /* show full photo */
+  display:block !important;
+  background:#fff !important;
+  border-radius:14px !important;
+}
+
+/* Right panel readability */
+.race-caption{
+  position:static !important;
+  background:var(--panel) !important;
+  border:1px solid rgba(17,19,24,.10) !important;
+  border-radius:14px !important;
+  padding:18px 18px 16px !important;
+}
+.race-caption p{ font-size:15.5px; line-height:1.6; }
+.race-caption .race-bullets{ font-size:14px; line-height:1.5; }
+
+/* Optional: desktop cap (prevents ultra-tall video cards).
+   Remove if you prefer absolutely zero letterboxing. */
+@media (min-width:901px){
+  .race-slider{ max-height:620px !important; }
+}
