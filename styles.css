@@ -633,3 +633,74 @@ body.plain-bg{
       "notes";
   }
 }
+
+/* === Card header: title left, date right (same line) === */
+.race-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.race-bar h2{ margin:0; }
+.race-bar .race-date{ color:var(--muted); font-size:13px; }
+
+/* === Two-column card: media LEFT | caption RIGHT === */
+.race-body{
+  display:grid;
+  grid-template-columns: minmax(0,60%) minmax(0,40%);
+  grid-template-areas: "media notes";
+  gap:18px;
+}
+@media (max-width: 900px){
+  .race-body{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "media"
+      "notes";
+  }
+}
+.race-slider{ grid-area: media; }
+.race-caption{ grid-area: notes; }
+
+/* === Auto-height slider (no crop) === */
+.race-slider{
+  position: relative;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;            /* behind letterboxes */
+  height:auto;                 /* JS will set explicit height */
+  max-height:none;
+}
+.race-slider .slides{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  align-items: start;          /* use media's natural height */
+  transition: transform .45s ease;
+}
+.race-slider .slides > img,
+.race-slider .slides > video{
+  width: 100%;
+  height: auto;                /* <-- key: use natural aspect */
+  object-fit: contain;         /* show the whole image */
+  display: block;
+  background:#000;
+  border-radius: 14px;         /* keeps corners on tall images */
+}
+
+/* === Right panel: slightly larger, easier reading === */
+.race-caption{
+  background: var(--panel);
+  border: 1px solid rgba(17,19,24,.10);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+}
+.race-caption .race-title{ margin:0 0 2px; }
+.race-caption .race-meta{ color:var(--muted); font-size:13px; margin-bottom:8px; }
+.race-caption p{ font-size:15.5px; line-height:1.6; margin:8px 0 4px; }
+.race-caption .race-bullets{ font-size:14px; line-height:1.5; margin-top:8px; }
+
+/* stat tiles spacing tweaks so they breathe a bit more */
+.race-caption .race-stats{ gap:12px; margin: 6px 0 4px; }
+.stat-number{ font-size: clamp(22px,2.2vw,30px); }

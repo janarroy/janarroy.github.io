@@ -206,42 +206,69 @@
 
   <!-- ========== Slider JS (prev/next + dots) ========== -->
   <script>
-  (function(){
-    function initSlider(root){
-      const track = root.querySelector('.slides');
-      const slides = Array.from(track.children);
-      const prev = root.querySelector('.nav.prev');
-      const next = root.querySelector('.nav.next');
-      const dotsWrap = root.querySelector('.dots');
-
-      let i = 0;
-      function go(n){
-        i = (n + slides.length) % slides.length;
-        track.style.transform = `translateX(-${i*100}%)`;
-        if(dotsWrap){
-          dotsWrap.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('on', idx===i));
+    (function(){
+      function setHeight(root){
+        const track = root.querySelector('.slides');
+        const slide = track.children[root._i || 0];
+        if(!slide) return;
+        // Use natural height while respecting current width
+        // Create a temp clone to measure if needed
+        let h;
+        if (slide.tagName === 'IMG' && slide.naturalWidth) {
+          const w = root.clientWidth;
+          h = Math.round(w * (slide.naturalHeight / slide.naturalWidth));
+        } else {
+          h = slide.getBoundingClientRect().height || 0;
         }
+        root.style.height = h ? `${h}px` : 'auto';
       }
-
-      // dots
-      dotsWrap.innerHTML = '';
-      slides.forEach((_, idx)=>{
-        const b=document.createElement('button');
-        b.type='button';
-        b.className = idx===0 ? 'on' : '';
-        b.addEventListener('click', ()=>go(idx));
-        dotsWrap.appendChild(b);
-      });
-
-      prev.addEventListener('click', ()=>go(i-1));
-      next.addEventListener('click', ()=>go(i+1));
-
-      go(0);
-    }
-
-    document.querySelectorAll('.race-slider').forEach(initSlider);
-  })();
-  </script>
+    
+      function initSlider(root){
+        const track = root.querySelector('.slides');
+        const slides = Array.from(track.children);
+        const prev = root.querySelector('.nav.prev');
+        const next = root.querySelector('.nav.next');
+        const dotsWrap = root.querySelector('.dots');
+    
+        let i = 0;
+        function go(n){
+          i = (n + slides.length) % slides.length;
+          root._i = i;
+          track.style.transform = `translateX(-${i*100}%)`;
+          if(dotsWrap){
+            dotsWrap.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('on', idx===i));
+          }
+          setHeight(root);
+        }
+    
+        // dots
+        dotsWrap.innerHTML = '';
+        slides.forEach((_, idx)=>{
+          const b=document.createElement('button');
+          b.type='button';
+          b.className = idx===0 ? 'on' : '';
+          b.addEventListener('click', ()=>go(idx));
+          dotsWrap.appendChild(b);
+        });
+    
+        prev.addEventListener('click', ()=>go(i-1));
+        next.addEventListener('click', ()=>go(i+1));
+    
+        // update height after images load and on resize
+        slides.forEach(s=>{
+          if(s.tagName==='IMG'){
+            if(s.complete) setHeight(root); else s.addEventListener('load', ()=>setHeight(root), {once:true});
+          }
+        });
+        window.addEventListener('resize', ()=>setHeight(root));
+    
+        go(0);
+      }
+    
+      document.querySelectorAll('.race-slider').forEach(initSlider);
+    })();
+    </script>
+    
 
   <!-- ========== Count-up stats (spring) ========== -->
   <script>
