@@ -440,34 +440,25 @@
 .race-notes .race-meta  { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
 .race-bullets { margin: 10px 0 0 18px; color: var(--muted); }
 
-/* Auto-height slider (no cropping) */
-.race-slider{
+.race-slider {
   position: relative;
   width: 100%;
   max-width: 720px;
-  /* aspect-ratio: 3 / 2;  <-- REMOVE this */
+  aspect-ratio: 3 / 2;      /* ✅ ADD this back (or 4/3, 16/9, whatever frame you want) */
   border-radius: 14px;
   overflow: hidden;
-  background: #fff;
-  height: auto;                  /* let JS set explicit height */
-}
-
-.race-slider .slides{
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 100%;
-  transition: transform .45s ease;
-  align-items: center;
+  background: #000;         /* black looks cleaner if a frame peeks */
+  height: auto;             /* remove if you keep aspect-ratio */
 }
 
 .race-slider .slides > img,
-.race-slider .slides > video{
+.race-slider .slides > video {
   width: 100%;
-  height: auto;                  /* key: use natural aspect */
-  object-fit: contain !important;
+  height: 100%;             /* ✅ stretch to fill frame */
+  object-fit: cover;        /* ✅ crop instead of letterbox */
   display: block;
-  background: #fff;
 }
+
 
 
 
