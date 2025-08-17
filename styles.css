@@ -440,33 +440,31 @@
 .race-notes .race-meta  { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
 .race-bullets { margin: 10px 0 0 18px; color: var(--muted); }
 
-/* ---- SLIDER FRAME (uniform across races) ---- */
+/* Auto-height slider (no cropping) */
 .race-slider{
   position: relative;
   width: 100%;
-  max-width: 720px;          /* adjust if you want wider/narrower */
-  aspect-ratio: 3 / 2;       /* fixed height derived from width */
+  max-width: 720px;
+  /* aspect-ratio: 3 / 2;  <-- REMOVE this */
   border-radius: 14px;
   overflow: hidden;
   background: #fff;
+  height: auto;                  /* let JS set explicit height */
 }
 
-/* Track + slides */
 .race-slider .slides{
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
-  width: 100%;
-  height: 100%;
-  transition: transform .45s ease; /* slide feel */
+  transition: transform .45s ease;
+  align-items: center;
 }
 
-/* Race slider media: show full image, no crop */
 .race-slider .slides > img,
-.race-slider .slides > video {
+.race-slider .slides > video{
   width: 100%;
-  height: 100%;
-  object-fit: contain !important; /* ensure no cropping */
+  height: auto;                  /* key: use natural aspect */
+  object-fit: contain !important;
   display: block;
   background: #fff;
 }
