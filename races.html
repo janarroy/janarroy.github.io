@@ -54,7 +54,13 @@
         <button class="nav next" aria-label="Next photo">›</button>
         <div class="dots"></div>
       </div>
-      <!-- COUNT-UP STATS -->
+    
+
+      <!-- Notes -->
+      <aside class="race-notes">
+        <h3 class="race-title">San Francisco 10K</h3>
+        <div class="race-meta">July 27, 2025 · 6.2 miles</div>
+         <!-- COUNT-UP STATS -->
 <div class="race-stats" data-animate>
   <div class="stat">
     <div class="stat-number"><span class="count" data-target="120" data-decimals="0">0</span></div>
@@ -69,14 +75,8 @@
     <div class="stat-label">distance</div>
   </div>
 </div>
-
-      <!-- Notes -->
-      <aside class="race-notes">
-        <h3 class="race-title">San Francisco 10K</h3>
-        <div class="race-meta">July 27, 2025 · 6.2 miles</div>
         <p>
-          Foggy, cool, perfect PR weather. Stayed relaxed through the first 3 miles,
-          then pushed the hills and kicked hard down the last stretch by the water.
+          This race was different because it was the first one my girlfriend and I ran side by side the whole way. We were living in San Francisco for the summer while I was interning, and since we didn’t have many friends or family around, doing this together made it feel really special. Running through the city, keeping pace with each other, and finishing in about an hour and ten minutes turned into such a great memory. It made me even more excited for all the future races we’ll do together.
         </p>
         <ul class="race-bullets">
           <li>Course: rolling + coastal views</li>
@@ -117,6 +117,12 @@
         <div class="dots"></div>
       </div>
 
+
+      <!-- Notes -->
+      <aside class="race-notes">
+        <h3 class="race-title">Surf City Marathon</h3>
+        <div class="race-meta">February 2, 2025 · 26.2 miles</div>
+
       <!-- COUNT-UP STATS -->
 <div class="race-stats" data-animate>
   <div class="stat">
@@ -132,15 +138,8 @@
     <div class="stat-label">distance</div>
   </div>
 </div>
-
-
-      <!-- Notes -->
-      <aside class="race-notes">
-        <h3 class="race-title">Surf City Marathon</h3>
-        <div class="race-meta">February 2, 2025 · 26.2 miles</div>
         <p>
-          First full! Ocean views, big crowds, and a tough-but-fun last 10K.
-          Learned a ton about pacing and fueling for the full distance.
+          Surf City was my first full marathon and probably the hardest thing I’ve done so far. The entry was actually a birthday gift from my girlfriend for my 20th, which is kind of funny looking back—I think she was trying to tell me something. I trained harder than ever and somehow managed to sneak in under four hours. It felt so good to check “run a marathon” off my bucket list. The whole day was tough but so worth it, and now I know I can take on something that once felt impossible.
         </p>
         <ul class="race-bullets">
           <li>Course: out-and-back along PCH</li>
@@ -176,7 +175,12 @@
               <div class="dots"></div>
             </div>
 
-            <!-- COUNT-UP STATS -->
+      
+            <!-- Notes -->
+            <aside class="race-notes">
+              <h3 class="race-title">Long Beach Half Marathon</h3>
+              <div class="race-meta">October 6, 2024 · 13.1 miles</div>
+                <!-- COUNT-UP STATS -->
 <div class="race-stats" data-animate>
   <div class="stat">
     <div class="stat-number"><span class="count" data-target="471" data-decimals="0">0</span></div>
@@ -191,16 +195,8 @@
     <div class="stat-label">distance</div>
   </div>
 </div>
-
-      
-            <!-- Notes -->
-            <aside class="race-notes">
-              <h3 class="race-title">Long Beach Half Marathon</h3>
-              <div class="race-meta">October 6, 2024 · 13.1 miles</div>
               <p>
-                First half! Gorgeous course along the waterfront. Settled into pace early,
-                stayed patient through miles 8–10, and kicked on the final stretch. Learned
-                a lot about fueling and not going out too hot 😅.
+                This was my very first half marathon and honestly one of the best decisions I ever made. I signed up with one of my closest friends Emma because we wanted to challenge ourselves and see what we could do. Training was a mix of struggle and fun, but crossing that finish line under two hours felt amazing. What really made the morning special was having my friends and my girlfriend out there cheering. They were cranky at 6 am, but still showed up, and that kind of support just makes everything better.
               </p>
               <ul class="race-bullets">
                 <li>Course: flat + coastal breeze</li>
@@ -269,7 +265,52 @@
     
       document.querySelectorAll('.race-stats[data-animate]').forEach(box=>observer.observe(box));
     })();
-    </script>
+    </script><script>
+(function(){
+  // snappy ease
+  const spring = t => 1 - Math.pow(1 - t, 4);
+
+  function formatTime(totalSeconds){
+    totalSeconds = Math.round(totalSeconds);
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    const mm = String(m).padStart(2,'0');
+    const ss = String(s).padStart(2,'0');
+    return h > 0 ? `${h}:${mm}:${ss}` : `${m}:${ss}`;
+  }
+
+  function animateCount(el, target, {decimals=0, duration=1400, isTime=false}={}){
+    const start = performance.now();
+    const from = 0;
+    const step = (now)=>{
+      const t = Math.min(1, (now - start)/duration);
+      const v = from + (target - from) * spring(t);
+      el.textContent = isTime ? formatTime(v) : v.toFixed(decimals);
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver((entries, obs)=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      const box = entry.target;
+      box.classList.add('on'); // trigger reveal styles
+      box.querySelectorAll('.count').forEach(span=>{
+        const target   = Number(span.getAttribute('data-target') || 0);
+        const decimals = Number(span.getAttribute('data-decimals') || 0);
+        const isTime   = span.getAttribute('data-format') === 'time';
+        animateCount(span, target, {decimals, isTime});
+      });
+      obs.unobserve(box); // run once per block
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('.race-stats[data-animate]').forEach(el=>observer.observe(el));
+})();
+</script>
+
     
   
 
