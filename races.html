@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Races – Jan Arroyo</title>
   <meta name="description" content="Marathons and races by Jan Arroyo" />
-  <!-- cache-bust the latest CSS -->
-  <link href="styles.css?v=12" rel="stylesheet" />
+  <!-- bump the version any time you change styles.css -->
+  <link href="styles.css?v=13" rel="stylesheet" />
 </head>
 <body class="plain-bg">
   <!-- Navbar -->
@@ -27,167 +27,175 @@
     <h1 class="page-title">Races</h1>
     <p class="tag">Marathons & distance events I’ve run.</p>
 
-    <!-- === SF 10K === -->
+    <!-- ====================== SF 10K ====================== -->
     <section class="race" data-date="2025-07-27" id="sf10k-2025">
       <div class="race-grid panel">
         <div class="race-bar">
           <h2>San Francisco 10K</h2>
           <span class="race-date">July 27, 2025</span>
         </div>
+
         <div class="race-body">
+          <!-- LEFT: slider -->
           <div class="race-slider" data-race="sf10k-2025">
             <div class="slides">
-              <img src="images/races/SF10K.JPG" alt="SF10K – bib & medal">
-              <img src="images/races/SF10K1.JPG" alt="SF10K – start line with friends">
+              <img src="images/races/SF10K.JPG" alt="San Francisco 10K – medal & bib">
+              <img src="images/races/SF10K1.JPG" alt="San Francisco 10K – after the finish">
             </div>
-            <button class="nav prev" aria-label="Previous">‹</button>
-            <button class="nav next" aria-label="Next">›</button>
+            <button class="nav prev" aria-label="Previous photo">‹</button>
+            <button class="nav next" aria-label="Next photo">›</button>
             <div class="dots"></div>
+          </div>
 
-            <!-- Right caption INSIDE the slider -->
-            <div class="race-caption">
-              <h3 class="race-title">San Francisco 10K</h3>
-              <div class="race-meta">July 27, 2025 · 6.2 miles</div>
+          <!-- RIGHT: caption panel -->
+          <div class="race-caption">
+            <h3 class="race-title">San Francisco 10K</h3>
+            <div class="race-meta">July 27, 2025 · 6.2 miles</div>
 
-              <div class="race-stats" data-animate>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-target="120" data-decimals="0">0</span></div>
-                  <div class="stat-label">training miles</div>
-                </div>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-format="time" data-target="4200">0:00</span></div>
-                  <div class="stat-label">finish</div>
-                </div>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-target="6.2" data-decimals="1">0</span></div>
-                  <div class="stat-label">distance</div>
-                </div>
+            <div class="race-stats" data-animate>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="120" data-decimals="0">0</span></div>
+                <div class="stat-label">training miles</div>
               </div>
-
-              <p>
-                This one was special because my girlfriend and I ran side by side the whole way.
-                We were in San Francisco for the summer while I was interning, and without many friends or family around,
-                doing this together made it feel extra good. We kept pace, finished in about an hour and ten,
-                and left already scheming our next race.
-              </p>
-              <ul class="race-bullets">
-                <li>Course: rolling streets + cool coastal air</li>
-                <li>Fuel: light (water only) — gel pre-start</li>
-                <li>Shoes: (fill in)</li>
-                <li>Next goal: stronger middle miles</li>
-              </ul>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-format="time" data-target="4200">0:00</span></div>
+                <div class="stat-label">finish</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="6.2" data-decimals="1">0</span></div>
+                <div class="stat-label">distance</div>
+              </div>
             </div>
+
+            <p>
+              This one was special because my girlfriend and I ran side by side the whole way.
+              We were in San Francisco for the summer while I was interning, and without many friends or family around,
+              doing this together made it feel extra good. We kept pace, finished in about an hour and ten,
+              and left already scheming our next race.
+            </p>
+            <ul class="race-bullets">
+              <li>Course: rolling streets + cool coastal air</li>
+              <li>Fuel: light (water only) — gel pre-start</li>
+              <li>Shoes: (fill in)</li>
+              <li>Next goal: stronger middle miles</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- === Surf City === -->
+    <!-- ====================== Surf City ====================== -->
     <section class="race" data-date="2025-02-02" id="surf-city-2025">
       <div class="race-grid panel">
         <div class="race-bar">
           <h2>Surf City Marathon</h2>
           <span class="race-date">February 2, 2025</span>
         </div>
+
         <div class="race-body">
+          <!-- LEFT: slider -->
           <div class="race-slider" data-race="surf-city-2025">
             <div class="slides">
-              <img src="images/races/SurfCity1.JPG" alt="Surf City Marathon – photo 1">
-              <img src="images/races/SurfCity2.JPG" alt="Surf City Marathon – photo 2">
-              <img src="images/races/SurfCity3.JPG" alt="Surf City Marathon – photo 3">
+              <img src="images/races/SurfCity1.JPG" alt="Surf City – family at the finish">
+              <img src="images/races/SurfCity2.JPG" alt="Surf City – course fence">
+              <img src="images/races/SurfCity3.JPG" alt="Surf City – friends at the finish">
               <video controls>
                 <source src="images/races/SurfCity4.mp4" type="video/mp4">
               </video>
             </div>
-            <button class="nav prev" aria-label="Previous">‹</button>
-            <button class="nav next" aria-label="Next">›</button>
+            <button class="nav prev" aria-label="Previous photo">‹</button>
+            <button class="nav next" aria-label="Next photo">›</button>
             <div class="dots"></div>
+          </div>
 
-            <div class="race-caption">
-              <h3 class="race-title">Surf City Marathon</h3>
-              <div class="race-meta">February 2, 2025 · 26.2 miles</div>
+          <!-- RIGHT: caption panel -->
+          <div class="race-caption">
+            <h3 class="race-title">Surf City Marathon</h3>
+            <div class="race-meta">February 2, 2025 · 26.2 miles</div>
 
-              <div class="race-stats" data-animate>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-target="820" data-decimals="0">0</span></div>
-                  <div class="stat-label">training miles</div>
-                </div>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-format="time" data-target="14280">0:00</span></div>
-                  <div class="stat-label">finish</div>
-                </div>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-target="26.2" data-decimals="1">0</span></div>
-                  <div class="stat-label">distance</div>
-                </div>
+            <div class="race-stats" data-animate>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="820" data-decimals="0">0</span></div>
+                <div class="stat-label">training miles</div>
               </div>
-
-              <p>
-                First full marathon. The entry was a 20th-birthday gift from my girlfriend, which still cracks me up.
-                I trained hard and got under four hours. It was tough, loud, and windy along PCH,
-                but crossing that line felt like checking off something that used to feel impossible.
-              </p>
-              <ul class="race-bullets">
-                <li>Course: out-and-back along PCH</li>
-                <li>Fuel: gels + electrolytes every 5–6 miles</li>
-                <li>Shoes: (fill in)</li>
-                <li>Next goal: stronger last 10K</li>
-              </ul>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-format="time" data-target="14280">0:00</span></div>
+                <div class="stat-label">finish</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="26.2" data-decimals="1">0</span></div>
+                <div class="stat-label">distance</div>
+              </div>
             </div>
+
+            <p>
+              First full marathon. The entry was a 20th-birthday gift from my girlfriend, which still cracks me up.
+              I trained hard and got under four hours. It was tough, loud, and windy along PCH,
+              but crossing that line felt like checking off something that used to feel impossible.
+            </p>
+            <ul class="race-bullets">
+              <li>Course: out-and-back along PCH</li>
+              <li>Fuel: gels + electrolytes every 5–6 miles</li>
+              <li>Shoes: (fill in)</li>
+              <li>Next goal: stronger last 10K</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- === Long Beach Half === -->
+    <!-- ====================== Long Beach Half ====================== -->
     <section class="race" data-date="2024-10-06" id="long-beach-2024">
       <div class="race-grid panel">
         <div class="race-bar">
           <h2>Long Beach Half Marathon</h2>
           <span class="race-date">October 6, 2024</span>
         </div>
+
         <div class="race-body">
+          <!-- LEFT: slider -->
           <div class="race-slider" data-race="long-beach-2024">
             <div class="slides">
-              <img src="images/races/LongBeachHalf1.JPG" alt="Long Beach Half – photo 1">
-              <img src="images/races/LongBeachHalf2.JPG" alt="Long Beach Half – photo 2">
-              <img src="images/races/LongBeachHalf3.JPG" alt="Long Beach Half – photo 3">
+              <img src="images/races/LongBeachHalf1.JPG" alt="Long Beach Half – medal">
+              <img src="images/races/LongBeachHalf2.JPG" alt="Long Beach Half – cheering squad">
+              <img src="images/races/LongBeachHalf3.JPG" alt="Long Beach Half – finish area">
             </div>
-            <button class="nav prev" aria-label="Previous">‹</button>
-            <button class="nav next" aria-label="Next">›</button>
+            <button class="nav prev" aria-label="Previous photo">‹</button>
+            <button class="nav next" aria-label="Next photo">›</button>
             <div class="dots"></div>
+          </div>
 
-            <div class="race-caption">
-              <h3 class="race-title">Long Beach Half Marathon</h3>
-              <div class="race-meta">October 6, 2024 · 13.1 miles</div>
+          <!-- RIGHT: caption panel -->
+          <div class="race-caption">
+            <h3 class="race-title">Long Beach Half Marathon</h3>
+            <div class="race-meta">October 6, 2024 · 13.1 miles</div>
 
-              <div class="race-stats" data-animate>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-target="471" data-decimals="0">0</span></div>
-                  <div class="stat-label">training miles</div>
-                </div>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-format="time" data-target="7140">0:00</span></div>
-                  <div class="stat-label">finish</div>
-                </div>
-                <div class="stat">
-                  <div class="stat-number"><span class="count" data-target="13.1" data-decimals="1">0</span></div>
-                  <div class="stat-label">distance</div>
-                </div>
+            <div class="race-stats" data-animate>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="471" data-decimals="0">0</span></div>
+                <div class="stat-label">training miles</div>
               </div>
-
-              <p>
-                First half marathon with my friend Emma because we wanted to see what we could do.
-                Training was messy and fun, and sneaking in under two hours felt unreal.
-                My friends and my girlfriend showed up at 6 am to cheer—cranky but present—which made the whole morning.
-              </p>
-              <ul class="race-bullets">
-                <li>Course: flat waterfront + coastal breeze</li>
-                <li>Fuel: gels + water at every station</li>
-                <li>Shoes: (fill in)</li>
-                <li>Next time: aim for a negative split</li>
-              </ul>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-format="time" data-target="7140">0:00</span></div>
+                <div class="stat-label">finish</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="13.1" data-decimals="1">0</span></div>
+                <div class="stat-label">distance</div>
+              </div>
             </div>
+
+            <p>
+              First half marathon with my friend Emma because we wanted to see what we could do.
+              Training was messy and fun, and sneaking in under two hours felt unreal.
+              My friends and my girlfriend showed up at 6 am to cheer—cranky but present—which made the whole morning.
+            </p>
+            <ul class="race-bullets">
+              <li>Course: flat waterfront + coastal breeze</li>
+              <li>Fuel: gels + water at every station</li>
+              <li>Shoes: (fill in)</li>
+              <li>Next time: aim for a negative split</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -196,15 +204,89 @@
 
   <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
 
-  <!-- Count-up script (keep only this one) -->
+  <!-- ========== Slider JS (prev/next + dots) ========== -->
+  <script>
+  (function(){
+    function initSlider(root){
+      const track = root.querySelector('.slides');
+      const slides = Array.from(track.children);
+      const prev = root.querySelector('.nav.prev');
+      const next = root.querySelector('.nav.next');
+      const dotsWrap = root.querySelector('.dots');
+
+      let i = 0;
+      function go(n){
+        i = (n + slides.length) % slides.length;
+        track.style.transform = `translateX(-${i*100}%)`;
+        if(dotsWrap){
+          dotsWrap.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('on', idx===i));
+        }
+      }
+
+      // dots
+      dotsWrap.innerHTML = '';
+      slides.forEach((_, idx)=>{
+        const b=document.createElement('button');
+        b.type='button';
+        b.className = idx===0 ? 'on' : '';
+        b.addEventListener('click', ()=>go(idx));
+        dotsWrap.appendChild(b);
+      });
+
+      prev.addEventListener('click', ()=>go(i-1));
+      next.addEventListener('click', ()=>go(i+1));
+
+      go(0);
+    }
+
+    document.querySelectorAll('.race-slider').forEach(initSlider);
+  })();
+  </script>
+
+  <!-- ========== Count-up stats (spring) ========== -->
   <script>
   (function(){
     const spring = t => 1 - Math.pow(1 - t, 4);
-    function formatTime(s){ s=Math.round(s); const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=String(s%60).padStart(2,'0'); return h>0?`${h}:${String(m).padStart(2,'0')}:${ss}`:`${m}:${ss}`; }
-    function animate(el,target,{decimals=0,duration=1400,isTime=false}={}){const st=performance.now(); const step=now=>{const t=Math.min(1,(now-st)/duration); const v=target*spring(t); el.textContent=isTime?formatTime(v):v.toFixed(decimals); if(t<1) requestAnimationFrame(step)}; requestAnimationFrame(step)}
-    const io=new IntersectionObserver((es,o)=>{es.forEach(e=>{if(!e.isIntersecting) return; const box=e.target; box.classList.add('on'); box.querySelectorAll('.count').forEach(sp=>animate(sp, Number(sp.dataset.target||0), {decimals:Number(sp.dataset.decimals||0), isTime: sp.dataset.format==='time'})); o.unobserve(box);})},{threshold:.25});
-    document.querySelectorAll('.race-stats[data-animate]').forEach(b=>io.observe(b));
-    document.getElementById('y').textContent=new Date().getFullYear();
+
+    function formatTime(totalSeconds){
+      totalSeconds = Math.round(totalSeconds);
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      const mm = String(m).padStart(2,'0');
+      const ss = String(s).padStart(2,'0');
+      return h > 0 ? `${h}:${mm}:${ss}` : `${m}:${ss}`;
+    }
+
+    function animateCount(el, target, {decimals=0, duration=1400, isTime=false}={}){
+      const start = performance.now();
+      const from = 0;
+      const step = (now)=>{
+        const t = Math.min(1, (now - start)/duration);
+        const v = from + (target - from) * spring(t);
+        el.textContent = isTime ? formatTime(v) : v.toFixed(decimals);
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    const io = new IntersectionObserver((entries, obs)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const box = entry.target;
+        box.classList.add('on');
+        box.querySelectorAll('.count').forEach(span=>{
+          const target   = Number(span.getAttribute('data-target') || 0);
+          const decimals = Number(span.getAttribute('data-decimals') || 0);
+          const isTime   = span.getAttribute('data-format') === 'time';
+          animateCount(span, target, {decimals, isTime});
+        });
+        obs.unobserve(box);
+      });
+    }, { threshold: 0.25 });
+
+    document.querySelectorAll('.race-stats[data-animate]').forEach(el=>io.observe(el));
+    document.getElementById('y').textContent = new Date().getFullYear();
   })();
   </script>
 </body>
