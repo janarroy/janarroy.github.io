@@ -54,6 +54,21 @@
         <button class="nav next" aria-label="Next photo">›</button>
         <div class="dots"></div>
       </div>
+      <!-- COUNT-UP STATS -->
+<div class="race-stats" data-animate>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-target="120" data-decimals="0">0</span></div>
+    <div class="stat-label">training miles</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-format="time" data-target="4200">0:00</span></div>
+    <div class="stat-label">finish</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-target="6.2" data-decimals="1">0</span></div>
+    <div class="stat-label">distance</div>
+  </div>
+</div>
 
       <!-- Notes -->
       <aside class="race-notes">
@@ -102,6 +117,23 @@
         <div class="dots"></div>
       </div>
 
+      <!-- COUNT-UP STATS -->
+<div class="race-stats" data-animate>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-target="820" data-decimals="0">0</span></div>
+    <div class="stat-label">training miles</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-format="time" data-target="14280">0:00</span></div>
+    <div class="stat-label">finish</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-target="26.2" data-decimals="1">0</span></div>
+    <div class="stat-label">distance</div>
+  </div>
+</div>
+
+
       <!-- Notes -->
       <aside class="race-notes">
         <h3 class="race-title">Surf City Marathon</h3>
@@ -143,6 +175,23 @@
               <button class="nav next" aria-label="Next photo">›</button>
               <div class="dots"></div>
             </div>
+
+            <!-- COUNT-UP STATS -->
+<div class="race-stats" data-animate>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-target="471" data-decimals="0">0</span></div>
+    <div class="stat-label">training miles</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-format="time" data-target="7140">0:00</span></div>
+    <div class="stat-label">finish</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number"><span class="count" data-target="13.1" data-decimals="1">0</span></div>
+    <div class="stat-label">distance</div>
+  </div>
+</div>
+
       
             <!-- Notes -->
             <aside class="race-notes">
@@ -179,64 +228,49 @@
   </div></div>
 
   <script>
-    (function initSliders(){
-      document.querySelectorAll('.race-slider').forEach(slider => {
-        const track  = slider.querySelector('.slides');
-        const slides = Array.from(track.children);
-        if (!slides.length) return;
-  
-        let idx = 0;
-        const prev = slider.querySelector('.prev');
-        const next = slider.querySelector('.next');
-        const dotsWrap = slider.querySelector('.dots');
-  
-        dotsWrap.innerHTML = '';
-        slides.forEach((_, i) => {
-          const d = document.createElement('button');
-          if (i === 0) d.classList.add('active');
-          d.addEventListener('click', () => go(i));
-          dotsWrap.appendChild(d);
-        });
-        const dots = Array.from(dotsWrap.children);
-  
-        // --- NEW: auto-height based on current slide ---
-        function setHeight(){
-  // compute max height among all slides
-  let maxH = 0;
-  slides.forEach(s => {
-    if (s.tagName === 'IMG') {
-      if (s.naturalWidth) {
-        maxH = Math.max(maxH, slider.clientWidth * s.naturalHeight / s.naturalWidth);
+    (function(){
+      const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+    
+      function formatTime(totalSeconds){
+        totalSeconds = Math.round(totalSeconds);
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+        const mm = String(m).padStart(2,'0');
+        const ss = String(s).padStart(2,'0');
+        return h > 0 ? `${h}:${mm}:${ss}` : `${m}:${ss}`;
       }
-    } else if (s.tagName === 'VIDEO') {
-      const w = slider.clientWidth || 1;
-      // default to 16:9 ratio for video
-      maxH = Math.max(maxH, w * 9/16);
-    }
-  });
-  if (maxH > 0) slider.style.height = maxH + 'px';
-}
-
-        // ----------------------------------------------
-  
-        function render(){
-          track.style.transform = `translateX(${-idx * 100}%)`;
-          dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
-          setHeight();                   // <-- call after slide change
-        }
-        function go(i){
-          idx = (i + slides.length) % slides.length;
-          render();
-        }
-        prev.addEventListener('click', () => go(idx - 1));
-        next.addEventListener('click', () => go(idx + 1));
-        window.addEventListener('resize', setHeight);  // keep height correct on resize
-  
-        render(); // initial
-      });
+    
+      function animateCount(el, target, {decimals=0, duration=1200, isTime=false}={}){
+        const start = performance.now();
+        const from = 0;
+        const step = (now)=>{
+          const t = Math.min(1, (now - start)/duration);
+          const v = from + (target - from) * easeOutCubic(t);
+          el.textContent = isTime ? formatTime(v) : v.toFixed(decimals);
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+    
+      const observer = new IntersectionObserver((entries, obs)=>{
+        entries.forEach(entry=>{
+          if(!entry.isIntersecting) return;
+          const root = entry.target;
+          root.querySelectorAll('.count').forEach(span=>{
+            const target = Number(span.getAttribute('data-target') || 0);
+            const decimals = Number(span.getAttribute('data-decimals') || 0);
+            const isTime = span.getAttribute('data-format') === 'time';
+            animateCount(span, target, {decimals, isTime});
+          });
+          obs.unobserve(root); // run once
+        });
+      }, {threshold: 0.25});
+    
+      document.querySelectorAll('.race-stats[data-animate]').forEach(box=>observer.observe(box));
     })();
-  </script>
-  
+    </script>
+    
   
 
 </body>
