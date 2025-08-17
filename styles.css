@@ -440,24 +440,38 @@
 .race-notes .race-meta  { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
 .race-bullets { margin: 10px 0 0 18px; color: var(--muted); }
 
-.race-slider {
+/* Fixed, cropped frame */
+.race-slider{
   position: relative;
   width: 100%;
   max-width: 720px;
-  aspect-ratio: 3 / 2;      /* ✅ ADD this back (or 4/3, 16/9, whatever frame you want) */
+  aspect-ratio: 3 / 2;     /* pick 3/2, 4/3, or 16/9 */
   border-radius: 14px;
   overflow: hidden;
-  background: #000;         /* black looks cleaner if a frame peeks */
-  height: auto;             /* remove if you keep aspect-ratio */
+  background: #fff;        /* white, so you can see if media isn't loading */
 }
 
-.race-slider .slides > img,
-.race-slider .slides > video {
+/* Track must fill that frame */
+.race-slider .slides{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
   width: 100%;
-  height: 100%;             /* ✅ stretch to fill frame */
-  object-fit: cover;        /* ✅ crop instead of letterbox */
-  display: block;
+  height: 100%;            /* <- critical */
+  transition: transform .45s ease;
+  align-items: center;
 }
+
+/* Every slide fills & crops */
+.race-slider .slides > img,
+.race-slider .slides > video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* crop to fill */
+  display: block;
+  background: transparent;
+}
+
 
 
 
