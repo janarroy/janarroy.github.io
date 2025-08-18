@@ -791,3 +791,14 @@ body.plain-bg{
 .race-caption p{ font-size:15.5px; line-height:1.6; }
 .race-caption .race-bullets{ font-size:14px; line-height:1.5; }
 .race-slider .dots button.on{ background: rgba(17,19,24,.6); }
+
+/* --- slider gap fix (final) --- */
+.race-slider .slides{
+  align-items: start !important;   /* use the media's natural height */
+}
+
+.race-slider .slides > img,
+.race-slider .slides > video{
+  display: block;
+  margin: 0;                       /* no stray inline spacing */
+}
