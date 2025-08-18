@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Races</title>
 
-  <link rel="stylesheet" href="styles.css?v=21"/>
+  <!-- your site styles (cache-busted) -->
+  <link rel="stylesheet" href="styles.css?v=24"/>
 
   <style>
-    /* ---------- scoped styles for the React widget ---------- */
+    /* ---------- scoped styles for the races widget ---------- */
     .react-wrap{ display:block; }
     .react-metrics{ display:grid; gap:14px; grid-template-columns: 1.2fr 1fr; }
     @media (max-width:900px){ .react-metrics{ grid-template-columns:1fr; } }
@@ -30,7 +31,7 @@
     .react-bar::after{ content:attr(data-miles) " mi"; position:absolute; left:50%; transform:translateX(-50%); bottom:100%; font-size:11px; color:#374151; margin-bottom:4px; white-space:nowrap; }
     .react-x{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:10px; margin-top:6px; font-size:11px; color:#6b7280; text-align:center; }
 
-    /* strava card (more content) */
+    /* strava card */
     .react-strava{ display:flex; flex-direction:column; gap:12px; }
     .react-strava .row{ display:flex; align-items:center; gap:12px; }
     .react-strava .avatar{ width:48px; height:48px; border-radius:999px; overflow:hidden; background:#ffe5d6; display:grid; place-items:center; font-weight:800; color:#fc4c02; }
@@ -41,7 +42,6 @@
     .react-mini{ display:flex; gap:6px; margin-top:6px; }
     .react-mini div{ width:14px; height:8px; border-radius:3px; background:#e5e7eb; }
     .react-mini div.on{ background:#60a5fa; }
-
     .strava-actions{ display:flex; gap:8px; flex-wrap:wrap; }
     .copy-btn{ border:1px solid rgba(17,19,24,.12); background:#fff; border-radius:10px; padding:8px 10px; font-size:13px; cursor:pointer; }
     .copy-btn:hover{ background:#f8fafc; }
@@ -75,7 +75,7 @@
     .react-goal small{ color:#6b7280; }
     .react-note{ font-size:12px; color:#6b7280; }
 
-    /* slider (no crop) */
+    /* media slider (no crop) */
     .react-slider{ position:relative; width:100%; border-radius:14px; overflow:hidden; background:#fff; }
     .react-slides{ display:grid; grid-auto-flow:column; grid-auto-columns:100%; transition: transform .35s ease; }
     .react-slide{ display:flex; align-items:flex-start; justify-content:center; }
@@ -88,13 +88,12 @@
     .react-dot{ width:8px; height:8px; border-radius:999px; border:0; background:rgba(17,19,24,.25); cursor:pointer; }
     .react-dot.on{ background:rgba(17,19,24,.6); }
 
-    /* skyline + simple route spark (kept, small) */
+    /* tiny route spark + official course map image block */
     .route{ margin-top:8px; border:1px solid rgba(0,0,0,.06); border-radius:10px; padding:8px; }
     .route svg{ width:100%; height:64px; }
     .route path{ fill:none; stroke:#3b82f6; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:400; stroke-dashoffset:400; animation:draw 1.8s ease forwards; }
     @keyframes draw{ to{ stroke-dashoffset:0; } }
 
-    /* Course map block */
     .course-map{ border:1px solid rgba(0,0,0,.06); border-radius:10px; overflow:hidden; }
     .course-map img{ width:100%; height:auto; display:block; object-fit:contain; max-height:220px; background:#fff; }
     .course-map .cm-bar{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 10px; border-top:1px solid rgba(0,0,0,.06); background:#fafafa; font-size:12px; color:#374151; }
@@ -126,16 +125,18 @@
   <footer>© <span id="year"></span> Jan Arroyo — Thanks for visiting!</footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- React + ReactDOM + Babel (CDN) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <script type="text/babel">
+  <!-- Your app code (JSX compiled by Babel in the browser) -->
+  <script type="text/babel" data-presets="env,react">
     const { useEffect, useRef, useState } = React;
 
     /* ------------ CONFIG ------------- */
     const STRAVA_ATHLETE_ID = "137523264";
-    const STRAVA_AVATAR_URL = ""; // optional: drop a headshot link here
+    const STRAVA_AVATAR_URL = ""; // optional: add a headshot URL if you want
 
     /* ------------ DATA ------------- */
     const RACES = [
@@ -150,13 +151,17 @@
         finishSeconds: 4237,           // 1:10:37
         goalSeconds: 4200,             // 1:10:00
         description: [
-          "We spent the summer in San Francisco, so this felt like a hometown race for a few months. Cool air came off the bay and the city felt generous—random claps from doorways, a cyclist ringing a bell, little slices of the skyline between buildings. The plan was simple: stay together, keep the cadence easy, and enjoy the morning.",
-          "We fell into pace early and tried not to chase the short hills. Around mile four the streetcars were out, coffee was in the air, and the last stretch arrived faster than I expected. We crossed side by side and started tossing out other races we want to run."
+          "We spent the summer in San Francisco, so this felt like a hometown race for a few months. Cool air came off the bay and the city felt generous—random claps from doorways, a cyclist ringing a bell, pockets of skyline between buildings. The plan was simple: stay together, keep the cadence easy, enjoy the morning.",
+          "We fell into pace early and didn’t chase the short rollers. Around mile four the streetcars were out, coffee was in the air, and the finish showed up faster than I expected. We crossed side by side and started tossing out other races we want to run."
         ],
         tags: ["Course: rolling city streets, cool air", "Fuel: water + one gel pre-start", "Shoes: Hoka Clifton 9"],
-        routePath: "M10,52 C40,40 60,38 90,30", // stylized spark
+        routePath: "M10,52 C40,40 60,38 90,30",
         courseMapImg: "images/maps/sf10k-map.jpg",
         courseMapSrc: "https://www.thesfmarathon.com/10k/",
+        media: [
+          { type: "img", src: "images/races/SF10K.JPG",  alt: "San Francisco 10K" },
+          { type: "img", src: "images/races/SF10K1.JPG", alt: "San Francisco 10K finish" },
+        ],
       },
       {
         id: "surf-city-2025",
@@ -169,13 +174,19 @@
         finishSeconds: 14304,          // 3:58:24
         goalSeconds: 14400,            // 4:00:00
         description: [
-          "My first full. The start line felt like a block party—cowbells, flags, ocean wind pinning the bib to my shirt. Sub-4 sat right on the edge, so the plan was patient: relax through halfway, stay honest to twenty, then race whatever was left.",
-          "PCH kept changing moods. Some miles were free, then a turn would push back. I kept the gels steady and tried to be a metronome. At mile twenty-four the math said sub-4 was still alive. The last mile was loud and shaky and perfect. I finished in 3:58:24 and let myself be proud for a minute."
+          "My first full. The start line felt like a block party—cowbells, flags, ocean wind pinning the bib to my shirt. Sub-four sat right on the edge for me, so the plan was patient: relax through halfway, stay honest to twenty, race whatever was left.",
+          "PCH kept changing moods. Some miles were free, then a turn would push back. I kept the gels steady and tried to be a metronome. At mile twenty-four the math said sub-four was still alive. The last mile was loud and shaky and perfect. I finished in 3:58:24 and let myself be proud for a minute."
         ],
-        tags: ["Course: out-and-back along PCH", "Fuel: gels + electrolytes every 5–6 mi", "Shoes: Hoka Clifton 9"],
+        tags: ["Course: out and back along PCH", "Fuel: gels + electrolytes every 5–6 mi", "Shoes: Hoka Clifton 9"],
         routePath: "M10,40 C30,34 50,34 70,40 S110,48 130,44",
         courseMapImg: "images/maps/surfcity-map.jpg",
         courseMapSrc: "https://www.runsurfcity.com/marathon",
+        media: [
+          { type: "img",   src: "images/races/SurfCity1.JPG", alt: "Surf City finish" },
+          { type: "img",   src: "images/races/SurfCity2.JPG", alt: "Surf City course" },
+          { type: "img",   src: "images/races/SurfCity3.JPG", alt: "Surf City friends" },
+          { type: "video", src: "images/races/SurfCity4.mp4", alt: "Surf City finish video" },
+        ],
       },
       {
         id: "long-beach-2024",
@@ -195,10 +206,15 @@
         routePath: "M10,50 L40,44 L70,46 L100,42 L130,46",
         courseMapImg: "images/maps/longbeach-half-map.jpg",
         courseMapSrc: "https://runlongbeach.com/events/half-marathon/",
+        media: [
+          { type: "img", src: "images/races/LongBeachHalf1.JPG", alt: "Long Beach Half medal" },
+          { type: "img", src: "images/races/LongBeachHalf2.JPG", alt: "Long Beach Half cheering squad" },
+          { type: "img", src: "images/races/LongBeachHalf3.JPG", alt: "Long Beach Half finish area" },
+        ],
       },
     ];
 
-    // More realistic weekly miles
+    // realistic weekly miles
     const TRAINING = [
       { week: "2024-12-15", miles: 18 },
       { week: "2024-12-22", miles: 21 },
@@ -247,7 +263,7 @@
       );
     }
 
-    /* ------------ slider (no crop) ------------- */
+    /* ------------ media slider (no crop) ------------- */
     function MediaSlider({ media }) {
       const [i, setI] = useState(0);
       const trackRef = useRef(null);
