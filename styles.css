@@ -745,33 +745,39 @@ body.plain-bg{
 .race-slider{ grid-area:media !important; }
 .race-caption{ grid-area:notes !important; }
 
-/* Auto-height slider — remove every fixed frame */
+/* Auto-height slider — JS controls the height */
 .race-slider{
-  position:relative !important;
-  width:100% !important;
-  height:auto !important;
-  max-height:none !important;
-  aspect-ratio:auto !important;      /* kills earlier 4/3 frame */
-  border-radius:14px !important;
-  overflow:hidden !important;
-  background:#fff !important;        /* letterbox matches card */
+  position: relative;
+  width: 100%;
+  /* let JS set inline height (no !important here) */
+  aspect-ratio: auto;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff; /* matches the card; prevents dark bars */
 }
+
 .race-slider .slides{
-  display:grid !important;
-  grid-auto-flow:column !important;
-  grid-auto-columns:100% !important;
-  align-items:center !important;     /* vertical center */
-  height:auto !important;
-  transition:transform .45s ease !important;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  align-items: center;       /* center the media vertically */
+  transition: transform .45s ease;
 }
+
+/* Media fills the slider’s computed height without cropping */
 .race-slider .slides > img,
 .race-slider .slides > video{
-  width:100% !important;
-  height:auto !important;            /* use natural aspect */
-  object-fit:contain !important;     /* show full photo */
-  display:block !important;
-  background:#fff !important;
-  border-radius:14px !important;
+  width: 100%;
+  height: 100%;              /* <-- was auto; this removes the top white band */
+  object-fit: contain;       /* show full image/video */
+  display: block;
+  background: #fff;
+  border-radius: 14px;
+}
+
+/* Optional desktop cap (keep or remove) */
+@media (min-width:901px){
+  .race-slider{ max-height: 620px; }
 }
 
 /* Right panel readability */
