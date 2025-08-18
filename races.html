@@ -6,7 +6,7 @@
   <title>Races – Jan Arroyo</title>
   <meta name="description" content="Marathons and races by Jan Arroyo" />
   <!-- bump the version any time you change styles.css -->
-  <link href="styles.css?v=15" rel="stylesheet" />
+  <link href="styles.css?v=16" rel="stylesheet" />
 </head>
 <body class="plain-bg">
   <!-- Navbar -->
@@ -205,72 +205,74 @@
   <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
 
   <!-- ========== Slider JS (prev/next + dots) ========== -->
-  <script>
-    (function(){
-      const MAX = 620;
-    
-      function setHeight(root){
-        const track = root.querySelector('.slides');
-        const slide = track.children[root._i || 0];
-        if(!slide) return;
-    
-        // Let contents size naturally, then measure
-        root.style.height = 'auto';
-        track.style.height = 'auto';
-    
-        // Next frame ensures layout is up to date
-        requestAnimationFrame(()=>{
-          let h = Math.round(slide.getBoundingClientRect().height || 0);
-          if (window.matchMedia('(min-width:901px)').matches) h = Math.min(h, MAX);
-          root.style.height = h ? `${h}px` : 'auto';
-          track.style.height = '100%';
-        });
+  <!-- ========== Slider JS (prev/next + dots, auto-height measured from rendered slide) ========== -->
+<script>
+  (function(){
+    const MAX = 620; // you can raise/remove this if you want zero cap
+  
+    function setHeight(root){
+      const track = root.querySelector('.slides');
+      const slide = track.children[root._i || 0];
+      if(!slide) return;
+  
+      // let content size naturally, then measure actual rendered height
+      root.style.height = 'auto';
+      track.style.height = 'auto';
+  
+      requestAnimationFrame(()=>{
+        let h = Math.round(slide.getBoundingClientRect().height || 0);
+        if (window.matchMedia('(min-width:901px)').matches && MAX) h = Math.min(h, MAX);
+        root.style.height = h ? `${h}px` : 'auto';
+        track.style.height = '100%';
+      });
+    }
+  
+    function initSlider(root){
+      const track = root.querySelector('.slides');
+      const slides = Array.from(track.children);
+      const prev = root.querySelector('.nav.prev');
+      const next = root.querySelector('.nav.next');
+      const dotsWrap = root.querySelector('.dots');
+  
+      let i = 0;
+      function go(n){
+        i = (n + slides.length) % slides.length;
+        root._i = i;
+        track.style.transform = `translateX(-${i*100}%)`;
+        dotsWrap.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('on', idx===i));
+        setHeight(root);
       }
-    
-      function initSlider(root){
-        const track = root.querySelector('.slides');
-        const slides = Array.from(track.children);
-        const prev = root.querySelector('.nav.prev');
-        const next = root.querySelector('.nav.next');
-        const dotsWrap = root.querySelector('.dots');
-    
-        let i = 0;
-        function go(n){
-          i = (n + slides.length) % slides.length;
-          root._i = i;
-          track.style.transform = `translateX(-${i*100}%)`;
-          dotsWrap.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('on', idx===i));
-          setHeight(root);
+  
+      dotsWrap.innerHTML = '';
+      slides.forEach((_, idx)=>{
+        const b=document.createElement('button');
+        b.type='button';
+        if(idx===0) b.className='on';
+        b.addEventListener('click', ()=>go(idx));
+        dotsWrap.appendChild(b);
+      });
+  
+      prev.addEventListener('click', ()=>go(i-1));
+      next.addEventListener('click', ()=>go(i+1));
+  
+      // update height when media is ready + on resize
+      slides.forEach(s=>{
+        if(s.tagName==='IMG'){
+          if(s.complete) setHeight(root);
+          else s.addEventListener('load', ()=>setHeight(root), {once:true});
+        }else if(s.tagName==='VIDEO'){
+          s.addEventListener('loadedmetadata', ()=>setHeight(root), {once:true});
         }
-    
-        dotsWrap.innerHTML = '';
-        slides.forEach((_, idx)=>{
-          const b=document.createElement('button');
-          b.type='button';
-          if(idx===0) b.className='on';
-          b.addEventListener('click', ()=>go(idx));
-          dotsWrap.appendChild(b);
-        });
-    
-        prev.addEventListener('click', ()=>go(i-1));
-        next.addEventListener('click', ()=>go(i+1));
-    
-        slides.forEach(s=>{
-          if(s.tagName==='IMG'){
-            if(s.complete) setHeight(root);
-            else s.addEventListener('load', ()=>setHeight(root), {once:true});
-          }else if(s.tagName==='VIDEO'){
-            s.addEventListener('loadedmetadata', ()=>setHeight(root), {once:true});
-          }
-        });
-        window.addEventListener('resize', ()=>setHeight(root));
-    
-        go(0);
-      }
-    
-      document.querySelectorAll('.race-slider').forEach(initSlider);
-    })();
-    </script>
+      });
+      window.addEventListener('resize', ()=>setHeight(root));
+  
+      go(0);
+    }
+  
+    document.querySelectorAll('.race-slider').forEach(initSlider);
+  })();
+  </script>
+  
     
     
     

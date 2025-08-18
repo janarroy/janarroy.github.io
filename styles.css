@@ -802,3 +802,23 @@ body.plain-bg{
   display: block;
   margin: 0;                       /* no stray inline spacing */
 }
+/* --- slider no-crop final overrides --- */
+.race-slider .slides{
+  align-items: start !important;   /* stop vertical centering that “cuts” top/bottom */
+}
+
+.race-slider .slides > img,
+.race-slider .slides > video{
+  width: 100% !important;
+  height: auto !important;         /* let the media keep its natural aspect */
+  object-fit: contain !important;  /* never crop */
+  display: block;
+}
+
+/* If you still see any cutoff on tall photos, remove the desktop cap: */
+@media (min-width:901px){
+  .race-slider{ max-height: none !important; }  /* or just delete this block */
+}
+
+/* (Optional) make the active dot actually show */
+.race-slider .dots button.on{ background: rgba(17,19,24,.6); }
