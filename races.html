@@ -1,23 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Races – Jan Arroyo</title>
-  <meta name="description" content="Marathons and races by Jan Arroyo" />
-  <!-- bump the version any time you change styles.css -->
-  <link href="styles.css?v=16" rel="stylesheet" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Races</title>
+
+  <!-- your site styles -->
+  <link rel="stylesheet" href="styles.css?v=16"/>
+
+  <!-- Scoped styles for the React widget (won’t clash with your CSS) -->
+  <style>
+    /* ===== React Races widget (scoped) ===== */
+    .react-wrap{ display:block; }
+    .react-head{ display:flex; gap:14px; align-items:flex-end; justify-content:space-between; margin:0 0 18px; flex-wrap:wrap; }
+    .react-h1{ margin:0; font-size:28px; }
+    .react-sub{ margin:0; color:#60646c; font-size:14px; }
+
+    /* badges */
+    .react-badges{ display:flex; gap:8px; flex-wrap:wrap; }
+    .react-pill{ display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(17,19,24,.12); background:#fff; padding:8px 12px; border-radius:999px; box-shadow:0 1px 8px rgba(0,0,0,.04); }
+    .react-pill-emoji{ font-size:14px; }
+    .react-pill-label{ font-size:13px; font-weight:600; }
+    .react-pill-count{ font-size:12px; background:#f3f4f6; border-radius:999px; padding:2px 6px; }
+
+    /* cards */
+    .react-stack{ display:grid; gap:16px; }
+    .react-card{ background:#fff; border:1px solid rgba(17,19,24,.10); border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(17,19,24,.04); }
+    .react-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+    .react-bar h2{ margin:0; font-size:18px; }
+    .react-date{ color:#60646c; font-size:13px; }
+
+    /* layout */
+    .react-grid{ display:grid; gap:16px; grid-template-columns: minmax(0,58%) minmax(0,42%); align-items:stretch; }
+    @media (max-width:900px){ .react-grid{ grid-template-columns:1fr; } }
+    .react-col-media{ min-width:0; }
+    .react-col-notes{ min-width:0; display:flex; flex-direction:column; gap:10px; background:#fff; border:1px solid rgba(17,19,24,.10); border-radius:14px; padding:14px; }
+
+    /* text */
+    .react-title{ margin:0; font-size:16px; }
+    .react-meta{ color:#6b7280; font-size:12px; }
+    .react-text{ margin:4px 0 0; font-size:15px; line-height:1.55; color:#111318; }
+    .react-bullets{ margin:6px 0 0 18px; color:#374151; font-size:14px; }
+
+    /* stats */
+    .react-stats{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+    .react-stat{ background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:12px; padding:10px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.05); }
+    .react-stat-number{ font-weight:800; letter-spacing:.2px; font-size:22px; background:linear-gradient(90deg,#1d4ed8,#06b6d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .react-stat-label{ font-size:12px; color:#6b7280; margin-top:4px; }
+
+    /* slider (no-crop) */
+    .react-slider{ position:relative; width:100%; border-radius:14px; overflow:hidden; background:#fff; }
+    .react-slides{ display:grid; grid-auto-flow:column; grid-auto-columns:100%; transition: transform .35s ease; }
+    .react-slide{ display:flex; align-items:flex-start; justify-content:center; }
+    .react-media{ width:100%; height:auto; object-fit:contain; display:block; background:#fff; border-radius:14px; max-height:80vh; }
+    .react-video{ background:#000; }
+
+    /* arrows & dots */
+    .react-nav{ position:absolute; top:50%; transform:translateY(-50%); z-index:2; width:36px; height:36px; border-radius:999px; border:0; cursor:pointer;
+      background:rgba(17,19,24,.65); color:#fff; display:grid; place-items:center; }
+    .react-prev{ left:10px; } .react-next{ right:10px; }
+    .react-nav:hover{ background:rgba(17,19,24,.8); }
+    .react-dots{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); display:flex; gap:6px; z-index:2; }
+    .react-dot{ width:8px; height:8px; border-radius:999px; border:0; background:rgba(17,19,24,.25); cursor:pointer; }
+    .react-dot.on{ background:rgba(17,19,24,.6); }
+
+    /* chart */
+    .react-chart-title{ font-size:13px; font-weight:700; color:#374151; margin-bottom:8px; }
+    .react-chart{ border:1px solid rgba(17,19,24,.10); border-radius:12px; }
+    .react-chart-legend{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .react-chip{ font-size:12px; padding:3px 6px; border:1px solid rgba(17,19,24,.12); border-radius:999px; background:#fff; color:#374151; }
+  </style>
 </head>
+
 <body class="plain-bg">
-  <!-- Navbar -->
+  <!-- Nav -->
   <nav class="nav">
     <div class="container nav-inner">
-      <a class="brand" href="./">JAN</a>
+      <a class="brand" href="index.html">Jan</a>
       <div class="nav-links">
-        <a class="btn" href="work.html">Projects</a>
+        <a class="btn" href="index.html#work">Projects</a>
         <a class="btn" href="races.html">Races</a>
-        <a class="btn" href="bake.html">Bake</a>
-        <a class="btn" href="travel.html">Travel</a>
+        <a class="btn" href="#bake">Bake</a>
+        <a class="btn" href="#travel">Travel</a>
         <a class="btn" href="#contact">Contact</a>
       </div>
     </div>
@@ -27,301 +91,340 @@
     <h1 class="page-title">Races</h1>
     <p class="tag">Marathons & distance events I’ve run.</p>
 
-    <!-- ====================== SF 10K ====================== -->
-    <section class="race" data-date="2025-07-27" id="sf10k-2025">
-      <div class="race-grid panel">
-        <div class="race-bar">
-          <h2>San Francisco 10K</h2>
-          <span class="race-date">July 27, 2025</span>
-        </div>
-
-        <div class="race-body">
-          <!-- LEFT: slider -->
-          <div class="race-slider" data-race="sf10k-2025">
-            <div class="slides">
-              <img src="images/races/SF10K.JPG" alt="San Francisco 10K – medal & bib">
-              <img src="images/races/SF10K1.JPG" alt="San Francisco 10K – after the finish">
-            </div>
-            <button class="nav prev" aria-label="Previous photo">‹</button>
-            <button class="nav next" aria-label="Next photo">›</button>
-            <div class="dots"></div>
-          </div>
-
-          <!-- RIGHT: caption panel -->
-          <div class="race-caption">
-            <h3 class="race-title">San Francisco 10K</h3>
-            <div class="race-meta">July 27, 2025 · 6.2 miles</div>
-
-            <div class="race-stats" data-animate>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-target="120" data-decimals="0">0</span></div>
-                <div class="stat-label">training miles</div>
-              </div>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-format="time" data-target="4200">0:00</span></div>
-                <div class="stat-label">finish</div>
-              </div>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-target="6.2" data-decimals="1">0</span></div>
-                <div class="stat-label">distance</div>
-              </div>
-            </div>
-
-            <p>
-              This one was special because my girlfriend and I ran side by side the whole way.
-              We were in San Francisco for the summer while I was interning, and without many friends or family around,
-              doing this together made it feel extra good. We kept pace, finished in about an hour and ten,
-              and left already scheming our next race.
-            </p>
-            <ul class="race-bullets">
-              <li>Course: rolling streets + cool coastal air</li>
-              <li>Fuel: light (water only) — gel pre-start</li>
-              <li>Shoes: (fill in)</li>
-              <li>Next goal: stronger middle miles</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================== Surf City ====================== -->
-    <section class="race" data-date="2025-02-02" id="surf-city-2025">
-      <div class="race-grid panel">
-        <div class="race-bar">
-          <h2>Surf City Marathon</h2>
-          <span class="race-date">February 2, 2025</span>
-        </div>
-
-        <div class="race-body">
-          <!-- LEFT: slider -->
-          <div class="race-slider" data-race="surf-city-2025">
-            <div class="slides">
-              <img src="images/races/SurfCity1.JPG" alt="Surf City – family at the finish">
-              <img src="images/races/SurfCity2.JPG" alt="Surf City – course fence">
-              <img src="images/races/SurfCity3.JPG" alt="Surf City – friends at the finish">
-              <video controls>
-                <source src="images/races/SurfCity4.mp4" type="video/mp4">
-              </video>
-            </div>
-            <button class="nav prev" aria-label="Previous photo">‹</button>
-            <button class="nav next" aria-label="Next photo">›</button>
-            <div class="dots"></div>
-          </div>
-
-          <!-- RIGHT: caption panel -->
-          <div class="race-caption">
-            <h3 class="race-title">Surf City Marathon</h3>
-            <div class="race-meta">February 2, 2025 · 26.2 miles</div>
-
-            <div class="race-stats" data-animate>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-target="820" data-decimals="0">0</span></div>
-                <div class="stat-label">training miles</div>
-              </div>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-format="time" data-target="14280">0:00</span></div>
-                <div class="stat-label">finish</div>
-              </div>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-target="26.2" data-decimals="1">0</span></div>
-                <div class="stat-label">distance</div>
-              </div>
-            </div>
-
-            <p>
-              First full marathon. The entry was a 20th-birthday gift from my girlfriend, which still cracks me up.
-              I trained hard and got under four hours. It was tough, loud, and windy along PCH,
-              but crossing that line felt like checking off something that used to feel impossible.
-            </p>
-            <ul class="race-bullets">
-              <li>Course: out-and-back along PCH</li>
-              <li>Fuel: gels + electrolytes every 5–6 miles</li>
-              <li>Shoes: (fill in)</li>
-              <li>Next goal: stronger last 10K</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================== Long Beach Half ====================== -->
-    <section class="race" data-date="2024-10-06" id="long-beach-2024">
-      <div class="race-grid panel">
-        <div class="race-bar">
-          <h2>Long Beach Half Marathon</h2>
-          <span class="race-date">October 6, 2024</span>
-        </div>
-
-        <div class="race-body">
-          <!-- LEFT: slider -->
-          <div class="race-slider" data-race="long-beach-2024">
-            <div class="slides">
-              <img src="images/races/LongBeachHalf1.JPG" alt="Long Beach Half – medal">
-              <img src="images/races/LongBeachHalf2.JPG" alt="Long Beach Half – cheering squad">
-              <img src="images/races/LongBeachHalf3.JPG" alt="Long Beach Half – finish area">
-            </div>
-            <button class="nav prev" aria-label="Previous photo">‹</button>
-            <button class="nav next" aria-label="Next photo">›</button>
-            <div class="dots"></div>
-          </div>
-
-          <!-- RIGHT: caption panel -->
-          <div class="race-caption">
-            <h3 class="race-title">Long Beach Half Marathon</h3>
-            <div class="race-meta">October 6, 2024 · 13.1 miles</div>
-
-            <div class="race-stats" data-animate>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-target="471" data-decimals="0">0</span></div>
-                <div class="stat-label">training miles</div>
-              </div>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-format="time" data-target="7140">0:00</span></div>
-                <div class="stat-label">finish</div>
-              </div>
-              <div class="stat">
-                <div class="stat-number"><span class="count" data-target="13.1" data-decimals="1">0</span></div>
-                <div class="stat-label">distance</div>
-              </div>
-            </div>
-
-            <p>
-              First half marathon with my friend Emma because we wanted to see what we could do.
-              Training was messy and fun, and sneaking in under two hours felt unreal.
-              My friends and my girlfriend showed up at 6 am to cheer—cranky but present—which made the whole morning.
-            </p>
-            <ul class="race-bullets">
-              <li>Course: flat waterfront + coastal breeze</li>
-              <li>Fuel: gels + water at every station</li>
-              <li>Shoes: (fill in)</li>
-              <li>Next time: aim for a negative split</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- React mount point -->
+    <div id="races-app"></div>
   </main>
 
-  <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
+  <footer>
+    © <span id="year"></span> Jan Arroyo — Thanks for visiting!
+  </footer>
 
-  <!-- ========== Slider JS (prev/next + dots) ========== -->
-  <!-- ========== Slider JS (prev/next + dots, auto-height measured from rendered slide) ========== -->
-<script>
-  (function(){
-    const MAX = 0; // you can raise/remove this if you want zero cap
-  
-    function setHeight(root){
-      const track = root.querySelector('.slides');
-      const slide = track.children[root._i || 0];
-      if(!slide) return;
-  
-      // let content size naturally, then measure actual rendered height
-      root.style.height = 'auto';
-      track.style.height = 'auto';
-  
-      requestAnimationFrame(()=>{
-        let h = Math.round(slide.getBoundingClientRect().height || 0);
-        if (window.matchMedia('(min-width:901px)').matches && MAX) h = Math.min(h, MAX);
-        root.style.height = h ? `${h}px` : 'auto';
-        track.style.height = '100%';
-      });
-    }
-  
-    function initSlider(root){
-      const track = root.querySelector('.slides');
-      const slides = Array.from(track.children);
-      const prev = root.querySelector('.nav.prev');
-      const next = root.querySelector('.nav.next');
-      const dotsWrap = root.querySelector('.dots');
-  
-      let i = 0;
-      function go(n){
-        i = (n + slides.length) % slides.length;
-        root._i = i;
-        track.style.transform = `translateX(-${i*100}%)`;
-        dotsWrap.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('on', idx===i));
-        setHeight(root);
-      }
-  
-      dotsWrap.innerHTML = '';
-      slides.forEach((_, idx)=>{
-        const b=document.createElement('button');
-        b.type='button';
-        if(idx===0) b.className='on';
-        b.addEventListener('click', ()=>go(idx));
-        dotsWrap.appendChild(b);
-      });
-  
-      prev.addEventListener('click', ()=>go(i-1));
-      next.addEventListener('click', ()=>go(i+1));
-  
-      // update height when media is ready + on resize
-      slides.forEach(s=>{
-        if(s.tagName==='IMG'){
-          if(s.complete) setHeight(root);
-          else s.addEventListener('load', ()=>setHeight(root), {once:true});
-        }else if(s.tagName==='VIDEO'){
-          s.addEventListener('loadedmetadata', ()=>setHeight(root), {once:true});
-        }
-      });
-      window.addEventListener('resize', ()=>setHeight(root));
-  
-      go(0);
-    }
-  
-    document.querySelectorAll('.race-slider').forEach(initSlider);
-  })();
-  </script>
-  
-    
-    
-    
-
-  <!-- ========== Count-up stats (spring) ========== -->
   <script>
-  (function(){
-    const spring = t => 1 - Math.pow(1 - t, 4);
+    // auto-year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 
-    function formatTime(totalSeconds){
-      totalSeconds = Math.round(totalSeconds);
-      const h = Math.floor(totalSeconds / 3600);
-      const m = Math.floor((totalSeconds % 3600) / 60);
-      const s = totalSeconds % 60;
-      const mm = String(m).padStart(2,'0');
-      const ss = String(s).padStart(2,'0');
-      return h > 0 ? `${h}:${mm}:${ss}` : `${m}:${ss}`;
-    }
+  <!-- React + ReactDOM UMD + Babel (for JSX in-browser) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    function animateCount(el, target, {decimals=0, duration=1400, isTime=false}={}){
-      const start = performance.now();
-      const from = 0;
-      const step = (now)=>{
-        const t = Math.min(1, (now - start)/duration);
-        const v = from + (target - from) * spring(t);
-        el.textContent = isTime ? formatTime(v) : v.toFixed(decimals);
-        if (t < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }
+  <!-- React Races widget (no-crop slider, badges, mini chart) -->
+  <script type="text/babel">
+    const { useEffect, useMemo, useRef, useState } = React;
 
-    const io = new IntersectionObserver((entries, obs)=>{
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting) return;
-        const box = entry.target;
-        box.classList.add('on');
-        box.querySelectorAll('.count').forEach(span=>{
-          const target   = Number(span.getAttribute('data-target') || 0);
-          const decimals = Number(span.getAttribute('data-decimals') || 0);
-          const isTime   = span.getAttribute('data-format') === 'time';
-          animateCount(span, target, {decimals, isTime});
+    /* ---------- data ---------- */
+    const RACES = [
+      {
+        id: "sf10k-2025",
+        dateISO: "2025-07-27",
+        dateLabel: "July 27, 2025",
+        title: "San Francisco 10K",
+        distance: 6.2,
+        trainingMiles: 120,
+        finishSeconds: 4200,
+        description:
+          "This one was special because my girlfriend and I ran side by side the whole way. We were in San Francisco for the summer while I was interning, and without many friends or family around, doing this together made it feel extra good. We kept pace, finished in about an hour and ten, and left already scheming our next race.",
+        bullets: [
+          "Course: rolling streets + cool coastal air",
+          "Fuel: light (water only) — gel pre-start",
+          "Shoes: (fill in)",
+          "Next goal: stronger middle miles",
+        ],
+        media: [
+          { type: "img", src: "images/races/SF10K.JPG",  alt: "San Francisco 10K – medal & bib" },
+          { type: "img", src: "images/races/SF10K1.JPG", alt: "San Francisco 10K – after the finish" },
+        ],
+      },
+      {
+        id: "surf-city-2025",
+        dateISO: "2025-02-02",
+        dateLabel: "February 2, 2025",
+        title: "Surf City Marathon",
+        distance: 26.2,
+        trainingMiles: 820,
+        finishSeconds: 14280, // 3:58:00
+        description:
+          "First full marathon. The entry was a 20th-birthday gift from my girlfriend, which still cracks me up. I trained hard and got under four hours. It was tough, loud, and windy along PCH, but crossing that line felt like checking off something that used to feel impossible.",
+        bullets: [
+          "Course: out-and-back along PCH",
+          "Fuel: gels + electrolytes every 5–6 miles",
+          "Shoes: (fill in)",
+          "Next goal: stronger last 10K",
+        ],
+        media: [
+          { type: "img",   src: "images/races/SurfCity1.JPG", alt: "Surf City – family at the finish" },
+          { type: "img",   src: "images/races/SurfCity2.JPG", alt: "Surf City – course fence" },
+          { type: "img",   src: "images/races/SurfCity3.JPG", alt: "Surf City – friends at the finish" },
+          { type: "video", src: "images/races/SurfCity4.mp4", alt: "Surf City – finish video" },
+        ],
+      },
+      {
+        id: "long-beach-2024",
+        dateISO: "2024-10-06",
+        dateLabel: "October 6, 2024",
+        title: "Long Beach Half Marathon",
+        distance: 13.1,
+        trainingMiles: 471,
+        finishSeconds: 7140, // 1:59:00
+        description:
+          "First half marathon with my friend Emma because we wanted to see what we could do. Training was messy and fun, and sneaking in under two hours felt unreal. My friends and my girlfriend showed up at 6 am to cheer—cranky but present—which made the whole morning.",
+        bullets: [
+          "Course: flat waterfront + coastal breeze",
+          "Fuel: gels + water at every station",
+          "Shoes: (fill in)",
+          "Next time: aim for a negative split",
+        ],
+        media: [
+          { type: "img", src: "images/races/LongBeachHalf1.JPG", alt: "Long Beach Half – medal" },
+          { type: "img", src: "images/races/LongBeachHalf2.JPG", alt: "Long Beach Half – cheering squad" },
+          { type: "img", src: "images/races/LongBeachHalf3.JPG", alt: "Long Beach Half – finish area" },
+        ],
+      },
+    ];
+
+    const TRAINING = [
+      { week: "2024-12-15", miles: 18 },
+      { week: "2024-12-22", miles: 22 },
+      { week: "2024-12-29", miles: 24 },
+      { week: "2025-01-05", miles: 28 },
+      { week: "2025-01-12", miles: 35 },
+      { week: "2025-01-19", miles: 41 },
+      { week: "2025-01-26", miles: 32 },
+      { week: "2025-02-02", miles: 10 },
+    ];
+
+    /* ---------- helpers ---------- */
+    const formatTime = (totalSeconds) => {
+      const s = Math.round(totalSeconds);
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const r = s % 60;
+      const mm = String(m).padStart(2, "0");
+      const rr = String(r).padStart(2, "0");
+      return h > 0 ? `${h}:${mm}:${rr}` : `${m}:${rr}`;
+    };
+    const cx = (...xs) => xs.filter(Boolean).join(" ");
+
+    /* ---------- components ---------- */
+    function BadgeStrip({ races }) {
+      const totals = React.useMemo(() => {
+        let tenK = 0, half = 0, full = 0;
+        races.forEach(r => {
+          if (r.distance >= 26) full++;
+          else if (r.distance >= 13) half++;
+          else if (r.distance >= 6) tenK++;
         });
-        obs.unobserve(box);
-      });
-    }, { threshold: 0.25 });
+        return { tenK, half, full };
+      }, [races]);
 
-    document.querySelectorAll('.race-stats[data-animate]').forEach(el=>io.observe(el));
-    document.getElementById('y').textContent = new Date().getFullYear();
-  })();
+      const Pill = ({ label, count, emoji }) => (
+        <div className="react-pill">
+          <span className="react-pill-emoji">{emoji}</span>
+          <span className="react-pill-label">{label}</span>
+          <span className="react-pill-count">{count}</span>
+        </div>
+      );
+
+      return (
+        <div className="react-badges">
+          <Pill label="10K"      count={totals.tenK} emoji="🥇" />
+          <Pill label="Half"     count={totals.half} emoji="🏆" />
+          <Pill label="Marathon" count={totals.full} emoji="🏁" />
+        </div>
+      );
+    }
+
+    function TinyLineChart({ data }) {
+      // lightweight SVG line chart (no extra libs)
+      const w = 560, h = 160, pad = 24;
+      const xs = data.map((_, i) => i);
+      const ys = data.map(d => d.miles);
+      const xMin = 0, xMax = xs.length - 1;
+      const yMin = 0, yMax = Math.max(...ys) || 1;
+
+      const points = data.map((d, i) => {
+        const x = pad + (i - xMin) / (xMax - xMin || 1) * (w - pad*2);
+        const y = h - pad - (d.miles - yMin) / (yMax - yMin || 1) * (h - pad*2);
+        return `${x},${y}`;
+      }).join(" ");
+
+      return (
+        <div className="react-card" style={{padding: 14}}>
+          <div className="react-chart-title">Weekly training miles</div>
+          <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="react-chart">
+            <rect x="0" y="0" width={w} height={h} fill="#fff" rx="12" />
+            <polyline fill="none" stroke="#e5e7eb" strokeWidth="1"
+              points={`${pad},${h-pad} ${w-pad},${h-pad}`} />
+            <polyline fill="none" stroke="#3b82f6" strokeWidth="2.5" points={points} />
+          </svg>
+          <div className="react-chart-legend">
+            {data.map((d, i) => (
+              <span key={i} className="react-chip">{d.week.slice(5)} · {d.miles} mi</span>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function MediaSlider({ media }) {
+      const [i, setI] = React.useState(0);
+      const trackRef = React.useRef(null);
+
+      const go = (n) => setI(prev => (n + media.length) % media.length);
+
+      // Auto-size to current slide (prevents cropping & white bands)
+      React.useEffect(() => {
+        const el = trackRef.current;
+        if (!el) return;
+        const slide = el.children[i];
+        if (!slide) return;
+        requestAnimationFrame(() => {
+          const h = slide.getBoundingClientRect().height;
+          el.style.height = h ? `${h}px` : "auto";
+        });
+      }, [i, media]);
+
+      // Re-measure on resize
+      React.useEffect(() => {
+        const onResize = () => {
+          const el = trackRef.current;
+          if (!el) return;
+          const slide = el.children[i];
+          if (!slide) return;
+          const h = slide.getBoundingClientRect().height;
+          el.style.height = h ? `${h}px` : "auto";
+        };
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+      }, [i]);
+
+      return (
+        <div className="react-slider">
+          <div
+            ref={trackRef}
+            className="react-slides"
+            style={{ transform: `translateX(-${i * 100}%)` }}
+          >
+            {media.map((m, idx) => (
+              <div key={idx} className="react-slide">
+                {m.type === "img" ? (
+                  <img
+                    src={m.src}
+                    alt={m.alt}
+                    className="react-media"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    onLoad={() => {
+                      if (idx === i && trackRef.current) {
+                        const h = trackRef.current.children[idx].getBoundingClientRect().height;
+                        trackRef.current.style.height = h ? `${h}px` : "auto";
+                      }
+                    }}
+                  />
+                ) : (
+                  <video
+                    controls
+                    className="react-media react-video"
+                    onLoadedMetadata={() => {
+                      if (idx === i && trackRef.current) {
+                        const h = trackRef.current.children[idx].getBoundingClientRect().height;
+                        trackRef.current.style.height = h ? `${h}px` : "auto";
+                      }
+                    }}
+                  >
+                    <source src={m.src} type="video/mp4" />
+                  </video>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <button className="react-nav react-prev" aria-label="Previous" onClick={() => go(i-1)}>‹</button>
+          <button className="react-nav react-next" aria-label="Next" onClick={() => go(i+1)}>›</button>
+
+          <div className="react-dots">
+            {media.map((_, idx) => (
+              <button key={idx}
+                className={cx("react-dot", idx === i && "on")}
+                onClick={() => setI(idx)}
+                aria-label={`Go to slide ${idx+1}`}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function StatTile({ label, value, isTime=false }) {
+      return (
+        <div className="react-stat">
+          <div className="react-stat-number">
+            {isTime ? formatTime(value) : value}
+          </div>
+          <div className="react-stat-label">{label}</div>
+        </div>
+      );
+    }
+
+    function RaceCard({ race }) {
+      return (
+        <section className="react-card">
+          <div className="react-bar">
+            <h2>{race.title}</h2>
+            <span className="react-date">{race.dateLabel}</span>
+          </div>
+
+          <div className="react-grid">
+            <div className="react-col-media">
+              <MediaSlider media={race.media} />
+            </div>
+
+            <div className="react-col-notes">
+              <h3 className="react-title">{race.title}</h3>
+              <div className="react-meta">{race.dateLabel} · {race.distance} miles</div>
+
+              <div className="react-stats">
+                <StatTile label="training miles" value={race.trainingMiles} />
+                <StatTile label="finish" value={race.finishSeconds} isTime />
+                <StatTile label="distance" value={race.distance} />
+              </div>
+
+              <p className="react-text">{race.description}</p>
+              <ul className="react-bullets">
+                {race.bullets.map((b, i) => <li key={i}>{b}</li>)}
+              </ul>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function RacesApp() {
+      return (
+        <div className="react-wrap">
+          <header className="react-head">
+            <div>
+              <h1 className="react-h1">Races</h1>
+              <p className="react-sub">Marathons & distance events I’ve run.</p>
+            </div>
+            <BadgeStrip races={RACES} />
+          </header>
+
+          <div className="react-card" style={{ padding: 14, marginBottom: 16 }}>
+            <TinyLineChart data={TRAINING} />
+            <div className="react-sub" style={{ marginTop: 8, fontSize: 12 }}>
+              Tip: swap this SVG for an official Strava/Garmin/NRC embed later.
+            </div>
+          </div>
+
+          <div className="react-stack">
+            {RACES.map(r => <RaceCard key={r.id} race={r} />)}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("races-app")).render(<RacesApp />);
   </script>
 </body>
 </html>
