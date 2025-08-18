@@ -509,14 +509,13 @@ function GoalsCard(){
   const runWeeks = ytd.filter(d=>d.miles>0).length;
   const totalWeeks = ytd.length || 1;
 
-  const todayISO = new Date().toISOString().slice(0,10);
-  const upcoming = RACES
-    .filter(r=>r.dateISO > todayISO)
-    .sort((a,b)=>a.dateISO.localeCompare(b.dateISO))[0];
+  const NEXT_RACE = { title: "LA Marathon", dateLabel: "May 8, 2026", distance: 26.2, goalSeconds: 12600 };
+  const goalPace = NEXT_RACE.goalSeconds / NEXT_RACE.distance;
 
   return (
     <div className="react-card goals-card">
       <div style={{fontSize:13, fontWeight:700, color:"#374151", marginBottom:8}}>Goals</div>
+
       <div className="rings">
         <div className="ring">
           <Donut value={milesYTD} total={GOAL_MILES_2025}/>
@@ -529,14 +528,14 @@ function GoalsCard(){
           <div className="caption">Weeks run · {runWeeks}/{totalWeeks}</div>
         </div>
       </div>
+
       <div style={{marginTop:10, fontSize:13, color:"#374151"}}>
-        {upcoming
-          ? <>Next up: <b>{upcoming.title}</b> on <b>{upcoming.dateLabel}</b>.</>
-          : <>Next up: picking a fall race.</>}
+        Next race: <b>{NEXT_RACE.title}</b> on <b>{NEXT_RACE.dateLabel}</b> · Goal: <b>3:30</b> ({paceStr(goalPace)})
       </div>
     </div>
   );
 }
+
 
     /* ------------ app ------------- */
     function RacesApp(){
