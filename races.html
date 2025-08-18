@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Races</title>
 
-  <link rel="stylesheet" href="styles.css?v=19"/>
+  <link rel="stylesheet" href="styles.css?v=20"/>
 
   <style>
     /* ---------- scoped styles for the React widget ---------- */
@@ -31,7 +31,10 @@
     .react-x{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:10px; margin-top:6px; font-size:11px; color:#6b7280; text-align:center; }
 
     /* strava card */
-    .react-strava{ display:flex; flex-direction:column; gap:10px; }
+    .react-strava{ display:flex; flex-direction:column; gap:12px; }
+    .react-strava .row{ display:flex; align-items:center; gap:12px; }
+    .react-strava .avatar{ width:48px; height:48px; border-radius:999px; overflow:hidden; background:#ffe5d6; display:grid; place-items:center; font-weight:800; color:#fc4c02; }
+    .react-strava .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
     .react-strava .btn{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; background:#fc4c02; color:#fff; border:0; font-weight:700; cursor:pointer; text-decoration:none; width:max-content; }
     .react-strava .btn:hover{ filter:brightness(.95); }
     .react-strava small{ color:#6b7280; }
@@ -57,7 +60,6 @@
 
     .react-tags{ display:flex; flex-wrap:wrap; gap:6px; }
     .react-tag{ font-size:12px; padding:3px 6px; border:1px solid rgba(17,19,24,.12); border-radius:999px; background:#fff; color:#374151; }
-    .react-pr{ color:#0ea5e9; font-weight:700; }
 
     .react-story p{ margin:8px 0; font-size:15px; line-height:1.6; color:#111318; }
     .react-goal{ display:flex; align-items:center; gap:10px; }
@@ -65,6 +67,7 @@
     .react-goalbar > span{ display:block; height:100%; background:linear-gradient(90deg,#22c55e,#3b82f6); width:0; transition:width .6s ease; }
     .react-goal small{ color:#6b7280; }
     .react-note{ font-size:12px; color:#6b7280; }
+
     /* slider (no crop) */
     .react-slider{ position:relative; width:100%; border-radius:14px; overflow:hidden; background:#fff; }
     .react-slides{ display:grid; grid-auto-flow:column; grid-auto-columns:100%; transition: transform .35s ease; }
@@ -77,6 +80,18 @@
     .react-dots{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); display:flex; gap:6px; z-index:2; }
     .react-dot{ width:8px; height:8px; border-radius:999px; border:0; background:rgba(17,19,24,.25); cursor:pointer; }
     .react-dot.on{ background:rgba(17,19,24,.6); }
+
+    /* skyline + route */
+    .skyline{ position:relative; height:64px; border:1px solid rgba(0,0,0,.06); border-radius:10px; overflow:hidden; background:linear-gradient(180deg,#f1f5ff,#ffffff); }
+    .skyline svg{ position:absolute; inset:0; width:100%; height:100%; }
+    .cloud{ opacity:.6; animation:drift 18s linear infinite; }
+    .cloud.slow{ animation-duration:28s; opacity:.35; }
+    @keyframes drift{ from{ transform:translateX(-10%);} to{ transform:translateX(110%);} }
+
+    .route{ margin-top:8px; border:1px solid rgba(0,0,0,.06); border-radius:10px; padding:8px; }
+    .route svg{ width:100%; height:64px; }
+    .route path{ fill:none; stroke:#3b82f6; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:400; stroke-dashoffset:400; animation:draw 1.8s ease forwards; }
+    @keyframes draw{ to{ stroke-dashoffset:0; } }
   </style>
 </head>
 
@@ -96,7 +111,7 @@
 
   <main class="container work">
     <h1 class="page-title">Races</h1>
-    <p class="tag">Marathons & distance events I’ve run.</p>
+    <p class="tag">Marathons and distance events I have run.</p>
 
     <div id="races-app"></div>
   </main>
@@ -112,7 +127,8 @@
     const { useEffect, useRef, useState } = React;
 
     /* ------------ CONFIG ------------- */
-    const STRAVA_ATHLETE_ID = "YOUR_ATHLETE_ID"; // put your Strava athlete id here
+    const STRAVA_ATHLETE_ID = "YOUR_ATHLETE_ID";   // set this
+    const STRAVA_AVATAR_URL = "";                  // optional: link to a headshot or Strava avatar
 
     /* ------------ DATA ------------- */
     const RACES = [
@@ -121,18 +137,20 @@
         dateISO: "2025-07-27",
         dateLabel: "July 27, 2025",
         title: "San Francisco 10K",
+        city: "San Francisco",
         distance: 6.2,
         trainingMiles: 120,
-        finishSeconds: 4200,           // 1:10:00
-        goalSeconds: 4200,             // goal exactly matched (example)
+        finishSeconds: 4237,           // 1:10:37
+        goalSeconds: 4200,             // 1:10:00
         description: [
-          "We were spending the summer in SF, so this felt like a hometown run for a few months. Cool air off the bay, little pockets of cheering on random corners, and no pressure beyond keeping pace together.",
-          "We settled into a steady clip early and tried not to get greedy on the hills. Around mile four the city woke up—coffee smells, streetcars, the whole thing—which made the last stretch go by fast. It was a happy run. We crossed side-by-side and immediately started a list of other races we want to try."
+          "We spent the summer in San Francisco, so this felt like a hometown race for a few months. The air off the bay was cool and clean. There were pockets of cheering on random corners. The plan was simple. Stay together, find a steady rhythm, and enjoy the morning.",
+          "We settled into pace early and tried not to press on the little rollers. Around mile four the city felt awake. Coffee in the air. A streetcar sliding by. That last stretch passed quicker than I expected. We crossed side by side and started listing other races we want to try."
         ],
-        tags: ["Course: rolling streets", "Fuel: water only + gel pre-start", "Shoes: Hoka Clifton 9"],
+        tags: ["Course: rolling city streets with cool air", "Fuel: water only and one gel before the start", "Shoes: Hoka Clifton 9"],
+        routePath: "M10,52 C40,40 60,38 90,30", // stylized route line
         media: [
           { type: "img", src: "images/races/SF10K.JPG",  alt: "San Francisco 10K" },
-          { type: "img", src: "images/races/SF10K1.JPG", alt: "San Francisco 10K — finish" },
+          { type: "img", src: "images/races/SF10K1.JPG", alt: "San Francisco 10K finish" },
         ],
       },
       {
@@ -140,20 +158,22 @@
         dateISO: "2025-02-02",
         dateLabel: "February 2, 2025",
         title: "Surf City Marathon",
+        city: "Huntington Beach",
         distance: 26.2,
         trainingMiles: 820,
-        finishSeconds: 14280,          // 3:58:00
-        goalSeconds: 14400,            // goal 4:00:00
+        finishSeconds: 14304,          // 3:58:24
+        goalSeconds: 14400,            // 4:00:00
         description: [
-          "My first full. The start line felt like a block party—cowbells, flags, a salty wind that kept pressing the bib into my shirt. I knew sub-4 was right on the edge for me, so the plan was boring on purpose: relax through 13, stay patient to 20, fight smart from there.",
-          "The PCH wind played games. A few miles felt free, then you’d round a bend and hit a blow dryer. I kept the gels coming and tried to be a metronome. At mile 24 I did the math and realized sub-4 was still alive if I held on. The last mile was loud and wobbly and perfect. 3:58:00—nothing fancy, just a line crossed that used to be impossible."
+          "My first full marathon. The start line felt like a block party. Cowbells. Flags. A steady ocean wind that pushed the bib into my shirt. Sub four was right on the edge for me, so the plan was boring on purpose. Be patient through halfway. Stay honest to mile twenty. Fight with whatever is left after that.",
+          "The wind along PCH kept changing. A few miles felt free and then I would turn a corner and it would push back. I kept the gels coming and tried to be a metronome. At mile twenty four I did the math and saw that sub four was still alive. The last mile was noisy and shaky and perfect. I finished in three fifty eight twenty four and let myself be proud for a minute."
         ],
-        tags: ["Course: PCH out-and-back", "Fuel: gels + electrolytes every 5-6 mi", "Shoes: Hoka Clifton 9"],
+        tags: ["Course: out and back along the PCH", "Fuel: gels and electrolytes every five to six miles", "Shoes: Hoka Clifton 9"],
+        routePath: "M10,40 C30,34 50,34 70,40 S110,48 130,44",
         media: [
-          { type: "img",   src: "images/races/SurfCity1.JPG", alt: "Surf City — finish" },
-          { type: "img",   src: "images/races/SurfCity2.JPG", alt: "Surf City — course" },
-          { type: "img",   src: "images/races/SurfCity3.JPG", alt: "Surf City — friends" },
-          { type: "video", src: "images/races/SurfCity4.mp4", alt: "Surf City — finish video" },
+          { type: "img",   src: "images/races/SurfCity1.JPG", alt: "Surf City finish" },
+          { type: "img",   src: "images/races/SurfCity2.JPG", alt: "Surf City course" },
+          { type: "img",   src: "images/races/SurfCity3.JPG", alt: "Surf City friends" },
+          { type: "video", src: "images/races/SurfCity4.mp4", alt: "Surf City finish video" },
         ],
       },
       {
@@ -161,32 +181,35 @@
         dateISO: "2024-10-06",
         dateLabel: "October 6, 2024",
         title: "Long Beach Half Marathon",
+        city: "Long Beach",
         distance: 13.1,
         trainingMiles: 471,
-        finishSeconds: 7140,           // 1:59:00
-        goalSeconds: 7200,             // goal 2:00:00
+        finishSeconds: 7152,           // 1:59:12
+        goalSeconds: 7200,             // 2:00:00
         description: [
-          "Emma talked me into this one and I’m glad she did. We trained in chaotic bursts between school stuff and late dinners. Race morning was sleepy-quiet—the kind where the ocean looks flat and silver—and then the horn went and the course got fun.",
-          "I kept things easy until halfway, waited for the brain gremlins around mile 10, and then tried to run through them. The final mile was just me counting light poles and thinking about pancakes. We sneaked under two hours and got breakfast. That’s a good day."
+          "Emma talked me into this one and I am glad she did. Training was a little chaotic around school and late dinners. Race morning was quiet and gray. The water looked flat and silver. Once we started the course felt friendly and the miles clicked by.",
+          "I kept things easy until halfway. At mile ten the brain gremlins showed up and I kept moving anyway. The last mile was just me counting light poles and thinking about pancakes. We slid under two hours and went straight to breakfast."
         ],
-        tags: ["Course: flat waterfront", "Fuel: gels + water at stations", "Shoes: Hoka Clifton 9"],
+        tags: ["Course: flat waterfront and a light breeze", "Fuel: gels with water at stations", "Shoes: Hoka Clifton 9"],
+        routePath: "M10,50 L40,44 L70,46 L100,42 L130,46",
         media: [
-          { type: "img", src: "images/races/LongBeachHalf1.JPG", alt: "Long Beach Half — medal" },
-          { type: "img", src: "images/races/LongBeachHalf2.JPG", alt: "Long Beach Half — cheering squad" },
-          { type: "img", src: "images/races/LongBeachHalf3.JPG", alt: "Long Beach Half — finish area" },
+          { type: "img", src: "images/races/LongBeachHalf1.JPG", alt: "Long Beach Half medal" },
+          { type: "img", src: "images/races/LongBeachHalf2.JPG", alt: "Long Beach Half cheering squad" },
+          { type: "img", src: "images/races/LongBeachHalf3.JPG", alt: "Long Beach Half finish area" },
         ],
       },
     ];
 
+    // More realistic weekly miles
     const TRAINING = [
       { week: "2024-12-15", miles: 18 },
-      { week: "2024-12-22", miles: 22 },
+      { week: "2024-12-22", miles: 21 },
       { week: "2024-12-29", miles: 24 },
-      { week: "2025-01-05", miles: 28 },
-      { week: "2025-01-12", miles: 35 },
-      { week: "2025-01-19", miles: 41 },
-      { week: "2025-01-26", miles: 32 },
-      { week: "2025-02-02", miles: 10 },
+      { week: "2025-01-05", miles: 26 },
+      { week: "2025-01-12", miles: 30 },
+      { week: "2025-01-19", miles: 32 },
+      { week: "2025-01-26", miles: 29 },
+      { week: "2025-02-02", miles: 12 },
     ];
 
     /* ------------ HELPERS ------------- */
@@ -268,6 +291,41 @@
       );
     }
 
+    /* ------------ skyline + route ------------- */
+    function CitySkyline({ city }){
+      // simple abstract skyline + drifting clouds
+      return (
+        <div className="skyline" title={city}>
+          <svg viewBox="0 0 160 64" preserveAspectRatio="none">
+            <rect x="0" y="0" width="160" height="64" fill="transparent"/>
+            {/* buildings */}
+            <rect x="5"  y="30" width="8"  height="34" fill="#c7d2fe"/>
+            <rect x="16" y="24" width="10" height="40" fill="#a5b4fc"/>
+            <rect x="30" y="18" width="14" height="46" fill="#93a5ff"/>
+            <rect x="48" y="26" width="8"  height="38" fill="#c7d2fe"/>
+            <rect x="60" y="16" width="12" height="48" fill="#a5b4fc"/>
+            <rect x="76" y="22" width="9"  height="42" fill="#c7d2fe"/>
+            <rect x="90" y="28" width="10" height="36" fill="#a5b4fc"/>
+            <rect x="104"y="14" width="14" height="50" fill="#93a5ff"/>
+            <rect x="122"y="20" width="10" height="44" fill="#c7d2fe"/>
+            <rect x="136"y="26" width="8"  height="38" fill="#a5b4fc"/>
+            {/* clouds */}
+            <g className="cloud"><ellipse cx="-10" cy="12" rx="16" ry="6" fill="#e5e7eb"/></g>
+            <g className="cloud slow"><ellipse cx="-20" cy="22" rx="14" ry="5" fill="#eef2f7"/></g>
+          </svg>
+        </div>
+      );
+    }
+    function RouteSpark({ d }){
+      return (
+        <div className="route">
+          <svg viewBox="0 0 140 64" preserveAspectRatio="none">
+            <path d={d}/>
+          </svg>
+        </div>
+      );
+    }
+
     /* ------------ small pieces ------------- */
     function StatTile({ label, value, isTime=false }) {
       return (
@@ -287,15 +345,15 @@
     }
 
     function GoalMeter({ finishSeconds, goalSeconds }){
-      const pct = Math.min(100, Math.max(0, (goalSeconds>0 ? (goalSeconds/finishSeconds)*100 : 0)));
-      // If you beat the goal, pct > 100 → clamp to 100 visually, show delta in text.
+      const pctRaw = goalSeconds ? (finishSeconds/goalSeconds)*100 : 0;
+      const pct = Math.min(100, Math.max(0, pctRaw));
       const delta = finishSeconds - goalSeconds;
       const sign = delta <= 0 ? "faster" : "slower";
       const abs = Math.abs(delta);
       return (
         <div className="react-goal">
           <div className="react-goalbar" aria-hidden="true">
-            <span style={{ width: `${Math.min(100, (finishSeconds/goalSeconds)*100)}%` }}></span>
+            <span style={{ width: `${pct}%` }}></span>
           </div>
           <small>{formatTime(finishSeconds)} vs goal {formatTime(goalSeconds)} · {formatTime(abs)} {sign}</small>
         </div>
@@ -303,7 +361,7 @@
     }
 
     /* ------------ race card ------------- */
-    function RaceCard({ race, fastestPace }) {
+    function RaceCard({ race }) {
       const pace = race.finishSeconds / race.distance;
       return (
         <section className="react-card">
@@ -319,7 +377,7 @@
 
             <div className="react-col-notes">
               <h3 className="react-title">{race.title}</h3>
-              <div className="react-meta">{race.dateLabel} · {race.distance} miles</div>
+              <div className="react-meta">{race.city} · {race.distance} miles</div>
 
               <div className="react-stats">
                 <StatTile label="training miles" value={race.trainingMiles} />
@@ -328,14 +386,16 @@
               </div>
 
               <TagRow tags={race.tags} />
-
               {race.goalSeconds && <GoalMeter finishSeconds={race.finishSeconds} goalSeconds={race.goalSeconds} />}
+
+              <CitySkyline city={race.city}/>
+              <RouteSpark d={race.routePath}/>
 
               <div className="react-story">
                 {race.description.map((p,i)=><p key={i}>{p}</p>)}
               </div>
 
-              <div className="react-note">Photos/videos show full size—no cropping.</div>
+              <div className="react-note">Photos and videos show full size. No cropping.</div>
             </div>
           </div>
         </section>
@@ -344,15 +404,27 @@
 
     /* ------------ strava follow ------------- */
     function StravaCard(){
-      const url = STRAVA_ATHLETE_ID ? `https://www.strava.com/athletes/${137523264}` : null;
+      const url = STRAVA_ATHLETE_ID ? `https://www.strava.com/athletes/${137523264}` : "#";
+      const recent = TRAINING[TRAINING.length-1]?.miles || 0;
+      const initials = "JA";
       return (
         <div className="react-card react-strava">
           <div style={{fontSize:13, fontWeight:700, color:"#374151"}}>Follow me on Strava</div>
-          <a className="btn" href={url || "#"} target="_blank" rel="noreferrer">
-            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M27.7 27.4l6.2 10.6 6.3-10.6h-4.8L33.9 34l-3.6-6.6h-2.6zm-6.7-19L4.7 42.3h9.8l3.4-6.3h8.7l-6.5-11.5 4.4-8.2 8.1 14.5h5L21 8.4z"/></svg>
-            Follow on Strava
-          </a>
-          <small>Training logs live there. Races and routes get posted when I remember.</small>
+          <div className="row">
+            <div className="avatar">
+              {STRAVA_AVATAR_URL
+                ? <img src={STRAVA_AVATAR_URL} alt="avatar"/>
+                : <span>{initials}</span>}
+            </div>
+            <div>
+              <a className="btn" href={url} target="_blank" rel="noreferrer">
+                <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M27.7 27.4l6.2 10.6 6.3-10.6h-4.8L33.9 34l-3.6-6.6h-2.6zm-6.7-19L4.7 42.3h9.8l3.4-6.3h8.7l-6.5-11.5 4.4-8.2 8.1 14.5h5L21 8.4z"/></svg>
+                Follow on Strava
+              </a>
+              <div><small>Last seven days: {recent} miles</small></div>
+            </div>
+          </div>
+          <small>Training logs live there. Routes and races show up when I remember to hit upload.</small>
         </div>
       );
     }
@@ -371,7 +443,7 @@
             <div className="react-tiles">
               <div className="react-tile"><div className="n">{total2025}</div><div className="l">miles in 2025</div></div>
               <div className="react-tile"><div className="n">{races2025}</div><div className="l">races in 2025</div></div>
-              <div className="react-tile"><div className="n">{raceMilesAll.toFixed(1)}</div><div className="l">race miles (all-time)</div></div>
+              <div className="react-tile"><div className="n">{raceMilesAll.toFixed(1)}</div><div className="l">race miles all time</div></div>
               <div className="react-tile"><div className="n">{paceStr(fastestPace)}</div><div className="l">fastest race pace</div></div>
             </div>
             <div style={{height:10}}></div>
@@ -385,14 +457,12 @@
 
     /* ------------ app ------------- */
     function RacesApp(){
-      const fastest = minBy(RACES, r => r.finishSeconds/r.distance);
-      const fastestPace = fastest.finishSeconds/fastest.distance;
       return (
         <div className="react-wrap">
           <TopBlock/>
           <div style={{height:14}}></div>
           <div className="react-stack">
-            {RACES.map(r => <RaceCard key={r.id} race={r} fastestPace={fastestPace} />)}
+            {RACES.map(r => <RaceCard key={r.id} race={r} />)}
           </div>
         </div>
       );
