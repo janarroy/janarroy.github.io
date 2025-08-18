@@ -6,7 +6,7 @@
   <title>Races – Jan Arroyo</title>
   <meta name="description" content="Marathons and races by Jan Arroyo" />
   <!-- bump the version any time you change styles.css -->
-  <link href="styles.css?v=14" rel="stylesheet" />
+  <link href="styles.css?v=15" rel="stylesheet" />
 </head>
 <body class="plain-bg">
   <!-- Navbar -->
@@ -207,34 +207,24 @@
   <!-- ========== Slider JS (prev/next + dots) ========== -->
   <script>
     (function(){
-      const MAX = 620; // px cap on desktop
-    
-      function mediaNaturalSize(el){
-        if(el.tagName === 'IMG' && el.naturalWidth){
-          return {w: el.naturalWidth, h: el.naturalHeight};
-        }
-        if(el.tagName === 'VIDEO' && (el.videoWidth || el.readyState >= 1)){
-          return {w: el.videoWidth, h: el.videoHeight};
-        }
-        return null;
-      }
+      const MAX = 620;
     
       function setHeight(root){
         const track = root.querySelector('.slides');
         const slide = track.children[root._i || 0];
         if(!slide) return;
     
-        const boxW = root.clientWidth;
-        let h = 0;
-        const nat = mediaNaturalSize(slide);
-        if(nat){
-          h = Math.round(boxW * (nat.h / nat.w));
-        }else{
-          h = slide.getBoundingClientRect().height || 0;
-        }
-        // respect desktop cap
-        if(window.matchMedia('(min-width:901px)').matches) h = Math.min(h, MAX);
-        root.style.height = h ? `${h}px` : 'auto';
+        // Let contents size naturally, then measure
+        root.style.height = 'auto';
+        track.style.height = 'auto';
+    
+        // Next frame ensures layout is up to date
+        requestAnimationFrame(()=>{
+          let h = Math.round(slide.getBoundingClientRect().height || 0);
+          if (window.matchMedia('(min-width:901px)').matches) h = Math.min(h, MAX);
+          root.style.height = h ? `${h}px` : 'auto';
+          track.style.height = '100%';
+        });
       }
     
       function initSlider(root){
@@ -265,7 +255,6 @@
         prev.addEventListener('click', ()=>go(i-1));
         next.addEventListener('click', ()=>go(i+1));
     
-        // update height when media ready + on resize
         slides.forEach(s=>{
           if(s.tagName==='IMG'){
             if(s.complete) setHeight(root);
@@ -282,6 +271,7 @@
       document.querySelectorAll('.race-slider').forEach(initSlider);
     })();
     </script>
+    
     
     
 
