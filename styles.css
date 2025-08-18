@@ -790,9 +790,3 @@ body.plain-bg{
 }
 .race-caption p{ font-size:15.5px; line-height:1.6; }
 .race-caption .race-bullets{ font-size:14px; line-height:1.5; }
-
-/* Optional: desktop cap (prevents ultra-tall video cards).
-   Remove if you prefer absolutely zero letterboxing. */
-@media (min-width:901px){
-  .race-slider{ max-height:620px !important; }
-}
