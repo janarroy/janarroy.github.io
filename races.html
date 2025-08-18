@@ -98,6 +98,16 @@
     .course-map img{ width:100%; height:auto; display:block; object-fit:contain; max-height:220px; background:#fff; }
     .course-map .cm-bar{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 10px; border-top:1px solid rgba(0,0,0,.06); background:#fafafa; font-size:12px; color:#374151; }
     .course-map .cm-bar a{ color:#2563eb; text-decoration:none; }
+    /* right column stacks two cards to reduce whitespace */
+    .react-metrics-right{ display:flex; flex-direction:column; gap:14px; }
+
+    /* goals card */
+    .goals-card .rings{ display:flex; gap:16px; justify-content:space-between; }
+    .goals-card .ring{ position:relative; width:110px; height:110px; display:grid; place-items:center; }
+    .goals-card svg{ width:110px; height:110px; transform:rotate(-90deg); }
+    .goals-card .pct{ position:absolute; font-weight:800; font-size:18px; }
+    .goals-card .caption{ text-align:center; font-size:12px; color:#6b7280; margin-top:4px; }
+
   </style>
 </head>
 
@@ -448,31 +458,85 @@
       );
     }
 
+    
+
     /* ------------ top area ------------- */
     function TopBlock(){
-      const total2025 = sum(TRAINING.filter(d=>d.week.startsWith("2025")), "miles");
-      const races2025 = RACES.filter(r=>r.dateISO.startsWith("2025")).length;
-      const raceMilesAll = sum(RACES, "distance");
-      const fastest = minBy(RACES, r => r.finishSeconds/r.distance);
-      const fastestPace = fastest.finishSeconds/fastest.distance;
+  const total2025 = TRAINING.filter(d=>d.week.startsWith("2025")).reduce((t,d)=>t+d.miles,0);
+  const races2025 = RACES.filter(r=>r.dateISO.startsWith("2025")).length;
+  const raceMilesAll = RACES.reduce((t,r)=>t+r.distance,0);
+  const fastest = RACES.reduce((best,r)=> (r.finishSeconds/r.distance) < (best.finishSeconds/best.distance) ? r : best, RACES[0]);
+  const fastestPace = fastest.finishSeconds/fastest.distance;
 
-      return (
-        <div className="react-metrics">
-          <div className="react-card">
-            <div className="react-tiles">
-              <div className="react-tile"><div className="n">{total2025}</div><div className="l">miles in 2025</div></div>
-              <div className="react-tile"><div className="n">{races2025}</div><div className="l">races in 2025</div></div>
-              <div className="react-tile"><div className="n">{raceMilesAll.toFixed(1)}</div><div className="l">race miles all time</div></div>
-              <div className="react-tile"><div className="n">{paceStr(fastestPace)}</div><div className="l">fastest race pace</div></div>
-            </div>
-            <div style={{height:10}}></div>
-            <MilesBarChart data={TRAINING} />
-          </div>
-
-          <StravaCard/>
+  return (
+    <div className="react-metrics">
+      <div className="react-card">
+        <div className="react-tiles">
+          <div className="react-tile"><div className="n">{total2025}</div><div className="l">miles in 2025</div></div>
+          <div className="react-tile"><div className="n">{races2025}</div><div className="l">races in 2025</div></div>
+          <div className="react-tile"><div className="n">{raceMilesAll.toFixed(1)}</div><div className="l">race miles all time</div></div>
+          <div className="react-tile"><div className="n">{paceStr(fastestPace)}</div><div className="l">fastest race pace</div></div>
         </div>
-      );
-    }
+        <div style={{height:10}}></div>
+        <MilesBarChart data={TRAINING} />
+      </div>
+
+      <div className="react-metrics-right">
+        <StravaCard/>
+        <GoalsCard/>
+      </div>
+    </div>
+  );
+}
+
+    function Donut({ value, total }) {
+  const r = 48, c = 2 * Math.PI * r;
+  const pct = Math.max(0, Math.min(1, total ? value/total : 0));
+  const dash = c * pct, gap = c - dash;
+  return (
+    <svg viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r={r} fill="none" stroke="#eef2ff" strokeWidth="12"/>
+      <circle cx="60" cy="60" r={r} fill="none" stroke="#3b82f6" strokeWidth="12"
+              strokeLinecap="round" strokeDasharray={`${dash} ${gap}`}/>
+    </svg>
+  );
+}
+
+function GoalsCard(){
+  const GOAL_MILES_2025 = 400;
+  const ytd = TRAINING.filter(d=>d.week.startsWith("2025"));
+  const milesYTD = ytd.reduce((t,d)=>t+d.miles,0);
+  const runWeeks = ytd.filter(d=>d.miles>0).length;
+  const totalWeeks = ytd.length || 1;
+
+  const todayISO = new Date().toISOString().slice(0,10);
+  const upcoming = RACES
+    .filter(r=>r.dateISO > todayISO)
+    .sort((a,b)=>a.dateISO.localeCompare(b.dateISO))[0];
+
+  return (
+    <div className="react-card goals-card">
+      <div style={{fontSize:13, fontWeight:700, color:"#374151", marginBottom:8}}>Goals</div>
+      <div className="rings">
+        <div className="ring">
+          <Donut value={milesYTD} total={GOAL_MILES_2025}/>
+          <div className="pct">{Math.round((milesYTD/GOAL_MILES_2025)*100)}%</div>
+          <div className="caption">Miles · {milesYTD}/{GOAL_MILES_2025}</div>
+        </div>
+        <div className="ring">
+          <Donut value={runWeeks} total={totalWeeks}/>
+          <div className="pct">{Math.round((runWeeks/totalWeeks)*100)}%</div>
+          <div className="caption">Weeks run · {runWeeks}/{totalWeeks}</div>
+        </div>
+      </div>
+      <div style={{marginTop:10, fontSize:13, color:"#374151"}}>
+        {upcoming
+          ? <>Next up: <b>{upcoming.title}</b> on <b>{upcoming.dateLabel}</b>.</>
+          : <>Next up: picking a fall race.</>}
+      </div>
+    </div>
+  );
+}
 
     /* ------------ app ------------- */
     function RacesApp(){
