@@ -72,32 +72,15 @@
     .modal-recipe ul,.modal-recipe ol{ margin:0 0 0 18px; }
     .muted{color:#6b7280;font-size:14px;}
 
-    /* === Top-3 badges === */
-.rcp-badge{
-  position:absolute; top:10px; left:10px;
-  width:34px; height:34px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font:800 16px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  color:#fff; border:2px solid rgba(255,255,255,.9);
-  box-shadow:0 6px 16px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.35);
-  text-shadow:0 1px 2px rgba(0,0,0,.35);
-}
-.rcp-badge.rank-1{ /* gold */
-  background:conic-gradient(#caa20a, #ffde68, #b8860b, #caa20a);
-}
-.rcp-badge.rank-2{ /* silver */
-  background:conic-gradient(#9fa9b4, #e9edf2, #8c99a8, #9fa9b4);
-}
-.rcp-badge.rank-3{ /* bronze */
-  background:conic-gradient(#a86b2f, #e5b086, #7b4b22, #a86b2f);
-}
-/* little ribbon tail for fun */
-.rcp-badge::after{
-  content:""; position:absolute; bottom:-7px; left:8px;
-  width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent;
-  border-top:8px solid rgba(0,0,0,.15); filter:blur(.2px);
-}
-
+    /* === Podium medal badge (SVG ribbon) === */
+    .rcp-medal{
+      position:absolute; top:10px; left:10px;
+      width:44px; height:44px; z-index:2;
+    }
+    .rcp-medal svg{
+      width:100%; height:100%; display:block;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.25));
+    }
   </style>
 </head>
 <body>
@@ -166,7 +149,6 @@
 
     // ===== Recipes =====
     const RECIPES = [
-      /* Existing */
       {
         id:"jellycat",
         title:"Jellycat Birthday Cake",
@@ -203,37 +185,15 @@
               <li>4 tbsp strawberry jam</li>
             </ul>
           </li>
-          <li><strong>Decoration</strong>
-            <ul>
-              <li>2–3 fresh strawberries, halved</li>
-              <li>1 birthday candle</li>
-              <li>20 g dark chocolate, roughly chopped</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li><strong>Cake Layers</strong>
-            <ol>
-              <li>Preheat 350°F. Line two 6&quot; pans.</li>
-              <li>Whisk flour, baking powder, salt.</li>
-              <li>Warm butter, milk, oil, vanilla (don’t boil).</li>
-              <li>Beat eggs + sugar ~6 min until very pale/tripled.</li>
-              <li>Mix in dry (in 2 adds) just to combine.</li>
-              <li>On low, stream in warm milk mixture until smooth.</li>
-              <li>Divide; bake 35–40 min. Cool completely.</li>
-            </ol>
-          </li>
-          <li><strong>Filling</strong>
-            <ol>
-              <li>Whip cream + sugar + vanilla to soft peaks; reserve a bit; whip rest to firm.</li>
-              <li>Tint reserve with cocoa; bag both creams.</li>
-            </ol>
-          </li>
           <li><strong>Assemble</strong>
             <ol>
-              <li>Cream border + jam center.</li>
-              <li>Top layer; pipe cream; add strawberries + candle.</li>
-              <li>Pipe “legs”; melt chocolate; pipe face.</li>
+              <li>Preheat 350°F. Line two 6&quot; pans.</li>
+              <li>Beat eggs + sugar ~6 min until very pale/tripled.</li>
+              <li>Whisk dry; warm milk+butter+oil+vanilla (don’t boil).</li>
+              <li>Mix dry in 2 adds; stream in warm milk mixture on low.</li>
+              <li>Divide; bake 35–40 min. Cool completely.</li>
+              <li>Whip cream to soft/firm peaks (reserve some, tint with cocoa).</li>
+              <li>Fill with cream border + jam; top layer; pipe decorations.</li>
             </ol>
           </li>
         `
@@ -263,8 +223,7 @@
               <li>Cream butter + sugar.</li>
               <li>Mix in egg yolks.</li>
               <li>Add flour + salt; mix to dough.</li>
-              <li>Roll balls; roll in sugar.</li>
-              <li>Thumb an indent; fill with jam.</li>
+              <li>Roll balls; roll in sugar; thumb an indent; fill with jam.</li>
               <li>Bake 350°F for 8–10 min.</li>
             </ol>
           </li>
@@ -361,9 +320,6 @@
           </li>
         `
       },
-
-      /* ====== NEW: full recipes you provided ====== */
-
       {
         id:"blackberrylavender",
         title:"Blackberry Lavender Cake",
@@ -402,7 +358,6 @@
               <li>2 Tbsp (30ml) whole milk</li>
               <li>2 tsp vanilla • 1/8 tsp salt</li>
               <li>1/2–1 cup blackberry jam</li>
-              <li>Optional: mauve/purple food color, fresh blackberries</li>
             </ul>
           </li>
         `,
@@ -410,41 +365,31 @@
           <li><strong>Lavender Milk</strong>
             <ol>
               <li>Simmer milk; remove from heat; add lavender. Steep 20 min.</li>
-              <li>Strain; cool completely (make 1–2 days ahead if desired).</li>
+              <li>Strain; cool completely.</li>
             </ol>
           </li>
           <li><strong>Lavender Syrup</strong>
             <ol>
-              <li>Boil sugar + water; reduce heat; add lavender; simmer 10 min.</li>
-              <li>Remove from heat; steep to cool. Strain. Reserve for soaking layers.</li>
+              <li>Boil sugar + water; reduce heat; add lavender; simmer 10 min. Cool and strain.</li>
             </ol>
           </li>
           <li><strong>Bake the Cake</strong>
             <ol>
               <li>Preheat 350°F. Grease/line three 8&quot; pans.</li>
-              <li>Stir sour cream with cooled lavender milk; set aside.</li>
-              <li>In mixer bowl: sift cake flour, sugar, baking powder, salt. Mix low to combine; add butter, vanilla, and half the milk/sour cream. Mix ~1 min.</li>
-              <li>Whisk eggs into remaining milk/sour cream. Add in 3 additions, mixing ~15 sec after each; scrape bowl; mix 15 sec more. Batter will be smooth with small lumps.</li>
-              <li>Divide into pans; bake 20–22 min (toothpick clean). Cool completely in pans on racks.</li>
-              <li>Level layers; generously brush tops with lavender syrup.</li>
+              <li>Stir sour cream with cooled lavender milk.</li>
+              <li>Sift dry in mixer bowl; add butter, vanilla, and half milk/sour cream. Mix ~1 min.</li>
+              <li>Whisk eggs into remaining milk/sour cream; add in 3 additions (15 s each); scrape; mix 15 s more.</li>
+              <li>Divide; bake 20–22 min. Cool in pans; level and brush with lavender syrup.</li>
             </ol>
           </li>
-          <li><strong>Buttercream</strong>
+          <li><strong>Buttercream & Assemble</strong>
             <ol>
-              <li>Beat butter + cream cheese 2 min until smooth.</li>
-              <li>Add sugar, milk, vanilla, salt; beat low 30 sec then high 3 min. Tint half purple if desired.</li>
-            </ol>
-          </li>
-          <li><strong>Assemble</strong>
-            <ol>
-              <li>Layer 1: thin white frosting, pipe two rings (outer &amp; inner) as a dam; fill gaps with blackberry jam.</li>
-              <li>Repeat with layer 2; top with layer 3. Crumb coat thinly; chill 15 min.</li>
-              <li>Frost exterior with purple buttercream; decorate; garnish with blackberries. Chill 20 min before slicing.</li>
+              <li>Beat butter + cream cheese 2 min; add sugar, milk, vanilla, salt; beat 3 min (tint if desired).</li>
+              <li>Layer with jam inside piped “dams”; crumb coat; chill; finish frost; garnish berries; chill 20 min before slicing.</li>
             </ol>
           </li>
         `
       },
-
       {
         id:"carrot",
         title:"Carrot Cake",
@@ -478,37 +423,29 @@
         stepsHTML: `
           <li><strong>Toast Nuts</strong>
             <ol>
-              <li>Preheat 300°F. Toast pecans 7–8 min; cool.</li>
-              <li>Raise oven to 350°F. Grease/line two or three 9&quot; pans.</li>
+              <li>Preheat 300°F. Toast pecans 7–8 min; cool. Raise oven to 350°F.</li>
+              <li>Grease/line two or three 9&quot; pans.</li>
             </ol>
           </li>
           <li><strong>Make Batter</strong>
             <ol>
-              <li>Whisk brown sugar, granulated sugar, oil, eggs, applesauce, vanilla.</li>
-              <li>In another bowl, whisk flour, leaveners, salt, spices.</li>
-              <li>Fold wet into dry just to combine; fold in carrots and 1 cup toasted pecans.</li>
+              <li>Whisk sugars, oil, eggs, applesauce, vanilla.</li>
+              <li>Whisk dry in another bowl; fold wet into dry; fold in carrots + 1 cup pecans.</li>
             </ol>
           </li>
           <li><strong>Bake</strong>
             <ol>
-              <li>Divide into pans. Three pans: 20–24 min. Two pans: 30–35 min. Toothpick should come out clean.</li>
-              <li>Cool completely in pans on racks.</li>
+              <li>Three pans: 20–24 min. Two pans: 30–35 min. Cool completely.</li>
             </ol>
           </li>
-          <li><strong>Frost</strong>
+          <li><strong>Frost & Assemble</strong>
             <ol>
-              <li>Beat cream cheese + butter 2 min; add sugar, vanilla, salt; beat low then high 3 min.</li>
-            </ol>
-          </li>
-          <li><strong>Assemble</strong>
-            <ol>
-              <li>Level layers; frost between, top, and sides. Press remaining toasted pecans on exterior.</li>
-              <li>Chill 15–20 min before slicing. Store covered up to 5 days in fridge.</li>
+              <li>Beat cream cheese + butter 2 min; add sugar, vanilla, salt; beat 3 min.</li>
+              <li>Level, stack, frost; press remaining pecans on sides; chill 15–20 min.</li>
             </ol>
           </li>
         `
       },
-
       {
         id:"redvelvet",
         title:"Red Velvet Bundt Cake",
@@ -517,46 +454,35 @@
         ingredientsHTML: `
           <li><strong>Red Velvet Cake</strong>
             <ul>
-              <li>3/4 cup (160g) oil</li>
-              <li>1/2 cup (110g) unsalted butter, melted</li>
-              <li>2 cups (400g) granulated sugar</li>
-              <li>2 large eggs</li>
-              <li>1 cup (240ml) buttermilk</li>
-              <li>2 tsp vanilla • 1 tsp white vinegar</li>
+              <li>3/4 cup (160g) oil • 1/2 cup (110g) butter, melted</li>
+              <li>2 cups (400g) sugar • 2 eggs</li>
+              <li>1 cup (240ml) buttermilk • 2 tsp vanilla • 1 tsp vinegar</li>
               <li>2 Tbsp red food coloring</li>
-              <li>2 1/2 cups (300g) all-purpose flour</li>
-              <li>3 Tbsp cocoa powder</li>
-              <li>1 tsp baking soda • 1 tsp salt</li>
+              <li>2 1/2 cups (300g) flour • 3 Tbsp cocoa • 1 tsp baking soda • 1 tsp salt</li>
             </ul>
           </li>
           <li><strong>Cream Cheese Glaze</strong>
             <ul>
-              <li>4 oz cream cheese, room temp</li>
-              <li>2 cups (240g) powdered sugar</li>
-              <li>3 Tbsp milk</li>
-              <li>1/2 tsp vanilla</li>
+              <li>4 oz cream cheese • 2 cups (240g) powdered sugar</li>
+              <li>3 Tbsp milk • 1/2 tsp vanilla</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li><strong>Bundt</strong>
             <ol>
-              <li>Preheat 350°F. Whisk dry (flour, cocoa, baking soda, salt); set aside.</li>
-              <li>Whisk oil, butter, sugar 1–2 min. Whisk in eggs, then buttermilk, vanilla, vinegar, food color.</li>
-              <li>Mix in half dry, then the rest until smooth.</li>
-              <li>Prep 10–12 cup bundt pan (oil+flour spray). Pour batter (leave ~1 cup out if using 10-cup).</li>
-              <li>Bake 45 min (10-cup) or 50–60 min (12-cup). Cool 10 min; turn out; cool 30 min more.</li>
+              <li>Preheat 350°F; whisk dry. Whisk oil, butter, sugar; add eggs, buttermilk, vanilla, vinegar, color.</li>
+              <li>Mix in dry; prep 10–12 cup pan (oil+flour spray). Pour (leave ~1 cup out if 10-cup).</li>
+              <li>Bake 45 min (10-cup) or 50–60 min (12-cup). Cool 10 min; invert; cool 30 min.</li>
             </ol>
           </li>
           <li><strong>Glaze</strong>
             <ol>
-              <li>Mix cream cheese + powdered sugar, adding milk as needed; stir in vanilla. Should be pourable.</li>
-              <li>Pour over cooled cake. Store refrigerated up to 5 days.</li>
+              <li>Blend cream cheese + sugar + milk; vanilla. Pour over cooled cake.</li>
             </ol>
           </li>
         `
       },
-
       {
         id:"whitechoclemon",
         title:"Lemon White Chocolate Cookies",
@@ -566,15 +492,11 @@
         ingredientsHTML: `
           <li><strong>Cookie Dough</strong>
             <ul>
-              <li>1 cup (226g) unsalted butter, slightly cold, cubed</li>
-              <li>3/4 cup (150g) granulated sugar</li>
-              <li>1/2 cup (110g) brown sugar, packed</li>
-              <li>2 Tbsp lemon zest</li>
-              <li>1 egg + 1 egg yolk</li>
-              <li>2 tsp lemon extract or emulsion</li>
-              <li>2 cups (240g) all-purpose flour</li>
-              <li>1 1/4 cups (144g) cake flour</li>
-              <li>1 tsp baking powder • 1/2 tsp baking soda • 1/2 tsp (3g) salt</li>
+              <li>1 cup (226g) butter, slightly cold, cubed</li>
+              <li>3/4 cup (150g) sugar • 1/2 cup (110g) brown sugar</li>
+              <li>2 Tbsp lemon zest • 1 egg + 1 yolk • 2 tsp lemon extract</li>
+              <li>2 cups (240g) AP flour • 1 1/4 cups (144g) cake flour</li>
+              <li>1 tsp baking powder • 1/2 tsp baking soda • 1/2 tsp salt</li>
               <li>16 oz white chocolate chips</li>
             </ul>
           </li>
@@ -582,18 +504,15 @@
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat oven to 400°F. Line baking sheet with parchment.</li>
-              <li>Whisk AP flour, cake flour, baking powder, baking soda, salt.</li>
-              <li>Cream butter, sugars, and zest ~2 min.</li>
-              <li>Beat in egg, yolk, and lemon extract.</li>
-              <li>Mix in dry on low just until incorporated; fold in white chocolate.</li>
-              <li>Portion 6 oz balls (4 per tray). Bake ~12 min until golden at edges.</li>
-              <li>Cool to room temp so centers set.</li>
+              <li>Preheat 400°F; line tray.</li>
+              <li>Whisk flours + leaveners + salt.</li>
+              <li>Cream butter + sugars + zest ~2 min. Beat in egg, yolk, extract.</li>
+              <li>Mix in dry just to combine; fold chips. Portion 6-oz balls (4 per tray); bake ~12 min.</li>
+              <li>Cool to set centers.</li>
             </ol>
           </li>
         `
       },
-
       {
         id:"raspberrybrownie",
         title:"Fudge Raspberry Brownie Cookies",
@@ -602,31 +521,23 @@
         ingredientsHTML: `
           <li><strong>Batter</strong>
             <ul>
-              <li>3/4 cup unsalted butter, melted</li>
-              <li>3/4 cup Dutch-process cocoa powder</li>
-              <li>1 tsp vanilla extract</li>
-              <li>1 3/4 cup packed light brown sugar</li>
-              <li>3 large eggs</li>
-              <li>3/4 cup all-purpose flour • 1/2 tsp salt</li>
-              <li>1/2 cup fresh raspberries, frozen</li>
-              <li>1/2 cup chocolate chips (optional)</li>
+              <li>3/4 cup butter, melted • 3/4 cup Dutch cocoa • 1 tsp vanilla</li>
+              <li>1 3/4 cup light brown sugar • 3 eggs</li>
+              <li>3/4 cup AP flour • 1/2 tsp salt</li>
+              <li>1/2 cup raspberries (frozen) • 1/2 cup chocolate chips (opt.)</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat 350°F. Line an 8×8&quot; pan with parchment.</li>
-              <li>Whisk butter, cocoa, vanilla until smooth.</li>
-              <li>In mixer, whip eggs + brown sugar until light and pale.</li>
-              <li>Fold butter mixture into eggs; then flour + salt.</li>
-              <li>Gently fold in raspberries and chips.</li>
-              <li>Bake ~25 min (up to 35). Edges set, center still smudgy on a knife.</li>
+              <li>Preheat 350°F; line 8×8&quot; pan.</li>
+              <li>Whisk butter+cocoa+vanilla; whip eggs+brown sugar till pale; fold together.</li>
+              <li>Fold in flour+salt; then berries+chips. Bake ~25 min (edges set, center fudgy).</li>
             </ol>
           </li>
         `
       },
-
       {
         id:"focaccia",
         rank: 3,
@@ -636,29 +547,23 @@
         ingredientsHTML: `
           <li><strong>Dough</strong>
             <ul>
-              <li>1 3/4 cups warm water (105–115°F)</li>
-              <li>2 tsp cane sugar</li>
-              <li>2 1/4 tsp active dry yeast (1 packet)</li>
-              <li>500 g all-purpose flour (≈4 cups)</li>
-              <li>2 tsp sea salt</li>
-              <li>6 Tbsp extra-virgin olive oil, plus more for hands</li>
-              <li>Flaky salt + chopped rosemary (optional)</li>
+              <li>1 3/4 cups warm water (105–115°F) • 2 tsp sugar</li>
+              <li>2 1/4 tsp active dry yeast</li>
+              <li>500 g AP flour (≈4 cups) • 2 tsp sea salt</li>
+              <li>6 Tbsp extra-virgin olive oil (+ more), flaky salt, rosemary (opt.)</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>In mixer bowl: water + sugar; sprinkle yeast; rest 5 min until foamy.</li>
-              <li>Add flour + salt; mix low to shaggy; medium 5 min to very elastic, sticky dough.</li>
-              <li>Oil a large bowl with 2 Tbsp oil; transfer dough; brush top with pooling oil. Cover; rise 1–1½ hrs to double.</li>
-              <li>Oil a 9×13&quot; pan with 2 Tbsp oil. With oiled hands, fold dough into itself to form a rough ball. Transfer to pan; coat in oil; press to edges. Rest; press again. Cover; rise ~45 min. Preheat oven to 425°F during this rise.</li>
-              <li>Drizzle remaining 2 Tbsp oil; dimple all over with fingers. Sprinkle flaky salt/rosemary. Bake 20–30 min until golden.</li>
+              <li>Bloom yeast in water+sugar 5 min. Mix in flour+salt (shaggy), then medium 5 min (elastic, sticky).</li>
+              <li>Oil bowl; rise 1–1½ h. Oil 9×13&quot; pan; fold dough; press to edges; rest 45 min. Preheat 425°F.</li>
+              <li>Dimple; drizzle oil; salt/rosemary; bake 20–30 min until golden.</li>
             </ol>
           </li>
         `
       },
-
       {
         id:"matcha",
         title:"Matcha Cookies",
@@ -667,38 +572,65 @@
         ingredientsHTML: `
           <li><strong>Dough</strong>
             <ul>
-              <li>1/2 cup unsalted butter (1 stick)</li>
-              <li>1 cup sugar</li>
+              <li>1/2 cup butter • 1 cup sugar</li>
               <li>1 tsp baking powder • 1/8 tsp baking soda • 1/2 tsp salt</li>
-              <li>2 eggs</li>
-              <li>2 cups flour</li>
-              <li>3 Tbsp matcha</li>
+              <li>2 eggs • 2 cups flour • 3 Tbsp matcha</li>
             </ul>
           </li>
           <li><strong>For Rolling</strong>
             <ul>
-              <li>1/4 cup granulated sugar</li>
-              <li>1/2 cup powdered sugar</li>
-              <li>1 tsp matcha (optional)</li>
+              <li>1/4 cup granulated sugar • 1/2 cup powdered sugar • 1 tsp matcha (opt.)</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat 350°F. Line a tray with parchment.</li>
-              <li>Cream butter with sugar, baking powder/soda, salt.</li>
-              <li>Beat in eggs until smooth.</li>
-              <li>Sift matcha into flour; mix in until combined.</li>
-              <li>Sift matcha with powdered sugar for coating.</li>
-              <li>Scoop 1.5 Tbsp balls; roll in granulated sugar, then matcha powdered sugar.</li>
+              <li>Preheat 350°F. Cream butter with sugar, baking powder/soda, salt; beat in eggs.</li>
+              <li>Sift matcha into flour; mix in. Scoop 1.5 Tbsp balls; roll in sugar, then matcha powdered sugar.</li>
               <li>Bake ~11 min. Cool.</li>
             </ol>
           </li>
         `
-      },
-
+      }
     ];
+
+    /* ===== Podium first: sort by rank (1,2,3 first), then title ===== */
+    RECIPES.sort((a, b) => {
+      const ra = (a.rank ?? 99), rb = (b.rank ?? 99);
+      return ra - rb || a.title.localeCompare(b.title);
+    });
+
+    /* ===== Medal SVG helper ===== */
+    function medalSVG(rank){
+      const pal = {
+        1: {a:'#D4AF37', b:'#FFEE88', c:'#B88A00'}, // gold
+        2: {a:'#B0B6C0', b:'#ECEFF4', c:'#8F9BA8'}, // silver
+        3: {a:'#C48745', b:'#EABF97', c:'#8A5728'}  // bronze
+      }[rank];
+      if(!pal) return "";
+      const {a,b,c} = pal;
+      return `
+        <span class="rcp-medal" aria-label="Top ${rank}">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="g${rank}" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${a}"/><stop offset="60%" stop-color="${b}"/><stop offset="100%" stop-color="${c}"/>
+              </linearGradient>
+            </defs>
+            <!-- ribbon tails -->
+            <path d="M20 40 l-6 18 10-6 8 6 8-6 10 6 -6-18" fill="#e04b4b"/>
+            <!-- medal body -->
+            <circle cx="32" cy="28" r="16" fill="url(#g${rank})" stroke="rgba(0,0,0,.18)" stroke-width="2"/>
+            <circle cx="32" cy="28" r="13" fill="url(#g${rank})" opacity=".85"/>
+            <!-- number -->
+            <text x="32" y="32" text-anchor="middle"
+                  font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto"
+                  font-size="14" font-weight="800"
+                  fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width="1">${rank}</text>
+          </svg>
+        </span>`;
+    }
 
     // ===== Render cards =====
     const grid = document.getElementById('rcpGrid');
@@ -706,13 +638,13 @@
       const el=document.createElement('article');
       el.className='rcp-card';
       el.innerHTML = `
-  <button class="rcp-toggle" data-id="${r.id}" aria-label="Open ${r.title}">
-    <div class="rcp-photo">
-      ${r.rank ? `<span class="rcp-badge rank-${r.rank}" aria-label="Top ${r.rank}">${r.rank}</span>` : ""}
-      <img src="${r.img1}" alt="${r.title} cover" loading="lazy">
-      <div class="rcp-caption">${r.title}</div>
-    </div>
-  </button>`;
+        <button class="rcp-toggle" data-id="${r.id}" aria-label="Open ${r.title}">
+          <div class="rcp-photo">
+            ${r.rank ? medalSVG(r.rank) : ""}
+            <img src="${r.img1}" alt="${r.title} cover" loading="lazy">
+            <div class="rcp-caption">${r.title}</div>
+          </div>
+        </button>`;
       grid.appendChild(el);
     });
 
