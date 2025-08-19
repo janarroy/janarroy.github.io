@@ -136,85 +136,53 @@
       background:#142d4c; color:#fff; font-size:34px; font-weight:800;
     }
     @keyframes bob { 0%,100%{ transform:rotate(-6deg) translateY(0)} 50%{ transform:rotate(-6deg) translateY(4px)} }
-/* wipe the old hero look */
-.hero.hero-recipecard{
-  margin: 28px 0 6px;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
 
+    /* wipe the old hero look */
+    .hero.hero-recipecard{ margin: 28px 0 6px; padding: 0; background: transparent; border: 0; box-shadow: none; }
 
-/* Paper recipe card – lined, pinned with “tape”, red margin line */
-.recipe-card{
-  position: relative;
-  padding: 26px 24px 22px 56px;          /* room for red margin */
-  max-width: 980px;
-  border-radius: 14px;
-  border: 1px solid rgba(17,19,24,.10);
-  margin: 0 auto;
-  background:
-    /* faint white sheet */
-    linear-gradient(#ffffffee, #ffffffee),
-    /* blue ruled lines */
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0 29px,
-      rgba(17, 94, 201, .10) 30px 30.5px
-    );
-  box-shadow: 0 12px 32px rgba(17,19,24,.08);
-  backdrop-filter: saturate(1.05);
-  transform: rotate(-.2deg);
-  transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s;
-}
-.recipe-card:hover{
-  transform: rotate(0deg) translateY(-1px);
-  box-shadow: 0 16px 38px rgba(17,19,24,.12);
-}
+    /* Paper recipe card – lined, pinned with “tape”, red margin line */
+    .recipe-card{
+      position: relative;
+      padding: 26px 24px 22px 56px;
+      max-width: 980px;
+      border-radius: 14px;
+      border: 1px solid rgba(17,19,24,.10);
+      margin: 0 auto;
+      background:
+        linear-gradient(#ffffffee, #ffffffee),
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0 29px,
+          rgba(17, 94, 201, .10) 30px 30.5px
+        );
+      box-shadow: 0 12px 32px rgba(17,19,24,.08);
+      backdrop-filter: saturate(1.05);
+      transform: rotate(-.2deg);
+      transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s;
+    }
+    .recipe-card:hover{ transform: rotate(0deg) translateY(-1px); box-shadow: 0 16px 38px rgba(17,19,24,.12); }
 
-/* red margin line on paper */
-.recipe-card::before{
-  content:"";
-  position:absolute; inset: 0 auto 0 36px;
-  width: 2px; background: rgba(220,38,38,.28);
-  border-radius: 2px;
-}
+    .recipe-card::before{
+      content:""; position:absolute; inset: 0 auto 0 36px;
+      width: 2px; background: rgba(220,38,38,.28); border-radius: 2px;
+    }
+    .recipe-card::after{
+      content:""; position:absolute; top:-14px; left:14px;
+      width: 86px; height: 22px; border-radius: 6px;
+      transform: rotate(-8deg);
+      background:
+        linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25% 50%, rgba(0,0,0,.06) 50% 75%, transparent 75%) 0/12px 12px,
+        rgba(255, 230, 180, .85);
+      box-shadow: 0 8px 16px rgba(17,19,24,.15);
+      mix-blend-mode: multiply;
+    }
 
-/* “washi tape” pin at top-left */
-.recipe-card::after{
-  content:"";
-  position:absolute; top:-14px; left:14px;
-  width: 86px; height: 22px; border-radius: 6px;
-  transform: rotate(-8deg);
-  background:
-    linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25% 50%, rgba(0,0,0,.06) 50% 75%, transparent 75%) 0/12px 12px,
-    rgba(255, 230, 180, .85);
-  box-shadow: 0 8px 16px rgba(17,19,24,.15);
-  mix-blend-mode: multiply;
-}
-
-/* Typography */
-.recipe-card h1{
-  margin: 0 0 6px;
-  font-size: clamp(28px, 3.8vw, 40px);
-  line-height: 1.15;
-}
-.recipe-card p{
-  margin: 0;
-  max-width: 70ch;
-  line-height: 1.55;
-  font-size: clamp(15px, 1.9vw, 16px);
-  color: #222;
-}
-
-/* a tiny whisk doodle in the corner (inline SVG via data-URL) */
-.recipe-card .whisk{ display:none; } /* if you want a real <img>, ignore this */
-.recipe-card:has(.whisk), .recipe-card{
-  /* add the whisk automatically with a pseudo background */
-}
-.recipe-card{
-  --whisk: url("data:image/svg+xml;utf8,\
+    .recipe-card h1{ margin: 0 0 6px; font-size: clamp(28px, 3.8vw, 40px); line-height: 1.15; }
+    .recipe-card p{ margin: 0; max-width: 70ch; line-height: 1.55; font-size: clamp(15px, 1.9vw, 16px); color: #222; }
+    .recipe-card .whisk{ display:none; }
+    .recipe-card:has(.whisk), .recipe-card{}
+    .recipe-card{
+      --whisk: url("data:image/svg+xml;utf8,\
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>\
     <g fill='none' stroke='%23222' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
       <path d='M41 46 L53 58'/>\
@@ -222,224 +190,127 @@
       <path d='M18 15 l-6 6'/>\
     </g>\
   </svg>");
-  background-image: var(--whisk), linear-gradient(#0000,#0000); /* keep existing backgrounds */
-  background-repeat: no-repeat;
-  background-position: right 14px bottom 10px, 0 0;
-  background-size: 62px 62px, auto;
-}
-
-/* Keep your floating Munchlax as-is */
-
+      background-image: var(--whisk), linear-gradient(#0000,#0000);
+      background-repeat: no-repeat;
+      background-position: right 14px bottom 10px, 0 0;
+      background-size: 62px 62px, auto;
+    }
 
     /* Floating Munchlax sticker (fully visible, outside the hero) */
-.munchlax-sticker{
-  position: fixed;
-  right: 18px;           /* move it here */
-  bottom: 18px;          /* …and here if you want a different corner */
-  width: 120px;
-  height: 120px;
-  z-index: 55;           /* below modal (z 60/61), above page */
-  cursor: grab;
-  filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
-  user-select: none;
-  transition: transform .2s ease;
-}
-.munchlax-sticker:active{ cursor: grabbing; transform: scale(.98); }
-.munchlax-sticker img{ width: 100%; height: 100%; object-fit: contain; display: block; }
-@media (max-width: 680px){
-  .munchlax-sticker{ width: 86px; height: 86px; right: 12px; bottom: 12px; }
-}
-/* Hide the sticker while the lightbox is open (body gets .no-scroll) */
-body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
+    .munchlax-sticker{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 120px; height: 120px;
+      z-index: 55; cursor: grab;
+      user-select: none; transition: transform .2s ease;
+    }
+    .munchlax-sticker:active{ cursor: grabbing; transform: scale(.98); }
+    .munchlax-sticker img{ width: 100%; height: 100%; object-fit: cover; border-radius: 50%; box-shadow: 0 10px 18px rgba(0,0,0,.25); }
+    @media (max-width: 680px){ .munchlax-sticker{ width: 86px; height: 86px; right: 12px; bottom: 12px; } }
+    body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
 
-/* Rounded, card-like Munchlax */
-.munchlax-sticker{
-  border-radius: 16px;
-  overflow: hidden;                     /* clips the gif corners */
-  background: rgba(255,255,255,.6);     /* optional soft card behind the gif */
-  border: 1px solid rgba(17,19,24,.08); /* optional thin border */
-  backdrop-filter: saturate(1.05) blur(2px);
-}
+    /* ===== Scrapbook hero layout ===== */
+    .hero-collage{
+      --gap: 18px;
+      display: grid;
+      grid-template-columns: 1fr min(32vw, 280px);
+      align-items: center;
+      gap: var(--gap);
+      margin: 28px 0 10px;
+    }
+    @media (max-width: 820px){ .hero-collage{ grid-template-columns: 1fr; } }
 
-.munchlax-sticker img{
-  border-radius: inherit;               /* keeps corners matched */
-}
+    /* ===== Lined note with folded corner ===== */
+    .note{
+      position: relative;
+      padding: 26px 22px 22px 56px;
+      border-radius: 14px;
+      border: 1px solid rgba(17,19,24,.10);
+      background:
+        linear-gradient(#ffffffee,#ffffffee),
+        repeating-linear-gradient(to bottom, transparent 0 28px, rgba(30,97,195,.10) 29px 29.5px);
+      box-shadow: 0 12px 28px rgba(17,19,24,.10);
+      transform: rotate(-.3deg);
+      transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s;
+    }
+    .note:hover{ transform: rotate(0deg) translateY(-1px); box-shadow: 0 16px 36px rgba(17,19,24,.14); }
 
-/* Sticker wrapper: no card chrome */
-.munchlax-sticker{
-  background: transparent;
-  border: 0;
-  backdrop-filter: none;
-  overflow: visible;      /* don't clip */
-  border-radius: 0;
-  filter: none;           /* remove drop-shadow from the RECT wrapper */
-}
+    .note::before{
+      content:"";
+      position:absolute; inset: 0 auto 0 36px; width:2px;
+      background: rgba(220,38,38,.28); border-radius:2px;
+    }
+    .note::after{
+      content:"";
+      position:absolute; top:-10px; right:16px; width:75px; height:26px;
+      transform: rotate(7deg);
+      background:
+        linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25% 50%, rgba(0,0,0,.06) 50% 75%, transparent 75%) 0/12px 12px,
+        rgba(255, 230, 180, .85);
+      border-radius: 6px;
+      box-shadow: 0 8px 16px rgba(17,19,24,.15);
+      mix-blend-mode: multiply;
+    }
 
-/* Round the actual GIF */
-.munchlax-sticker img{
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;     /* <- the gif itself is circular now */
-  box-shadow: 0 10px 18px rgba(0,0,0,.25); /* shadow follows the circle */
-}
-
-/* ===== Scrapbook hero layout ===== */
-.hero-collage{
-  --gap: 18px;
-  display: grid;
-  grid-template-columns: 1fr min(32vw, 280px);
-  align-items: center;
-  gap: var(--gap);
-  margin: 28px 0 10px;
-}
-@media (max-width: 820px){
-  .hero-collage{ grid-template-columns: 1fr; }
-}
-
-/* ===== Lined note with folded corner (not a pill/oval) ===== */
-.note{
-  position: relative;
-  padding: 26px 22px 22px 56px;      /* room for red margin line */
-  border-radius: 14px;
-  border: 1px solid rgba(17,19,24,.10);
-  background:
-    linear-gradient(#ffffffee,#ffffffee),
-    repeating-linear-gradient(to bottom, transparent 0 28px, rgba(30,97,195,.10) 29px 29.5px);
-  box-shadow: 0 12px 28px rgba(17,19,24,.10);
-  transform: rotate(-.3deg);
-  transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s;
-}
-.note:hover{ transform: rotate(0deg) translateY(-1px); box-shadow: 0 16px 36px rgba(17,19,24,.14); }
-
-/* red margin line like notebook paper */
-.note::before{
-  content:"";
-  position:absolute; inset: 0 auto 0 36px; width:2px;
-  background: rgba(220,38,38,.28);
-  border-radius:2px;
-}
-
-/* folded corner (dog-ear) */
-.note::after{
-  content:"";
-  position:absolute; top:-10px; right:16px; width:75px; height:26px;
-  transform: rotate(7deg);
-  background:
-    linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25% 50%, rgba(0,0,0,.06) 50% 75%, transparent 75%) 0/12px 12px,
-    rgba(255, 230, 180, .85);
-  border-radius: 6px;
-  box-shadow: 0 8px 16px rgba(17,19,24,.15);
-  mix-blend-mode: multiply;
-}
-
-/* Toasty gradient title (no rainbow) */
-.title-spark{
-  background: linear-gradient(90deg,#6b3e2e 0%, #b96c38 40%, #f1a24b 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-}
-
-/* Cocoa “swoosh” underline under the title */
-.title-spark::after{
-  content:"";
-  position:absolute; left:0; right:0; bottom:-4px; height:10px;
-  background:
-    url("data:image/svg+xml;utf8,\
+    /* Toasty gradient title (no rainbow) */
+    .title-spark{
+      background: linear-gradient(90deg,#6b3e2e 0%, #b96c38 40%, #f1a24b 100%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .title-spark::after{
+      content:"";
+      position:absolute; left:0; right:0; bottom:-4px; height:10px;
+      background:
+        url("data:image/svg+xml;utf8,\
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'>\
         <path d='M2 12 Q20 2,40 12 T80 12 T120 12 T160 12 T198 12' \
               fill='none' stroke='rgba(107,62,46,.45)' stroke-width='6' stroke-linecap='round'/>\
       </svg>") center/100% 100% no-repeat;
-  pointer-events:none;
-}
+      pointer-events:none;
+    }
 
-.note h1{ margin:0 0 6px; font-size: clamp(28px,3.8vw,40px); line-height:1.15; }
-.note p{ margin:0; max-width:70ch; line-height:1.55; font-size: clamp(15px,1.9vw,16px); color:#222; }
+    .note h1{ margin:0 0 6px; font-size: clamp(28px,3.8vw,40px); line-height:1.15; }
+    .note p{ margin:0; max-width:70ch; line-height:1.55; font-size: clamp(15px,1.9vw,16px); color:#222; }
 
-/* ===== Polaroid photo ===== */
-.polaroid{
-  justify-self: end;
-  width: min(32vw, 280px);
-  background:#fff;
-  border-radius: 10px;
-  padding: 10px 10px 46px;
-  box-shadow: 0 15px 30px rgba(17,19,24,.22);
-  transform: rotate(3deg);
-  position: relative;
-}
-.polaroid img{ width:100%; height:auto; display:block; border-radius:6px; }
-.polaroid figcaption{
-  position:absolute; left:12px; right:12px; bottom:10px;
-  font-size:12.5px; letter-spacing:.2px; color:#111;
-  opacity:.8; text-align:center;
-}
-.polaroid::before{
-  /* small tape strip on the photo */
-  content:""; position:absolute; top:-10px; left:14px; width:64px; height:22px;
-  background:
-    linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25% 50%, rgba(0,0,0,.06) 50% 75%, transparent 75%) 0/12px 12px,
-    rgba(255, 230, 180, .9);
-  border-radius:6px; transform: rotate(-10deg);
-  box-shadow: 0 8px 16px rgba(17,19,24,.18);
-}
-@media (max-width:820px){
-  .polaroid{ justify-self: start; transform: rotate(-2deg); width: min(78vw, 320px); }
-}
+    /* ===== Polaroid photo ===== */
+    .polaroid{
+      justify-self: end;
+      width: min(32vw, 280px);
+      background:#fff;
+      border-radius: 10px;
+      padding: 10px 10px 46px;
+      box-shadow: 0 15px 30px rgba(17,19,24,.22);
+      transform: rotate(3deg);
+      position: relative;
+    }
+    .polaroid img{ width:100%; height:auto; display:block; border-radius:6px; }
+    .polaroid figcaption{
+      position:absolute; left:12px; right:12px; bottom:10px;
+      font-size:12.5px; letter-spacing:.2px; color:#111;
+      opacity:.8; text-align:center;
+    }
+    .polaroid::before{
+      content:""; position:absolute; top:-10px; left:14px; width:64px; height:22px;
+      background:
+        linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25% 50%, rgba(0,0,0,.06) 50% 75%, transparent 75%) 0/12px 12px,
+        rgba(255, 230, 180, .9);
+      border-radius:6px; transform: rotate(-10deg);
+      box-shadow: 0 8px 16px rgba(17,19,24,.18);
+    }
+    @media (max-width:820px){
+      .polaroid{ justify-self: start; transform: rotate(-2deg); width: min(78vw, 320px); }
+    }
 
-/* tighten the gap between nav and hero, and hero to next section */
-.hero-collage{ margin: 10px auto 6px; }        /* was bigger */
-
-/* clean, non-widget label */
-.section-kicker{
-  max-width: 1100px;
-  margin: 6px auto 10px;                        /* closer to the grid */
-  line-height: 1;
-  position: relative;
-  padding: 0;
-}
-.section-kicker span{
-  background: none; border: 0; border-radius: 0; box-shadow: none;
-  padding: 0; margin: 0;
-  font-weight: 800;
-  letter-spacing: .2px;
-  font-size: clamp(18px, 2.2vw, 22px);
-  position: relative;
-}
-
-/* short underline just under the text (buttery gradient) */
-.section-kicker span::after{
-  content:"";
-  position:absolute; left:0; bottom:-6px;
-  width: 92px; height: 4px; border-radius: 3px;
-  background: linear-gradient(90deg,#ffbb55,#ffd992);
-}
-
-/* remove the long horizontal line behind the label */
-.section-kicker::after{ content:none !important; }
-
-
-/* tiny nudge for small screens */
-@media (max-width: 820px){
-  .hero-collage{ margin: 14px auto 4px; }
-  .section-kicker{ margin: 4px auto 10px; }
-}
-
-/* 3) spacing tweaks near the grid & bottom */
-.rcp-grid{            /* your recipe cards section */
-  margin-top: 6px;
-  margin-bottom: 24px;
-}
-
-/* If the page wrapper has big bottom padding, soften it */
-main, .content, body {
-  --bottom-pad: 24px;   /* only takes effect if your CSS uses this var */
-}
-
-/* If you still see extra bottom space, force-trim it (optional) */
-/* body { padding-bottom: 24px !important; } */
-/* .page, .content, main { padding-bottom: 24px !important; } */
-
-
+    /* tighten gaps */
+    .hero-collage{ margin: 10px auto 6px; }
+    .section-kicker{ max-width: 1100px; margin: 6px auto 10px; line-height:1; position:relative; padding:0; }
+    .section-kicker span{ background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin:0;font-weight:800;letter-spacing:.2px;font-size:clamp(18px,2.2vw,22px);position:relative;}
+    .section-kicker span::after{ content:""; position:absolute; left:0; bottom:-6px; width:92px; height:4px; border-radius:3px; background:linear-gradient(90deg,#ffbb55,#ffd992);}
+    .section-kicker::after{ content:none !important; }
+    @media (max-width: 820px){ .hero-collage{ margin:14px auto 4px; } .section-kicker{ margin:4px auto 10px; } }
+    .rcp-grid{ margin-top:6px; margin-bottom:24px; }
+    main, .content, body { --bottom-pad: 24px; }
   </style>
 </head>
 <body>
@@ -462,26 +333,25 @@ main, .content, body {
 
   <main class="container work">
     <!-- Scrapbook hero (note + polaroid) -->
-<section class="hero-collage" aria-label="About this page">
-  <div class="note">
-    <h1><span class="title-spark">Bakes For My Friends! :) </span></h1>
-    <p>
-      I like trying new recipes and turning raw ingredients into something that makes friends smile.
-      I bring cakes for birthdays and job offers, cookies for study breaks, and focaccia for random Tuesdays.
-      Open any card to see another photo and the full recipe.
-    </p>
-  </div>
+    <section class="hero-collage" aria-label="About this page">
+      <div class="note">
+        <h1><span class="title-spark">Bakes For My Friends! :) </span></h1>
+        <p>
+          I like trying new recipes and turning raw ingredients into something that makes friends smile.
+          I bring cakes for birthdays and job offers, cookies for study breaks, and focaccia for random Tuesdays.
+          Open any card to see another photo and the full recipe.
+        </p>
+      </div>
 
-  <figure class="polaroid">
-    <img src="images/Eug+Jan.JPG" alt="Cutting a cake with a friend">
-    <figcaption>cake-cutting crew</figcaption>
-  </figure>
-</section>
+      <figure class="polaroid">
+        <img src="images/Eug+Jan.JPG" alt="Cutting a cake with a friend">
+        <figcaption>cake-cutting crew</figcaption>
+      </figure>
+    </section>
 
-<h2 class="section-kicker" id="recipes">
-  <span>Recipes</span>
-</h2>
-
+    <h2 class="section-kicker" id="recipes">
+      <span>Recipes</span>
+    </h2>
 
     <!-- Cards -->
     <section class="rcp-grid" id="rcpGrid"><!-- cards injected by JS --></section>
@@ -518,10 +388,11 @@ main, .content, body {
       </div>
     </article>
   </div>
-<!-- Floating Munchlax sticker -->
-<div id="munchlaxSticker" class="munchlax-sticker" aria-label="Munchlax sticker">
-  <img src="images/munchlax-pokemon.gif" alt="Munchlax enjoying snacks">
-</div>
+
+  <!-- Floating Munchlax sticker -->
+  <div id="munchlaxSticker" class="munchlax-sticker" aria-label="Munchlax sticker">
+    <img src="images/munchlax-pokemon.gif" alt="Munchlax enjoying snacks">
+  </div>
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
@@ -544,30 +415,32 @@ main, .content, body {
         ingredientsHTML: `
           <li><strong>Cake</strong>
             <ul>
-              <li>3 cups AP flour • 2½ tsp baking powder • 1/2 tsp baking soda • 1/2 tsp salt</li>
-              <li>1 cup butter • 1¾ cups sugar • 3 eggs • 2 tsp vanilla • 1 cup milk</li>
-              <li>1 Tbsp lemon zest • 1/3 cup lemon juice</li>
+              <li>3 cups (354g) AP flour • 2½ tsp baking powder • 1/2 tsp baking soda • 1/2 tsp salt</li>
+              <li>1 cup (226g) butter (room temp) • 1¾ cups (350g) sugar • 3 large eggs • 2 tsp vanilla</li>
+              <li>1 cup (240ml) whole milk (room temp) • 1 Tbsp lemon zest • 1/3 cup (80ml) fresh lemon juice</li>
             </ul>
           </li>
           <li><strong>Cream Cheese Buttercream</strong>
             <ul>
-              <li>1 cup butter • 8 oz cream cheese • 4½ cups confectioners’ sugar</li>
-              <li>2 Tbsp lemon juice • 1 tsp vanilla • pinch salt</li>
+              <li>1 cup (226g) butter (room temp) • 8 oz (226g) cream cheese (room temp)</li>
+              <li>4½ cups (540g) confectioners’ sugar • 2 Tbsp (30ml) lemon juice • 1 tsp vanilla • pinch salt</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li><strong>Bake the Cake</strong>
             <ol>
-              <li>Preheat 350°F. Grease and line three 8\" pans.</li>
-              <li>Cream butter with sugar ~3 min; beat in eggs and vanilla.</li>
-              <li>Mix in dry just until combined; add milk, zest, juice; mix just until combined.</li>
-              <li>Divide and bake 21–26 min. Cool completely.</li>
+              <li>Preheat oven to 350°F (177°C). Grease three 8\" pans; line with parchment.</li>
+              <li>Whisk flour, baking powder, baking soda, and salt.</li>
+              <li>Beat butter and sugar until smooth and creamy (~3 min). Beat in eggs and vanilla.</li>
+              <li>With mixer on low, add dry ingredients just until combined. Add milk, zest, and lemon juice; mix just until smooth.</li>
+              <li>Divide into pans and bake 21–26 minutes or until a toothpick comes out clean. Cool completely.</li>
             </ol>
           </li>
           <li><strong>Frosting</strong>
             <ol>
-              <li>Beat butter 2 min; blend in cream cheese. Add sugar, lemon juice, vanilla; beat 3 min.</li>
+              <li>Beat butter 2 min; add cream cheese and beat smooth. Add sugar, lemon juice, vanilla, and salt; beat 3 min until fluffy.</li>
+              <li>Level cakes if needed and frost. Chill 30–45 min before slicing for clean cuts.</li>
             </ol>
           </li>
         `
@@ -582,18 +455,24 @@ main, .content, body {
         ingredientsHTML: `
           <li><strong>Dough</strong>
             <ul>
-              <li>2 sticks unsalted butter, softened • 1 cup sugar</li>
-              <li>2 egg yolks • 2½ cups AP flour • 1 tsp salt • strawberry jam</li>
+              <li>2 sticks softened butter • 1 cup sugar</li>
+              <li>2 egg yolks</li>
+              <li>2½ cups AP flour • 1 tsp salt</li>
+              <li>Strawberry jam • Extra sugar for rolling</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Cream butter with sugar. Mix in yolks.</li>
-              <li>Add flour and salt; mix to a dough.</li>
-              <li>Roll balls; roll in sugar; press a thumb well; fill with jam.</li>
-              <li>Bake 350°F for 8–10 min.</li>
+              <li>Cream butter and sugar together.</li>
+              <li>Mix in egg yolks.</li>
+              <li>Add flour and salt; mix until a dough forms.</li>
+              <li>Roll into small balls and roll each in sugar.</li>
+              <li>Place on a baking sheet; press your thumb into the center.</li>
+              <li>Fill the well with strawberry jam.</li>
+              <li>Bake at 350°F for 8–10 minutes.</li>
+              <li>Cool on the sheet a few minutes, then transfer to a rack.</li>
             </ol>
           </li>
         `
@@ -607,17 +486,20 @@ main, .content, body {
         ingredientsHTML: `
           <li><strong>Dough</strong>
             <ul>
-              <li>1 3/4 cups warm water • 2 tsp sugar • 2 1/4 tsp active dry yeast</li>
-              <li>500 g AP flour • 2 tsp sea salt • 6 Tbsp olive oil</li>
+              <li>1¾ cups warm water (105–115°F) • 2 tsp cane sugar • 1 packet (2¼ tsp) active dry yeast</li>
+              <li>500 g AP flour (4 cups) • 2 tsp sea salt • 6 Tbsp extra-virgin olive oil</li>
+              <li>Flaky salt & chopped rosemary (optional)</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Bloom yeast in water with sugar 5 min. Mix in flour and salt; knead 5 min.</li>
-              <li>Rise 1–1½ h. Oil 9×13\" pan; fold dough; press to edges; rest 45 min. Preheat 425°F.</li>
-              <li>Dimple; drizzle oil; salt and rosemary; bake 20–30 min until golden.</li>
+              <li>Stir water and sugar in mixer bowl. Sprinkle yeast on top; let foam ~5 min.</li>
+              <li>Add flour and salt. Mix low to shaggy, then medium 5 min until very elastic and sticky.</li>
+              <li>Oil a large bowl with 2 Tbsp oil. Scrape in dough, lightly oil the top, cover, and rise until doubled (1–1½ h).</li>
+              <li>Oil a 9×13\" pan with 2 Tbsp oil. Fold dough into a rough ball, transfer to pan, turn to coat, and press to edges. Rest 45 min while heating oven to 425°F.</li>
+              <li>Drizzle remaining 2 Tbsp oil. Dimple all over with oiled fingers; sprinkle flaky salt and rosemary. Bake 20–30 min until golden.</li>
             </ol>
           </li>
         `
@@ -625,20 +507,55 @@ main, .content, body {
       {
         id:"blackberrylavender",
         title:"Blackberry Lavender Cake",
-        meta:"Lavender milk and syrup • Cream cheese buttercream",
+        meta:"Lavender milk & syrup • Cream cheese buttercream",
         img1:p("Blackberry_cake.JPG"),
         ingredientsHTML: `
-          <li><strong>Lavender Milk</strong> milk and lavender steeped 20 min, strained and cooled</li>
-          <li><strong>Lavender Syrup</strong> water, sugar, lavender simmered 10 min, strained</li>
-          <li><strong>Cake</strong> cake flour, sugar, baking powder, salt, butter, vanilla, eggs, sour cream</li>
-          <li><strong>Buttercream</strong> butter, cream cheese, confectioners’ sugar, milk, vanilla, salt; blackberry jam inside rings</li>
+          <li><strong>Lavender Milk</strong>
+            <ul><li>1 cup whole milk • 2 tsp dried culinary lavender</li></ul>
+          </li>
+          <li><strong>Lavender Syrup</strong>
+            <ul><li>1/2 cup water • 1/2 cup sugar • 2 tsp dried culinary lavender</li></ul>
+          </li>
+          <li><strong>Cake</strong>
+            <ul>
+              <li>1/4 cup sour cream (room temp)</li>
+              <li>2½ cups cake flour • 1½ cups sugar • 1 Tbsp baking powder • 1/2 tsp salt</li>
+              <li>1 cup unsalted butter (soft) • 1½ tsp vanilla • 4 large eggs (room temp)</li>
+              <li>All of the cooled lavender milk</li>
+            </ul>
+          </li>
+          <li><strong>Cream Cheese Buttercream & Assembly</strong>
+            <ul>
+              <li>1 cup butter (soft) • 8 oz cream cheese (soft) • 5½ cups confectioners’ sugar</li>
+              <li>2 Tbsp milk • 2 tsp vanilla • pinch salt • 1/2–1 cup blackberry jam</li>
+              <li>Optional: purple/mauve food coloring & fresh blackberries</li>
+            </ul>
+          </li>
         `,
         stepsHTML: `
-          <li>
+          <li><strong>Lavender Milk</strong>
             <ol>
-              <li>Preheat 350°F. Line three 8\" pans. Mix dry with butter, vanilla, and half milk mixture 1 min.</li>
-              <li>Whisk eggs into remaining milk; add in 3 parts. Bake 20–22 min. Brush layers with syrup.</li>
-              <li>Frost and fill with jam; chill; finish and garnish.</li>
+              <li>Simmer milk; remove from heat; stir in lavender; steep 20 min. Strain and cool completely.</li>
+            </ol>
+          </li>
+          <li><strong>Lavender Syrup</strong>
+            <ol>
+              <li>Boil water and sugar; reduce to low, add lavender; simmer 10 min. Cool and strain. Reserve for brushing cakes.</li>
+            </ol>
+          </li>
+          <li><strong>Cake</strong>
+            <ol>
+              <li>Preheat 350°F. Grease three 8\" pans; line with parchment.</li>
+              <li>Stir sour cream into cooled lavender milk.</li>
+              <li>Sift cake flour, sugar, baking powder, and salt into mixer bowl. Add butter, vanilla, and half the milk mixture; mix 1 min.</li>
+              <li>Whisk eggs into remaining milk mixture. With mixer running, add in 3 additions (15 sec each), scraping as needed. Don’t overmix.</li>
+              <li>Divide batter and bake 20–22 min. Cool completely, then brush layers generously with lavender syrup.</li>
+            </ol>
+          </li>
+          <li><strong>Buttercream & Assembly</strong>
+            <ol>
+              <li>Beat butter and cream cheese 2 min. Add sugar, milk, vanilla, and salt; beat 3 min. Tint part of the frosting purple if desired.</li>
+              <li>Layer cakes: pipe a white frosting “dam”, spoon blackberry jam inside, repeat. Crumb coat; chill 15 min. Frost and garnish with blackberries.</li>
             </ol>
           </li>
         `
@@ -650,14 +567,36 @@ main, .content, body {
         img1:p("Confetti_Cake1.JPG"),
         img2:p("Confetti_Cake2.JPG"),
         ingredientsHTML: `
-          <li><strong>Cake</strong> cake flour, baking powder, baking soda, salt, butter, sugar, oil, eggs, egg whites, vanilla, buttermilk, sprinkles</li>
-          <li><strong>Buttercream</strong> butter, confectioners’ sugar, cream, vanilla, salt</li>
+          <li><strong>Cake</strong>
+            <ul>
+              <li>3¾ cups cake flour • 1 tsp baking powder • 1 tsp baking soda • 1 tsp salt</li>
+              <li>1¼ cups butter (soft) • 2 cups sugar • 1/3 cup vegetable oil</li>
+              <li>4 eggs + 2 egg whites (room temp) • 3 tsp vanilla</li>
+              <li>1½ cups buttermilk (room temp) • 3/4 cup rainbow sprinkles</li>
+            </ul>
+          </li>
+          <li><strong>Vanilla Buttercream</strong>
+            <ul>
+              <li>1½ cups butter (soft) • 5½ cups confectioners’ sugar • 1/3 cup heavy cream (room temp)</li>
+              <li>3 tsp vanilla • 1/8 tsp salt • sprinkles for garnish</li>
+            </ul>
+          </li>
         `,
         stepsHTML: `
-          <li>
+          <li><strong>Bake the Cake</strong>
             <ol>
-              <li>Preheat 350°F. Cream butter and sugar 5 min; add oil, then eggs and vanilla.</li>
-              <li>Alternate dry and buttermilk; fold sprinkles. Bake ~25–26 min. Cool and frost.</li>
+              <li>Preheat 350°F. Grease and line three 8\" or 9\" pans.</li>
+              <li>Whisk flour, baking powder, baking soda, and salt.</li>
+              <li>Beat butter and sugar on high for 5 min until fluffy; scrape bowl. Add oil; beat 1 min. Beat in eggs, egg whites, and vanilla.</li>
+              <li>Add dry ingredients and buttermilk in 3 additions, mixing just until incorporated. Fold in sprinkles.</li>
+              <li>Divide into pans; bake ~25–26 min (8\" may need 27–28). Tent if browning. Cool 20 min, then turn out and cool completely.</li>
+            </ol>
+          </li>
+          <li><strong>Frosting & Assembly</strong>
+            <ol>
+              <li>Beat butter 2 min. Add sugar, cream, vanilla, and salt; beat low 30 sec, then high 2 min (adjust consistency).</li>
+              <li>Level cakes. Layer with ~1 cup frosting between layers. Apply thin crumb coat; chill 30+ min. Frost and add sprinkles.</li>
+              <li>Serve at room temp; refrigerate leftovers up to 5 days.</li>
             </ol>
           </li>
         `
@@ -668,14 +607,30 @@ main, .content, body {
         meta:"Toasted pecans • Cream cheese frosting",
         img1:p("Carrot_Cake.JPG"),
         ingredientsHTML: `
-          <li><strong>Cake</strong> pecans, sugars, oil, eggs, applesauce, vanilla, flour, baking powder, baking soda, salt, spices, carrots</li>
-          <li><strong>Frosting</strong> cream cheese, butter, confectioners’ sugar, vanilla, salt</li>
+          <li><strong>Cake</strong>
+            <ul>
+              <li>2 cups chopped pecans (1 cup in batter, 1 cup for garnish)</li>
+              <li>1½ cups packed brown sugar • 1/2 cup sugar • 1 cup oil</li>
+              <li>4 eggs • 3/4 cup applesauce • 1 tsp vanilla</li>
+              <li>2½ cups AP flour • 2 tsp baking powder • 1 tsp baking soda • 1/2 tsp salt</li>
+              <li>1½ tsp cinnamon • 1 tsp ginger • 1/4 tsp nutmeg • 1/4 tsp cloves</li>
+              <li>2 cups grated carrots</li>
+            </ul>
+          </li>
+          <li><strong>Cream Cheese Frosting</strong>
+            <ul><li>16 oz cream cheese • 1/2 cup butter • 4 cups confectioners’ sugar • 1½ tsp vanilla • pinch salt</li></ul>
+          </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Toast pecans. Bake in 2 or 3 pans at 350°F (20–35 min). Cool completely.</li>
-              <li>Frost and stack; press pecans on sides; chill to set.</li>
+              <li>Toast pecans at 300°F for 7–8 min; cool.</li>
+              <li>Increase oven to 350°F. Grease two or three 9\" pans; line with parchment.</li>
+              <li>Whisk brown sugar, sugar, oil, eggs, applesauce, and vanilla.</li>
+              <li>In another bowl whisk flour, baking powder, baking soda, salt, and spices.</li>
+              <li>Combine wet and dry just until mixed. Fold in carrots and 1 cup toasted pecans.</li>
+              <li>Divide into pans; bake 20–24 min (three pans) or 30–35 min (two pans). Cool completely.</li>
+              <li>Beat frosting ingredients 3 min until creamy. Layer and frost cake. Press remaining pecans onto sides. Chill 15–20 min to set.</li>
             </ol>
           </li>
         `
@@ -687,13 +642,26 @@ main, .content, body {
         img1:p("WhiteChocolateLemon.JPG"),
         img2:p("WhiteChocolateLemon2.JPG"),
         ingredientsHTML: `
-          <li><strong>Dough</strong> butter, sugar, brown sugar, lemon zest, egg, yolk, lemon extract, AP flour, cake flour, baking powder, baking soda, salt, white chocolate chips</li>
+          <li><strong>Dough</strong>
+            <ul>
+              <li>1 cup butter (slightly cold, cubed)</li>
+              <li>3/4 cup sugar • 1/2 cup packed brown sugar • zest of 2 lemons</li>
+              <li>1 egg + 1 yolk • 2 tsp lemon extract/emulsion</li>
+              <li>2 cups AP flour • 1¼ cups cake flour</li>
+              <li>1 tsp baking powder • 1/2 tsp baking soda • 1/2 tsp salt</li>
+              <li>16 oz white chocolate chips</li>
+            </ul>
+          </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat 400°F. Cream butter, sugars, zest. Add egg, yolk, extract.</li>
-              <li>Mix in dry; fold chips. Portion 6-oz balls; bake ~12 min; cool.</li>
+              <li>Preheat oven to 400°F. Line sheets with parchment.</li>
+              <li>Whisk AP flour, cake flour, baking powder, baking soda, and salt.</li>
+              <li>Beat butter, sugars, and lemon zest ~2 min until light.</li>
+              <li>Beat in egg, yolk, and lemon extract.</li>
+              <li>Mix in dry ingredients on low just until combined; fold in chips.</li>
+              <li>Portion into 6-oz balls. Bake ~12 min until edges are golden. Cool to set centers.</li>
             </ol>
           </li>
         `
@@ -704,14 +672,23 @@ main, .content, body {
         meta:"8×8 pan • extra fudgy",
         img1:p("RaspberryBrownie.JPG"),
         ingredientsHTML: `
-          <li><strong>Batter</strong> butter, Dutch cocoa, vanilla, brown sugar, eggs, flour, salt, raspberries, chocolate chips</li>
+          <li><strong>Batter</strong>
+            <ul>
+              <li>3/4 cup melted unsalted butter • 3/4 cup Dutch-process cocoa • 1 tsp vanilla</li>
+              <li>1¾ cups packed light brown sugar • 3 large eggs</li>
+              <li>3/4 cup AP flour • 1/2 tsp salt</li>
+              <li>1/2 cup fresh raspberries (frozen works) • 1/2 cup chocolate chips (optional)</li>
+            </ul>
+          </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat 350°F; line pan. Whisk butter with cocoa and vanilla.</li>
-              <li>Whip eggs with sugar until pale; fold together. Add flour and salt, then berries and chips.</li>
-              <li>Bake ~25 min; center should be fudgy.</li>
+              <li>Preheat 350°F. Grease and line an 8×8\" pan with parchment.</li>
+              <li>Whisk butter, cocoa, and vanilla until smooth.</li>
+              <li>In mixer, whip eggs with brown sugar until pale and fluffy. Fold in cocoa mixture.</li>
+              <li>Fold in flour and salt, then raspberries and chips.</li>
+              <li>Bake ~25 minutes (up to ~35 depending on oven). Edges set; center still fudgy with moist crumbs.</li>
             </ol>
           </li>
         `
@@ -722,14 +699,24 @@ main, .content, body {
         meta:"Crinkle coated • 350°F",
         img1:p("Matcha_Cookie.JPG"),
         ingredientsHTML: `
-          <li><strong>Dough</strong> butter, sugar, baking powder, baking soda, salt, eggs, flour, matcha</li>
-          <li><strong>Roll</strong> granulated sugar, powdered sugar, matcha</li>
+          <li><strong>Dough</strong>
+            <ul>
+              <li>1/2 cup butter • 1 cup sugar</li>
+              <li>1 tsp baking powder • 1/8 tsp baking soda • 1/2 tsp salt</li>
+              <li>2 eggs • 2 cups flour • 3 Tbsp matcha</li>
+            </ul>
+          </li>
+          <li><strong>For rolling</strong>
+            <ul><li>1/4 cup granulated sugar • 1/2 cup powdered sugar • 1 tsp matcha (optional)</li></ul>
+          </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat 350°F. Cream butter with sugar and leaveners; beat in eggs.</li>
-              <li>Sift matcha into flour; mix in. Scoop, roll in sugars, bake ~11 min.</li>
+              <li>Preheat 350°F. Cream butter with sugar, baking powder, baking soda, and salt.</li>
+              <li>Beat in eggs. Sift matcha into flour; mix in on low until combined.</li>
+              <li>Mix powdered sugar with 1 tsp matcha. Scoop ~1.5 Tbsp balls; roll in granulated sugar, then in matcha powdered sugar.</li>
+              <li>Bake ~11 minutes; cool.</li>
             </ol>
           </li>
         `
@@ -741,16 +728,55 @@ main, .content, body {
         img1:p("JellyCat_1.jpg"),
         img2:p("JellyCat_2.jpg"),
         ingredientsHTML: `
-          <li><strong>Equipment</strong> two 6\" pans, hand mixer, piping bags</li>
-          <li><strong>Cake Layers</strong> AP flour, baking powder, salt, eggs, sugar, butter, milk, oil, vanilla</li>
-          <li><strong>Filling</strong> cream, powdered sugar, vanilla, cocoa, strawberry jam</li>
+          <li><strong>Equipment</strong>
+            <ul><li>Two 6\" round pans • hand mixer • 3 piping bags</li></ul>
+          </li>
+          <li><strong>Cake Layers</strong>
+            <ul>
+              <li>225 g AP flour • 1½ tsp baking powder • 1/2 tsp salt</li>
+              <li>3 large eggs (room temp) • 225 g sugar</li>
+              <li>85 g unsalted butter • 190 g milk • 2 Tbsp oil • 1½ tsp vanilla</li>
+            </ul>
+          </li>
+          <li><strong>Filling</strong>
+            <ul>
+              <li>300 g whipping/heavy cream (cold) • 30 g powdered sugar • 1 tsp vanilla</li>
+              <li>1–2 tsp cocoa powder • 4 Tbsp strawberry jam</li>
+            </ul>
+          </li>
+          <li><strong>Decoration</strong>
+            <ul>
+              <li>2–3 strawberries (halved) • birthday candle</li>
+              <li>20 g dark chocolate (melt for face)</li>
+            </ul>
+          </li>
         `,
         stepsHTML: `
-          <li>
+          <li><strong>Cake Layers</strong>
             <ol>
-              <li>Preheat 350°F; line pans. Whip eggs with sugar ~6 min.</li>
-              <li>Warm milk with butter, oil, vanilla. Combine with dry; bake 35–40 min; cool.</li>
-              <li>Whip cream; tint a little with cocoa. Pipe borders, fill with jam, decorate.</li>
+              <li>Preheat 350°F. Line two 6\" pans with parchment rounds.</li>
+              <li>Whisk flour, baking powder, and salt.</li>
+              <li>Warm milk with butter, oil, and vanilla until butter melts (don’t boil). Keep warm.</li>
+              <li>Beat eggs and sugar 6 minutes (tripled in volume; very pale).</li>
+              <li>Mix in half the flour; then the rest just until mostly combined.</li>
+              <li>With mixer on low, slowly stream in warm milk mixture until smooth.</li>
+              <li>Divide into pans ~half full. Bake 35–40 min until a toothpick has a few crumbs.</li>
+              <li>Cool 15 min, then turn out and cool completely.</li>
+            </ol>
+          </li>
+          <li><strong>Filling</strong>
+            <ol>
+              <li>Whip cream, powdered sugar, and vanilla to soft peaks. Reserve a little; whip remaining to firm peaks.</li>
+              <li>Tint the reserved portion with cocoa; place in a small piping bag. Put plain cream in another bag.</li>
+            </ol>
+          </li>
+          <li><strong>Assemble & Decorate</strong>
+            <ol>
+              <li>Place first layer on a plate. Pipe dollops of whipped cream around the edge, smearing tails inward.</li>
+              <li>Spread strawberry jam in the middle; top with second layer.</li>
+              <li>Pipe more dollops on top; add halved strawberries and a candle.</li>
+              <li>Pipe little “legs” with the cocoa-tinted cream.</li>
+              <li>Melt dark chocolate, pipe eyes and a smile on the bottom layer. Enjoy!</li>
             </ol>
           </li>
         `
@@ -881,7 +907,7 @@ main, .content, body {
       w = cvs.width = window.innerWidth;
       h = cvs.height = window.innerHeight;
       SPR.length = 0;
-      const count = Math.min(180, Math.floor((w*h)/11000)); // scale with screen
+      const count = Math.min(180, Math.floor((w*h)/11000));
       for(let i=0;i<count;i++){
         SPR.push({
           x: Math.random()*w,
@@ -900,7 +926,7 @@ main, .content, body {
 
     function tick(t){
       ctx.clearRect(0,0,w,h);
-      const pushX = ((mx||w/2)-w/2)/w * 0.6;   // tiny parallax by mouse
+      const pushX = ((mx||w/2)-w/2)/w * 0.6;
       const pushY = ((my||h/2)-h/2)/h * 0.6;
       for(const s of SPR){
         s.x += (Math.cos(s.a)*s.v) + pushX;
@@ -921,49 +947,45 @@ main, .content, body {
     requestAnimationFrame(tick);
   </script>
 
-<script>
-  (function(){
-    const s = document.getElementById('munchlaxSticker');
-    if(!s) return;
+  <script>
+    (function(){
+      const s = document.getElementById('munchlaxSticker');
+      if(!s) return;
 
-    let down = false, offX = 0, offY = 0;
+      let down = false, offX = 0, offY = 0;
 
-    s.addEventListener('pointerdown', (e) => {
-      down = true;
-      s.setPointerCapture(e.pointerId);
-      const r = s.getBoundingClientRect();
-      offX = e.clientX - r.left;
-      offY = e.clientY - r.top;
-      s.style.transition = 'none';
-    });
+      s.addEventListener('pointerdown', (e) => {
+        down = true;
+        s.setPointerCapture(e.pointerId);
+        const r = s.getBoundingClientRect();
+        offX = e.clientX - r.left;
+        offY = e.clientY - r.top;
+        s.style.transition = 'none';
+      });
 
-    window.addEventListener('pointermove', (e) => {
-      if(!down) return;
-      // switch to left/top so we can drag anywhere
-      s.style.right = 'auto';
-      s.style.bottom = 'auto';
+      window.addEventListener('pointermove', (e) => {
+        if(!down) return;
+        s.style.right = 'auto';
+        s.style.bottom = 'auto';
 
-      let x = e.clientX - offX;
-      let y = e.clientY - offY;
+        let x = e.clientX - offX;
+        let y = e.clientY - offY;
 
-      // keep inside the viewport
-      const maxX = window.innerWidth  - s.offsetWidth  - 4;
-      const maxY = window.innerHeight - s.offsetHeight - 4;
-      x = Math.max(4, Math.min(x, maxX));
-      y = Math.max(4, Math.min(y, maxY));
+        const maxX = window.innerWidth  - s.offsetWidth  - 4;
+        const maxY = window.innerHeight - s.offsetHeight - 4;
+        x = Math.max(4, Math.min(x, maxX));
+        y = Math.max(4, Math.min(y, maxY));
 
-      s.style.left = x + 'px';
-      s.style.top  = y + 'px';
-    });
+        s.style.left = x + 'px';
+        s.style.top  = y + 'px';
+      });
 
-    window.addEventListener('pointerup', () => {
-      if(!down) return;
-      down = false;
-      s.style.transition = 'transform .2s ease';
-    });
-  })();
-</script>
-
-
+      window.addEventListener('pointerup', () => {
+        if(!down) return;
+        down = false;
+        s.style.transition = 'transform .2s ease';
+      });
+    })();
+  </script>
 </body>
 </html>
