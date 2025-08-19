@@ -157,6 +157,20 @@
 /* Hide the sticker while the lightbox is open (body gets .no-scroll) */
 body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
 
+/* Rounded, card-like Munchlax */
+.munchlax-sticker{
+  border-radius: 16px;
+  overflow: hidden;                     /* clips the gif corners */
+  background: rgba(255,255,255,.6);     /* optional soft card behind the gif */
+  border: 1px solid rgba(17,19,24,.08); /* optional thin border */
+  backdrop-filter: saturate(1.05) blur(2px);
+}
+
+.munchlax-sticker img{
+  border-radius: inherit;               /* keeps corners matched */
+}
+
+
 
   </style>
 </head>
