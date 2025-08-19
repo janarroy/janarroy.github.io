@@ -128,6 +128,11 @@
 }
 .next-card{ align-items:center; } /* keeps logo + text nicely aligned */
 
+.next-card{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.next-meta{flex:1}
+.next-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.next-count{padding:4px 8px;border-radius:999px;font-weight:800;font-size:12px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+
 
   </style>
 </head>
@@ -526,24 +531,36 @@
 function NextRaceCard(){
   const NEXT = {
     title: "LA Marathon",
-    dateLabel: "May 8, 2026",
+    dateISO: "2026-03-08",
+    dateLabel: "March 8, 2026",
     distance: 26.2,
     goalSeconds: 12600, // 3:30:00
-    logo: "images/maps/LA - Marathaon.jpg"
+    logo: "images/LA - Marathaon.jpg"
   };
+
   const pace = NEXT.goalSeconds / NEXT.distance;
   const logoSrc = encodeURI(NEXT.logo);
+
+  const now = new Date();
+  const raceDate = new Date(NEXT.dateISO);
+  const ms = raceDate - now;
+  const daysLeft = Math.max(0, Math.ceil(ms / (1000 * 60 * 60 * 24)));
+
   return (
     <div className="react-card fill next-card">
-      <img className="next-logo" src={logoSrc} alt="LA Marathon logo"/>
+      <img className="next-logo" src={logoSrc} alt={`${NEXT.title} logo`} />
       <div className="next-meta">
         <div className="t">Next: {NEXT.title}</div>
         <div className="s">Date: <b>{NEXT.dateLabel}</b></div>
         <div className="next-goal">Goal: 3:30 ({paceStr(pace)})</div>
       </div>
+      <div className="next-side">
+        <div className="next-count">{daysLeft} days to go</div>
+      </div>
     </div>
   );
 }
+
 
 
 
