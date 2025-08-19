@@ -130,8 +130,11 @@
 
 .next-card{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .next-meta{flex:1}
-.next-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-.next-count{padding:4px 8px;border-radius:999px;font-weight:800;font-size:12px;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.next-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.next-timer{display:grid;grid-auto-flow:column;gap:8px}
+.next-timer .pill{min-width:58px;padding:6px 8px;border-radius:10px;background:#eef2ff;color:#1d4ed8;border:1px solid #dbe3ff;text-align:center}
+.next-timer .pill .big{font-weight:800;font-size:16px;line-height:1}
+.next-timer .pill .lab{font-size:10px;color:#1e3a8a;opacity:.85;margin-top:2px}
 
 
   </style>
@@ -534,17 +537,29 @@ function NextRaceCard(){
     dateISO: "2026-03-08",
     dateLabel: "March 8, 2026",
     distance: 26.2,
-    goalSeconds: 12600, // 3:30:00
-    logo: "images/maps/LA - Marathaon.jpg"
+    goalSeconds: 12600,
+    logo: "images/LA - Marathaon.jpg"
   };
 
   const pace = NEXT.goalSeconds / NEXT.distance;
   const logoSrc = encodeURI(NEXT.logo);
 
-  const now = new Date();
-  const raceDate = new Date(NEXT.dateISO);
-  const ms = raceDate - now;
-  const daysLeft = Math.max(0, Math.ceil(ms / (1000 * 60 * 60 * 24)));
+  const getLeft = () => {
+    const target = new Date(NEXT.dateISO);
+    const ms = target - new Date();
+    const clamped = Math.max(0, ms);
+    const d = Math.floor(clamped / 86400000);
+    const h = Math.floor((clamped % 86400000) / 3600000);
+    const m = Math.floor((clamped % 3600000) / 60000);
+    const s = Math.floor((clamped % 60000) / 1000);
+    return { d, h, m, s };
+  };
+
+  const [left, setLeft] = React.useState(getLeft());
+  React.useEffect(() => {
+    const id = setInterval(() => setLeft(getLeft()), 1000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div className="react-card fill next-card">
@@ -555,11 +570,17 @@ function NextRaceCard(){
         <div className="next-goal">Goal: 3:30 ({paceStr(pace)})</div>
       </div>
       <div className="next-side">
-        <div className="next-count">{daysLeft} days to go</div>
+        <div className="next-timer">
+          <div className="pill"><div className="big">{left.d}</div><div className="lab">days</div></div>
+          <div className="pill"><div className="big">{left.h}</div><div className="lab">hrs</div></div>
+          <div className="pill"><div className="big">{left.m}</div><div className="lab">min</div></div>
+          <div className="pill"><div className="big">{left.s}</div><div className="lab">sec</div></div>
+        </div>
       </div>
     </div>
   );
 }
+
 
 
 
