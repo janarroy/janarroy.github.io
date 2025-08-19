@@ -6,6 +6,28 @@
   <title>Bake – Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
   <style>
+    /* ===== Page foodie background (subtle confetti + cream wash) ===== */
+    body::before{
+      content:"";
+      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      background:
+        radial-gradient(1200px 500px at 0% -10%, rgba(255,240,215,.55), transparent 60%),
+        radial-gradient(1200px 500px at 110% 110%, rgba(210,235,255,.45), transparent 60%);
+      opacity:.9;
+    }
+    body::after{
+      content:"";
+      position:fixed; inset:-2%; z-index:-1; pointer-events:none;
+      /* tiny confetti sprinkles */
+      background:
+        conic-gradient(from 0deg, #ffd166 0 25%, transparent 25% 100%) 6% 10%/6px 2px repeat,
+        conic-gradient(from 0deg, #ef476f 0 25%, transparent 25% 100%) 35% 30%/7px 3px repeat,
+        conic-gradient(from 0deg, #06d6a0 0 25%, transparent 25% 100%) 75% 60%/6px 2px repeat,
+        conic-gradient(from 0deg, #118ab2 0 25%, transparent 25% 100%) 15% 80%/7px 3px repeat;
+      opacity:.06;
+      transform: rotate(0.5deg);
+    }
+
     /* ===== Grid: 3 per row (2 / 1 on smaller screens) ===== */
     .rcp-grid{display:grid;gap:20px;grid-template-columns:repeat(3,1fr);}
     @media (max-width:1100px){.rcp-grid{grid-template-columns:repeat(2,1fr);}}
@@ -14,8 +36,8 @@
     /* ===== Cards ===== */
     .rcp-card{border-radius:16px;overflow:hidden;background:#fff;
       border:1px solid rgba(17,19,24,.08);box-shadow:0 6px 24px rgba(17,19,24,.06);
-      transition:box-shadow .2s ease;}
-    .rcp-card:hover{box-shadow:0 10px 28px rgba(17,19,24,.10);}
+      transition:box-shadow .2s ease, transform .18s ease;}
+    .rcp-card:hover{box-shadow:0 10px 28px rgba(17,19,24,.10); transform: translateY(-2px);}
     .rcp-toggle{display:block;width:100%;padding:0;border:0;background:transparent;cursor:pointer;text-align:left;}
     .rcp-photo{position:relative;aspect-ratio:4/3;}
     .rcp-photo img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -38,7 +60,7 @@
 
     .modal-dialog{ position:fixed; inset:0; z-index:61; display:none; place-items:center; }
     .modal-dialog.visible{ display:grid; }                /* render first */
-    .modal-dialog.open .modal-panel{ opacity:1; transform:none; } /* then animate in */
+    .modal-dialog.open .modal-panel{ opacity:1; transform:none; } /* animate in */
     .modal-dialog.closing .modal-panel{ opacity:0; transform: translateY(8px) scale(.985); }
 
     .modal-panel{
@@ -81,53 +103,66 @@
       width:100%; height:100%; display:block;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,.25));
     }
-    /* ===== Hero intro ===== */
-.hero {
-  position: relative;
-  margin: 28px 0 14px;
-  padding: 22px 22px 18px;
-  border-radius: 18px;
-  background:
-    radial-gradient(1200px 400px at -10% 0%, rgba(255,214,165,.25), transparent 60%),
-    radial-gradient(1200px 400px at 110% 100%, rgba(189,224,254,.25), transparent 60%),
-    #fffaf0; /* cream to match the lightbox */
-  border: 1px solid rgba(17,19,24,.08);
-  box-shadow: 0 10px 40px rgba(17,19,24,.08);
-  overflow: hidden;
-}
-.hero::after{
-  content:"";
-  position:absolute; inset:-30%;
-  background: conic-gradient(from 180deg,
-    rgba(255,218,185,.35),
-    rgba(255,255,204,.25),
-    rgba(204,232,255,.35),
-    rgba(255,218,185,.35));
-  filter: blur(60px);
-  opacity:.35;
-  animation: heroSpin 18s linear infinite;
-}
-@keyframes heroSpin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
 
-.hero h1{
-  margin: 0 0 6px;
-  font-size: clamp(24px, 3.2vw, 36px);
-}
-.hero p{
-  margin: 0;
-  max-width: 70ch;
-  line-height: 1.55;
-}
-.hero-chips{
-  display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;
-}
-.hero-chip{
-  font-weight: 700; font-size: 12px;
-  padding: 6px 10px; border-radius: 999px;
-  color:#fff; background:#111; opacity:.92;
-  box-shadow: 0 3px 10px rgba(0,0,0,.12);
-}
+    /* ===== Hero intro (fun + personal) ===== */
+    .hero {
+      position: relative;
+      margin: 28px 0 14px;
+      padding: 26px 22px 22px;
+      border-radius: 18px;
+      background:
+        radial-gradient(1200px 400px at -10% 0%, rgba(255,214,165,.25), transparent 60%),
+        radial-gradient(1200px 400px at 110% 100%, rgba(189,224,254,.25), transparent 60%),
+        #fffaf0; /* cream to match the lightbox */
+      border: 1px solid rgba(17,19,24,.08);
+      box-shadow: 0 10px 40px rgba(17,19,24,.08);
+      overflow: hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:-30%;
+      background: conic-gradient(from 180deg,
+        rgba(255,218,185,.35),
+        rgba(255,255,204,.25),
+        rgba(204,232,255,.35),
+        rgba(255,218,185,.35));
+      filter: blur(60px);
+      opacity:.35;
+      animation: heroSpin 18s linear infinite;
+    }
+    @keyframes heroSpin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
 
+    .hero h1{
+      margin: 0 0 6px;
+      font-size: clamp(26px, 3.4vw, 38px);
+    }
+    .hero p{
+      margin: 0;
+      max-width: 70ch;
+      line-height: 1.55;
+      font-size: clamp(15px, 1.9vw, 16px);
+    }
+    .hero-chips{
+      display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;
+    }
+    .hero-chip{
+      font-weight: 700; font-size: 12px;
+      padding: 6px 10px; border-radius: 999px;
+      color:#fff; background:#111; opacity:.92;
+      box-shadow: 0 3px 10px rgba(0,0,0,.12);
+    }
+
+    /* Snorlax sticker (fun little easter egg) */
+    .snorlax{
+      position:absolute; right:16px; top:-20px;
+      display:flex; align-items:center; gap:8px;
+      background:#142d4c; color:#fff; border-radius:999px;
+      padding:8px 10px; box-shadow:0 8px 30px rgba(20,45,76,.25);
+      transform: translateY(0); animation: bob 3.2s ease-in-out infinite;
+    }
+    .snorlax .bubble{font-size:18px; line-height:1;}
+    .snorlax .tag{font-size:12px; font-weight:800; letter-spacing:.3px; opacity:.95;}
+    @keyframes bob { 0%,100%{ transform:translateY(0)} 50%{ transform:translateY(4px)} }
   </style>
 </head>
 <body>
@@ -146,21 +181,24 @@
   </nav>
 
   <main class="container work">
+    <!-- Hero -->
     <section class="hero" aria-label="About this page">
-      <h1>I bake to celebrate people.</h1>
+      <div class="snorlax" aria-hidden="true"><span class="bubble">😴</span><span class="tag">snorlax</span></div>
+      <h1>Baking for my people</h1>
       <p>
-        I’m a USC senior who loves trying new recipes and turning basic ingredients into
-        something people actually smile about. Baking is my love language—birthday cakes,
-        “you-got-the-offer” cookies, and focaccia for random Tuesdays just to say thanks.
-        Click any card to see a second photo and the full recipe.
+        I’m a USC senior who likes experimenting in the kitchen and turning raw ingredients into
+        something worth a group text. I bake for birthdays, offer letters, midterm wins, and random
+        Tuesdays because good food makes days better. Tap a card to see another photo and the recipe.
       </p>
       <div class="hero-chips" aria-label="Top picks">
         <span class="hero-chip">🥇 Lemon Cake</span>
         <span class="hero-chip">🥈 Thumbprint Cookies</span>
         <span class="hero-chip">🥉 Focaccia</span>
+        <span class="hero-chip">🍽️ always eating</span>
       </div>
     </section>
-    
+
+    <!-- Cards -->
     <section class="rcp-grid" id="rcpGrid"><!-- cards injected by JS --></section>
   </main>
 
@@ -209,140 +247,10 @@
     // ===== Recipes =====
     const RECIPES = [
       {
-        id:"jellycat",
-        title:"Jellycat Birthday Cake",
-        meta:"Author: Gail Ng • 8 servings • ~2h 30m",
-        img1:p("JellyCat_1.jpg"),
-        img2:p("JellyCat_2.jpg"),
-        ingredientsHTML: `
-          <li><strong>Equipment</strong>
-            <ul>
-              <li>Two 6&quot; round cake pans</li>
-              <li>Electric hand mixer</li>
-              <li>3 piping bags</li>
-            </ul>
-          </li>
-          <li><strong>Cake Layers</strong>
-            <ul>
-              <li>225 g all-purpose flour</li>
-              <li>1&nbsp;½ tsp baking powder</li>
-              <li>½ tsp salt</li>
-              <li>3 large eggs, room temperature</li>
-              <li>225 g granulated sugar</li>
-              <li>85 g unsalted butter</li>
-              <li>190 g milk (dairy or non-dairy)</li>
-              <li>2 tbsp oil</li>
-              <li>1&nbsp;½ tsp vanilla extract</li>
-            </ul>
-          </li>
-          <li><strong>Filling</strong>
-            <ul>
-              <li>300 g whipping/heavy cream, cold</li>
-              <li>30 g powdered sugar</li>
-              <li>1 tsp vanilla extract</li>
-              <li>1–2 tsp cocoa powder</li>
-              <li>4 tbsp strawberry jam</li>
-            </ul>
-          </li>
-          <li><strong>Assemble</strong>
-            <ol>
-              <li>Preheat 350°F. Line two 6&quot; pans.</li>
-              <li>Beat eggs + sugar ~6 min until very pale/tripled.</li>
-              <li>Whisk dry; warm milk+butter+oil+vanilla (don’t boil).</li>
-              <li>Mix dry in 2 adds; stream in warm milk mixture on low.</li>
-              <li>Divide; bake 35–40 min. Cool completely.</li>
-              <li>Whip cream to soft/firm peaks (reserve some, tint with cocoa).</li>
-              <li>Fill with cream border + jam; top layer; pipe decorations.</li>
-            </ol>
-          </li>
-        `
-      },
-      {
-        id:"thumbprint",
-        rank: 2,
-        title:"Thumbprint Cookies",
-        img1:p("ThumbPrint_1.jpg"),
-        img2:p("ThumbPrint_2.jpg"),
-        img2Fallback:p("ThumPrint_2.jpg"),
-        ingredientsHTML: `
-          <li><strong>Cookie Dough</strong>
-            <ul>
-              <li>2 sticks unsalted butter, softened</li>
-              <li>1 cup sugar (+ extra for rolling)</li>
-              <li>2 egg yolks</li>
-              <li>2½ cups all-purpose flour</li>
-              <li>1 tsp salt</li>
-              <li>Strawberry jam</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li>
-            <ol>
-              <li>Cream butter + sugar.</li>
-              <li>Mix in egg yolks.</li>
-              <li>Add flour + salt; mix to dough.</li>
-              <li>Roll balls; roll in sugar; thumb an indent; fill with jam.</li>
-              <li>Bake 350°F for 8–10 min.</li>
-            </ol>
-          </li>
-        `
-      },
-      {
-        id:"confetti",
-        title:"Confetti Cake",
-        meta:"Three-layer funfetti cake with vanilla buttercream",
-        img1:p("Confetti_Cake1.JPG"),
-        img2:p("Confetti_Cake2.JPG"),
-        ingredientsHTML: `
-          <li><strong>Cake</strong>
-            <ul>
-              <li>3¾ cups (443g) cake flour</li>
-              <li>1 tsp baking powder • 1 tsp baking soda • 1 tsp salt</li>
-              <li>1¼ cups (282g) unsalted butter, room temp</li>
-              <li>2 cups (400g) sugar • 1/3 cup (80ml) oil</li>
-              <li>4 eggs + 2 egg whites, room temp</li>
-              <li>3 tsp vanilla • 1½ cups (360ml) buttermilk</li>
-              <li>3/4 cup (135g) rainbow sprinkles</li>
-            </ul>
-          </li>
-          <li><strong>Vanilla Buttercream</strong>
-            <ul>
-              <li>1½ cups (340g) butter, room temp</li>
-              <li>5½ cups (650g) confectioners’ sugar</li>
-              <li>1/3 cup (80ml) heavy cream</li>
-              <li>3 tsp vanilla • 1/8 tsp salt</li>
-              <li>Sprinkles to garnish</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li><strong>Bake the Cake</strong>
-            <ol>
-              <li>Preheat 350°F. Grease/line three 8&quot; or 9&quot; pans.</li>
-              <li>Whisk dry. Cream butter + sugar 5 min; beat in oil, then eggs/whites + vanilla.</li>
-              <li>Alternate dry and buttermilk in 3 additions; fold in sprinkles.</li>
-              <li>Divide; bake ~25–26 min (8&quot; may need 27–28). Cool completely.</li>
-            </ol>
-          </li>
-          <li><strong>Buttercream</strong>
-            <ol>
-              <li>Beat butter 2 min; add sugar, cream, vanilla, salt. Beat high 2 min; adjust texture.</li>
-            </ol>
-          </li>
-          <li><strong>Assemble</strong>
-            <ol>
-              <li>Level layers; 1 cup frosting between each.</li>
-              <li>Crumb coat; chill 30–180 min. Finish frosting; add sprinkles.</li>
-            </ol>
-          </li>
-        `
-      },
-      {
         id:"lemon",
         rank: 1,
         title:"Lemon Cake",
-        meta:"Three 8&quot; layers • Cream cheese buttercream",
+        meta:"Three 8\" layers • Cream cheese buttercream",
         img1:p("LemonCake.JPG"),
         ingredientsHTML: `
           <li><strong>Cake</strong>
@@ -365,10 +273,10 @@
         stepsHTML: `
           <li><strong>Bake the Cake</strong>
             <ol>
-              <li>Preheat 350°F. Grease/line three 8&quot; pans.</li>
-              <li>Cream butter + sugar ~3 min; beat in eggs + vanilla.</li>
+              <li>Preheat 350°F. Grease and line three 8\" pans.</li>
+              <li>Cream butter with sugar ~3 min; beat in eggs and vanilla.</li>
               <li>Mix in dry just until combined; add milk, zest, juice; mix just until combined.</li>
-              <li>Divide; bake 21–26 min. Cool completely.</li>
+              <li>Divide and bake 21–26 min. Cool completely.</li>
             </ol>
           </li>
           <li><strong>Frosting</strong>
@@ -380,219 +288,32 @@
         `
       },
       {
-        id:"blackberrylavender",
-        title:"Blackberry Lavender Cake",
-        meta:"Lavender milk + syrup • Cream cheese buttercream",
-        img1:p("Blackberry_cake.JPG"),
-        ingredientsHTML: `
-          <li><strong>Lavender Milk</strong>
-            <ul>
-              <li>1 cup (240ml) whole milk</li>
-              <li>2 tsp dried culinary lavender</li>
-            </ul>
-          </li>
-          <li><strong>Lavender Syrup</strong>
-            <ul>
-              <li>1/2 cup (120ml) water</li>
-              <li>1/2 cup (100g) granulated sugar</li>
-              <li>2 tsp dried culinary lavender</li>
-            </ul>
-          </li>
-          <li><strong>Cake</strong>
-            <ul>
-              <li>1/4 cup (60g) sour cream, room temp</li>
-              <li>2 1/2 cups (295g) cake flour</li>
-              <li>1 1/2 cups (300g) granulated sugar</li>
-              <li>1 Tbsp baking powder • 1/2 tsp salt</li>
-              <li>1 cup (226g) unsalted butter, diced &amp; softened</li>
-              <li>1 1/2 tsp vanilla extract</li>
-              <li>4 large eggs, room temp</li>
-            </ul>
-          </li>
-          <li><strong>Cream Cheese Buttercream &amp; Filling</strong>
-            <ul>
-              <li>1 cup (226g) unsalted butter, room temp</li>
-              <li>8 oz (226g) cream cheese, room temp</li>
-              <li>5 1/2 cups (660g) confectioners’ sugar</li>
-              <li>2 Tbsp (30ml) whole milk</li>
-              <li>2 tsp vanilla • 1/8 tsp salt</li>
-              <li>1/2–1 cup blackberry jam</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li><strong>Lavender Milk</strong>
-            <ol>
-              <li>Simmer milk; remove from heat; add lavender. Steep 20 min.</li>
-              <li>Strain; cool completely.</li>
-            </ol>
-          </li>
-          <li><strong>Lavender Syrup</strong>
-            <ol>
-              <li>Boil sugar + water; reduce heat; add lavender; simmer 10 min. Cool and strain.</li>
-            </ol>
-          </li>
-          <li><strong>Bake the Cake</strong>
-            <ol>
-              <li>Preheat 350°F. Grease/line three 8&quot; pans.</li>
-              <li>Stir sour cream with cooled lavender milk.</li>
-              <li>Sift dry in mixer bowl; add butter, vanilla, and half milk/sour cream. Mix ~1 min.</li>
-              <li>Whisk eggs into remaining milk/sour cream; add in 3 additions (15 s each); scrape; mix 15 s more.</li>
-              <li>Divide; bake 20–22 min. Cool in pans; level and brush with lavender syrup.</li>
-            </ol>
-          </li>
-          <li><strong>Buttercream & Assemble</strong>
-            <ol>
-              <li>Beat butter + cream cheese 2 min; add sugar, milk, vanilla, salt; beat 3 min (tint if desired).</li>
-              <li>Layer with jam inside piped “dams”; crumb coat; chill; finish frost; garnish berries; chill 20 min before slicing.</li>
-            </ol>
-          </li>
-        `
-      },
-      {
-        id:"carrot",
-        title:"Carrot Cake",
-        meta:"Toasted pecans • Cream cheese frosting",
-        img1:p("Carrot_Cake.JPG"),
-        ingredientsHTML: `
-          <li><strong>Cake</strong>
-            <ul>
-              <li>2 cups (260g) chopped pecans (1 cup in batter, 1 cup garnish) — optional</li>
-              <li>1 1/2 cups (300g) brown sugar</li>
-              <li>1/2 cup (100g) granulated sugar</li>
-              <li>1 cup (240ml) vegetable/canola oil (or melted coconut oil)</li>
-              <li>4 large eggs</li>
-              <li>3/4 cup (180g) unsweetened applesauce</li>
-              <li>1 tsp vanilla</li>
-              <li>2 1/2 cups (312g) all-purpose flour</li>
-              <li>2 tsp baking powder • 1 tsp baking soda • 1/2 tsp salt</li>
-              <li>1 1/2 tsp cinnamon • 1 tsp ginger • 1/4 tsp nutmeg • 1/4 tsp cloves</li>
-              <li>2 cups (260g) grated carrots</li>
-            </ul>
-          </li>
-          <li><strong>Cream Cheese Frosting</strong>
-            <ul>
-              <li>16 oz (452g) cream cheese, room temp</li>
-              <li>1/2 cup (113g) unsalted butter, room temp</li>
-              <li>4 cups (480g) confectioners’ sugar</li>
-              <li>1 1/2 tsp vanilla • pinch salt</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li><strong>Toast Nuts</strong>
-            <ol>
-              <li>Preheat 300°F. Toast pecans 7–8 min; cool. Raise oven to 350°F.</li>
-              <li>Grease/line two or three 9&quot; pans.</li>
-            </ol>
-          </li>
-          <li><strong>Make Batter</strong>
-            <ol>
-              <li>Whisk sugars, oil, eggs, applesauce, vanilla.</li>
-              <li>Whisk dry in another bowl; fold wet into dry; fold in carrots + 1 cup pecans.</li>
-            </ol>
-          </li>
-          <li><strong>Bake</strong>
-            <ol>
-              <li>Three pans: 20–24 min. Two pans: 30–35 min. Cool completely.</li>
-            </ol>
-          </li>
-          <li><strong>Frost & Assemble</strong>
-            <ol>
-              <li>Beat cream cheese + butter 2 min; add sugar, vanilla, salt; beat 3 min.</li>
-              <li>Level, stack, frost; press remaining pecans on sides; chill 15–20 min.</li>
-            </ol>
-          </li>
-        `
-      },
-      {
-        id:"redvelvet",
-        title:"Red Velvet Bundt Cake",
-        meta:"Cream cheese glaze",
-        img1:p("RedVelvet_Bundt.JPG"),
-        ingredientsHTML: `
-          <li><strong>Red Velvet Cake</strong>
-            <ul>
-              <li>3/4 cup (160g) oil • 1/2 cup (110g) butter, melted</li>
-              <li>2 cups (400g) sugar • 2 eggs</li>
-              <li>1 cup (240ml) buttermilk • 2 tsp vanilla • 1 tsp vinegar</li>
-              <li>2 Tbsp red food coloring</li>
-              <li>2 1/2 cups (300g) flour • 3 Tbsp cocoa • 1 tsp baking soda • 1 tsp salt</li>
-            </ul>
-          </li>
-          <li><strong>Cream Cheese Glaze</strong>
-            <ul>
-              <li>4 oz cream cheese • 2 cups (240g) powdered sugar</li>
-              <li>3 Tbsp milk • 1/2 tsp vanilla</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li><strong>Bundt</strong>
-            <ol>
-              <li>Preheat 350°F; whisk dry. Whisk oil, butter, sugar; add eggs, buttermilk, vanilla, vinegar, color.</li>
-              <li>Mix in dry; prep 10–12 cup pan (oil+flour spray). Pour (leave ~1 cup out if 10-cup).</li>
-              <li>Bake 45 min (10-cup) or 50–60 min (12-cup). Cool 10 min; invert; cool 30 min.</li>
-            </ol>
-          </li>
-          <li><strong>Glaze</strong>
-            <ol>
-              <li>Blend cream cheese + sugar + milk; vanilla. Pour over cooled cake.</li>
-            </ol>
-          </li>
-        `
-      },
-      {
-        id:"whitechoclemon",
-        title:"Lemon White Chocolate Cookies",
-        meta:"Bakery style • 400°F",
-        img1:p("WhiteChocolateLemon.JPG"),
-        img2:p("WhiteChocolateLemon2.JPG"),
+        id:"thumbprint",
+        rank: 2,
+        title:"Thumbprint Cookies",
+        img1:p("ThumbPrint_1.jpg"),
+        img2:p("ThumbPrint_2.jpg"),
+        img2Fallback:p("ThumPrint_2.jpg"),
         ingredientsHTML: `
           <li><strong>Cookie Dough</strong>
             <ul>
-              <li>1 cup (226g) butter, slightly cold, cubed</li>
-              <li>3/4 cup (150g) sugar • 1/2 cup (110g) brown sugar</li>
-              <li>2 Tbsp lemon zest • 1 egg + 1 yolk • 2 tsp lemon extract</li>
-              <li>2 cups (240g) AP flour • 1 1/4 cups (144g) cake flour</li>
-              <li>1 tsp baking powder • 1/2 tsp baking soda • 1/2 tsp salt</li>
-              <li>16 oz white chocolate chips</li>
+              <li>2 sticks unsalted butter, softened</li>
+              <li>1 cup sugar (plus extra for rolling)</li>
+              <li>2 egg yolks</li>
+              <li>2½ cups all-purpose flour</li>
+              <li>1 tsp salt</li>
+              <li>Strawberry jam</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat 400°F; line tray.</li>
-              <li>Whisk flours + leaveners + salt.</li>
-              <li>Cream butter + sugars + zest ~2 min. Beat in egg, yolk, extract.</li>
-              <li>Mix in dry just to combine; fold chips. Portion 6-oz balls (4 per tray); bake ~12 min.</li>
-              <li>Cool to set centers.</li>
-            </ol>
-          </li>
-        `
-      },
-      {
-        id:"raspberrybrownie",
-        title:"Fudge Raspberry Brownie Cookies",
-        meta:"8×8 pan • extra fudgy",
-        img1:p("RaspberryBrownie.JPG"),
-        ingredientsHTML: `
-          <li><strong>Batter</strong>
-            <ul>
-              <li>3/4 cup butter, melted • 3/4 cup Dutch cocoa • 1 tsp vanilla</li>
-              <li>1 3/4 cup light brown sugar • 3 eggs</li>
-              <li>3/4 cup AP flour • 1/2 tsp salt</li>
-              <li>1/2 cup raspberries (frozen) • 1/2 cup chocolate chips (opt.)</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li>
-            <ol>
-              <li>Preheat 350°F; line 8×8&quot; pan.</li>
-              <li>Whisk butter+cocoa+vanilla; whip eggs+brown sugar till pale; fold together.</li>
-              <li>Fold in flour+salt; then berries+chips. Bake ~25 min (edges set, center fudgy).</li>
+              <li>Cream butter with sugar.</li>
+              <li>Mix in egg yolks.</li>
+              <li>Add flour and salt; mix to a dough.</li>
+              <li>Roll balls; roll in sugar; press a thumb well; fill with jam.</li>
+              <li>Bake 350°F for 8–10 min.</li>
             </ol>
           </li>
         `
@@ -609,45 +330,230 @@
               <li>1 3/4 cups warm water (105–115°F) • 2 tsp sugar</li>
               <li>2 1/4 tsp active dry yeast</li>
               <li>500 g AP flour (≈4 cups) • 2 tsp sea salt</li>
-              <li>6 Tbsp extra-virgin olive oil (+ more), flaky salt, rosemary (opt.)</li>
+              <li>6 Tbsp extra-virgin olive oil (plus more), flaky salt, rosemary (opt.)</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Bloom yeast in water+sugar 5 min. Mix in flour+salt (shaggy), then medium 5 min (elastic, sticky).</li>
-              <li>Oil bowl; rise 1–1½ h. Oil 9×13&quot; pan; fold dough; press to edges; rest 45 min. Preheat 425°F.</li>
-              <li>Dimple; drizzle oil; salt/rosemary; bake 20–30 min until golden.</li>
+              <li>Bloom yeast in water with sugar 5 min. Mix in flour and salt (shaggy), then medium 5 min.</li>
+              <li>Oil bowl; rise 1–1½ h. Oil 9×13\" pan; fold dough; press to edges; rest 45 min. Preheat 425°F.</li>
+              <li>Dimple; drizzle oil; salt and rosemary; bake 20–30 min until golden.</li>
             </ol>
           </li>
         `
       },
       {
-        id:"matcha",
-        title:"Matcha Cookies",
-        meta:"Crinkle coated • 350°F",
-        img1:p("Matcha_Cookie.JPG"),
+        id:"blackberrylavender",
+        title:"Blackberry Lavender Cake",
+        meta:"Lavender milk + syrup • Cream cheese buttercream",
+        img1:p("Blackberry_cake.JPG"),
         ingredientsHTML: `
-          <li><strong>Dough</strong>
+          <li><strong>Lavender Milk</strong>
             <ul>
-              <li>1/2 cup butter • 1 cup sugar</li>
-              <li>1 tsp baking powder • 1/8 tsp baking soda • 1/2 tsp salt</li>
-              <li>2 eggs • 2 cups flour • 3 Tbsp matcha</li>
+              <li>1 cup whole milk</li>
+              <li>2 tsp dried culinary lavender</li>
             </ul>
           </li>
-          <li><strong>For Rolling</strong>
+          <li><strong>Lavender Syrup</strong>
             <ul>
-              <li>1/4 cup granulated sugar • 1/2 cup powdered sugar • 1 tsp matcha (opt.)</li>
+              <li>1/2 cup water • 1/2 cup sugar • 2 tsp lavender</li>
+            </ul>
+          </li>
+          <li><strong>Cake</strong>
+            <ul>
+              <li>1/4 cup sour cream • 2 1/2 cups cake flour</li>
+              <li>1 1/2 cups sugar • 1 Tbsp baking powder • 1/2 tsp salt</li>
+              <li>1 cup unsalted butter, diced and softened</li>
+              <li>1 1/2 tsp vanilla • 4 eggs</li>
+            </ul>
+          </li>
+          <li><strong>Cream Cheese Buttercream & Filling</strong>
+            <ul>
+              <li>1 cup butter • 8 oz cream cheese • 5 1/2 cups confectioners’ sugar</li>
+              <li>2 Tbsp milk • 2 tsp vanilla • pinch salt • blackberry jam</li>
+            </ul>
+          </li>
+        `,
+        stepsHTML: `
+          <li><strong>Milk + Syrup</strong>
+            <ol>
+              <li>Steep lavender in hot milk 20 min; strain and cool.</li>
+              <li>Simmer sugar with water and lavender 10 min; cool and strain.</li>
+            </ol>
+          </li>
+          <li><strong>Bake</strong>
+            <ol>
+              <li>Preheat 350°F. Grease and line three 8\" pans.</li>
+              <li>Mix dry with butter, vanilla, and half the milk/sour cream 1 min.</li>
+              <li>Whisk eggs into remaining milk/sour cream; add in 3 parts, mixing 15 s each.</li>
+              <li>Divide; bake 20–22 min. Cool; level; brush with syrup.</li>
+            </ol>
+          </li>
+          <li><strong>Frost</strong>
+            <ol>
+              <li>Beat butter and cream cheese 2 min; add sugar, milk, vanilla, salt; beat 3 min.</li>
+              <li>Pipe dams, add jam; crumb coat; chill; finish and garnish.</li>
+            </ol>
+          </li>
+        `
+      },
+      {
+        id:"confetti",
+        title:"Confetti Cake",
+        meta:"Three-layer funfetti with vanilla buttercream",
+        img1:p("Confetti_Cake1.JPG"),
+        img2:p("Confetti_Cake2.JPG"),
+        ingredientsHTML: `
+          <li><strong>Cake</strong>
+            <ul>
+              <li>3 3/4 cups cake flour • 1 tsp baking powder • 1 tsp baking soda • 1 tsp salt</li>
+              <li>1 1/4 cups butter • 2 cups sugar • 1/3 cup oil</li>
+              <li>4 eggs + 2 egg whites • 3 tsp vanilla • 1 1/2 cups buttermilk</li>
+              <li>3/4 cup rainbow sprinkles</li>
+            </ul>
+          </li>
+          <li><strong>Vanilla Buttercream</strong>
+            <ul>
+              <li>1 1/2 cups butter • 5 1/2 cups confectioners’ sugar</li>
+              <li>1/3 cup heavy cream • 3 tsp vanilla • pinch salt</li>
+            </ul>
+          </li>
+        `,
+        stepsHTML: `
+          <li><strong>Mix + Bake</strong>
+            <ol>
+              <li>Preheat 350°F. Line three 8\" or 9\" pans.</li>
+              <li>Cream butter and sugar 5 min; beat in oil, then eggs/whites and vanilla.</li>
+              <li>Alternate dry and buttermilk in three adds; fold sprinkles. Bake ~25–26 min; cool.</li>
+            </ol>
+          </li>
+          <li><strong>Frost</strong>
+            <ol>
+              <li>Beat butter, sugar, cream, vanilla, salt; assemble with 1 cup between layers; crumb coat and finish.</li>
+            </ol>
+          </li>
+        `
+      },
+      {
+        id:"carrot",
+        title:"Carrot Cake",
+        meta:"Toasted pecans • Cream cheese frosting",
+        img1:p("Carrot_Cake.JPG"),
+        ingredientsHTML: `
+          <li><strong>Cake</strong>
+            <ul>
+              <li>2 cups chopped pecans (half for batter, half for garnish)</li>
+              <li>1 1/2 cups brown sugar • 1/2 cup sugar • 1 cup oil</li>
+              <li>4 eggs • 3/4 cup applesauce • 1 tsp vanilla</li>
+              <li>2 1/2 cups flour • 2 tsp baking powder • 1 tsp baking soda • 1/2 tsp salt</li>
+              <li>1 1/2 tsp cinnamon • 1 tsp ginger • 1/4 tsp nutmeg • 1/4 tsp cloves</li>
+              <li>2 cups grated carrots</li>
+            </ul>
+          </li>
+          <li><strong>Cream Cheese Frosting</strong>
+            <ul>
+              <li>16 oz cream cheese • 1/2 cup butter • 4 cups confectioners’ sugar</li>
+              <li>1 1/2 tsp vanilla • pinch salt</li>
+            </ul>
+          </li>
+        `,
+        stepsHTML: `
+          <li><strong>Toast + Bake</strong>
+            <ol>
+              <li>Toast pecans at 300°F for 7–8 min. Raise oven to 350°F. Line two or three 9\" pans.</li>
+              <li>Whisk wet; whisk dry; fold together with carrots and pecans.</li>
+              <li>Three pans 20–24 min or two pans 30–35 min. Cool completely.</li>
+            </ol>
+          </li>
+          <li><strong>Frost</strong>
+            <ol>
+              <li>Beat cream cheese and butter 2 min; add sugar, vanilla, salt; beat 3 min; stack and frost.</li>
+            </ol>
+          </li>
+        `
+      },
+      {
+        id:"whitechoclemon",
+        title:"Lemon White Chocolate Cookies",
+        meta:"Bakery style • 400°F",
+        img1:p("WhiteChocolateLemon.JPG"),
+        img2:p("WhiteChocolateLemon2.JPG"),
+        ingredientsHTML: `
+          <li><strong>Cookie Dough</strong>
+            <ul>
+              <li>1 cup butter, slightly cold and cubed</li>
+              <li>3/4 cup sugar • 1/2 cup brown sugar • 2 Tbsp lemon zest</li>
+              <li>1 egg + 1 yolk • 2 tsp lemon extract</li>
+              <li>2 cups AP flour • 1 1/4 cups cake flour</li>
+              <li>1 tsp baking powder • 1/2 tsp baking soda • 1/2 tsp salt</li>
+              <li>16 oz white chocolate chips</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li>
             <ol>
-              <li>Preheat 350°F. Cream butter with sugar, baking powder/soda, salt; beat in eggs.</li>
-              <li>Sift matcha into flour; mix in. Scoop 1.5 Tbsp balls; roll in sugar, then matcha powdered sugar.</li>
-              <li>Bake ~11 min. Cool.</li>
+              <li>Preheat 400°F; line tray.</li>
+              <li>Cream butter with sugars and zest ~2 min. Beat in egg, yolk, extract.</li>
+              <li>Mix in dry just to combine; fold chips. Portion 6-oz balls; bake ~12 min; cool.</li>
+            </ol>
+          </li>
+        `
+      },
+      {
+        id:"raspberrybrownie",
+        title:"Fudge Raspberry Brownie Cookies",
+        meta:"8×8 pan • extra fudgy",
+        img1:p("RaspberryBrownie.JPG"),
+        ingredientsHTML: `
+          <li><strong>Batter</strong>
+            <ul>
+              <li>3/4 cup butter, melted • 3/4 cup Dutch cocoa • 1 tsp vanilla</li>
+              <li>1 3/4 cup light brown sugar • 3 eggs</li>
+              <li>3/4 cup flour • 1/2 tsp salt • 1/2 cup raspberries • 1/2 cup chocolate chips</li>
+            </ul>
+          </li>
+        `,
+        stepsHTML: `
+          <li>
+            <ol>
+              <li>Preheat 350°F; line 8×8\" pan.</li>
+              <li>Whisk butter with cocoa and vanilla. Whip eggs with sugar until pale; fold together.</li>
+              <li>Fold in flour and salt, then raspberries and chips. Bake ~25 min; center should be fudgy.</li>
+            </ol>
+          </li>
+        `
+      },
+      {
+        id:"jellycat",
+        title:"Jellycat Birthday Cake",
+        meta:"Author: Gail Ng • 8 servings • ~2h 30m",
+        img1:p("JellyCat_1.jpg"),
+        img2:p("JellyCat_2.jpg"),
+        ingredientsHTML: `
+          <li><strong>Equipment</strong>
+            <ul>
+              <li>Two 6\" round cake pans • electric hand mixer • 3 piping bags</li>
+            </ul>
+          </li>
+          <li><strong>Cake Layers</strong>
+            <ul>
+              <li>225 g AP flour • 1 1/2 tsp baking powder • 1/2 tsp salt</li>
+              <li>3 eggs • 225 g sugar • 85 g butter • 190 g milk • 2 Tbsp oil • 1 1/2 tsp vanilla</li>
+            </ul>
+          </li>
+          <li><strong>Filling</strong>
+            <ul>
+              <li>300 g cream • 30 g powdered sugar • 1 tsp vanilla • 1–2 tsp cocoa • strawberry jam</li>
+            </ul>
+          </li>
+          <li><strong>Assemble</strong>
+            <ol>
+              <li>Preheat 350°F; line pans. Whip eggs with sugar ~6 min until very pale.</li>
+              <li>Warm milk with butter, oil, vanilla. Whisk dry. Combine gently; bake 35–40 min; cool.</li>
+              <li>Whip cream to peaks (tint a little with cocoa). Pipe borders and fill with jam; decorate.</li>
             </ol>
           </li>
         `
