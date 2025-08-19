@@ -6,53 +6,44 @@
   <title>Bake – Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
   <style>
-    /* ——— scoped to this page ——— */
-    .rcp-grid{
-      display:grid; gap:20px;
-      grid-template-columns:repeat(3,1fr);
-    }
-    @media (max-width:1100px){ .rcp-grid{grid-template-columns:repeat(2,1fr);} }
-    @media (max-width:640px){ .rcp-grid{grid-template-columns:1fr;} }
+    /* ====== Grid (3 per row) ====== */
+    .rcp-grid{display:grid;gap:20px;grid-template-columns:repeat(3,1fr);}
+    @media (max-width:1100px){.rcp-grid{grid-template-columns:repeat(2,1fr);}}
+    @media (max-width:640px){.rcp-grid{grid-template-columns:1fr;}}
 
-    .rcp-card{
-      border-radius:16px; overflow:hidden;
-      background:var(--panel,#fff);
-      border:1px solid rgba(17,19,24,.08);
-      box-shadow:0 6px 24px rgba(17,19,24,.06);
-      transition:box-shadow .2s ease;
-    }
-    .rcp-card:hover{ box-shadow:0 10px 28px rgba(17,19,24,.10); }
+    /* ====== Card ====== */
+    .rcp-card{border-radius:16px;overflow:hidden;background:var(--panel,#fff);
+      border:1px solid rgba(17,19,24,.08);box-shadow:0 6px 24px rgba(17,19,24,.06);
+      transition:box-shadow .2s ease;}
+    .rcp-card:hover{box-shadow:0 10px 28px rgba(17,19,24,.10);}
+    .rcp-toggle{display:block;width:100%;padding:0;border:0;background:transparent;cursor:pointer;text-align:left;}
+    .rcp-photo{position:relative;aspect-ratio:4/3;}
+    .rcp-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+    .rcp-caption{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;color:#fff;font-weight:700;
+      background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));text-shadow:0 1px 2px rgba(0,0,0,.5);}
 
-    .rcp-toggle{ display:block; width:100%; border:0; padding:0; background:transparent; cursor:pointer; text-align:left; }
-    .rcp-photo{ position:relative; aspect-ratio:4/3; }
-    .rcp-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .rcp-caption{
-      position:absolute; left:0; right:0; bottom:0;
-      padding:10px 12px; color:#fff; font-weight:700;
-      background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
-      text-shadow:0 1px 2px rgba(0,0,0,.5);
-    }
-
-    .rcp-panel{
-      max-height:0; overflow:hidden;
-      transition:max-height .35s ease;
-      background:#fafbfc; border-top:1px solid rgba(17,19,24,.08);
-    }
-    .rcp-card.open .rcp-panel{ max-height:2200px; } /* large enough to reveal content */
-
-    .rcp-inner{ padding:16px; display:grid; gap:16px; }
-    .rcp-photos2{ display:grid; gap:12px; grid-template-columns:1fr 1fr; }
-    @media (max-width:640px){ .rcp-photos2{ grid-template-columns:1fr; } }
-    .rcp-photos2 img{ width:100%; height:auto; border-radius:12px; background:#fff; object-fit:contain; }
-
-    .rcp-body{ display:grid; gap:16px; grid-template-columns:1fr 1fr; }
-    @media (max-width:800px){ .rcp-body{ grid-template-columns:1fr; } }
-    .rcp-body h4{ margin:0 0 6px; }
-    .rcp-body ul, .rcp-body ol{ margin:0 0 0 18px; }
+    /* ====== Lightbox / modal ====== */
+    body.no-scroll{overflow:hidden;}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.8);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:60;}
+    .modal-backdrop.open{opacity:1;pointer-events:auto;}
+    .modal-dialog{position:fixed;inset:0;display:grid;place-items:center;z-index:61;pointer-events:none;}
+    .modal-panel{pointer-events:auto;background:#111;border-radius:16px;max-width:1100px;width:min(96vw,1100px);
+      color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden;}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+    .modal-title{font-weight:700;}
+    .modal-close{background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;}
+    .modal-body{padding:16px;display:grid;gap:16px;}
+    .modal-photos{display:grid;gap:12px;grid-template-columns:1fr 1fr;}
+    @media (max-width:900px){.modal-photos{grid-template-columns:1fr;}}
+    .modal-photos img{width:100%;height:auto;display:block;background:#fff;border-radius:12px;object-fit:contain;}
+    .modal-recipe{display:grid;gap:16px;grid-template-columns:1fr 1fr;}
+    @media (max-width:900px){.modal-recipe{grid-template-columns:1fr;}}
+    .modal-recipe h4{margin:0 0 6px;}
+    .modal-recipe ul,.modal-recipe ol{margin:0 0 0 18px;}
   </style>
 </head>
 <body>
-  <!-- simple nav matching your site -->
+  <!-- Nav -->
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="./">JAN</a>
@@ -68,24 +59,58 @@
 
   <main class="container work">
     <h1 class="page-title">Bake</h1>
-    <p class="tag">Click a photo to expand — second image and the recipe appear below.</p>
+    <p class="tag">Click a photo to open a lightbox — second image + the recipe appear in the overlay.</p>
 
     <section class="rcp-grid" id="rcpGrid"><!-- cards injected by JS --></section>
   </main>
 
   <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
 
+  <!-- Lightbox markup -->
+  <div class="modal-backdrop" id="rcpBackdrop"></div>
+  <div class="modal-dialog" id="rcpDialog" aria-hidden="true">
+    <article class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="modal-head">
+        <div class="modal-title" id="modalTitle">Recipe</div>
+        <button class="modal-close" id="rcpClose" aria-label="Close">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="modal-photos">
+          <img id="mImg1" alt="" loading="lazy">
+          <img id="mImg2" alt="" loading="lazy">
+        </div>
+        <div class="modal-recipe">
+          <div>
+            <h4>Ingredients</h4>
+            <ul id="mIngr"></ul>
+          </div>
+          <div>
+            <h4>Steps</h4>
+            <ol id="mSteps"></ol>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ====== your recipes (uses images/baking/) ======
+    // Build repo-safe image paths (works at /Personal-Portfolio and locally)
+    const BASE = (() => {
+      const seg = location.pathname.split('/')[1];
+      return seg ? `/${seg}` : '';
+    })();
+    const p = (name) => `${BASE}/images/${name}`;
+
+    // ====== Your recipes ======
     const RECIPES = [
       {
-        id: "jellycat",
-        title: "JellyCat Cookies",
-        img1: "images/JellyCat_1.jpg",
-        img2: "images/JellyCat_2.jpg",
-        ingredients: [
+        id:"jellycat",
+        title:"JellyCat Cookies",
+        img1:p("JellyCat_1.jpg"),
+        img2:p("JellyCat_2.jpg"),
+        ingredients:[
           "1 cup (226g) unsalted butter, room temp",
           "3/4 cup (150g) sugar",
           "1 large egg",
@@ -93,28 +118,28 @@
           "2 1/4 cups (270g) AP flour",
           "1/2 tsp baking powder, 1/2 tsp salt"
         ],
-        steps: [
+        steps:[
           "Cream butter + sugar 2–3 min; beat in egg and vanilla.",
           "Whisk dry; fold into wet just until combined.",
-          "Scoop 1.5 Tbsp balls; chill 15 min; bake 350°F for 10–12 min.",
+          "Scoop 1.5 Tbsp; chill 15 min; bake 350°F for 10–12 min.",
           "Cool and decorate."
         ]
       },
       {
-        id: "thumbprint",
-        title: "Thumbprint Cookies",
-        img1: "images/ThumbPrint_1.jpg",
-        img2: "images/ThumbPrint_2.jpg",
-        img2Fallback: "images/baking/ThumPrint_2.jpg", // in case filename is missing the 'b'
-        ingredients: [
+        id:"thumbprint",
+        title:"Thumbprint Cookies",
+        img1:p("ThumbPrint_1.jpg"),
+        img2:p("ThumbPrint_2.jpg"),
+        img2Fallback:p("ThumPrint_2.jpg"), // fallback if filename lacks the “b”
+        ingredients:[
           "1 cup (226g) unsalted butter, room temp",
           "2/3 cup (85g) powdered sugar",
           "2 tsp vanilla, pinch of salt",
           "2 cups (240g) AP flour",
           "1/2 cup jam"
         ],
-        steps: [
-          "Beat butter + sugar smooth; mix in vanilla + salt.",
+        steps:[
+          "Beat butter + sugar until smooth; mix in vanilla + salt.",
           "Add flour until dough forms.",
           "Roll 1 Tbsp balls; thumb a well; fill with jam.",
           "Bake 350°F for 12–14 min; cool; dust with sugar."
@@ -122,50 +147,62 @@
       }
     ];
 
-    // ====== render 3-up grid ======
+    // ====== Render 3-up cards ======
     const grid = document.getElementById('rcpGrid');
-    RECIPES.forEach(r => {
-      const card = document.createElement('article');
-      card.className = 'rcp-card';
-      card.id = `rcp-${r.id}`;
-      card.innerHTML = `
-        <button class="rcp-toggle" aria-expanded="false" aria-controls="panel-${r.id}">
+    RECIPES.forEach(r=>{
+      const el=document.createElement('article');
+      el.className='rcp-card';
+      el.innerHTML = `
+        <button class="rcp-toggle" data-id="${r.id}" aria-label="Open ${r.title}">
           <div class="rcp-photo">
             <img src="${r.img1}" alt="${r.title} cover" loading="lazy">
             <div class="rcp-caption">${r.title}</div>
           </div>
-        </button>
-        <div class="rcp-panel" id="panel-${r.id}">
-          <div class="rcp-inner">
-            <div class="rcp-photos2">
-              <img src="${r.img1}" alt="${r.title} image 1" loading="lazy">
-              <img src="${r.img2}" alt="${r.title} image 2" loading="lazy"
-                   onerror="${r.img2Fallback ? `this.onerror=null; this.src='${r.img2Fallback}'` : 'this.onerror=null'}">
-            </div>
-            <div class="rcp-body">
-              <div>
-                <h4>Ingredients</h4>
-                <ul>${(r.ingredients||[]).map(i=>`<li>${i}</li>`).join('')}</ul>
-              </div>
-              <div>
-                <h4>Steps</h4>
-                <ol>${(r.steps||[]).map(s=>`<li>${s}</li>`).join('')}</ol>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
+        </button>`;
+      grid.appendChild(el);
     });
 
-    // ====== expand/collapse ======
-    grid.addEventListener('click', (e) => {
+    // ====== Lightbox behavior ======
+    const backdrop = document.getElementById('rcpBackdrop');
+    const dialog   = document.getElementById('rcpDialog');
+    const closeBtn = document.getElementById('rcpClose');
+    const mTitle = document.getElementById('modalTitle');
+    const mImg1  = document.getElementById('mImg1');
+    const mImg2  = document.getElementById('mImg2');
+    const mIngr  = document.getElementById('mIngr');
+    const mSteps = document.getElementById('mSteps');
+
+    function openModal(recipe){
+      mTitle.textContent = recipe.title;
+      mImg1.src = recipe.img1; mImg1.alt = `${recipe.title} image 1`;
+      mImg2.onerror = null;
+      mImg2.src = recipe.img2; mImg2.alt = `${recipe.title} image 2`;
+      if (recipe.img2Fallback){
+        mImg2.onerror = function(){ this.onerror=null; this.src = recipe.img2Fallback; };
+      }
+      mIngr.innerHTML = (recipe.ingredients||[]).map(x=>`<li>${x}</li>`).join('');
+      mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
+
+      document.body.classList.add('no-scroll');
+      backdrop.classList.add('open');
+      dialog.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      document.body.classList.remove('no-scroll');
+      backdrop.classList.remove('open');
+      dialog.setAttribute('aria-hidden','true');
+    }
+
+    grid.addEventListener('click', (e)=>{
       const btn = e.target.closest('.rcp-toggle');
-      if (!btn) return;
-      const card = btn.closest('.rcp-card');
-      const open = card.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
+      if(!btn) return;
+      const id = btn.dataset.id;
+      const recipe = RECIPES.find(x=>x.id===id);
+      if (recipe) openModal(recipe);
     });
+    backdrop.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
   </script>
 </body>
 </html>
