@@ -108,6 +108,13 @@
     .goals-card .pct{ position:absolute; font-weight:800; font-size:18px; }
     .goals-card .caption{ text-align:center; font-size:12px; color:#6b7280; margin-top:4px; }
 
+    .next-card{display:flex;align-items:center;gap:12px}
+    .next-logo{width:56px;height:56px;border-radius:12px;object-fit:cover;background:#fff;border:1px solid rgba(0,0,0,.06)}
+    .next-meta .t{font-size:15px;font-weight:700;color:#111318}
+    .next-meta .s{font-size:13px;color:#374151;margin-top:2px}
+    .next-goal{display:inline-block;margin-top:6px;padding:4px 8px;border-radius:999px;font-weight:700;font-size:12px;background:#eef2ff;color:#1d4ed8;border:1px solid #dbe3ff}
+
+
   </style>
 </head>
 
@@ -462,10 +469,10 @@
 
     /* ------------ top area ------------- */
     function TopBlock(){
-  const total2025 = TRAINING.filter(d=>d.week.startsWith("2025")).reduce((t,d)=>t+d.miles,0);
+  const total2025 = sum(TRAINING.filter(d=>d.week.startsWith("2025")), "miles");
   const races2025 = RACES.filter(r=>r.dateISO.startsWith("2025")).length;
-  const raceMilesAll = RACES.reduce((t,r)=>t+r.distance,0);
-  const fastest = RACES.reduce((best,r)=> (r.finishSeconds/r.distance) < (best.finishSeconds/best.distance) ? r : best, RACES[0]);
+  const raceMilesAll = sum(RACES, "distance");
+  const fastest = minBy(RACES, r => r.finishSeconds/r.distance);
   const fastestPace = fastest.finishSeconds/fastest.distance;
 
   return (
@@ -481,9 +488,9 @@
         <MilesBarChart data={TRAINING} />
       </div>
 
-      <div className="react-metrics-right">
+      <div className="react-right">
         <StravaCard/>
-        <GoalsCard/>
+        <NextRaceCard/>
       </div>
     </div>
   );
@@ -502,39 +509,28 @@
   );
 }
 
-function GoalsCard(){
-  const GOAL_MILES_2025 = 400;
-  const ytd = TRAINING.filter(d=>d.week.startsWith("2025"));
-  const milesYTD = ytd.reduce((t,d)=>t+d.miles,0);
-  const runWeeks = ytd.filter(d=>d.miles>0).length;
-  const totalWeeks = ytd.length || 1;
-
-  const NEXT_RACE = { title: "LA Marathon", dateLabel: "May 8, 2026", distance: 26.2, goalSeconds: 12600 };
-  const goalPace = NEXT_RACE.goalSeconds / NEXT_RACE.distance;
-
+function NextRaceCard(){
+  const NEXT = {
+    title: "LA Marathon",
+    dateLabel: "May 8, 2026",
+    distance: 26.2,
+    goalSeconds: 12600, // 3:30:00
+    logo: "images/LA - Marathaon.jpg"
+  };
+  const pace = NEXT.goalSeconds / NEXT.distance;
+  const logoSrc = encodeURI(NEXT.logo);
   return (
-    <div className="react-card goals-card">
-      <div style={{fontSize:13, fontWeight:700, color:"#374151", marginBottom:8}}>Goals</div>
-
-      <div className="rings">
-        <div className="ring">
-          <Donut value={milesYTD} total={GOAL_MILES_2025}/>
-          <div className="pct">{Math.round((milesYTD/GOAL_MILES_2025)*100)}%</div>
-          <div className="caption">Miles · {milesYTD}/{GOAL_MILES_2025}</div>
-        </div>
-        <div className="ring">
-          <Donut value={runWeeks} total={totalWeeks}/>
-          <div className="pct">{Math.round((runWeeks/totalWeeks)*100)}%</div>
-          <div className="caption">Weeks run · {runWeeks}/{totalWeeks}</div>
-        </div>
-      </div>
-
-      <div style={{marginTop:10, fontSize:13, color:"#374151"}}>
-        Next race: <b>{NEXT_RACE.title}</b> on <b>{NEXT_RACE.dateLabel}</b> · Goal: <b>3:30</b> ({paceStr(goalPace)})
+    <div className="react-card fill next-card">
+      <img className="next-logo" src={logoSrc} alt="LA Marathon logo"/>
+      <div className="next-meta">
+        <div className="t">Next: {NEXT.title}</div>
+        <div className="s">Date: <b>{NEXT.dateLabel}</b></div>
+        <div className="next-goal">Goal: 3:30 ({paceStr(pace)})</div>
       </div>
     </div>
   );
 }
+
 
 
     /* ------------ app ------------- */
