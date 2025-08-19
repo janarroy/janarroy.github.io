@@ -334,12 +334,13 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
   mix-blend-mode: multiply;
 }
 
-/* Title with playful gradient + hand-drawn underline */
+/* Toasty gradient title (no rainbow) */
 .title-spark{
-  background: linear-gradient(90deg,#f59e0b,#fb7185,#60a5fa,#34d399);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  position: relative;
+  background: linear-gradient(90deg,#6b3e2e 0%, #b96c38 40%, #f1a24b 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
 }
+
+/* Cocoa “swoosh” underline under the title */
 .title-spark::after{
   content:"";
   position:absolute; left:0; right:0; bottom:-4px; height:10px;
@@ -347,10 +348,11 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
     url("data:image/svg+xml;utf8,\
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'>\
         <path d='M2 12 Q20 2,40 12 T80 12 T120 12 T160 12 T198 12' \
-              fill='none' stroke='rgba(0,0,0,.35)' stroke-width='6' stroke-linecap='round'/>\
+              fill='none' stroke='rgba(107,62,46,.45)' stroke-width='6' stroke-linecap='round'/>\
       </svg>") center/100% 100% no-repeat;
   pointer-events:none;
 }
+
 .note h1{ margin:0 0 6px; font-size: clamp(28px,3.8vw,40px); line-height:1.15; }
 .note p{ margin:0; max-width:70ch; line-height:1.55; font-size: clamp(15px,1.9vw,16px); color:#222; }
 
@@ -384,49 +386,58 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
   .polaroid{ justify-self: start; transform: rotate(-2deg); width: min(78vw, 320px); }
 }
 
-/* tighten space below the scrapbook hero */
-.hero-collage{
-  margin: 18px auto 6px;           /* was larger; this reduces the white space */
-}
+/* tighten the gap between nav and hero, and hero to next section */
+.hero-collage{ margin: 10px auto 6px; }        /* was bigger */
 
-/* “Recipes” sub-header: a clean label with a line running behind it */
+/* clean, non-widget label */
 .section-kicker{
   max-width: 1100px;
-  margin: 6px auto 12px;
+  margin: 6px auto 10px;                        /* closer to the grid */
   line-height: 1;
   position: relative;
-  padding-inline: 4px;
+  padding: 0;
 }
 .section-kicker span{
-  display: inline-block;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: #fff;
-  border: 1px solid rgba(17,19,24,.10);
-  box-shadow: 0 6px 12px rgba(17,19,24,.06);
-  font-weight: 600;
-  letter-spacing: .3px;
+  background: none; border: 0; border-radius: 0; box-shadow: none;
+  padding: 0; margin: 0;
+  font-weight: 800;
+  letter-spacing: .2px;
+  font-size: clamp(18px, 2.2vw, 22px);
+  position: relative;
 }
-.section-kicker::after{
-  content: "";
-  position: absolute;
-  left: 0; right: 0;
-  top: 50%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(17,19,24,.14),
-    rgba(17,19,24,.08) 40%,
-    rgba(17,19,24,0)
-  );
-  z-index: -1;
+
+/* short underline just under the text (buttery gradient) */
+.section-kicker span::after{
+  content:"";
+  position:absolute; left:0; bottom:-6px;
+  width: 92px; height: 4px; border-radius: 3px;
+  background: linear-gradient(90deg,#ffbb55,#ffd992);
 }
+
+/* remove the long horizontal line behind the label */
+.section-kicker::after{ content:none !important; }
+
 
 /* tiny nudge for small screens */
 @media (max-width: 820px){
   .hero-collage{ margin: 14px auto 4px; }
   .section-kicker{ margin: 4px auto 10px; }
 }
+
+/* 3) spacing tweaks near the grid & bottom */
+.rcp-grid{            /* your recipe cards section */
+  margin-top: 6px;
+  margin-bottom: 24px;
+}
+
+/* If the page wrapper has big bottom padding, soften it */
+main, .content, body {
+  --bottom-pad: 24px;   /* only takes effect if your CSS uses this var */
+}
+
+/* If you still see extra bottom space, force-trim it (optional) */
+/* body { padding-bottom: 24px !important; } */
+/* .page, .content, main { padding-bottom: 24px !important; } */
 
 
   </style>
@@ -453,7 +464,7 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
     <!-- Scrapbook hero (note + polaroid) -->
 <section class="hero-collage" aria-label="About this page">
   <div class="note">
-    <h1><span class="title-spark">Bakes for my friends! :)</span></h1>
+    <h1><span class="title-spark">Bakes For My Friends! :) </span></h1>
     <p>
       I like trying new recipes and turning raw ingredients into something that makes friends smile.
       I bring cakes for birthdays and job offers, cookies for study breaks, and focaccia for random Tuesdays.
