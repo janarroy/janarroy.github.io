@@ -22,68 +22,55 @@
     .rcp-caption{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;color:#fff;font-weight:700;
       background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));text-shadow:0 1px 2px rgba(0,0,0,.5);}
 
-     /* ===== Lightbox (cream + animated) ===== */
-  :root { --modal-ms: 240ms; --easing: cubic-bezier(.2,.7,.2,1); }
-  body.no-scroll{overflow:hidden;}
+    /* ===== Lightbox (cream + animated) ===== */
+    :root { --modal-ms: 260ms; --easing: cubic-bezier(.2,.7,.2,1); }
+    body.no-scroll{overflow:hidden;}
 
-  .modal-backdrop{
-    position:fixed; inset:0;
-    background:rgba(255,248,240,.85);
-    backdrop-filter:saturate(1.2) blur(2px);
-    opacity:0; pointer-events:none; display:none;
-    transition:opacity var(--modal-ms) var(--easing); z-index:60;
-  }
-  .modal-backdrop.open{display:block; opacity:1; pointer-events:auto;}
-  .modal-backdrop.closing{opacity:0;} /* animate out */
+    .modal-backdrop{
+      position:fixed; inset:0;
+      background:rgba(255,248,240,.85);
+      backdrop-filter:saturate(1.1) blur(2px);
+      opacity:0; pointer-events:none; display:none;
+      transition:opacity var(--modal-ms) var(--easing); z-index:60;
+    }
+    .modal-backdrop.open{display:block; opacity:1; pointer-events:auto;}
+    .modal-backdrop.closing{opacity:0;}
 
-  .modal-dialog{
-    position:fixed; inset:0; z-index:61;
-    display:none; place-items:center;
-  }
-  .modal-dialog.open{display:grid;}
+    .modal-dialog{ position:fixed; inset:0; z-index:61; display:none; place-items:center; }
+    .modal-dialog.visible{ display:grid; }                /* show first */
+    .modal-dialog.open .modal-panel{ opacity:1; transform:none; } /* then animate in */
+    .modal-dialog.closing .modal-panel{ opacity:0; transform: translateY(8px) scale(.985); }
 
-  .modal-panel{
-    background:#fffaf0; color:#1f2937;
-    border:1px solid rgba(17,19,24,.08);
-    border-radius:16px; max-width:920px; width:min(96vw,920px);
-    box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden;
+    .modal-panel{
+      background:#fffaf0; color:#1f2937;
+      border:1px solid rgba(17,19,24,.08);
+      border-radius:16px; max-width:920px; width:min(96vw,920px);
+      box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden;
+      opacity:0; transform: translateY(12px) scale(.98);
+      transition: opacity var(--modal-ms) var(--easing), transform var(--modal-ms) var(--easing);
+      will-change: opacity, transform;
+    }
+    .modal-head{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 16px; border-bottom:1px solid rgba(17,19,24,.08);
+    }
+    .modal-title{font-weight:700;}
+    .modal-close{background:transparent;border:0;color:#111;font-size:22px;cursor:pointer;line-height:1;}
 
-    /* animation: start “closed” */
-    opacity:0; transform: translateY(12px) scale(.98);
-    transition:
-      opacity var(--modal-ms) var(--easing),
-      transform var(--modal-ms) var(--easing);
-  }
-  /* animate to “open” state */
-  .modal-dialog.open .modal-panel{
-    opacity:1; transform:none;
-  }
-  /* animate back to “closed” on exit */
-  .modal-dialog.closing .modal-panel{
-    opacity:0; transform: translateY(8px) scale(.985);
-  }
-
-  .modal-head{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:12px 16px; border-bottom:1px solid rgba(17,19,24,.08);
-  }
-  .modal-title{font-weight:700;}
-  .modal-close{background:transparent;border:0;color:#111;font-size:22px;cursor:pointer;line-height:1;}
-
-  .modal-body{
-    padding:16px; display:grid; gap:16px;
-    max-height:80vh; overflow:auto;
-  }
-  .modal-photos{ display:grid; gap:12px; grid-template-columns:1fr; }
-  .modal-photos img{
-    width:100%; height:auto; display:block; background:#fff;
-    border-radius:12px; object-fit:contain;
-  }
-  .modal-recipe{ display:grid; gap:16px; grid-template-columns:1fr 1fr; }
-  @media (max-width:900px){ .modal-recipe{ grid-template-columns:1fr; } }
-  .modal-recipe h4{ margin:0 0 6px; }
-  .modal-recipe ul,.modal-recipe ol{ margin:0 0 0 18px; }
-  .muted{color:#6b7280;font-size:14px;}
+    .modal-body{
+      padding:16px; display:grid; gap:16px;
+      max-height:80vh; overflow:auto;  /* scroll if tall */
+    }
+    .modal-photos{ display:grid; gap:12px; grid-template-columns:1fr; }
+    .modal-photos img{
+      width:100%; height:auto; display:block; background:#fff;
+      border-radius:12px; object-fit:contain;
+    }
+    .modal-recipe{ display:grid; gap:16px; grid-template-columns:1fr 1fr; }
+    @media (max-width:900px){ .modal-recipe{ grid-template-columns:1fr; } }
+    .modal-recipe h4{ margin:0 0 6px; }
+    .modal-recipe ul,.modal-recipe ol{ margin:0 0 0 18px; }
+    .muted{color:#6b7280;font-size:14px;}
   </style>
 </head>
 <body>
@@ -158,7 +145,6 @@
         meta:"Author: Gail Ng • 8 servings • Total ~2h 30m (Prep 50m, Cook 40m, Cool 1h)",
         img1:p("JellyCat_1.jpg"),
         img2:p("JellyCat_2.jpg"),
-        // rich HTML for ingredients and steps (so we can show sections)
         ingredientsHTML: `
           <li><strong>Equipment</strong>
             <ul>
@@ -201,64 +187,82 @@
           <li><strong>Cake Layers</strong>
             <ol>
               <li>Preheat oven to 350°F (177°C). Line two 6&quot; pans with parchment rounds.</li>
-              <li>In a bowl, whisk together flour, baking powder, and salt.</li>
-              <li>In a small pot or microwave-safe bowl, heat butter, milk, oil, and vanilla until the butter melts (do not boil). Keep warm.</li>
-              <li>In a large bowl, beat eggs and sugar with a hand mixer for ~6 minutes on medium, until tripled in volume and very pale.</li>
-              <li>Mix in half the dry ingredients on low just to combine; add the rest and mix until mostly combined (some flour streaks are OK).</li>
-              <li>With mixer on low, slowly stream in the warm milk mixture until smooth and fluid.</li>
-              <li>Divide batter between pans (about halfway full). Bake 35–40 minutes, until a toothpick comes out with a few crumbs.</li>
-              <li>Cool 15 minutes in pans; release and cool completely on a rack.</li>
+              <li>Whisk flour, baking powder, and salt.</li>
+              <li>Warm butter, milk, oil, and vanilla until butter melts (don’t boil).</li>
+              <li>Beat eggs and sugar ~6 min on medium until very pale and tripled.</li>
+              <li>Mix in half dry; then rest until mostly combined.</li>
+              <li>On low, stream in warm milk mixture until smooth.</li>
+              <li>Divide into pans halfway full; bake 35–40 min (toothpick with a few crumbs).</li>
+              <li>Cool 15 min in pans; release and cool completely.</li>
             </ol>
           </li>
           <li><strong>Filling</strong>
             <ol>
-              <li>Whip cream, powdered sugar, and vanilla to soft peaks. Scoop a small portion out, then whip the rest to firm peaks.</li>
-              <li>Stir cocoa into the small portion to tint brown; transfer both creams to separate piping bags.</li>
+              <li>Whip cream, sugar, and vanilla to soft peaks; reserve a little, then whip the rest to firm peaks.</li>
+              <li>Tint the reserved cream with cocoa; transfer both creams to piping bags.</li>
             </ol>
           </li>
           <li><strong>Assemble & Decorate</strong>
             <ol>
-              <li>Place first cake layer on a plate. Pipe dollops of whipped cream around the edge and toward the center; smear tails inward.</li>
-              <li>Spread strawberry jam in the middle, keeping the cream border intact.</li>
-              <li>Top with second layer. Pipe more whipped cream on top; arrange halved strawberries. Insert a candle.</li>
-              <li>Pipe small “legs” on the plate with the chocolate-tinted cream.</li>
-              <li>Melt dark chocolate, transfer to a small piping bag, and pipe eyes + smile on the bottom cake layer.</li>
+              <li>Pipe dollops of whipped cream around the first layer’s edge; smear tails inward.</li>
+              <li>Spread jam in the center.</li>
+              <li>Add top layer; pipe more cream; add strawberry halves and candle.</li>
+              <li>Pipe chocolate-tinted “legs”.</li>
+              <li>Melt dark chocolate; pipe eyes + smile.</li>
             </ol>
           </li>
         `
       },
       {
-  id:"thumbprint",
-  title:"Thumbprint Cookies",
-  img1:p("ThumbPrint_1.jpg"),
-  img2:p("ThumbPrint_2.jpg"),
-  img2Fallback:p("ThumPrint_2.jpg"),
-  ingredientsHTML: `
-    <li><strong>Cookie Dough</strong>
-      <ul>
-        <li>2 sticks unsalted butter, softened</li>
-        <li>1 cup sugar (+ extra for rolling)</li>
-        <li>2 egg yolks</li>
-        <li>2½ cups all-purpose flour</li>
-        <li>1 tsp salt</li>
-        <li>Strawberry jam</li>
-      </ul>
-    </li>
-  `,
-  stepsHTML: `
-    <li>
-      <ol>
-        <li>Cream 2 sticks softened butter with 1 cup sugar.</li>
-        <li>Mix in 2 egg yolks.</li>
-        <li>Add 2½ cups flour and 1 tsp salt; mix until a dough forms.</li>
-        <li>Roll small balls; roll each in sugar.</li>
-        <li>Place on a baking sheet and press your thumb into the center.</li>
-        <li>Fill the indent with strawberry jam.</li>
-        <li>Bake at 350°F for 8–10 minutes. Cool and enjoy.</li>
-      </ol>
-    </li>
-  `
-}
+        id:"thumbprint",
+        title:"Thumbprint Cookies",
+        img1:p("ThumbPrint_1.jpg"),
+        img2:p("ThumbPrint_2.jpg"),
+        img2Fallback:p("ThumPrint_2.jpg"),
+        ingredientsHTML: `
+          <li><strong>Cookie Dough</strong>
+            <ul>
+              <li>2 sticks unsalted butter, softened</li>
+              <li>1 cup sugar (+ extra for rolling)</li>
+              <li>2 egg yolks</li>
+              <li>2½ cups all-purpose flour</li>
+              <li>1 tsp salt</li>
+              <li>Strawberry jam</li>
+            </ul>
+          </li>
+        `,
+        stepsHTML: `
+          <li>
+            <ol>
+              <li>Cream 2 sticks softened butter with 1 cup sugar.</li>
+              <li>Mix in 2 egg yolks.</li>
+              <li>Add 2½ cups flour and 1 tsp salt; mix until a dough forms.</li>
+              <li>Roll small balls; roll each in sugar.</li>
+              <li>Place on a baking sheet and press your thumb into the center.</li>
+              <li>Fill the indent with strawberry jam.</li>
+              <li>Bake at 350°F for 8–10 minutes. Cool and enjoy.</li>
+            </ol>
+          </li>
+        `
+      },
+      {
+        id:"confetti",
+        title:"Confetti Cake",
+        meta:"Celebration cake — funfetti layers",
+        img1:p("Confetti_Cake1.JPG"),
+        img2:p("Confetti_Cake2.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon 🎉</li>`,
+        stepsHTML:`<li>Bake, frost, celebrate!</li>`
+      },
+      {
+        id:"lemon",
+        title:"Lemon Cake",
+        meta:"Bright + zesty",
+        img1:p("LemonCake.JPG"),
+        /* only one photo available; second will be hidden */
+        ingredientsHTML:`<li>Recipe coming soon 🍋</li>`,
+        stepsHTML:`<li>More details coming soon.</li>`
+      }
     ];
 
     // ===== Render cards =====
@@ -276,7 +280,7 @@
       grid.appendChild(el);
     });
 
-    // ===== Lightbox behavior =====
+    // ===== Lightbox behavior (animated) =====
     const backdrop = document.getElementById('rcpBackdrop');
     const dialog   = document.getElementById('rcpDialog');
     const closeBtn = document.getElementById('rcpClose');
@@ -286,43 +290,50 @@
     const mImg2  = document.getElementById('mImg2');
     const mIngr  = document.getElementById('mIngr');
     const mSteps = document.getElementById('mSteps');
+    const MS = 260;
 
-    const MS = 240; // match --modal-ms
+    function openModal(recipe){
+      mTitle.textContent = recipe.title;
+      mMeta.textContent  = recipe.meta || "";
+      mImg1.src = recipe.img1; mImg1.alt = `${recipe.title} image 1`;
 
-function openModal(recipe){
-  mTitle.textContent = recipe.title;
-  mMeta.textContent  = recipe.meta || "";
-  mImg1.src = recipe.img1; mImg1.alt = `${recipe.title} image 1`;
-  mImg2.onerror = null;
-  mImg2.src = recipe.img2; mImg2.alt = `${recipe.title} image 2`;
-  if (recipe.img2Fallback){
-    mImg2.onerror = function(){ this.onerror=null; this.src = recipe.img2Fallback; };
-  }
-  if (recipe.ingredientsHTML) mIngr.innerHTML = recipe.ingredientsHTML;
-  else mIngr.innerHTML = (recipe.ingredients||[]).map(x=>`<li>${x}</li>`).join('');
-  if (recipe.stepsHTML) mSteps.innerHTML = recipe.stepsHTML;
-  else mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
+      // second image (hide if missing)
+      mImg2.onerror = null;
+      if (recipe.img2){
+        mImg2.style.display = '';
+        mImg2.src = recipe.img2; mImg2.alt = `${recipe.title} image 2`;
+        if (recipe.img2Fallback){
+          mImg2.onerror = function(){ this.onerror=null; this.src = recipe.img2Fallback; };
+        }
+      } else {
+        mImg2.style.display = 'none';
+        mImg2.removeAttribute('src');
+      }
 
-  // ensure not “closing”
-  dialog.classList.remove('closing');
-  backdrop.classList.remove('closing');
+      if (recipe.ingredientsHTML) mIngr.innerHTML = recipe.ingredientsHTML;
+      else mIngr.innerHTML = (recipe.ingredients||[]).map(x=>`<li>${x}</li>`).join('');
+      if (recipe.stepsHTML) mSteps.innerHTML = recipe.stepsHTML;
+      else mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
 
-  document.body.classList.add('no-scroll');
-  backdrop.classList.add('open');
-  dialog.classList.add('open');        // triggers fade/slide in
-}
+      // reset any closing state
+      dialog.classList.remove('closing'); backdrop.classList.remove('closing');
 
-function closeModal(){
-  // play the closing animation first
-  dialog.classList.add('closing');
-  backdrop.classList.add('closing');
+      document.body.classList.add('no-scroll');
+      backdrop.classList.add('open');          // fades in backdrop
+      dialog.classList.add('visible');         // mounts dialog first
+      requestAnimationFrame(()=>{              // next frame: animate panel
+        dialog.classList.add('open');
+      });
+    }
 
-  setTimeout(()=>{                     // after animation, actually hide
-    document.body.classList.remove('no-scroll');
-    dialog.classList.remove('open','closing');
-    backdrop.classList.remove('open','closing');
-  }, MS);
-}
+    function closeModal(){
+      dialog.classList.add('closing'); backdrop.classList.add('closing');
+      setTimeout(()=>{
+        document.body.classList.remove('no-scroll');
+        dialog.classList.remove('open','closing','visible');
+        backdrop.classList.remove('open','closing');
+      }, MS);
+    }
 
     grid.addEventListener('click', (e)=>{
       const btn = e.target.closest('.rcp-toggle');
