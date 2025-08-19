@@ -406,65 +406,62 @@ function RouteSpark({ d }){
 function CourseMap({ img, src }){
   const hasImg = !!img;
   return (
-    <div>
-      <div className="section-label"><span className="icon">📍</span><span>Official course map</span></div>
-      <div className="course-map" title="Course map">
-        {hasImg ? (
-          <img src={img} alt="Official course map"/>
-        ) : (
-          <div style={{padding:"16px", fontSize:"14px", color:"#374151"}}>Map image not added yet.</div>
-        )}
-        <div className="cm-bar">
-          <span>Course map</span>
-          <a href={src} target="_blank" rel="noreferrer">View official source</a>
-        </div>
+    <div className="course-map" title="Course map">
+      {hasImg
+        ? <img src={img} alt="Official course map"/>
+        : <div style={{padding:"16px", fontSize:"14px", color:"#374151"}}>Map image not added yet.</div>}
+      <div className="cm-bar">
+        <span>Course map</span>
+        <a href={src} target="_blank" rel="noreferrer">View official source</a>
       </div>
     </div>
   );
 }
 
 
+
+
     /* ------------ race card ------------- */
     function RaceCard({ race }) {
-      const pace = race.finishSeconds / race.distance;
-      return (
-        <section className="react-card">
-          <div className="react-bar-hdr">
-            <h2>{race.title}</h2>
-            <span className="react-date">{race.dateLabel}</span>
+  const pace = race.finishSeconds / race.distance;
+  return (
+    <section className="react-card">
+      <div className="react-bar-hdr">
+        <h2>{race.title}</h2>
+        <span className="react-date">{race.dateLabel}</span>
+      </div>
+
+      <div className="react-grid">
+        <div className="react-col-media">
+          <MediaSlider media={race.media} />
+        </div>
+
+        <div className="react-col-notes">
+          <h3 className="react-title">{race.title}</h3>
+          <div className="react-meta">{race.city} · {race.distance} miles</div>
+
+          <div className="react-stats">
+            <StatTile label="training miles" value={race.trainingMiles} />
+            <StatTile label="finish" value={race.finishSeconds} isTime />
+            <StatTile label="avg pace" value={paceStr(pace)} />
           </div>
 
-          <div className="react-grid">
-            <div className="react-col-media">
-              <MediaSlider media={race.media} />
-            </div>
+          <TagRow tags={race.tags} />
+          {race.goalSeconds && <GoalMeter finishSeconds={race.finishSeconds} goalSeconds={race.goalSeconds} />}
 
-            <div className="react-col-notes">
-              <h3 className="react-title">{race.title}</h3>
-              <div className="react-meta">{race.city} · {race.distance} miles</div>
+          <CourseMap img={race.courseMapImg} src={race.courseMapSrc}/>
 
-              <div className="react-stats">
-                <StatTile label="training miles" value={race.trainingMiles} />
-                <StatTile label="finish" value={race.finishSeconds} isTime />
-                <StatTile label="avg pace" value={paceStr(pace)} />
-              </div>
-
-              <TagRow tags={race.tags} />
-              {race.goalSeconds && <GoalMeter finishSeconds={race.finishSeconds} goalSeconds={race.goalSeconds} />}
-
-              <RouteSpark d={race.routePath}/>
-              <CourseMap img={race.courseMapImg} src={race.courseMapSrc}/>
-
-              <div className="react-story">
-                {race.description.map((p,i)=><p key={i}>{p}</p>)}
-              </div>
-
-              <div className="react-note">Photos and videos show full size. No cropping.</div>
-            </div>
+          <div className="react-story">
+            {race.description.map((p,i)=><p key={i}>{p}</p>)}
           </div>
-        </section>
-      );
-    }
+
+          <div className="react-note">Photos and videos show full size. No cropping.</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
     /* ------------ strava follow ------------- */
     function StravaCard(){
