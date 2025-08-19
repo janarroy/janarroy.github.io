@@ -145,6 +145,7 @@
   box-shadow: none;
 }
 
+
 /* Paper recipe card – lined, pinned with “tape”, red margin line */
 .recipe-card{
   position: relative;
@@ -383,6 +384,49 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
   .polaroid{ justify-self: start; transform: rotate(-2deg); width: min(78vw, 320px); }
 }
 
+/* tighten space below the scrapbook hero */
+.hero-collage{
+  margin: 18px auto 6px;           /* was larger; this reduces the white space */
+}
+
+/* “Recipes” sub-header: a clean label with a line running behind it */
+.section-kicker{
+  max-width: 1100px;
+  margin: 6px auto 12px;
+  line-height: 1;
+  position: relative;
+  padding-inline: 4px;
+}
+.section-kicker span{
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(17,19,24,.10);
+  box-shadow: 0 6px 12px rgba(17,19,24,.06);
+  font-weight: 600;
+  letter-spacing: .3px;
+}
+.section-kicker::after{
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(17,19,24,.14),
+    rgba(17,19,24,.08) 40%,
+    rgba(17,19,24,0)
+  );
+  z-index: -1;
+}
+
+/* tiny nudge for small screens */
+@media (max-width: 820px){
+  .hero-collage{ margin: 14px auto 4px; }
+  .section-kicker{ margin: 4px auto 10px; }
+}
 
 
   </style>
@@ -409,7 +453,7 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
     <!-- Scrapbook hero (note + polaroid) -->
 <section class="hero-collage" aria-label="About this page">
   <div class="note">
-    <h1><span class="title-spark">Baking for my people</span></h1>
+    <h1><span class="title-spark">Bakes for my friends! :)</span></h1>
     <p>
       I like trying new recipes and turning raw ingredients into something that makes friends smile.
       I bring cakes for birthdays and job offers, cookies for study breaks, and focaccia for random Tuesdays.
@@ -423,6 +467,9 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
   </figure>
 </section>
 
+<h2 class="section-kicker" id="recipes">
+  <span>Recipes</span>
+</h2>
 
 
     <!-- Cards -->
