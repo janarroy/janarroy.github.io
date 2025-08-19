@@ -139,10 +139,11 @@
 
     // ===== Recipes =====
     const RECIPES = [
+      /* Existing */
       {
         id:"jellycat",
         title:"Jellycat Birthday Cake",
-        meta:"Author: Gail Ng • 8 servings • Total ~2h 30m (Prep 50m, Cook 40m, Cool 1h)",
+        meta:"Author: Gail Ng • 8 servings • ~2h 30m",
         img1:p("JellyCat_1.jpg"),
         img2:p("JellyCat_2.jpg"),
         ingredientsHTML: `
@@ -186,29 +187,26 @@
         stepsHTML: `
           <li><strong>Cake Layers</strong>
             <ol>
-              <li>Preheat oven to 350°F (177°C). Line two 6&quot; pans with parchment rounds.</li>
-              <li>Whisk flour, baking powder, and salt.</li>
-              <li>Warm butter, milk, oil, and vanilla until butter melts (don’t boil).</li>
-              <li>Beat eggs and sugar ~6 min on medium until very pale and tripled.</li>
-              <li>Mix in half dry; then rest until mostly combined.</li>
+              <li>Preheat 350°F. Line two 6&quot; pans.</li>
+              <li>Whisk flour, baking powder, salt.</li>
+              <li>Warm butter, milk, oil, vanilla (don’t boil).</li>
+              <li>Beat eggs + sugar ~6 min until very pale/tripled.</li>
+              <li>Mix in dry (in 2 adds) just to combine.</li>
               <li>On low, stream in warm milk mixture until smooth.</li>
-              <li>Divide into pans halfway full; bake 35–40 min (toothpick with a few crumbs).</li>
-              <li>Cool 15 min in pans; release and cool completely.</li>
+              <li>Divide; bake 35–40 min. Cool completely.</li>
             </ol>
           </li>
           <li><strong>Filling</strong>
             <ol>
-              <li>Whip cream, sugar, and vanilla to soft peaks; reserve a little, then whip the rest to firm peaks.</li>
-              <li>Tint the reserved cream with cocoa; transfer both creams to piping bags.</li>
+              <li>Whip cream + sugar + vanilla to soft peaks; reserve a bit; whip rest to firm.</li>
+              <li>Tint reserve with cocoa; bag both creams.</li>
             </ol>
           </li>
-          <li><strong>Assemble & Decorate</strong>
+          <li><strong>Assemble</strong>
             <ol>
-              <li>Pipe dollops of whipped cream around the first layer’s edge; smear tails inward.</li>
-              <li>Spread jam in the center.</li>
-              <li>Add top layer; pipe more cream; add strawberry halves and candle.</li>
-              <li>Pipe chocolate-tinted “legs”.</li>
-              <li>Melt dark chocolate; pipe eyes + smile.</li>
+              <li>Cream border + jam center.</li>
+              <li>Top layer; pipe cream; add strawberries + candle.</li>
+              <li>Pipe “legs”; melt chocolate; pipe face.</li>
             </ol>
           </li>
         `
@@ -234,13 +232,12 @@
         stepsHTML: `
           <li>
             <ol>
-              <li>Cream 2 sticks softened butter with 1 cup sugar.</li>
-              <li>Mix in 2 egg yolks.</li>
-              <li>Add 2½ cups flour and 1 tsp salt; mix until a dough forms.</li>
-              <li>Roll small balls; roll each in sugar.</li>
-              <li>Place on a baking sheet and press your thumb into the center.</li>
-              <li>Fill the indent with strawberry jam.</li>
-              <li>Bake at 350°F for 8–10 minutes. Cool and enjoy.</li>
+              <li>Cream butter + sugar.</li>
+              <li>Mix in egg yolks.</li>
+              <li>Add flour + salt; mix to dough.</li>
+              <li>Roll balls; roll in sugar.</li>
+              <li>Thumb an indent; fill with jam.</li>
+              <li>Bake 350°F for 8–10 min.</li>
             </ol>
           </li>
         `
@@ -255,54 +252,42 @@
           <li><strong>Cake</strong>
             <ul>
               <li>3¾ cups (443g) cake flour</li>
-              <li>1 tsp baking powder</li>
-              <li>1 tsp baking soda</li>
-              <li>1 tsp salt</li>
+              <li>1 tsp baking powder • 1 tsp baking soda • 1 tsp salt</li>
               <li>1¼ cups (282g) unsalted butter, room temp</li>
-              <li>2 cups (400g) granulated sugar</li>
-              <li>1/3 cup (80ml) vegetable oil</li>
-              <li>4 large eggs, room temp</li>
-              <li>2 large egg whites, room temp</li>
-              <li>3 tsp (15ml) vanilla extract</li>
-              <li>1½ cups (360ml) buttermilk, room temp</li>
+              <li>2 cups (400g) sugar • 1/3 cup (80ml) oil</li>
+              <li>4 eggs + 2 egg whites, room temp</li>
+              <li>3 tsp vanilla • 1½ cups (360ml) buttermilk</li>
               <li>3/4 cup (135g) rainbow sprinkles</li>
             </ul>
           </li>
           <li><strong>Vanilla Buttercream</strong>
             <ul>
-              <li>1½ cups (340g) unsalted butter, room temp</li>
+              <li>1½ cups (340g) butter, room temp</li>
               <li>5½ cups (650g) confectioners’ sugar</li>
-              <li>1/3 cup (80ml) heavy cream, room temp</li>
-              <li>3 tsp (15ml) vanilla extract</li>
-              <li>1/8 tsp salt</li>
-              <li>Optional: extra sprinkles for garnish</li>
+              <li>1/3 cup (80ml) heavy cream</li>
+              <li>3 tsp vanilla • 1/8 tsp salt</li>
+              <li>Sprinkles to garnish</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li><strong>Bake the Cake</strong>
             <ol>
-              <li>Preheat to 350°F (177°C). Grease and line three 8&quot; or 9&quot; pans with parchment.</li>
-              <li>Whisk cake flour, baking powder, baking soda, and salt.</li>
-              <li>Cream butter + sugar on high 5 minutes until fluffy; scrape bowl.</li>
-              <li>Beat in oil 1 minute. Add eggs, egg whites, and vanilla; beat to combine.</li>
-              <li>Alternate dry ingredients and buttermilk in 3 additions; mix just until incorporated. Fold in sprinkles.</li>
-              <li>Divide evenly among pans. Bake ~25–26 min (8&quot; may need 27–28). Tent after ~15 min if browning.</li>
-              <li>Cool 20 min in pans; release and cool completely on racks.</li>
+              <li>Preheat 350°F. Grease/line three 8&quot; or 9&quot; pans.</li>
+              <li>Whisk dry. Cream butter + sugar 5 min; beat in oil, then eggs/whites + vanilla.</li>
+              <li>Alternate dry and buttermilk in 3 additions; fold in sprinkles.</li>
+              <li>Divide; bake ~25–26 min (8&quot; may need 27–28). Cool completely.</li>
             </ol>
           </li>
-          <li><strong>Vanilla Buttercream</strong>
+          <li><strong>Buttercream</strong>
             <ol>
-              <li>Beat butter 2 min until creamy. Add sugar, cream, vanilla, and salt.</li>
-              <li>Beat low 30 sec, then high 2 min. Adjust with more sugar/cream/salt as needed.</li>
+              <li>Beat butter 2 min; add sugar, cream, vanilla, salt. Beat high 2 min; adjust texture.</li>
             </ol>
           </li>
-          <li><strong>Assemble & Decorate</strong>
+          <li><strong>Assemble</strong>
             <ol>
-              <li>Level cake tops. Layer: 1 cup frosting between each layer.</li>
-              <li>Apply thin crumb coat; chill 30 min–3 hrs.</li>
-              <li>Frost the exterior and garnish with sprinkles.</li>
-              <li>Serve at room temp (store covered up to 1 day; leftovers covered up to 5 days in fridge).</li>
+              <li>Level layers; 1 cup frosting between each.</li>
+              <li>Crumb coat; chill 30–180 min. Finish frosting; add sprinkles.</li>
             </ol>
           </li>
         `
@@ -315,56 +300,68 @@
         ingredientsHTML: `
           <li><strong>Cake</strong>
             <ul>
-              <li>3 cups (354g) sifted all-purpose flour</li>
-              <li>2½ tsp baking powder</li>
-              <li>1/2 tsp baking soda</li>
-              <li>1/2 tsp salt</li>
-              <li>1 cup (226g) unsalted butter, room temp</li>
-              <li>1¾ cups (350g) granulated sugar</li>
-              <li>3 large eggs, room temp</li>
-              <li>2 tsp vanilla extract</li>
-              <li>1 cup (240ml) whole milk, room temp</li>
-              <li>1 heaping Tbsp lemon zest (≈2 lemons)</li>
-              <li>1/3 cup (80ml) fresh lemon juice (≈2 lemons)</li>
+              <li>3 cups (354g) AP flour • 2½ tsp baking powder</li>
+              <li>1/2 tsp baking soda • 1/2 tsp salt</li>
+              <li>1 cup (226g) butter • 1¾ cups (350g) sugar</li>
+              <li>3 eggs • 2 tsp vanilla • 1 cup (240ml) milk</li>
+              <li>1 Tbsp lemon zest • 1/3 cup (80ml) lemon juice</li>
             </ul>
           </li>
           <li><strong>Cream Cheese Buttercream</strong>
             <ul>
-              <li>1 cup (226g) unsalted butter, room temp</li>
-              <li>8 oz (226g) brick cream cheese, room temp</li>
+              <li>1 cup (226g) butter • 8 oz (226g) cream cheese</li>
               <li>4½ cups (540g) confectioners’ sugar</li>
-              <li>2 Tbsp (30ml) fresh lemon juice</li>
-              <li>1 tsp vanilla extract</li>
-              <li>Pinch of salt, to taste</li>
+              <li>2 Tbsp lemon juice • 1 tsp vanilla • pinch salt</li>
             </ul>
           </li>
         `,
         stepsHTML: `
           <li><strong>Bake the Cake</strong>
             <ol>
-              <li>Preheat to 350°F (177°C). Grease and line three 8&quot; pans with parchment.</li>
-              <li>Whisk flour, baking powder, baking soda, and salt; set aside.</li>
-              <li>Cream butter + sugar on high ~3 min until smooth and creamy.</li>
-              <li>Beat in eggs and vanilla until combined.</li>
-              <li>On low, mix in dry ingredients just until combined; then milk, lemon zest, and lemon juice just until combined (batter is slightly thick).</li>
-              <li>Divide into pans; bake 21–26 min until a toothpick is clean. Cool completely in pans on racks.</li>
+              <li>Preheat 350°F. Grease/line three 8&quot; pans.</li>
+              <li>Cream butter + sugar ~3 min; beat in eggs + vanilla.</li>
+              <li>Mix in dry just until combined; add milk, zest, juice; mix just until combined.</li>
+              <li>Divide; bake 21–26 min. Cool completely.</li>
             </ol>
           </li>
           <li><strong>Frosting</strong>
             <ol>
-              <li>Beat butter 2 min; add cream cheese and beat smooth.</li>
-              <li>Add sugar, lemon juice, and vanilla on low; then beat high 3 min. Adjust with more sugar/lemon/salt as needed.</li>
-            </ol>
-          </li>
-          <li><strong>Assemble</strong>
-            <ol>
-              <li>Level layers. Spread ~1 cup frosting between each; stack.</li>
-              <li>Crumb coat; chill 30–45 min. Finish frosting. (Optional whipped-cream swoops.)</li>
-              <li>Chill briefly before slicing. Store leftovers covered up to 5 days in fridge.</li>
+              <li>Beat butter 2 min; blend in cream cheese.</li>
+              <li>Add sugar, lemon juice, vanilla; beat high 3 min; adjust to taste.</li>
             </ol>
           </li>
         `
-      }
+      },
+
+      /* ==== New photo-only widgets (placeholders for now) ==== */
+      { id:"blackberry", title:"Blackberry Cake", img1:p("Blackberry_cake.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon 🫐</li>`,
+        stepsHTML:`<li>More details coming soon.</li>` },
+
+      { id:"carrot", title:"Carrot Cake", img1:p("Carrot_Cake.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon 🥕</li>`,
+        stepsHTML:`<li>More details coming soon.</li>` },
+
+      { id:"focaccia", title:"Focaccia Bread", img1:p("Foccacia.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon 🫒</li>`,
+        stepsHTML:`<li>More details coming soon.</li>` },
+
+      { id:"matcha", title:"Matcha Cookies", img1:p("Matcha_Cookie.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon 🍵</li>`,
+        stepsHTML:`<li>More details coming soon.</li>` },
+
+      { id:"raspberrybrownie", title:"Raspberry Brownie", img1:p("RaspberryBrownie.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon 🍫</li>`,
+        stepsHTML:`<li>More details coming soon.</li>` },
+
+      { id:"redvelvet", title:"Red Velvet Bundt", img1:p("RedVelvet_Bundt.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon ❤️</li>`,
+        stepsHTML:`<li>More details coming soon.</li>` },
+
+      { id:"whitechoclemon", title:"White Chocolate Lemon Cake",
+        img1:p("WhiteChocolateLemon.JPG"), img2:p("WhiteChocolateLemon2.JPG"),
+        ingredientsHTML:`<li>Recipe coming soon 🍋🍫</li>`,
+        stepsHTML:`<li>More details coming soon.</li>` },
     ];
 
     // ===== Render cards =====
