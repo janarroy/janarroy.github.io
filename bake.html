@@ -22,52 +22,68 @@
     .rcp-caption{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;color:#fff;font-weight:700;
       background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));text-shadow:0 1px 2px rgba(0,0,0,.5);}
 
-    /* ===== Lightbox (cream theme) ===== */
-    body.no-scroll{overflow:hidden;}
+     /* ===== Lightbox (cream + animated) ===== */
+  :root { --modal-ms: 240ms; --easing: cubic-bezier(.2,.7,.2,1); }
+  body.no-scroll{overflow:hidden;}
 
-    .modal-backdrop{
-      position:fixed; inset:0;
-      background:rgba(255,248,240,.85); /* cream tint */
-      backdrop-filter:saturate(1.2) blur(2px);
-      opacity:0; pointer-events:none; display:none;
-      transition:opacity .2s ease; z-index:60;
-    }
-    .modal-backdrop.open{display:block; opacity:1; pointer-events:auto;}
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(255,248,240,.85);
+    backdrop-filter:saturate(1.2) blur(2px);
+    opacity:0; pointer-events:none; display:none;
+    transition:opacity var(--modal-ms) var(--easing); z-index:60;
+  }
+  .modal-backdrop.open{display:block; opacity:1; pointer-events:auto;}
+  .modal-backdrop.closing{opacity:0;} /* animate out */
 
-    .modal-dialog{
-      position:fixed; inset:0; z-index:61;
-      display:none; place-items:center;
-    }
-    .modal-dialog.open{display:grid;}
+  .modal-dialog{
+    position:fixed; inset:0; z-index:61;
+    display:none; place-items:center;
+  }
+  .modal-dialog.open{display:grid;}
 
-    .modal-panel{
-      background:#fffaf0; color:#1f2937; /* cream + dark text */
-      border:1px solid rgba(17,19,24,.08);
-      border-radius:16px; max-width:920px; width:min(96vw,920px);
-      box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden;
-    }
-    .modal-head{
-      display:flex; justify-content:space-between; align-items:center;
-      padding:12px 16px; border-bottom:1px solid rgba(17,19,24,.08);
-    }
-    .modal-title{font-weight:700;}
-    .modal-close{background:transparent;border:0;color:#111;font-size:22px;cursor:pointer;line-height:1;}
+  .modal-panel{
+    background:#fffaf0; color:#1f2937;
+    border:1px solid rgba(17,19,24,.08);
+    border-radius:16px; max-width:920px; width:min(96vw,920px);
+    box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden;
 
-    .modal-body{
-      padding:16px; display:grid; gap:16px;
-      max-height:80vh; overflow:auto;   /* scroll content if tall */
-    }
-    .modal-photos{ display:grid; gap:12px; grid-template-columns:1fr; }
-    .modal-photos img{
-      width:100%; height:auto; display:block; background:#fff;
-      border-radius:12px; object-fit:contain;
-    }
+    /* animation: start “closed” */
+    opacity:0; transform: translateY(12px) scale(.98);
+    transition:
+      opacity var(--modal-ms) var(--easing),
+      transform var(--modal-ms) var(--easing);
+  }
+  /* animate to “open” state */
+  .modal-dialog.open .modal-panel{
+    opacity:1; transform:none;
+  }
+  /* animate back to “closed” on exit */
+  .modal-dialog.closing .modal-panel{
+    opacity:0; transform: translateY(8px) scale(.985);
+  }
 
-    .modal-recipe{ display:grid; gap:16px; grid-template-columns:1fr 1fr; }
-    @media (max-width:900px){ .modal-recipe{ grid-template-columns:1fr; } }
-    .modal-recipe h4{ margin:0 0 6px; }
-    .modal-recipe ul,.modal-recipe ol{ margin:0 0 0 18px; }
-    .muted{color:#6b7280;font-size:14px;}
+  .modal-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 16px; border-bottom:1px solid rgba(17,19,24,.08);
+  }
+  .modal-title{font-weight:700;}
+  .modal-close{background:transparent;border:0;color:#111;font-size:22px;cursor:pointer;line-height:1;}
+
+  .modal-body{
+    padding:16px; display:grid; gap:16px;
+    max-height:80vh; overflow:auto;
+  }
+  .modal-photos{ display:grid; gap:12px; grid-template-columns:1fr; }
+  .modal-photos img{
+    width:100%; height:auto; display:block; background:#fff;
+    border-radius:12px; object-fit:contain;
+  }
+  .modal-recipe{ display:grid; gap:16px; grid-template-columns:1fr 1fr; }
+  @media (max-width:900px){ .modal-recipe{ grid-template-columns:1fr; } }
+  .modal-recipe h4{ margin:0 0 6px; }
+  .modal-recipe ul,.modal-recipe ol{ margin:0 0 0 18px; }
+  .muted{color:#6b7280;font-size:14px;}
   </style>
 </head>
 <body>
@@ -212,33 +228,37 @@
         `
       },
       {
-        id:"thumbprint",
-        title:"Thumbprint Cookies",
-        img1:p("ThumbPrint_1.jpg"),
-        img2:p("ThumbPrint_2.jpg"),
-        img2Fallback:p("ThumPrint_2.jpg"),
-        ingredientsHTML: `
-          <li><strong>Cookie Dough</strong>
-            <ul>
-              <li>1 cup (226g) unsalted butter, room temp</li>
-              <li>2/3 cup (85g) powdered sugar</li>
-              <li>2 tsp vanilla, pinch of salt</li>
-              <li>2 cups (240g) all-purpose flour</li>
-              <li>1/2 cup jam (raspberry or your fave)</li>
-            </ul>
-          </li>
-        `,
-        stepsHTML: `
-          <li>
-            <ol>
-              <li>Cream butter + sugar until smooth; mix in vanilla + salt.</li>
-              <li>Stir in flour until a dough forms.</li>
-              <li>Roll 1 Tbsp balls; press a thumb well; fill with jam.</li>
-              <li>Bake 350°F (177°C) for 12–14 minutes; cool and dust with sugar.</li>
-            </ol>
-          </li>
-        `
-      }
+  id:"thumbprint",
+  title:"Thumbprint Cookies",
+  img1:p("ThumbPrint_1.jpg"),
+  img2:p("ThumbPrint_2.jpg"),
+  img2Fallback:p("ThumPrint_2.jpg"),
+  ingredientsHTML: `
+    <li><strong>Cookie Dough</strong>
+      <ul>
+        <li>2 sticks unsalted butter, softened</li>
+        <li>1 cup sugar (+ extra for rolling)</li>
+        <li>2 egg yolks</li>
+        <li>2½ cups all-purpose flour</li>
+        <li>1 tsp salt</li>
+        <li>Strawberry jam</li>
+      </ul>
+    </li>
+  `,
+  stepsHTML: `
+    <li>
+      <ol>
+        <li>Cream 2 sticks softened butter with 1 cup sugar.</li>
+        <li>Mix in 2 egg yolks.</li>
+        <li>Add 2½ cups flour and 1 tsp salt; mix until a dough forms.</li>
+        <li>Roll small balls; roll each in sugar.</li>
+        <li>Place on a baking sheet and press your thumb into the center.</li>
+        <li>Fill the indent with strawberry jam.</li>
+        <li>Bake at 350°F for 8–10 minutes. Cool and enjoy.</li>
+      </ol>
+    </li>
+  `
+}
     ];
 
     // ===== Render cards =====
@@ -267,32 +287,42 @@
     const mIngr  = document.getElementById('mIngr');
     const mSteps = document.getElementById('mSteps');
 
-    function openModal(recipe){
-      mTitle.textContent = recipe.title;
-      mMeta.textContent  = recipe.meta || "";
-      mImg1.src = recipe.img1; mImg1.alt = `${recipe.title} image 1`;
-      mImg2.onerror = null;
-      mImg2.src = recipe.img2; mImg2.alt = `${recipe.title} image 2`;
-      if (recipe.img2Fallback){
-        mImg2.onerror = function(){ this.onerror=null; this.src = recipe.img2Fallback; };
-      }
+    const MS = 240; // match --modal-ms
 
-      // support rich HTML sections
-      if (recipe.ingredientsHTML) mIngr.innerHTML = recipe.ingredientsHTML;
-      else mIngr.innerHTML = (recipe.ingredients||[]).map(x=>`<li>${x}</li>`).join('');
-      if (recipe.stepsHTML) mSteps.innerHTML = recipe.stepsHTML;
-      else mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
+function openModal(recipe){
+  mTitle.textContent = recipe.title;
+  mMeta.textContent  = recipe.meta || "";
+  mImg1.src = recipe.img1; mImg1.alt = `${recipe.title} image 1`;
+  mImg2.onerror = null;
+  mImg2.src = recipe.img2; mImg2.alt = `${recipe.title} image 2`;
+  if (recipe.img2Fallback){
+    mImg2.onerror = function(){ this.onerror=null; this.src = recipe.img2Fallback; };
+  }
+  if (recipe.ingredientsHTML) mIngr.innerHTML = recipe.ingredientsHTML;
+  else mIngr.innerHTML = (recipe.ingredients||[]).map(x=>`<li>${x}</li>`).join('');
+  if (recipe.stepsHTML) mSteps.innerHTML = recipe.stepsHTML;
+  else mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
 
-      document.body.classList.add('no-scroll');
-      backdrop.classList.add('open');
-      dialog.classList.add('open');
-    }
+  // ensure not “closing”
+  dialog.classList.remove('closing');
+  backdrop.classList.remove('closing');
 
-    function closeModal(){
-      document.body.classList.remove('no-scroll');
-      backdrop.classList.remove('open');
-      dialog.classList.remove('open');
-    }
+  document.body.classList.add('no-scroll');
+  backdrop.classList.add('open');
+  dialog.classList.add('open');        // triggers fade/slide in
+}
+
+function closeModal(){
+  // play the closing animation first
+  dialog.classList.add('closing');
+  backdrop.classList.add('closing');
+
+  setTimeout(()=>{                     // after animation, actually hide
+    document.body.classList.remove('no-scroll');
+    dialog.classList.remove('open','closing');
+    backdrop.classList.remove('open','closing');
+  }, MS);
+}
 
     grid.addEventListener('click', (e)=>{
       const btn = e.target.closest('.rcp-toggle');
