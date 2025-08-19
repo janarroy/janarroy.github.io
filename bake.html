@@ -81,6 +81,53 @@
       width:100%; height:100%; display:block;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,.25));
     }
+    /* ===== Hero intro ===== */
+.hero {
+  position: relative;
+  margin: 28px 0 14px;
+  padding: 22px 22px 18px;
+  border-radius: 18px;
+  background:
+    radial-gradient(1200px 400px at -10% 0%, rgba(255,214,165,.25), transparent 60%),
+    radial-gradient(1200px 400px at 110% 100%, rgba(189,224,254,.25), transparent 60%),
+    #fffaf0; /* cream to match the lightbox */
+  border: 1px solid rgba(17,19,24,.08);
+  box-shadow: 0 10px 40px rgba(17,19,24,.08);
+  overflow: hidden;
+}
+.hero::after{
+  content:"";
+  position:absolute; inset:-30%;
+  background: conic-gradient(from 180deg,
+    rgba(255,218,185,.35),
+    rgba(255,255,204,.25),
+    rgba(204,232,255,.35),
+    rgba(255,218,185,.35));
+  filter: blur(60px);
+  opacity:.35;
+  animation: heroSpin 18s linear infinite;
+}
+@keyframes heroSpin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+.hero h1{
+  margin: 0 0 6px;
+  font-size: clamp(24px, 3.2vw, 36px);
+}
+.hero p{
+  margin: 0;
+  max-width: 70ch;
+  line-height: 1.55;
+}
+.hero-chips{
+  display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;
+}
+.hero-chip{
+  font-weight: 700; font-size: 12px;
+  padding: 6px 10px; border-radius: 999px;
+  color:#fff; background:#111; opacity:.92;
+  box-shadow: 0 3px 10px rgba(0,0,0,.12);
+}
+
   </style>
 </head>
 <body>
@@ -99,9 +146,21 @@
   </nav>
 
   <main class="container work">
-    <h1 class="page-title">Bake</h1>
-    <p class="tag">Click a photo to open a lightbox — second image + the recipe appear in the overlay.</p>
-
+    <section class="hero" aria-label="About this page">
+      <h1>I bake to celebrate people.</h1>
+      <p>
+        I’m a USC senior who loves trying new recipes and turning basic ingredients into
+        something people actually smile about. Baking is my love language—birthday cakes,
+        “you-got-the-offer” cookies, and focaccia for random Tuesdays just to say thanks.
+        Click any card to see a second photo and the full recipe.
+      </p>
+      <div class="hero-chips" aria-label="Top picks">
+        <span class="hero-chip">🥇 Lemon Cake</span>
+        <span class="hero-chip">🥈 Thumbprint Cookies</span>
+        <span class="hero-chip">🥉 Focaccia</span>
+      </div>
+    </section>
+    
     <section class="rcp-grid" id="rcpGrid"><!-- cards injected by JS --></section>
   </main>
 
