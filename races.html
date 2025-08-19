@@ -114,6 +114,20 @@
     .next-meta .s{font-size:13px;color:#374151;margin-top:2px}
     .next-goal{display:inline-block;margin-top:6px;padding:4px 8px;border-radius:999px;font-weight:700;font-size:12px;background:#eef2ff;color:#1d4ed8;border:1px solid #dbe3ff}
 
+    /* Fix LA logo getting cut off */
+.next-logo{
+  height:60px;        /* keeps row height consistent */
+  width:auto;         /* let width grow/shrink based on aspect */
+  max-width:160px;    /* don't blow past the card */
+  object-fit:contain; /* no cropping */
+  padding:6px;        /* white framing around odd shapes */
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:12px;
+  display:block;
+}
+.next-card{ align-items:center; } /* keeps logo + text nicely aligned */
+
 
   </style>
 </head>
