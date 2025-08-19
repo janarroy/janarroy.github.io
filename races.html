@@ -130,11 +130,19 @@
 
 .next-card{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .next-meta{flex:1}
+/* compact next-race timer */
 .next-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.next-timer{display:grid;grid-auto-flow:column;gap:8px}
-.next-timer .pill{min-width:58px;padding:6px 8px;border-radius:10px;background:#eef2ff;color:#1d4ed8;border:1px solid #dbe3ff;text-align:center}
-.next-timer .pill .big{font-weight:800;font-size:16px;line-height:1}
-.next-timer .pill .lab{font-size:10px;color:#1e3a8a;opacity:.85;margin-top:2px}
+.next-timer-line{
+  display:flex;align-items:baseline;gap:6px;
+  padding:6px 10px;border-radius:999px;
+  background:#eef2ff;color:#1d4ed8;border:1px solid #dbe3ff;
+  font:700 17px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.next-timer-line .num{min-width:2ch;text-align:center}
+.next-timer-line .sep{opacity:.6}
+.next-timer-line .lab{font-weight:600;font-size:12px;color:#1e3a8a;opacity:.85;margin-left:2px}
+
+
 
 
   </style>
@@ -537,7 +545,7 @@ function NextRaceCard(){
     dateISO: "2026-03-08",
     dateLabel: "March 8, 2026",
     distance: 26.2,
-    goalSeconds: 12600,
+    goalSeconds: 12600, // 3:30:00
     logo: "images/LA - Marathaon.jpg"
   };
 
@@ -546,12 +554,11 @@ function NextRaceCard(){
 
   const getLeft = () => {
     const target = new Date(NEXT.dateISO);
-    const ms = target - new Date();
-    const clamped = Math.max(0, ms);
-    const d = Math.floor(clamped / 86400000);
-    const h = Math.floor((clamped % 86400000) / 3600000);
-    const m = Math.floor((clamped % 3600000) / 60000);
-    const s = Math.floor((clamped % 60000) / 1000);
+    const ms = Math.max(0, target - new Date());
+    const d = Math.floor(ms / 86400000);
+    const h = Math.floor((ms % 86400000) / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
     return { d, h, m, s };
   };
 
@@ -570,16 +577,18 @@ function NextRaceCard(){
         <div className="next-goal">Goal: 3:30 ({paceStr(pace)})</div>
       </div>
       <div className="next-side">
-        <div className="next-timer">
-          <div className="pill"><div className="big">{left.d}</div><div className="lab">days</div></div>
-          <div className="pill"><div className="big">{left.h}</div><div className="lab">hrs</div></div>
-          <div className="pill"><div className="big">{left.m}</div><div className="lab">min</div></div>
-          <div className="pill"><div className="big">{left.s}</div><div className="lab">sec</div></div>
+        <div className="next-timer-line">
+          <span className="num">{left.d}</span><span className="lab">days</span>
+          <span className="sep">·</span>
+          <span className="num">{pad(left.h)}</span><span className="sep">:</span>
+          <span className="num">{pad(left.m)}</span><span className="sep">:</span>
+          <span className="num">{pad(left.s)}</span>
         </div>
       </div>
     </div>
   );
 }
+
 
 
 
