@@ -136,6 +136,28 @@
       background:#142d4c; color:#fff; font-size:34px; font-weight:800;
     }
     @keyframes bob { 0%,100%{ transform:rotate(-6deg) translateY(0)} 50%{ transform:rotate(-6deg) translateY(4px)} }
+/* Floating Munchlax sticker (fully visible, outside the hero) */
+.munchlax-sticker{
+  position: fixed;
+  right: 18px;           /* move it here */
+  bottom: 18px;          /* …and here if you want a different corner */
+  width: 120px;
+  height: 120px;
+  z-index: 55;           /* below modal (z 60/61), above page */
+  cursor: grab;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+  user-select: none;
+  transition: transform .2s ease;
+}
+.munchlax-sticker:active{ cursor: grabbing; transform: scale(.98); }
+.munchlax-sticker img{ width: 100%; height: 100%; object-fit: contain; display: block; }
+@media (max-width: 680px){
+  .munchlax-sticker{ width: 86px; height: 86px; right: 12px; bottom: 12px; }
+}
+/* Hide the sticker while the lightbox is open (body gets .no-scroll) */
+body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
+
+
   </style>
 </head>
 <body>
@@ -159,7 +181,6 @@
   <main class="container work">
     <!-- Hero -->
     <section class="hero" aria-label="About this page">
-      <img class="snorlax-img" src="images/munchlax-pokemon.gif" alt="Munchlax" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'snorlax-fallback',textContent:'😴'}))">
       <h1>Baking for my people</h1>
       <p>
         I like trying new recipes and turning raw ingredients into something that makes friends smile.  
@@ -203,6 +224,10 @@
       </div>
     </article>
   </div>
+<!-- Floating Munchlax sticker -->
+<div id="munchlaxSticker" class="munchlax-sticker" aria-label="Munchlax sticker">
+  <img src="images/munchlax-pokemon.gif" alt="Munchlax enjoying snacks">
+</div>
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
@@ -601,5 +626,50 @@
     resize();
     requestAnimationFrame(tick);
   </script>
+
+<script>
+  (function(){
+    const s = document.getElementById('munchlaxSticker');
+    if(!s) return;
+
+    let down = false, offX = 0, offY = 0;
+
+    s.addEventListener('pointerdown', (e) => {
+      down = true;
+      s.setPointerCapture(e.pointerId);
+      const r = s.getBoundingClientRect();
+      offX = e.clientX - r.left;
+      offY = e.clientY - r.top;
+      s.style.transition = 'none';
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if(!down) return;
+      // switch to left/top so we can drag anywhere
+      s.style.right = 'auto';
+      s.style.bottom = 'auto';
+
+      let x = e.clientX - offX;
+      let y = e.clientY - offY;
+
+      // keep inside the viewport
+      const maxX = window.innerWidth  - s.offsetWidth  - 4;
+      const maxY = window.innerHeight - s.offsetHeight - 4;
+      x = Math.max(4, Math.min(x, maxX));
+      y = Math.max(4, Math.min(y, maxY));
+
+      s.style.left = x + 'px';
+      s.style.top  = y + 'px';
+    });
+
+    window.addEventListener('pointerup', () => {
+      if(!down) return;
+      down = false;
+      s.style.transition = 'transform .2s ease';
+    });
+  })();
+</script>
+
+
 </body>
 </html>
