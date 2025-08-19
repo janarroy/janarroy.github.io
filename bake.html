@@ -136,7 +136,101 @@
       background:#142d4c; color:#fff; font-size:34px; font-weight:800;
     }
     @keyframes bob { 0%,100%{ transform:rotate(-6deg) translateY(0)} 50%{ transform:rotate(-6deg) translateY(4px)} }
-/* Floating Munchlax sticker (fully visible, outside the hero) */
+/* wipe the old hero look */
+.hero.hero-recipecard{
+  margin: 28px 0 6px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Paper recipe card – lined, pinned with “tape”, red margin line */
+.recipe-card{
+  position: relative;
+  padding: 26px 24px 22px 56px;          /* room for red margin */
+  max-width: 980px;
+  border-radius: 14px;
+  border: 1px solid rgba(17,19,24,.10);
+  margin: 0 auto;
+  background:
+    /* faint white sheet */
+    linear-gradient(#ffffffee, #ffffffee),
+    /* blue ruled lines */
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 29px,
+      rgba(17, 94, 201, .10) 30px 30.5px
+    );
+  box-shadow: 0 12px 32px rgba(17,19,24,.08);
+  backdrop-filter: saturate(1.05);
+  transform: rotate(-.2deg);
+  transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s;
+}
+.recipe-card:hover{
+  transform: rotate(0deg) translateY(-1px);
+  box-shadow: 0 16px 38px rgba(17,19,24,.12);
+}
+
+/* red margin line on paper */
+.recipe-card::before{
+  content:"";
+  position:absolute; inset: 0 auto 0 36px;
+  width: 2px; background: rgba(220,38,38,.28);
+  border-radius: 2px;
+}
+
+/* “washi tape” pin at top-left */
+.recipe-card::after{
+  content:"";
+  position:absolute; top:-14px; left:14px;
+  width: 86px; height: 22px; border-radius: 6px;
+  transform: rotate(-8deg);
+  background:
+    linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25% 50%, rgba(0,0,0,.06) 50% 75%, transparent 75%) 0/12px 12px,
+    rgba(255, 230, 180, .85);
+  box-shadow: 0 8px 16px rgba(17,19,24,.15);
+  mix-blend-mode: multiply;
+}
+
+/* Typography */
+.recipe-card h1{
+  margin: 0 0 6px;
+  font-size: clamp(28px, 3.8vw, 40px);
+  line-height: 1.15;
+}
+.recipe-card p{
+  margin: 0;
+  max-width: 70ch;
+  line-height: 1.55;
+  font-size: clamp(15px, 1.9vw, 16px);
+  color: #222;
+}
+
+/* a tiny whisk doodle in the corner (inline SVG via data-URL) */
+.recipe-card .whisk{ display:none; } /* if you want a real <img>, ignore this */
+.recipe-card:has(.whisk), .recipe-card{
+  /* add the whisk automatically with a pseudo background */
+}
+.recipe-card{
+  --whisk: url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>\
+    <g fill='none' stroke='%23222' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
+      <path d='M41 46 L53 58'/>\
+      <path d='M13 10 c12 10 27 25 30 28 3 3 3 7 0 10 s-7 3-10 0 c-3-3-18-18-28-30'/>\
+      <path d='M18 15 l-6 6'/>\
+    </g>\
+  </svg>");
+  background-image: var(--whisk), linear-gradient(#0000,#0000); /* keep existing backgrounds */
+  background-repeat: no-repeat;
+  background-position: right 14px bottom 10px, 0 0;
+  background-size: 62px 62px, auto;
+}
+
+/* Keep your floating Munchlax as-is */
+
+
+    /* Floating Munchlax sticker (fully visible, outside the hero) */
 .munchlax-sticker{
   position: fixed;
   right: 18px;           /* move it here */
@@ -170,6 +264,27 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
   border-radius: inherit;               /* keeps corners matched */
 }
 
+/* Sticker wrapper: no card chrome */
+.munchlax-sticker{
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
+  overflow: visible;      /* don't clip */
+  border-radius: 0;
+  filter: none;           /* remove drop-shadow from the RECT wrapper */
+}
+
+/* Round the actual GIF */
+.munchlax-sticker img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;     /* <- the gif itself is circular now */
+  box-shadow: 0 10px 18px rgba(0,0,0,.25); /* shadow follows the circle */
+}
+
+
 
 
   </style>
@@ -193,15 +308,18 @@ body.no-scroll #munchlaxSticker{ opacity: 0; pointer-events: none; }
   </nav>
 
   <main class="container work">
-    <!-- Hero -->
-    <section class="hero" aria-label="About this page">
-      <h1>Baking for my people</h1>
-      <p>
-        I like trying new recipes and turning raw ingredients into something that makes friends smile.  
-        I bring cakes for birthdays and job offers, cookies for study breaks, and focaccia for random Tuesdays.  
-        Open any card to see another photo and the full recipe.
-      </p>
-    </section>
+   <!-- Hero / recipe-card header -->
+<section class="hero hero-recipecard" aria-label="About this page">
+  <div class="recipe-card">
+    <h1>Baking for my people</h1>
+    <p>
+      I like trying new recipes and turning raw ingredients into something that makes friends smile.
+      I bring cakes for birthdays and job offers, cookies for study breaks, and focaccia for random Tuesdays.
+      Open any card to see another photo and the full recipe.
+    </p>
+  </div>
+</section>
+
 
     <!-- Cards -->
     <section class="rcp-grid" id="rcpGrid"><!-- cards injected by JS --></section>
