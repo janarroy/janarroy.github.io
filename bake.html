@@ -37,7 +37,7 @@
     .modal-backdrop.closing{opacity:0;}
 
     .modal-dialog{ position:fixed; inset:0; z-index:61; display:none; place-items:center; }
-    .modal-dialog.visible{ display:grid; }                /* show first */
+    .modal-dialog.visible{ display:grid; }                /* render first */
     .modal-dialog.open .modal-panel{ opacity:1; transform:none; } /* then animate in */
     .modal-dialog.closing .modal-panel{ opacity:0; transform: translateY(8px) scale(.985); }
 
@@ -248,20 +248,122 @@
       {
         id:"confetti",
         title:"Confetti Cake",
-        meta:"Celebration cake — funfetti layers",
+        meta:"Three-layer funfetti cake with vanilla buttercream",
         img1:p("Confetti_Cake1.JPG"),
         img2:p("Confetti_Cake2.JPG"),
-        ingredientsHTML:`<li>Recipe coming soon 🎉</li>`,
-        stepsHTML:`<li>Bake, frost, celebrate!</li>`
+        ingredientsHTML: `
+          <li><strong>Cake</strong>
+            <ul>
+              <li>3¾ cups (443g) cake flour</li>
+              <li>1 tsp baking powder</li>
+              <li>1 tsp baking soda</li>
+              <li>1 tsp salt</li>
+              <li>1¼ cups (282g) unsalted butter, room temp</li>
+              <li>2 cups (400g) granulated sugar</li>
+              <li>1/3 cup (80ml) vegetable oil</li>
+              <li>4 large eggs, room temp</li>
+              <li>2 large egg whites, room temp</li>
+              <li>3 tsp (15ml) vanilla extract</li>
+              <li>1½ cups (360ml) buttermilk, room temp</li>
+              <li>3/4 cup (135g) rainbow sprinkles</li>
+            </ul>
+          </li>
+          <li><strong>Vanilla Buttercream</strong>
+            <ul>
+              <li>1½ cups (340g) unsalted butter, room temp</li>
+              <li>5½ cups (650g) confectioners’ sugar</li>
+              <li>1/3 cup (80ml) heavy cream, room temp</li>
+              <li>3 tsp (15ml) vanilla extract</li>
+              <li>1/8 tsp salt</li>
+              <li>Optional: extra sprinkles for garnish</li>
+            </ul>
+          </li>
+        `,
+        stepsHTML: `
+          <li><strong>Bake the Cake</strong>
+            <ol>
+              <li>Preheat to 350°F (177°C). Grease and line three 8&quot; or 9&quot; pans with parchment.</li>
+              <li>Whisk cake flour, baking powder, baking soda, and salt.</li>
+              <li>Cream butter + sugar on high 5 minutes until fluffy; scrape bowl.</li>
+              <li>Beat in oil 1 minute. Add eggs, egg whites, and vanilla; beat to combine.</li>
+              <li>Alternate dry ingredients and buttermilk in 3 additions; mix just until incorporated. Fold in sprinkles.</li>
+              <li>Divide evenly among pans. Bake ~25–26 min (8&quot; may need 27–28). Tent after ~15 min if browning.</li>
+              <li>Cool 20 min in pans; release and cool completely on racks.</li>
+            </ol>
+          </li>
+          <li><strong>Vanilla Buttercream</strong>
+            <ol>
+              <li>Beat butter 2 min until creamy. Add sugar, cream, vanilla, and salt.</li>
+              <li>Beat low 30 sec, then high 2 min. Adjust with more sugar/cream/salt as needed.</li>
+            </ol>
+          </li>
+          <li><strong>Assemble & Decorate</strong>
+            <ol>
+              <li>Level cake tops. Layer: 1 cup frosting between each layer.</li>
+              <li>Apply thin crumb coat; chill 30 min–3 hrs.</li>
+              <li>Frost the exterior and garnish with sprinkles.</li>
+              <li>Serve at room temp (store covered up to 1 day; leftovers covered up to 5 days in fridge).</li>
+            </ol>
+          </li>
+        `
       },
       {
         id:"lemon",
         title:"Lemon Cake",
-        meta:"Bright + zesty",
+        meta:"Three 8&quot; layers • Cream cheese buttercream",
         img1:p("LemonCake.JPG"),
-        /* only one photo available; second will be hidden */
-        ingredientsHTML:`<li>Recipe coming soon 🍋</li>`,
-        stepsHTML:`<li>More details coming soon.</li>`
+        ingredientsHTML: `
+          <li><strong>Cake</strong>
+            <ul>
+              <li>3 cups (354g) sifted all-purpose flour</li>
+              <li>2½ tsp baking powder</li>
+              <li>1/2 tsp baking soda</li>
+              <li>1/2 tsp salt</li>
+              <li>1 cup (226g) unsalted butter, room temp</li>
+              <li>1¾ cups (350g) granulated sugar</li>
+              <li>3 large eggs, room temp</li>
+              <li>2 tsp vanilla extract</li>
+              <li>1 cup (240ml) whole milk, room temp</li>
+              <li>1 heaping Tbsp lemon zest (≈2 lemons)</li>
+              <li>1/3 cup (80ml) fresh lemon juice (≈2 lemons)</li>
+            </ul>
+          </li>
+          <li><strong>Cream Cheese Buttercream</strong>
+            <ul>
+              <li>1 cup (226g) unsalted butter, room temp</li>
+              <li>8 oz (226g) brick cream cheese, room temp</li>
+              <li>4½ cups (540g) confectioners’ sugar</li>
+              <li>2 Tbsp (30ml) fresh lemon juice</li>
+              <li>1 tsp vanilla extract</li>
+              <li>Pinch of salt, to taste</li>
+            </ul>
+          </li>
+        `,
+        stepsHTML: `
+          <li><strong>Bake the Cake</strong>
+            <ol>
+              <li>Preheat to 350°F (177°C). Grease and line three 8&quot; pans with parchment.</li>
+              <li>Whisk flour, baking powder, baking soda, and salt; set aside.</li>
+              <li>Cream butter + sugar on high ~3 min until smooth and creamy.</li>
+              <li>Beat in eggs and vanilla until combined.</li>
+              <li>On low, mix in dry ingredients just until combined; then milk, lemon zest, and lemon juice just until combined (batter is slightly thick).</li>
+              <li>Divide into pans; bake 21–26 min until a toothpick is clean. Cool completely in pans on racks.</li>
+            </ol>
+          </li>
+          <li><strong>Frosting</strong>
+            <ol>
+              <li>Beat butter 2 min; add cream cheese and beat smooth.</li>
+              <li>Add sugar, lemon juice, and vanilla on low; then beat high 3 min. Adjust with more sugar/lemon/salt as needed.</li>
+            </ol>
+          </li>
+          <li><strong>Assemble</strong>
+            <ol>
+              <li>Level layers. Spread ~1 cup frosting between each; stack.</li>
+              <li>Crumb coat; chill 30–45 min. Finish frosting. (Optional whipped-cream swoops.)</li>
+              <li>Chill briefly before slicing. Store leftovers covered up to 5 days in fridge.</li>
+            </ol>
+          </li>
+        `
       }
     ];
 
@@ -315,15 +417,11 @@
       if (recipe.stepsHTML) mSteps.innerHTML = recipe.stepsHTML;
       else mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
 
-      // reset any closing state
       dialog.classList.remove('closing'); backdrop.classList.remove('closing');
-
       document.body.classList.add('no-scroll');
-      backdrop.classList.add('open');          // fades in backdrop
-      dialog.classList.add('visible');         // mounts dialog first
-      requestAnimationFrame(()=>{              // next frame: animate panel
-        dialog.classList.add('open');
-      });
+      backdrop.classList.add('open');
+      dialog.classList.add('visible');
+      requestAnimationFrame(()=>{ dialog.classList.add('open'); });
     }
 
     function closeModal(){
