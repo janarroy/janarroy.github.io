@@ -142,7 +142,8 @@
 .next-timer-line .sep{opacity:.6}
 .next-timer-line .lab{font-weight:600;font-size:12px;color:#1e3a8a;opacity:.85;margin-left:2px}
 
-
+.section-label{font-size:12px;color:#6b7280;font-weight:700;display:flex;align-items:center;gap:6px;margin:6px 0 6px}
+.section-label .icon{font-size:14px;opacity:.85}
 
 
   </style>
@@ -194,7 +195,7 @@
         title: "San Francisco 10K",
         city: "San Francisco",
         distance: 6.2,
-        trainingMiles: 120,
+        trainingMiles: 36,
         finishSeconds: 4237,           // 1:10:37
         goalSeconds: 4200,             // 1:10:00
         description: [
@@ -217,7 +218,7 @@
         title: "Surf City Marathon",
         city: "Huntington Beach",
         distance: 26.2,
-        trainingMiles: 820,
+        trainingMiles: 172,
         finishSeconds: 14304,          // 3:58:24
         goalSeconds: 14400,            // 4:00:00
         description: [
@@ -242,7 +243,7 @@
         title: "Long Beach Half Marathon",
         city: "Long Beach",
         distance: 13.1,
-        trainingMiles: 471,
+        trainingMiles: 112,
         finishSeconds: 7152,           // 1:59:12
         goalSeconds: 7200,             // 2:00:00
         description: [
@@ -371,47 +372,57 @@
     }
 
     function GoalMeter({ finishSeconds, goalSeconds }){
-      const pctRaw = goalSeconds ? (finishSeconds/goalSeconds)*100 : 0;
-      const pct = Math.min(100, Math.max(0, pctRaw));
-      const delta = finishSeconds - goalSeconds;
-      const sign = delta <= 0 ? "faster" : "slower";
-      const abs = Math.abs(delta);
-      return (
-        <div className="react-goal">
-          <div className="react-goalbar" aria-hidden="true">
-            <span style={{ width: `${pct}%` }}></span>
-          </div>
-          <small>{formatTime(finishSeconds)} vs goal {formatTime(goalSeconds)} · {formatTime(abs)} {sign}</small>
+  const pctRaw = goalSeconds ? (finishSeconds/goalSeconds)*100 : 0;
+  const pct = Math.min(100, Math.max(0, pctRaw));
+  const delta = finishSeconds - goalSeconds;
+  const sign = delta <= 0 ? "faster" : "slower";
+  const abs = Math.abs(delta);
+  return (
+    <div>
+      <div className="section-label"><span className="icon">🎯</span><span>Result vs goal</span></div>
+      <div className="react-goal">
+        <div className="react-goalbar" aria-hidden="true">
+          <span style={{ width: `${pct}%` }}></span>
         </div>
-      );
-    }
+        <small>{formatTime(finishSeconds)} vs goal {formatTime(goalSeconds)} · {formatTime(abs)} {sign}</small>
+      </div>
+    </div>
+  );
+}
 
-    function RouteSpark({ d }){
-      return (
-        <div className="route" title="Stylized route">
-          <svg viewBox="0 0 140 64" preserveAspectRatio="none">
-            <path d={d}/>
-          </svg>
-        </div>
-      );
-    }
+function RouteSpark({ d }){
+  return (
+    <div>
+      <div className="section-label"><span className="icon">🗺️</span><span>Route preview</span></div>
+      <div className="route" title="Stylized route">
+        <svg viewBox="0 0 140 64" preserveAspectRatio="none">
+          <path d={d}/>
+        </svg>
+      </div>
+    </div>
+  );
+}
 
-    function CourseMap({ img, src }){
-      const hasImg = !!img;
-      return (
-        <div className="course-map" title="Course map">
-          {hasImg ? (
-            <img src={img} alt="Official course map"/>
-          ) : (
-            <div style={{padding:"16px", fontSize:"14px", color:"#374151"}}>Map image not added yet.</div>
-          )}
-          <div className="cm-bar">
-            <span>Course map</span>
-            <a href={src} target="_blank" rel="noreferrer">View official source</a>
-          </div>
+function CourseMap({ img, src }){
+  const hasImg = !!img;
+  return (
+    <div>
+      <div className="section-label"><span className="icon">📍</span><span>Official course map</span></div>
+      <div className="course-map" title="Course map">
+        {hasImg ? (
+          <img src={img} alt="Official course map"/>
+        ) : (
+          <div style={{padding:"16px", fontSize:"14px", color:"#374151"}}>Map image not added yet.</div>
+        )}
+        <div className="cm-bar">
+          <span>Course map</span>
+          <a href={src} target="_blank" rel="noreferrer">View official source</a>
         </div>
-      );
-    }
+      </div>
+    </div>
+  );
+}
+
 
     /* ------------ race card ------------- */
     function RaceCard({ race }) {
