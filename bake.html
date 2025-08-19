@@ -22,25 +22,51 @@
     .rcp-caption{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;color:#fff;font-weight:700;
       background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));text-shadow:0 1px 2px rgba(0,0,0,.5);}
 
-    /* ====== Lightbox / modal ====== */
-    body.no-scroll{overflow:hidden;}
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.8);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:60;}
-    .modal-backdrop.open{opacity:1;pointer-events:auto;}
-    .modal-dialog{position:fixed;inset:0;display:grid;place-items:center;z-index:61;pointer-events:none;}
-    .modal-panel{pointer-events:auto;background:#111;border-radius:16px;max-width:1100px;width:min(96vw,1100px);
-      color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden;}
-    .modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
-    .modal-title{font-weight:700;}
-    .modal-close{background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;}
-    .modal-body{padding:16px;display:grid;gap:16px;}
-    .modal-photos{display:grid;gap:12px;grid-template-columns:1fr 1fr;}
-    @media (max-width:900px){.modal-photos{grid-template-columns:1fr;}}
-    .modal-photos img{width:100%;height:auto;display:block;background:#fff;border-radius:12px;object-fit:contain;}
-    .modal-recipe{display:grid;gap:16px;grid-template-columns:1fr 1fr;}
-    @media (max-width:900px){.modal-recipe{grid-template-columns:1fr;}}
-    .modal-recipe h4{margin:0 0 6px;}
-    .modal-recipe ul,.modal-recipe ol{margin:0 0 0 18px;}
-  </style>
+    /* ===== Lightbox (fixed + truly hidden by default) ===== */
+  body.no-scroll{overflow:hidden;}
+
+.modal-backdrop{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.85);
+  opacity:0; pointer-events:none; display:none;
+  transition:opacity .2s ease; z-index:60;
+}
+.modal-backdrop.open{display:block; opacity:1; pointer-events:auto;}
+
+.modal-dialog{
+  position:fixed; inset:0; z-index:61;
+  display:none; place-items:center; /* becomes grid when open */
+}
+.modal-dialog.open{display:grid;}
+
+.modal-panel{
+  background:#111; color:#fff; border-radius:16px;
+  max-width:920px; width:min(96vw,920px); overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.modal-head{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.08);
+}
+.modal-title{font-weight:700;}
+.modal-close{background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;}
+
+/* stacked images + scrollable body */
+.modal-body{
+  padding:16px; display:grid; gap:16px;
+  max-height:80vh; overflow:auto;   /* <— allows scrolling */
+}
+.modal-photos{ display:grid; gap:12px; grid-template-columns:1fr; }
+.modal-photos img{
+  width:100%; height:auto; display:block; background:#fff;
+  border-radius:12px; object-fit:contain;
+}
+
+.modal-recipe{ display:grid; gap:16px; grid-template-columns:1fr 1fr; }
+@media (max-width:900px){ .modal-recipe{ grid-template-columns:1fr; } }
+.modal-recipe h4{ margin:0 0 6px; }
+.modal-recipe ul,.modal-recipe ol{ margin:0 0 0 18px; }
+</style>
 </head>
 <body>
   <!-- Nav -->
@@ -164,45 +190,50 @@
 
     // ====== Lightbox behavior ======
     const backdrop = document.getElementById('rcpBackdrop');
-    const dialog   = document.getElementById('rcpDialog');
-    const closeBtn = document.getElementById('rcpClose');
-    const mTitle = document.getElementById('modalTitle');
-    const mImg1  = document.getElementById('mImg1');
-    const mImg2  = document.getElementById('mImg2');
-    const mIngr  = document.getElementById('mIngr');
-    const mSteps = document.getElementById('mSteps');
+  const dialog   = document.getElementById('rcpDialog');
+  const closeBtn = document.getElementById('rcpClose');
+  const mTitle = document.getElementById('modalTitle');
+  const mImg1  = document.getElementById('mImg1');
+  const mImg2  = document.getElementById('mImg2');
+  const mIngr  = document.getElementById('mIngr');
+  const mSteps = document.getElementById('mSteps');
 
-    function openModal(recipe){
-      mTitle.textContent = recipe.title;
-      mImg1.src = recipe.img1; mImg1.alt = `${recipe.title} image 1`;
-      mImg2.onerror = null;
-      mImg2.src = recipe.img2; mImg2.alt = `${recipe.title} image 2`;
-      if (recipe.img2Fallback){
-        mImg2.onerror = function(){ this.onerror=null; this.src = recipe.img2Fallback; };
-      }
-      mIngr.innerHTML = (recipe.ingredients||[]).map(x=>`<li>${x}</li>`).join('');
-      mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
-
-      document.body.classList.add('no-scroll');
-      backdrop.classList.add('open');
-      dialog.setAttribute('aria-hidden','false');
+  function openModal(recipe){
+    mTitle.textContent = recipe.title;
+    mImg1.src = recipe.img1; mImg1.alt = `${recipe.title} image 1`;
+    mImg2.onerror = null;
+    mImg2.src = recipe.img2; mImg2.alt = `${recipe.title} image 2`;
+    if (recipe.img2Fallback){
+      mImg2.onerror = function(){ this.onerror=null; this.src = recipe.img2Fallback; };
     }
-    function closeModal(){
-      document.body.classList.remove('no-scroll');
-      backdrop.classList.remove('open');
-      dialog.setAttribute('aria-hidden','true');
-    }
+    mIngr.innerHTML = (recipe.ingredients||[]).map(x=>`<li>${x}</li>`).join('');
+    mSteps.innerHTML = (recipe.steps||[]).map(x=>`<li>${x}</li>`).join('');
 
-    grid.addEventListener('click', (e)=>{
-      const btn = e.target.closest('.rcp-toggle');
-      if(!btn) return;
-      const id = btn.dataset.id;
-      const recipe = RECIPES.find(x=>x.id===id);
-      if (recipe) openModal(recipe);
-    });
-    backdrop.addEventListener('click', closeModal);
-    closeBtn.addEventListener('click', closeModal);
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
-  </script>
+    document.body.classList.add('no-scroll');
+    backdrop.classList.add('open');
+    dialog.classList.add('open');               // <— actually show dialog
+  }
+
+  function closeModal(){
+    document.body.classList.remove('no-scroll');
+    backdrop.classList.remove('open');
+    dialog.classList.remove('open');            // <— actually hide dialog
+  }
+
+  // open
+  document.getElementById('rcpGrid').addEventListener('click', (e)=>{
+    const btn = e.target.closest('.rcp-toggle');
+    if(!btn) return;
+    const id = btn.dataset.id;
+    const recipe = RECIPES.find(x=>x.id===id);
+    if (recipe) openModal(recipe);
+  });
+
+  // close (✕, click-dim, or Esc)
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  dialog.addEventListener('click', (e)=>{ if(e.target === dialog) closeModal(); });
+  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+</script>
 </body>
 </html>
