@@ -5,10 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Travel – Jan Arroyo</title>
   <meta name="description" content="Places I've been – Jan Arroyo" />
-  <link href="styles.css?v=7" rel="stylesheet" />
+  <link href="styles.css?v=8" rel="stylesheet" />
+  <style>
+    /* --- Travel page additions (scoped) --- */
+    .travel-hero {
+      margin: 32px auto 16px;
+      background: radial-gradient(1200px 500px at 50% -200px, #fff 0%, #f7fafc 65%, rgba(247,250,252,0) 100%);
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .travel-hero h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      margin: 0 0 8px;
+      letter-spacing: .2px;
+    }
+    .travel-hero p { margin: 0; color: #4b5563; }
+
+    /* sticky chip nav */
+    .trip-nav {
+      position: sticky; top: 64px; z-index: 5;
+      backdrop-filter: blur(6px);
+      background: color-mix(in srgb, #ffffff 75%, transparent);
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 999px;
+      padding: 8px;
+      display: flex; gap: 8px; flex-wrap: wrap;
+      align-items: center; justify-content: flex-start;
+      margin: 16px 0 10px;
+    }
+    .trip-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 999px;
+      border: 1px solid rgba(17,24,39,.09);
+      background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.05);
+      font-size: 13px; color: #111827; text-decoration: none;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .trip-chip:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,.08); }
+    .trip-chip .dot { width: 8px; height: 8px; border-radius: 50%; display:inline-block; }
+    .dot.spain   { background:#f59e0b; }  /* amber */
+    .dot.ny      { background:#3b82f6; }  /* blue */
+    .dot.catalina{ background:#10b981; }  /* emerald */
+    .dot.hawaii  { background:#ef4444; }  /* red */
+
+    /* trip section */
+    .trip { margin: 32px 0 48px; }
+    .trip header {
+      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+      margin: 6px 2px 14px;
+    }
+    .trip h2 {
+      font-size: clamp(22px, 3vw, 28px);
+      margin: 0;
+    }
+    .trip .meta-line { color:#6b7280; font-size:14px; margin-top:4px; }
+
+    /* Masonry gallery */
+    .masonry { columns: 3 260px; column-gap: 14px; }
+    .masonry .card {
+      display: inline-block; width:100%;
+      margin: 0 0 14px; break-inside: avoid;
+      border-radius: 14px; overflow: hidden;
+      background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.08);
+      text-decoration:none; color:inherit;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .masonry .card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+    .card .thumb img { width:100%; height:auto; display:block; }
+    .card .meta { padding: 10px 12px; }
+    .card .meta h3 { font-size:15px; margin:2px 0 0; }
+    .card .meta p  { font-size:12px; color:#6b7280; margin:4px 0 0; }
+    .tag { display:inline-block; padding:2px 8px; border-radius:999px; background:#f3f4f6; font-size:11px; color:#374151; }
+
+    /* Lightbox */
+    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:24px; z-index:50; }
+    .lightbox.open { display:flex; }
+    .lightbox-content { background:#0b0b0b; border-radius:14px; max-width:min(1100px, 92vw); width:100%; box-shadow:0 20px 60px rgba(0,0,0,.45); }
+    .lightbox-header { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; color:#f9fafb; border-bottom:1px solid rgba(255,255,255,.08); }
+    .lightbox-body { padding: 10px; background:#0b0b0b; }
+    #lbImg { width:100%; height:auto; display:block; border-radius:10px; }
+    .close { background:#111827; color:#f9fafb; border:1px solid rgba(255,255,255,.12); padding:6px 10px; border-radius:999px; cursor:pointer; }
+
+    @media (max-width:700px) {
+      .trip-nav { top: 56px; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar (keeps your site-wide nav style) -->
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="./">JAN</a>
@@ -22,45 +107,145 @@
     </div>
   </nav>
 
-  <main class="container work">
-    <h1 class="page-title">Travel</h1>
-    <p class="tag">A few favorite places + photos.</p>
+  <main class="container">
+    <!-- Intro -->
+    <section class="travel-hero">
+      <h1>Travel journal</h1>
+      <p>I like collecting little moments from trips—good food, long walks, and views that make you quiet for a sec. Here are a few favorites.</p>
+    </section>
 
-    <section class="panel">
-      <div class="timeline">
-        <article class="item">
-          <h4>Kyoto, Japan</h4>
-          <div class="org">Fushimi Inari / Nishiki Market</div>
-          <div class="time">May 2024</div>
-          <ul><li>Tea at Ippodo, sunset at Kiyomizu-dera.</li></ul>
-        </article>
-        <article class="item">
-          <h4>Oahu, Hawaiʻi</h4>
-          <div class="org">North Shore</div>
-          <div class="time">Aug 2023</div>
-          <ul><li>Beach runs + malasadas.</li></ul>
-        </article>
+    <!-- Sticky chips for fast jump -->
+    <nav class="trip-nav" aria-label="Jump to trip">
+      <a class="trip-chip" href="#spain-2023"><span class="dot spain"></span> Spain ’23</a>
+      <a class="trip-chip" href="#ny-2024"><span class="dot ny"></span> New York ’24</a>
+      <a class="trip-chip" href="#catalina-2025"><span class="dot catalina"></span> Catalina ’25</a>
+      <a class="trip-chip" href="#hawaii-2025"><span class="dot hawaii"></span> Hawai‘i ’25</a>
+    </nav>
+
+    <!-- =========================
+         Spain – March 2023
+    ========================== -->
+    <section id="spain-2023" class="trip">
+      <header>
+        <div>
+          <h2>Spain</h2>
+          <div class="meta-line">March 2023 · Madrid & Barcelona</div>
+        </div>
+      </header>
+
+      <div class="masonry">
+        <a class="card" href="images/Spain1.JPG" data-large="images/Spain1.JPG">
+          <div class="thumb"><img src="images/Spain1.JPG" alt="Spain trip photo 1"></div>
+          <div class="meta"><span class="tag">Spain</span><h3>First morning wander</h3><p>Pastries + plazas.</p></div>
+        </a>
+        <a class="card" href="images/Spain2.JPG" data-large="images/Spain2.JPG">
+          <div class="thumb"><img src="images/Spain2.JPG" alt="Spain trip photo 2"></div>
+          <div class="meta"><span class="tag">Spain</span><h3>Park break</h3><p>Sun and shade.</p></div>
+        </a>
+        <a class="card" href="images/Spain3.JPG" data-large="images/Spain3.JPG">
+          <div class="thumb"><img src="images/Spain3.JPG" alt="Spain trip photo 3"></div>
+          <div class="meta"><span class="tag">Spain</span><h3>Late-night streets</h3><p>Tapas run.</p></div>
+        </a>
       </div>
     </section>
 
-    <section>
-      <h2 class="page-title" style="margin-top:24px;">Gallery</h2>
+    <!-- =========================
+         New York – July 2024
+    ========================== -->
+    <section id="ny-2024" class="trip">
+      <header>
+        <div>
+          <h2>New York City</h2>
+          <div class="meta-line">July 2024 · Brooklyn & Manhattan</div>
+        </div>
+      </header>
+
       <div class="masonry">
-        <a class="card" href="images/travel/kyoto-full.jpg" data-large="images/travel/kyoto-full.jpg">
-          <div class="thumb"><img src="images/travel/kyoto-thumb.jpg" alt="Kyoto torii"/></div>
-          <div class="meta">
-            <span class="tag">Kyoto</span>
-            <h3>Fushimi Inari</h3>
-            <p>Late afternoon glow.</p>
-          </div>
+        <a class="card" href="images/NewYork1.JPG" data-large="images/NewYork1.JPG">
+          <div class="thumb"><img src="images/NewYork1.JPG" alt="NYC photo 1"></div>
+          <div class="meta"><span class="tag">NYC</span><h3>Bridge walk</h3><p>Golden evening.</p></div>
         </a>
-        <a class="card" href="images/travel/oahu-full.jpg" data-large="images/travel/oahu-full.jpg">
-          <div class="thumb"><img src="images/travel/oahu-thumb.jpg" alt="Oahu beach"/></div>
-          <div class="meta">
-            <span class="tag">Oahu</span>
-            <h3>North Shore</h3>
-            <p>Golden hour.</p>
-          </div>
+        <a class="card" href="images/NewYork2.JPG" data-large="images/NewYork2.JPG">
+          <div class="thumb"><img src="images/NewYork2.JPG" alt="NYC photo 2"></div>
+          <div class="meta"><span class="tag">NYC</span><h3>Coffee stop</h3><p>Neighborhood morning.</p></div>
+        </a>
+        <a class="card" href="images/NewYork3.JPG" data-large="images/NewYork3.JPG">
+          <div class="thumb"><img src="images/NewYork3.JPG" alt="NYC photo 3"></div>
+          <div class="meta"><span class="tag">NYC</span><h3>Subway blur</h3><p>Always moving.</p></div>
+        </a>
+        <a class="card" href="images/NewYork4.JPG" data-large="images/NewYork4.JPG">
+          <div class="thumb"><img src="images/NewYork4.JPG" alt="NYC photo 4"></div>
+          <div class="meta"><span class="tag">NYC</span><h3>Rooftop hour</h3><p>Skyline therapy.</p></div>
+        </a>
+        <a class="card" href="images/NewYork5.JPG" data-large="images/NewYork5.JPG">
+          <div class="thumb"><img src="images/NewYork5.JPG" alt="NYC photo 5"></div>
+          <div class="meta"><span class="tag">NYC</span><h3>After dark</h3><p>Lights on lights.</p></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- =========================
+         Catalina Island – Jan 2025
+    ========================== -->
+    <section id="catalina-2025" class="trip">
+      <header>
+        <div>
+          <h2>Catalina Island</h2>
+          <div class="meta-line">January 2025 · Off the SoCal coast</div>
+        </div>
+      </header>
+
+      <div class="masonry">
+        <a class="card" href="images/Catalinaisland1.JPG" data-large="images/Catalinaisland1.JPG">
+          <div class="thumb"><img src="images/Catalinaisland1.JPG" alt="Catalina photo 1"></div>
+          <div class="meta"><span class="tag">Catalina</span><h3>Ferry in</h3><p>Sea breeze start.</p></div>
+        </a>
+        <a class="card" href="images/Catalinaisland2.JPG" data-large="images/Catalinaisland2.JPG">
+          <div class="thumb"><img src="images/Catalinaisland2.JPG" alt="Catalina photo 2"></div>
+          <div class="meta"><span class="tag">Catalina</span><h3>Harbor walk</h3><p>Quiet streets.</p></div>
+        </a>
+        <a class="card" href="images/Catalinaisland3.JPG" data-large="images/Catalinaisland3.JPG">
+          <div class="thumb"><img src="images/Catalinaisland3.JPG" alt="Catalina photo 3"></div>
+          <div class="meta"><span class="tag">Catalina</span><h3>Vista point</h3><p>That turquoise water.</p></div>
+        </a>
+        <a class="card" href="images/Catalinaisland4.JPG" data-large="images/Catalinaisland4.JPG">
+          <div class="thumb"><img src="images/Catalinaisland4.JPG" alt="Catalina photo 4"></div>
+          <div class="meta"><span class="tag">Catalina</span><h3>Golden hour</h3><p>Warm light on the bay.</p></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- =========================
+         Hawai‘i – March 2025
+    ========================== -->
+    <section id="hawaii-2025" class="trip">
+      <header>
+        <div>
+          <h2>Hawai‘i (O‘ahu)</h2>
+          <div class="meta-line">March 2025 · North Shore & Honolulu</div>
+        </div>
+      </header>
+
+      <div class="masonry">
+        <a class="card" href="images/Hawaii.JPG" data-large="images/Hawaii.JPG">
+          <div class="thumb"><img src="images/Hawaii.JPG" alt="Hawaii photo 0"></div>
+          <div class="meta"><span class="tag">Hawai‘i</span><h3>Trail lookout</h3><p>Trade winds + views.</p></div>
+        </a>
+        <a class="card" href="images/Hawaii1.JPG" data-large="images/Hawaii1.JPG">
+          <div class="thumb"><img src="images/Hawaii1.JPG" alt="Hawaii photo 1"></div>
+          <div class="meta"><span class="tag">Hawai‘i</span><h3>Beach stop</h3><p>Blue on blue.</p></div>
+        </a>
+        <a class="card" href="images/Hawaii2.JPG" data-large="images/Hawaii2.JPG">
+          <div class="thumb"><img src="images/Hawaii2.JPG" alt="Hawaii photo 2"></div>
+          <div class="meta"><span class="tag">Hawai‘i</span><h3>Town wander</h3><p>Spam musubi break.</p></div>
+        </a>
+        <a class="card" href="images/Hawaii3.JPG" data-large="images/Hawaii3.JPG">
+          <div class="thumb"><img src="images/Hawaii3.JPG" alt="Hawaii photo 3"></div>
+          <div class="meta"><span class="tag">Hawai‘i</span><h3>Cloudy cove</h3><p>Still perfect.</p></div>
+        </a>
+        <a class="card" href="images/Hawaii4.JPG" data-large="images/Hawaii4.JPG">
+          <div class="thumb"><img src="images/Hawaii4.JPG" alt="Hawaii photo 4"></div>
+          <div class="meta"><span class="tag">Hawai‘i</span><h3>With a friend</h3><p>Best kind of views.</p></div>
         </a>
       </div>
     </section>
@@ -68,19 +253,34 @@
 
   <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
 
-  <div class="lightbox" id="lb"><div class="lightbox-content">
-    <div class="lightbox-header"><strong>Photo</strong><button class="close" id="lbClose">Close</button></div>
-    <div class="lightbox-body"><img id="lbImg" alt=""></div>
-  </div></div>
+  <!-- Lightbox -->
+  <div class="lightbox" id="lb">
+    <div class="lightbox-content">
+      <div class="lightbox-header">
+        <strong style="font-weight:600;">Photo</strong>
+        <button class="close" id="lbClose">Close</button>
+      </div>
+      <div class="lightbox-body"><img id="lbImg" alt=""></div>
+    </div>
+  </div>
 
   <script>
+    // year
     document.getElementById('y').textContent = new Date().getFullYear();
-    const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbClose = document.getElementById('lbClose');
-    document.querySelectorAll('.card').forEach(c => c.addEventListener('click', e => {
-      e.preventDefault(); lb.classList.add('open'); lbImg.src = c.dataset.large || c.href;
-    }));
+
+    // lightbox
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lbImg');
+    const lbClose = document.getElementById('lbClose');
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        lb.classList.add('open');
+        lbImg.src = card.dataset.large || card.getAttribute('href');
+      });
+    });
     lbClose.onclick = () => lb.classList.remove('open');
-    lb.onclick = e => { if (e.target === lb) lb.classList.remove('open'); };
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.classList.remove('open'); });
   </script>
 </body>
 </html>
