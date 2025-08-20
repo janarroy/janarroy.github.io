@@ -8,7 +8,7 @@
 <style>
   :root{
     --bg-cream:#fff7ed;
-    --ink:#111827;
+    --ink:#0f172a;
     --muted:#6b7280;
     --pill:#f3f4f6;
     --ring:rgba(17,24,39,.12);
@@ -24,12 +24,11 @@
     color:var(--ink);
     background:
       radial-gradient(1200px 600px at 20% -10%, var(--bg-cream) 0%, #f7efe5 45%, #f6f6f8 100%);
-    min-height:100dvh;
-    overflow-x:hidden;
+    min-height:100dvh; overflow-x:hidden;
   }
   .container{max-width:1120px;margin:0 auto;padding:20px 20px 100px}
 
-  /* ---------- Top nav (same look across site) ---------- */
+  /* ---------- Top nav (same across site) ---------- */
   .topbar{position:sticky;top:0;z-index:20;backdrop-filter:saturate(1.2) blur(8px);
     background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.58));
     border-bottom:1px solid rgba(17,24,39,.06)
@@ -42,44 +41,73 @@
     box-shadow:inset 0 0 0 1px rgba(17,24,39,.08)}
   .pill.active{background:#111827;color:#fff}
 
-  /* ---------- Decorative scene: dashed route + plane ---------- */
+  /* ---------- Decorative dashed route + plane ---------- */
   .scene{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.8}
-  /* tiny Spain flag badge */
   .flag{position:fixed;right:24px;top:84px;width:52px;height:34px;border-radius:6px;
     border:1px solid rgba(17,24,39,.15);box-shadow:0 10px 24px rgba(17,24,39,.18);
     background:linear-gradient(#c81e1e 0 30%, #facc15 30% 70%, #c81e1e 70% 100%);
     animation:flagBob 6s ease-in-out infinite;pointer-events:none;z-index:1}
   @keyframes flagBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(6px) rotate(-1deg)}}
 
-  /* ---------- “Boarding pass” header strip ---------- */
-  .ticket-wrap{position:relative;z-index:1;margin-top:10px;margin-bottom:14px}
-  .ticket{
-    display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;
+  /* ---------- Boarding pass (header) ---------- */
+  .bp-wrap{position:relative;z-index:1;margin-top:10px;margin-bottom:10px}
+  .bp{
+    display:grid;grid-template-columns:1fr 12px 270px;align-items:stretch;
+    border-radius:20px;box-shadow:var(--shadow);overflow:hidden;isolation:isolate;
     background:linear-gradient(180deg,#fffaf4,#fff4e6);
-    padding:14px 18px;border-radius:18px;box-shadow:var(--shadow);
     border:1px solid rgba(17,24,39,.08);
-    position:relative;isolation:isolate;
   }
-  /* perforation holes */
-  .ticket::before,.ticket::after{
-    content:"";position:absolute;top:50%;transform:translateY(-50%);width:12px;height:84%;
-    background:radial-gradient(circle at center,#fff 5px,transparent 6px) left/12px 18px repeat-y;
-    opacity:.8
-  }
-  .ticket::before{left:-6px}
-  .ticket::after{right:-6px}
-  .tick-l{display:flex;flex-direction:column}
-  .air{font-weight:900;letter-spacing:.2em;font-size:12px}
+  /* perforation */
+  .perf{background:repeating-linear-gradient(#0000 0 8px, rgba(17,24,39,.18) 8px 10px)}
+  /* left/main */
+  .bp-main{padding:14px 18px 16px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:16px}
+  .air{font-weight:900;letter-spacing:.20em;font-size:12px}
   .tag{font-size:12px;color:var(--muted)}
-  .tick-m h1{font-size:clamp(22px,3.2vw,32px);margin:0}
-  .sub{margin:2px 0 0;color:var(--muted);font-size:14px}
-  .tick-r{display:grid;place-items:center}
-  .barcode{width:84px;height:30px;border-radius:6px;background:
-    repeating-linear-gradient(90deg,#111827 0 2px, transparent 2px 4px) ,#fff;
-    border:1px solid rgba(17,24,39,.12)}
+  .title{font-size:clamp(22px,3.2vw,30px);font-weight:900;margin:2px 0 2px}
+  .sub{margin:0;color:var(--muted);font-size:14px}
+  .route{display:flex;gap:8px;align-items:center;font-weight:800;letter-spacing:.08em}
+  .dot{width:6px;height:6px;background:#111827;border-radius:999px}
+  .dash{height:1px;flex:1;background:repeating-linear-gradient(90deg,#111827 0 8px,#0000 8px 14px);opacity:.35}
+  /* stub (right) */
+  .bp-stub{background:#fff;border-left:1px solid rgba(17,24,39,.08); padding:14px 16px;display:grid;gap:8px}
+  .field{font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .big{font-size:22px;font-weight:800}
+  .barcode{width:100%;height:34px;border-radius:6px;background:
+    repeating-linear-gradient(90deg,#111827 0 2px, transparent 2px 4px) ,#fff; border:1px solid rgba(17,24,39,.12)}
+  /* notches */
+  .bp::before,.bp::after{
+    content:"";position:absolute;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(#fdf2e9,#fff);border:1px solid rgba(17,24,39,.12);z-index:2}
+  .bp::before{left:-11px}.bp::after{right:-11px}
+
+  /* ---------- Upcoming row ---------- */
+  .upcoming{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0 8px}
+  @media (max-width:780px){.upcoming{grid-template-columns:1fr}}
+  .mini{
+    display:grid;grid-template-columns:1fr 12px 170px;align-items:stretch;
+    border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#fff,#fff7ef);
+    border:1px solid rgba(17,24,39,.08);box-shadow:var(--shadow);
+    transform:translateY(10px);opacity:0;animation:miniIn .5s var(--bezier) forwards
+  }
+  .mini:nth-child(2){animation-delay:.08s}
+  @keyframes miniIn{to{transform:translateY(0);opacity:1}}
+  .mini-main{padding:12px 14px 14px}
+  .mini-title{font-weight:800;margin:0 0 2px}
+  .mini-sub{color:var(--muted);font-size:13px;margin:0}
+  .mini-stub{background:#fff;border-left:1px solid rgba(17,24,39,.08);padding:12px;display:grid;gap:6px}
+  .count{font-size:13px;font-weight:800;color:#065f46;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:999px;
+    padding:4px 10px;justify-self:start}
+  .gate{font-size:12px;color:var(--muted)}
+  .qr{width:80px;height:80px;border-radius:6px;justify-self:end;
+    background:
+      linear-gradient(90deg, #111827 0 8px, #fff 8px 16px),
+      linear-gradient(#111827 0 8px, #fff 8px 16px);
+    background-size:16px 16px,16px 16px;background-position:0 0,0 0}
+  .perf-mini{background:repeating-linear-gradient(#0000 0 8px, rgba(17,24,39,.18) 8px 10px)}
+  .airline{font-size:11px;letter-spacing:.18em;font-weight:900}
 
   /* ---------- Section title ---------- */
-  .section-title{margin:20px 0 10px 0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
+  .section-title{margin:18px 0 10px 0;font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
   .section-title::after{content:"";height:1px;background:rgba(17,24,39,.10);flex:1}
 
   /* ---------- Trip grid ---------- */
@@ -147,7 +175,7 @@
     </div>
   </header>
 
-  <!-- vector scene: dashed path + plane -->
+  <!-- dashed route + plane -->
   <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <g id="plane" transform="scale(.9)">
@@ -166,20 +194,70 @@
   <div class="flag" aria-hidden="true"></div>
 
   <main class="container">
-    <!-- Boarding-pass style header (shorter + unique) -->
-    <div class="ticket-wrap">
-      <div class="ticket">
-        <div class="tick-l">
-          <div class="air">JAN&nbsp;AIR</div>
-          <div class="tag">TRAVEL LOG</div>
+
+    <!-- Boarding pass header -->
+    <div class="bp-wrap">
+      <section class="bp">
+        <div class="bp-main">
+          <div>
+            <div class="air">JAN AIR</div>
+            <div class="tag">TRAVEL LOG</div>
+          </div>
+          <div>
+            <div class="title">Trips I’ve loved</div>
+            <p class="sub">Small moments, big smiles. Click a card to open photos and a short story.</p>
+          </div>
+          <div style="display:grid;gap:8px;min-width:220px">
+            <div class="route">
+              <span>MEM</span><span class="dash"></span><span class="dot"></span><span class="dash"></span><span>LAX</span>
+            </div>
+            <div class="barcode" aria-hidden="true"></div>
+          </div>
         </div>
-        <div class="tick-m">
-          <h1>Trips I’ve loved</h1>
-          <div class="sub">Small moments, big smiles. Click a card to open photos and a short story.</div>
-        </div>
-        <div class="tick-r"><div class="barcode" aria-hidden="true"></div></div>
-      </div>
+        <div class="perf" aria-hidden="true"></div>
+        <aside class="bp-stub">
+          <div class="field">PASSENGER</div>
+          <div class="big">JAN ARROYO</div>
+          <div class="field">TICKET</div>
+          <div>JA-TRAVEL-LOG</div>
+          <div class="barcode" aria-hidden="true"></div>
+        </aside>
+      </section>
     </div>
+
+    <!-- Upcoming trips (mini boarding passes) -->
+    <h2 class="section-title" style="margin-top:12px">Next trips</h2>
+    <section class="upcoming">
+      <!-- Mexico City -->
+      <article class="mini" data-eta="2025-10-08">
+        <div class="mini-main">
+          <div class="airline">JAN AIR</div>
+          <div class="mini-title">Mexico City</div>
+          <p class="mini-sub">LAX → MEX • Oct 8</p>
+        </div>
+        <div class="perf-mini" aria-hidden="true"></div>
+        <aside class="mini-stub">
+          <div class="count" id="eta-mex">—</div>
+          <div class="gate">Seat: TBA • Gate: TBA</div>
+          <div class="qr" aria-hidden="true"></div>
+        </aside>
+      </article>
+
+      <!-- Seoul -->
+      <article class="mini" data-eta="">
+        <div class="mini-main">
+          <div class="airline">JAN AIR</div>
+          <div class="mini-title">Seoul, Korea</div>
+          <p class="mini-sub">LAX → ICN • December (TBD)</p>
+        </div>
+        <div class="perf-mini" aria-hidden="true"></div>
+        <aside class="mini-stub">
+          <div class="count">TBD</div>
+          <div class="gate">Dates & seats coming soon</div>
+          <div class="qr" aria-hidden="true"></div>
+        </aside>
+      </article>
+    </section>
 
     <h2 class="section-title">Trips</h2>
 
@@ -209,7 +287,7 @@
         <div class="meta"><h3>New York</h3><p>bridges • bagels • late sunsets on the water</p></div>
       </article>
 
-      <!-- Catalina Island (with filename fallbacks) -->
+      <!-- Catalina Island (filename fallbacks) -->
       <article
         class="trip reveal"
         data-title="Catalina Island — Jan 2025"
@@ -262,7 +340,7 @@
   </div>
 
 <script>
-  /* reveal-in on scroll */
+  /* reveal-in on scroll for trip cards */
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
   },{threshold:.2, rootMargin:"-10% 0px -10% 0px"});
@@ -307,7 +385,7 @@
     current=list; index=0;
     lbTitle.textContent=card.dataset.title||''; lbDate.textContent=card.dataset.date||''; lbNotes.textContent=card.dataset.notes||'';
 
-    /* --- smooth zoom from card image --- */
+    /* FLIP-like smooth zoom from card */
     openerImg=card.querySelector('img');
     const srcRect=openerImg.getBoundingClientRect();
     const clone=openerImg.cloneNode(true);
@@ -315,7 +393,6 @@
     Object.assign(clone.style,{top:srcRect.top+'px',left:srcRect.left+'px',width:srcRect.width+'px',height:srcRect.height+'px'});
     document.body.appendChild(clone);
 
-    // pre-open the lightbox (hidden image), measure stage rect
     lb.classList.add('open');
     lb.setAttribute('aria-hidden','false');
     const tgtRect=stage.getBoundingClientRect();
@@ -325,11 +402,7 @@
         width:(tgtRect.width-20)+'px', height:(tgtRect.height-20)+'px', borderRadius:'12px'
       });
     });
-
-    clone.addEventListener('transitionend',()=>{
-      clone.remove();
-      renderStage(); renderThumbs();
-    },{once:true});
+    clone.addEventListener('transitionend',()=>{ clone.remove(); renderStage(); renderThumbs(); },{once:true});
   }
 
   function renderStage(){
@@ -352,7 +425,6 @@
     lb.setAttribute('aria-hidden','true');
     lbImg.src=''; thumbs.innerHTML='';
   }
-
   btnPrev.addEventListener('click',()=>{ index=(index-1+current.length)%current.length; renderStage(); });
   btnNext.addEventListener('click',()=>{ index=(index+1)%current.length; renderStage(); });
   btnClose.addEventListener('click',closeLB);
@@ -363,8 +435,26 @@
     if(e.key==='ArrowLeft') btnPrev.click();
     if(e.key==='ArrowRight') btnNext.click();
   });
-
   cards.forEach(c=>c.addEventListener('click',()=>openFromCard(c)));
+
+  /* Countdown for Mexico City */
+  (function(){
+    const el=document.querySelector('.mini[data-eta]'); if(!el) return;
+    const target=el.getAttribute('data-eta');
+    const chip=el.querySelector('.count');
+    if(!target){ chip.textContent='TBD'; return; }
+    const t=new Date(target+'T00:00:00');
+    function update(){
+      const now=new Date();
+      const diff=t-now;
+      if(diff<=0){ chip.textContent='Boarding now'; return; }
+      const days=Math.ceil(diff/86400000);
+      chip.textContent = days===1 ? 'in 1 day' : `in ${days} days`;
+    }
+    update(); setInterval(update, 3600*1000);
+  })();
+
+  /* Intersection reveal for trip cards (already set up) */
 </script>
 </body>
 </html>
