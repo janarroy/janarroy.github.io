@@ -41,8 +41,6 @@
 
   /* ---------- Decorative route + plane ---------- */
   .scene{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
-  /* a bigger, clearer airplane silhouette (fuselage + wings + tail) */
-  .plane-body{fill:#111827}
   .route-dash{stroke:rgba(17,24,39,.22);stroke-width:1.6;stroke-dasharray:7 9;fill:none}
 
   /* ---------- BOARDING PASS header ---------- */
@@ -83,9 +81,7 @@
     width:58%;height:1.5px;background:
       repeating-linear-gradient(90deg,#111827 0 8px,#0000 8px 14px);opacity:.45;border-radius:2px;
   }
-/* was width:34px;height:20px;  -> give it a square box */
-.plane{position:absolute;top:calc(52% - 22px);left:18%;width:44px;height:44px;opacity:.88;animation:fly 10s linear infinite}
-
+  .plane{position:absolute;top:calc(52% - 24px);left:18%;width:48px;height:48px;opacity:.92;animation:fly 10s linear infinite}
   @keyframes fly{0%{left:18%}100%{left:78%}}
 
   .col-right{padding:18px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -181,47 +177,48 @@
     </div>
   </header>
 
-  <!-- background dashed route + moving airplane -->
- <!-- background dashed route + moving airplane -->
-<svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
-  <defs>
-    <!-- Emoji-style airplane: blue wings, light fuselage, small engines -->
-    <g id="planeCute">
-      <!-- main wings -->
-      <rect x="-110" y="-18" width="220" height="36" rx="18" fill="#5B7CFB" opacity=".95" transform="rotate(22)"/>
-      <!-- tail plane -->
-      <rect x="-110" y="-18" width="220" height="32" rx="16" fill="#4F6EDC" opacity=".95" transform="rotate(-58)"/>
+  <!-- background dashed route + emoji-style airplane -->
+  <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <!-- EXACT emoji-style plane: light fuselage, blue wings/tail, small engines -->
+      <g id="planeEmoji">
+        <!-- main wing (blue) -->
+        <rect x="-140" y="-22" width="280" height="44" rx="22"
+              fill="#5B7CFB" transform="rotate(25)"/>
+        <!-- tail plane (blue, other diagonal) -->
+        <rect x="-140" y="-20" width="280" height="40" rx="20"
+              fill="#4F6EDC" transform="rotate(-58)"/>
 
-      <!-- fuselage -->
-      <rect x="-120" y="-16" width="240" height="32" rx="16"
-            fill="#E9EFF7" stroke="#C4CFD9" stroke-width="6"/>
+        <!-- fuselage (light with darker edge) -->
+        <rect x="-180" y="-30" width="360" height="60" rx="30"
+              fill="#E9EFF7" stroke="#C4CFD9" stroke-width="10"/>
 
-      <!-- cockpit/nose hint -->
-      <path d="M112,-10 q18,10 0,20" fill="#B8C5D0"/>
-      <!-- soft highlight on fuselage -->
-      <path d="M-95,-8 q60,26 120,0 q-60,18 -120,0z" fill="#F7FAFE" opacity=".75"/>
+        <!-- cockpit / nose accent -->
+        <path d="M170,-18 q22,18 0,36" fill="#B8C5D0"/>
 
-      <!-- engines (little pods on both wings) -->
-      <rect x="40"  y="-58" width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(22)"/>
-      <rect x="-28" y="-72" width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(22)"/>
-      <rect x="18"  y="56"  width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(-58)"/>
-      <rect x="-50" y="70"  width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(-58)"/>
-    </g>
-  </defs>
+        <!-- soft highlight along fuselage -->
+        <path d="M-150,-10 q90,36 300,0 q-150,24 -300,0z" fill="#F7FAFE" opacity=".8"/>
 
-  <!-- dashed route -->
-  <path id="route-bg" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
-    <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
-  </path>
+        <!-- little engine pods on wings -->
+        <rect x="48"  y="-74" width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(25)"/>
+        <rect x="-30" y="-88" width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(25)"/>
+        <rect x="18"  y="68"  width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(-58)"/>
+        <rect x="-60" y="82"  width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(-58)"/>
+      </g>
+    </defs>
 
-  <!-- airplane follows the path, rotates with tangent -->
-  <use href="#planeCute">
-    <animateMotion dur="18s" repeatCount="indefinite" rotate="auto">
-      <mpath href="#route-bg"/>
-    </animateMotion>
-  </use>
-</svg>
+    <!-- dashed route -->
+    <path id="routeBG" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
+      <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
+    </path>
 
+    <!-- airplane follows the path, rotates with tangent -->
+    <use href="#planeEmoji">
+      <animateMotion dur="18s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#routeBG"/>
+      </animateMotion>
+    </use>
+  </svg>
 
   <main class="container">
 
@@ -249,11 +246,10 @@
           </div>
 
           <div class="route"></div>
-        <!-- small map plane, reusing the same cute plane symbol -->
-<svg class="plane" viewBox="-140 -100 280 200" aria-hidden="true">
-  <use href="#planeCute"/>
-</svg>
-
+          <!-- tiny emoji-style plane on the boarding pass map -->
+          <svg class="plane" viewBox="-200 -150 400 300" aria-hidden="true">
+            <use href="#planeEmoji"/>
+          </svg>
         </div>
 
         <div class="perforation" aria-hidden="true"></div>
@@ -287,12 +283,12 @@
         <!-- Mexico City -->
         <div class="next-item">
           <div class="flag" aria-hidden="true">
-            <!-- Mexico flag (green/white/red with simplified emblem) -->
-            <svg viewBox="0 0 3 2">
+            <!-- Mexico flag -->
+            <svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg">
               <rect width="1" height="2" x="0" y="0" fill="#006847"/>
               <rect width="1" height="2" x="1" y="0" fill="#ffffff"/>
               <rect width="1" height="2" x="2" y="0" fill="#ce1126"/>
-              <!-- tiny emblem approximation -->
+              <!-- tiny emblem approximation inside the white stripe -->
               <g transform="translate(1.5,1) scale(.18)">
                 <circle r="2.6" fill="#fff"/>
                 <path d="M0-2.2c.9.2 1.2 1 .6 1.7-.4.5-1 .8-1.6.9.4.3.8.6 1 .9" fill="#8b5e3c" />
@@ -311,9 +307,14 @@
         <!-- Seoul, Korea -->
         <div class="next-item">
           <div class="flag" aria-hidden="true">
-            <!-- South Korea flag (Taegeuk + trigrams) -->
-            <svg viewBox="0 0 3 2">
+            <!-- South Korea flag -->
+            <svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg">
               <rect width="3" height="2" fill="#ffffff"/>
+              <!-- taegeuk -->
+              <g transform="translate(1.5,1)">
+                <path d="M0,-.55a.55.55 0 1 1 0,1.1a.28.28 0 0 0 0 -.55z" fill="#2563eb"/>
+                <path d="M0,.55a.55.55 0 1 1 0,-1.1a.28.28 0 0 1 0 .55z" fill="#e11d48"/>
+              </g>
               <!-- trigrams -->
               <g stroke="#111827" stroke-width=".12">
                 <g transform="translate(.45,.35) rotate(-30)">
@@ -338,11 +339,6 @@
                   <line x1="-.36" y1="0" x2=".36" y2="0"/>
                   <line x1="-.36" y1=".20" x2=".36" y2=".20"/>
                 </g>
-              </g>
-              <!-- taegeuk -->
-              <g transform="translate(1.5,1)">
-                <path d="M0,-.55a.55.55 0 1 1 0,1.1a.275.275 0 0 0 0- .55z" fill="#2563eb" transform="rotate(0)"/>
-                <path d="M0,.55a.55.55 0 1 1 0,-1.1a.275.275 0 0 1 0 .55z" fill="#e11d48" transform="rotate(0)"/>
               </g>
             </svg>
           </div>
@@ -454,7 +450,7 @@
     })();
   }
 
-  /* --- Lightbox state --- */
+  /* --- Lightbox state with smooth zoom --- */
   const cards=document.querySelectorAll('.trip');
   const lb=document.getElementById('lightbox');
   const lbImg=document.getElementById('lbImg');
@@ -546,5 +542,3 @@
 </script>
 </body>
 </html>
-
-
