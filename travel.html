@@ -83,7 +83,9 @@
     width:58%;height:1.5px;background:
       repeating-linear-gradient(90deg,#111827 0 8px,#0000 8px 14px);opacity:.45;border-radius:2px;
   }
-  .plane{position:absolute;top:calc(52% - 10px);left:18%;width:34px;height:20px;opacity:.88;animation:fly 10s linear infinite}
+/* was width:34px;height:20px;  -> give it a square box */
+.plane{position:absolute;top:calc(52% - 22px);left:18%;width:44px;height:44px;opacity:.88;animation:fly 10s linear infinite}
+
   @keyframes fly{0%{left:18%}100%{left:78%}}
 
   .col-right{padding:18px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -180,22 +182,46 @@
   </header>
 
   <!-- background dashed route + moving airplane -->
-  <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <!-- airplane built from fuselage (rect), wings (polygons) and tail -->
-      <g id="airplane" class="plane-body">
-        <rect x="-50" y="-5" width="90" height="10" rx="3"></rect>
-        <polygon points="-15,-16 40,0 -15,16"></polygon>
-        <polygon points="30,-6 55,-12 67,-7 55,0 67,7 55,12 30,6"></polygon>
-      </g>
-    </defs>
-    <path id="route-bg" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
-      <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
-    </path>
-    <use href="#airplane">
-      <animateMotion dur="18s" repeatCount="indefinite" rotate="auto"><mpath href="#route-bg"/></animateMotion>
-    </use>
-  </svg>
+ <!-- background dashed route + moving airplane -->
+<svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <!-- Emoji-style airplane: blue wings, light fuselage, small engines -->
+    <g id="planeCute">
+      <!-- main wings -->
+      <rect x="-110" y="-18" width="220" height="36" rx="18" fill="#5B7CFB" opacity=".95" transform="rotate(22)"/>
+      <!-- tail plane -->
+      <rect x="-110" y="-18" width="220" height="32" rx="16" fill="#4F6EDC" opacity=".95" transform="rotate(-58)"/>
+
+      <!-- fuselage -->
+      <rect x="-120" y="-16" width="240" height="32" rx="16"
+            fill="#E9EFF7" stroke="#C4CFD9" stroke-width="6"/>
+
+      <!-- cockpit/nose hint -->
+      <path d="M112,-10 q18,10 0,20" fill="#B8C5D0"/>
+      <!-- soft highlight on fuselage -->
+      <path d="M-95,-8 q60,26 120,0 q-60,18 -120,0z" fill="#F7FAFE" opacity=".75"/>
+
+      <!-- engines (little pods on both wings) -->
+      <rect x="40"  y="-58" width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(22)"/>
+      <rect x="-28" y="-72" width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(22)"/>
+      <rect x="18"  y="56"  width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(-58)"/>
+      <rect x="-50" y="70"  width="28" height="16" rx="8" fill="#B8C5D0" transform="rotate(-58)"/>
+    </g>
+  </defs>
+
+  <!-- dashed route -->
+  <path id="route-bg" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
+    <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- airplane follows the path, rotates with tangent -->
+  <use href="#planeCute">
+    <animateMotion dur="18s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#route-bg"/>
+    </animateMotion>
+  </use>
+</svg>
+
 
   <main class="container">
 
@@ -223,11 +249,11 @@
           </div>
 
           <div class="route"></div>
-          <svg class="plane" viewBox="-60 -20 140 40" aria-hidden="true">
-            <rect x="-50" y="-5" width="90" height="10" rx="3" fill="#111827"></rect>
-            <polygon points="-15,-16 40,0 -15,16" fill="#111827"></polygon>
-            <polygon points="30,-6 55,-12 67,-7 55,0 67,7 55,12 30,6" fill="#111827"></polygon>
-          </svg>
+        <!-- small map plane, reusing the same cute plane symbol -->
+<svg class="plane" viewBox="-140 -100 280 200" aria-hidden="true">
+  <use href="#planeCute"/>
+</svg>
+
         </div>
 
         <div class="perforation" aria-hidden="true"></div>
