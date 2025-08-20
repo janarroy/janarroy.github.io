@@ -13,7 +13,6 @@
     --muted:#6b7280;
     --line:rgba(17,24,39,.10);
     --shadow:0 10px 30px rgba(17,24,39,.12);
-    --amber:#f8e0c2;
     --header:#f3d8b3;
     --bezier:cubic-bezier(.22,.61,.36,1);
   }
@@ -27,7 +26,7 @@
   }
   .container{max-width:1120px;margin:0 auto;padding:20px 20px 100px}
 
-  /* ---------- Top nav (matches other pages) ---------- */
+  /* ---------- Top nav (match the rest of the site) ---------- */
   .topbar{position:sticky;top:0;z-index:20;backdrop-filter:saturate(1.2) blur(8px);
     background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.58));
     border-bottom:1px solid rgba(17,24,39,.06)
@@ -41,8 +40,10 @@
   .pill.active{background:#111827;color:#fff}
 
   /* ---------- Decorative route + plane ---------- */
-  .scene{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.8}
-  @keyframes flagBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(6px) rotate(-1deg)}}
+  .scene{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
+  /* a bigger, clearer airplane silhouette (fuselage + wings + tail) */
+  .plane-body{fill:#111827}
+  .route-dash{stroke:rgba(17,24,39,.22);stroke-width:1.6;stroke-dasharray:7 9;fill:none}
 
   /* ---------- BOARDING PASS header ---------- */
   .ticket{
@@ -82,8 +83,8 @@
     width:58%;height:1.5px;background:
       repeating-linear-gradient(90deg,#111827 0 8px,#0000 8px 14px);opacity:.45;border-radius:2px;
   }
-  .plane{position:absolute;top:calc(52% - 8px);left:21%;width:26px;height:16px;opacity:.75;animation:fly 10s linear infinite}
-  @keyframes fly{0%{left:21%}100%{left:78%}}
+  .plane{position:absolute;top:calc(52% - 10px);left:18%;width:34px;height:20px;opacity:.88;animation:fly 10s linear infinite}
+  @keyframes fly{0%{left:18%}100%{left:78%}}
 
   .col-right{padding:18px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .label{font-size:12px;color:var(--muted);letter-spacing:.08em}
@@ -91,23 +92,18 @@
   .barcode{grid-column:1/-1;height:40px;border-radius:8px;border:1px solid rgba(17,24,39,.12);
     background:repeating-linear-gradient(90deg,#111827 0 2px, transparent 2px 4px),#fff}
 
-  /* ---------- NEXT UP (single widget with flags) ---------- */
+  /* ---------- NEXT UP (single widget with SVG flags) ---------- */
   .next{
     margin:10px 0 18px;
     border-radius:18px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow);
     overflow:hidden;
   }
   .next h3{margin:0;padding:12px 14px;background:linear-gradient(180deg,#fff,#fff7ef);border-bottom:1px solid var(--line)}
-  .next-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border-top:0}
+  .next-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
   @media (max-width:780px){.next-list{grid-template-columns:1fr}}
   .next-item{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid var(--line)}
-  .flag{width:46px;height:28px;border-radius:6px;border:1px solid rgba(17,24,39,.18);box-shadow:0 6px 16px rgba(17,24,39,.08)}
-  .flag.mx{background:linear-gradient(90deg,#006847 0 33%, #fff 33% 66%, #ce1126 66% 100%)}
-  .flag.kr{background:#fff;position:relative}
-  .flag.kr::after{
-    content:"";position:absolute;inset:6px 10px;background:conic-gradient(#e11d48 0 50%, #2563eb 50% 100%);
-    border-radius:999px;box-shadow:inset 0 0 0 2px #fff;
-  }
+  .flag{width:46px;height:28px;border-radius:6px;border:1px solid rgba(17,24,39,.18);overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(17,24,39,.08)}
+  .flag svg{width:100%;height:100%;display:block}
   .next-title{font-weight:800;margin:0}
   .next-sub{margin:2px 0 0;color:var(--muted);font-size:13px}
   .badge{justify-self:end;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:999px;font-weight:800;
@@ -183,20 +179,21 @@
     </div>
   </header>
 
-  <!-- subtle dashed route + moving plane behind content -->
+  <!-- background dashed route + moving airplane -->
   <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <g id="plane" transform="scale(.9)">
-        <path d="M0 0 l40 14 l-8 10 l-12 -3 l-6 10 l12 4 l-4 8 l-22 -5 l-14 14 l-10 -2 l10 -18 l-24 -6 l4 -8 l24 2 l8 -14 l-20 -6 l4 -8 z"
-              fill="#111827" opacity=".85"/>
+      <!-- airplane built from fuselage (rect), wings (polygons) and tail -->
+      <g id="airplane" class="plane-body">
+        <rect x="-50" y="-5" width="90" height="10" rx="3"></rect>
+        <polygon points="-15,-16 40,0 -15,16"></polygon>
+        <polygon points="30,-6 55,-12 67,-7 55,0 67,7 55,12 30,6"></polygon>
       </g>
     </defs>
-    <path id="route1" d="M60,720 C360,620 880,160 1360,260" stroke="rgba(17,24,39,.22)" stroke-width="1.5"
-          stroke-dasharray="6 9" fill="none">
+    <path id="route-bg" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
       <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
     </path>
-    <use href="#plane">
-      <animateMotion dur="18s" repeatCount="indefinite" rotate="auto"><mpath href="#route1"/></animateMotion>
+    <use href="#airplane">
+      <animateMotion dur="18s" repeatCount="indefinite" rotate="auto"><mpath href="#route-bg"/></animateMotion>
     </use>
   </svg>
 
@@ -204,7 +201,7 @@
 
     <!-- Boarding-pass header -->
     <section class="ticket" aria-label="Travel boarding pass">
-      <div class="bar">BOARDING PASS — Travel Log</div>
+      <div class="bar">BOARDING PASS — TRAVEL LOG</div>
       <div class="row">
         <div class="col-left">
           <div>
@@ -226,9 +223,10 @@
           </div>
 
           <div class="route"></div>
-          <svg class="plane" viewBox="0 0 50 20" aria-hidden="true">
-            <path d="M0 8 L38 12 L30 16 L18 14 L12 18 L24 20 L20 24 L0 20 L-6 28 L-14 26 L-6 12 L-24 10 L-20 6 L-4 8 L2 0 Z"
-                  fill="#111827"/>
+          <svg class="plane" viewBox="-60 -20 140 40" aria-hidden="true">
+            <rect x="-50" y="-5" width="90" height="10" rx="3" fill="#111827"></rect>
+            <polygon points="-15,-16 40,0 -15,16" fill="#111827"></polygon>
+            <polygon points="30,-6 55,-12 67,-7 55,0 67,7 55,12 30,6" fill="#111827"></polygon>
           </svg>
         </div>
 
@@ -241,7 +239,7 @@
           </div>
           <div>
             <div class="label">Class</div>
-            <div class="value">Carry-on Chef</div>
+            <div class="value">Window-Seat Collector</div>
           </div>
           <div>
             <div class="label">Ticket</div>
@@ -260,21 +258,73 @@
     <section class="next" aria-label="Upcoming trips">
       <h3>Next up</h3>
       <div class="next-list">
+        <!-- Mexico City -->
         <div class="next-item">
-          <div class="flag mx" aria-hidden="true"></div>
+          <div class="flag" aria-hidden="true">
+            <!-- Mexico flag (green/white/red with simplified emblem) -->
+            <svg viewBox="0 0 3 2">
+              <rect width="1" height="2" x="0" y="0" fill="#006847"/>
+              <rect width="1" height="2" x="1" y="0" fill="#ffffff"/>
+              <rect width="1" height="2" x="2" y="0" fill="#ce1126"/>
+              <!-- tiny emblem approximation -->
+              <g transform="translate(1.5,1) scale(.18)">
+                <circle r="2.6" fill="#fff"/>
+                <path d="M0-2.2c.9.2 1.2 1 .6 1.7-.4.5-1 .8-1.6.9.4.3.8.6 1 .9" fill="#8b5e3c" />
+                <path d="M-2.2.2c.6.6 1.3 1 2.2 1 .9 0 1.6-.4 2.2-1" stroke="#0b6" stroke-width=".5" fill="none"/>
+                <circle r=".6" fill="#b91c1c"/>
+              </g>
+            </svg>
+          </div>
           <div>
             <p class="next-title">Mexico City</p>
             <p class="next-sub">Oct 8 • LAX → MEX</p>
           </div>
           <div class="badge" id="eta-mex">—</div>
         </div>
+
+        <!-- Seoul, Korea -->
         <div class="next-item">
-          <div class="flag kr" aria-hidden="true"></div>
+          <div class="flag" aria-hidden="true">
+            <!-- South Korea flag (Taegeuk + trigrams) -->
+            <svg viewBox="0 0 3 2">
+              <rect width="3" height="2" fill="#ffffff"/>
+              <!-- trigrams -->
+              <g stroke="#111827" stroke-width=".12">
+                <g transform="translate(.45,.35) rotate(-30)">
+                  <line x1="-.36" y1="-.20" x2=".36" y2="-.20"/>
+                  <line x1="-.36" y1="0" x2=".36" y2="0"/>
+                  <line x1="-.36" y1=".20" x2=".36" y2=".20"/>
+                </g>
+                <g transform="translate(2.55,1.65) rotate(-30)">
+                  <line x1="-.36" y1="-.20" x2=".36" y2="-.20"/>
+                  <line x1="-.36" y1="0" x2="-.05" y2="0"/>
+                  <line x1=".05"  y1="0" x2=".36" y2="0"/>
+                  <line x1="-.36" y1=".20" x2=".36" y2=".20"/>
+                </g>
+                <g transform="translate(.45,1.65) rotate(30)">
+                  <line x1="-.36" y1="-.20" x2=".36" y2="-.20"/>
+                  <line x1="-.36" y1="0" x2="-.05" y2="0"/>
+                  <line x1=".05"  y1="0" x2=".36" y2="0"/>
+                  <line x1="-.36" y1=".20" x2=".36" y2=".20"/>
+                </g>
+                <g transform="translate(2.55,.35) rotate(30)">
+                  <line x1="-.36" y1="-.20" x2=".36" y2="-.20"/>
+                  <line x1="-.36" y1="0" x2=".36" y2="0"/>
+                  <line x1="-.36" y1=".20" x2=".36" y2=".20"/>
+                </g>
+              </g>
+              <!-- taegeuk -->
+              <g transform="translate(1.5,1)">
+                <path d="M0,-.55a.55.55 0 1 1 0,1.1a.275.275 0 0 0 0- .55z" fill="#2563eb" transform="rotate(0)"/>
+                <path d="M0,.55a.55.55 0 1 1 0,-1.1a.275.275 0 0 1 0 .55z" fill="#e11d48" transform="rotate(0)"/>
+              </g>
+            </svg>
+          </div>
           <div>
             <p class="next-title">Seoul, Korea</p>
-            <p class="next-sub">December • LAX → ICN</p>
+            <p class="next-sub">Dec 17 • LAX → ICN</p>
           </div>
-          <div class="badge gray">TBD</div>
+          <div class="badge" id="eta-seoul">—</div>
         </div>
       </div>
     </section>
@@ -307,7 +357,7 @@
         <div class="meta"><h3>New York</h3><p>bridges • bagels • late sunsets on the water</p></div>
       </article>
 
-      <!-- Catalina (case-safe fallbacks) -->
+      <!-- Catalina -->
       <article
         class="trip reveal"
         data-title="Catalina Island — Jan 2025"
@@ -364,7 +414,7 @@
   },{threshold:.2, rootMargin:"-10% 0px -10% 0px"});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-  /* resolve first working image from a pipe-separated list */
+  /* choose the first image that actually exists from a pipe-separated list */
   function pick(paths, cb){
     const list=(paths||"").split('|').map(s=>s.trim()).filter(Boolean);
     if(!list.length){ cb(""); return; }
@@ -386,9 +436,6 @@
   const lbDate=document.getElementById('lbDate');
   const lbNotes=document.getElementById('lbNotes');
   const thumbs=document.getElementById('thumbs');
-  const btnPrev=document.getElementById('prev');
-  const btnNext=document.getElementById('next');
-  const btnClose=document.getElementById('lbClose');
   const stage=document.getElementById('stage');
 
   let current=[], index=0;
@@ -455,21 +502,23 @@
   });
   cards.forEach(c=>c.addEventListener('click',()=>openFromCard(c)));
 
-  /* Countdown for Mexico City (Oct 8, 2025) */
-  (function(){
-    const chip=document.getElementById('eta-mex');
-    const target=new Date('2025-10-08T00:00:00');
+  /* Countdowns */
+  function setCountdown(el, dateStr){
+    const elmt=document.getElementById(el);
+    const target=new Date(dateStr);
     function update(){
       const now=new Date();
       const diff=target-now;
-      if(diff<=0){ chip.textContent='Soon'; return; }
+      if(diff<=0){ elmt.textContent='Soon'; return; }
       const days=Math.ceil(diff/86400000);
-      chip.textContent = days===1 ? 'in 1 day' : `in ${days} days`;
+      elmt.textContent = days===1 ? 'in 1 day' : `in ${days} days`;
     }
-    update(); setInterval(update, 3600*1000);
-  })();
-
+    update(); setInterval(update, 3600*1000); // hourly is fine
+  }
+  setCountdown('eta-mex',   '2025-10-08T00:00:00');
+  setCountdown('eta-seoul', '2025-12-17T00:00:00');
 </script>
 </body>
 </html>
+
 
