@@ -1,286 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Travel – Jan Arroyo</title>
-  <meta name="description" content="Places I've been – Jan Arroyo" />
-  <link href="styles.css?v=8" rel="stylesheet" />
+  <title>Travel — Jan Arroyo</title>
+
+  <!-- Page-only styles so you can paste this one file -->
   <style>
-    /* --- Travel page additions (scoped) --- */
-    .travel-hero {
-      margin: 32px auto 16px;
-      background: radial-gradient(1200px 500px at 50% -200px, #fff 0%, #f7fafc 65%, rgba(247,250,252,0) 100%);
-      border-radius: 18px;
-      padding: 28px 24px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    :root{
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --ink: #14151a;
+      --muted: #5b6170;
+      --ring: 0 10px 30px rgba(20,21,26,.08),
+               0 2px 10px rgba(20,21,26,.04);
+      --pill:#0f172a;
+      --pill-ink:#fff;
+      --accent:#3b82f6;         /* link & focus */
+      --tape:#ffe3b3;
     }
-    .travel-hero h1 {
-      font-size: clamp(28px, 4vw, 42px);
-      margin: 0 0 8px;
-      letter-spacing: .2px;
-    }
-    .travel-hero p { margin: 0; color: #4b5563; }
 
-    /* sticky chip nav */
-    .trip-nav {
-      position: sticky; top: 64px; z-index: 5;
-      backdrop-filter: blur(6px);
-      background: color-mix(in srgb, #ffffff 75%, transparent);
-      border: 1px solid rgba(17,24,39,.08);
-      border-radius: 999px;
-      padding: 8px;
-      display: flex; gap: 8px; flex-wrap: wrap;
-      align-items: center; justify-content: flex-start;
-      margin: 16px 0 10px;
-    }
-    .trip-chip {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 12px; border-radius: 999px;
-      border: 1px solid rgba(17,24,39,.09);
-      background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.05);
-      font-size: 13px; color: #111827; text-decoration: none;
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .trip-chip:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,.08); }
-    .trip-chip .dot { width: 8px; height: 8px; border-radius: 50%; display:inline-block; }
-    .dot.spain   { background:#f59e0b; }  /* amber */
-    .dot.ny      { background:#3b82f6; }  /* blue */
-    .dot.catalina{ background:#10b981; }  /* emerald */
-    .dot.hawaii  { background:#ef4444; }  /* red */
+    /* Reset-ish */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+    .container{width:min(1100px,92%);margin-inline:auto}
 
-    /* trip section */
-    .trip { margin: 32px 0 48px; }
-    .trip header {
-      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
-      margin: 6px 2px 14px;
+    /* Confetti backdrop (subtle) */
+    body{
+      background:
+        radial-gradient(12px 12px at 8% 10%, #ffd5e1 0 30%, #0000 35%),
+        radial-gradient(12px 12px at 92% 18%, #d8e8ff 0 30%, #0000 35%),
+        radial-gradient(12px 12px at 18% 82%, #dfffe1 0 30%, #0000 35%),
+        radial-gradient(12px 12px at 82% 90%, #ffeec5 0 30%, #0000 35%),
+        var(--bg);
+      background-attachment: fixed;
     }
-    .trip h2 {
-      font-size: clamp(22px, 3vw, 28px);
-      margin: 0;
-    }
-    .trip .meta-line { color:#6b7280; font-size:14px; margin-top:4px; }
 
-    /* Masonry gallery */
-    .masonry { columns: 3 260px; column-gap: 14px; }
-    .masonry .card {
-      display: inline-block; width:100%;
-      margin: 0 0 14px; break-inside: avoid;
-      border-radius: 14px; overflow: hidden;
-      background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.08);
-      text-decoration:none; color:inherit;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .masonry .card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,.12); }
-    .card .thumb img { width:100%; height:auto; display:block; }
-    .card .meta { padding: 10px 12px; }
-    .card .meta h3 { font-size:15px; margin:2px 0 0; }
-    .card .meta p  { font-size:12px; color:#6b7280; margin:4px 0 0; }
-    .tag { display:inline-block; padding:2px 8px; border-radius:999px; background:#f3f4f6; font-size:11px; color:#374151; }
+    /* Top nav (re-using your pill style quickly) */
+    .nav{position:sticky;top:0;backdrop-filter:saturate(160%) blur(8px);background:rgba(247,248,251,.7);z-index:30}
+    .nav-inner{display:flex;gap:.5rem;justify-content:center;align-items:center;padding:.65rem}
+    .chip{border:1px solid #e7e7ee;background:#fff;border-radius:999px;padding:.45rem .9rem;box-shadow:0 1px 0 #f0f0f6 inset}
+    .chip.active{background:#111827;color:#fff;border-color:#111827}
 
-    /* Lightbox */
-    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:24px; z-index:50; }
-    .lightbox.open { display:flex; }
-    .lightbox-content { background:#0b0b0b; border-radius:14px; max-width:min(1100px, 92vw); width:100%; box-shadow:0 20px 60px rgba(0,0,0,.45); }
-    .lightbox-header { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; color:#f9fafb; border-bottom:1px solid rgba(255,255,255,.08); }
-    .lightbox-body { padding: 10px; background:#0b0b0b; }
-    #lbImg { width:100%; height:auto; display:block; border-radius:10px; }
-    .close { background:#111827; color:#f9fafb; border:1px solid rgba(255,255,255,.12); padding:6px 10px; border-radius:999px; cursor:pointer; }
-
-    @media (max-width:700px) {
-      .trip-nav { top: 56px; }
+    /* Hero */
+    .hero{position:relative;padding:72px 0 18px}
+    .hero-rail{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:end}
+    .hero-card{
+      background:linear-gradient(180deg,#fff, #fffefc);
+      border-radius:28px;
+      box-shadow:var(--ring);
+      padding:28px 28px 26px;
+      position:relative;
     }
+    .hero-card::before{
+      content:"";
+      position:absolute;inset:-8px -8px auto auto;width:120px;height:20px;
+      background:repeating-linear-gradient(90deg,#fff6,#fff6 10px,#0000 10px,#0000 20px), var(--tape);
+      border-radius:6px;transform:rotate(-3deg);
+      box-shadow:0 3px 0 rgba(0,0,0,.06);
+    }
+    h1{font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin:0 0 10px}
+    .lead{color:var(--muted);margin:0}
+    .hero-polaroid{
+      justify-self:end;
+      background:#fff;border-radius:14px;padding:12px 12px 18px;width:min(360px,100%);box-shadow:var(--ring);position:relative;transform:rotate(2deg)
+    }
+    .hero-polaroid::before{
+      content:"";position:absolute;top:-10px;left:18px;width:92px;height:18px;background:var(--tape);
+      transform:rotate(-6deg);border-radius:5px;box-shadow:0 2px 0 rgba(0,0,0,.08)
+    }
+    .hero-polaroid::after{
+      content:"";position:absolute;top:-8px;right:22px;width:76px;height:18px;background:var(--tape);
+      transform:rotate(8deg);border-radius:5px;box-shadow:0 2px 0 rgba(0,0,0,.08)
+    }
+    .hero-polaroid figcaption{font-size:.82rem;color:#6b7280;text-align:center;margin-top:8px}
+
+    /* Section title */
+    .section-head{display:flex;align-items:end;justify-content:space-between;margin:28px 0 14px}
+    .section-head h2{font-size:clamp(24px,2.4vw,30px);margin:0}
+    .underline{height:3px;background:#e5e7eb;border-radius:999px;position:relative;overflow:hidden}
+    .underline span{position:absolute;left:0;top:0;bottom:0;width:120px;background:#111827;border-radius:999px}
+
+    /* Trip grid */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .trip{grid-column:span 6;background:var(--card);border-radius:18px;box-shadow:var(--ring);overflow:hidden;position:relative;transition:transform .2s ease, box-shadow .2s ease}
+    .trip:hover{transform:translateY(-2px);box-shadow:0 14px 46px rgba(0,0,0,.08)}
+    .trip-image{aspect-ratio:16/10;background:#f2f3f6;object-fit:cover;width:100%}
+    .trip-meta{display:flex;gap:8px;align-items:center;position:absolute;top:10px;left:10px;background:rgba(17,24,39,.8);color:#fff;font-size:.78rem;padding:.25rem .55rem;border-radius:999px}
+    .trip-body{padding:14px 16px 16px}
+    .trip h3{margin:0 0 2px;font-size:1.05rem}
+    .trip p{margin:0;color:var(--muted);font-size:.92rem}
+
+    @media (max-width:820px){
+      .hero-rail{grid-template-columns:1fr}
+      .hero-polaroid{justify-self:start;transform:none}
+      .trip{grid-column:span 12}
+    }
+
+    /* Modal (overlay story) */
+    .modal{position:fixed;inset:0;background:rgba(10,11,16,.62);backdrop-filter:blur(6px) saturate(130%);display:none;align-items:center;justify-content:center;padding:24px 14px;z-index:60}
+    .modal[open]{display:flex;animation:fadeIn .18s ease}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .sheet{background:#0b0d12;color:#f8fafc;max-width:min(980px,94vw);width:100%;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+    .sheet-head{display:flex;gap:14px;align-items:baseline;padding:16px 18px 8px}
+    .sheet-title{font-size:1.15rem;margin:0}
+    .sheet-sub{font-size:.85rem;color:#cbd5e1;margin-left:auto}
+    .sheet-body{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;padding:0 18px 18px}
+    .sheet-gallery{border-radius:12px;overflow:hidden;background:#0f1117}
+    .viewer{position:relative}
+    .viewer img{width:100%;height:420px;object-fit:cover;background:#0f1117}
+    .thumbs{display:flex;gap:6px;padding:8px;background:#0f1117;overflow:auto}
+    .thumbs img{width:70px;height:52px;object-fit:cover;border-radius:8px;opacity:.7;transition:opacity .2s,transform .2s}
+    .thumbs img.active{opacity:1;outline:2px solid #60a5fa;transform:translateY(-1px)}
+    .sheet-copy{font-size:.95rem;color:#cbd5e1}
+    .sheet-copy h4{margin:.2rem 0 .35rem;font-size:1rem;color:#e5e7eb}
+    .sheet-copy p{margin:.3rem 0}
+    .x{position:absolute;top:12px;right:12px;background:#0b0d12;border:1px solid #1f2937;border-radius:10px;padding:.45rem .6rem;color:#e5e7eb}
+    .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.7);border:1px solid #1f2937;border-radius:10px;padding:.5rem .6rem}
+    .nav-btn.prev{left:10px}.nav-btn.next{right:10px}
+    .nav-btn svg,.x svg{display:block}
+
+    /* Focus outlines for a11y */
+    .trip:focus-visible,.x:focus-visible,.nav-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:12px}
+
+    /* Tiny styled badge for date */
+    .pill{background:var(--pill);color:var(--pill-ink);font-size:.72rem;padding:.18rem .5rem;border-radius:999px}
   </style>
 </head>
 <body>
-  <!-- Navbar (keeps your site-wide nav style) -->
-  <nav class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="./">JAN</a>
-      <div class="nav-links">
-        <a class="btn" href="work.html">Projects</a>
-        <a class="btn" href="races.html">Races</a>
-        <a class="btn" href="bake.html">Bake</a>
-        <a class="btn" href="travel.html">Travel</a>
-        <a class="btn" href="#contact">Contact</a>
-      </div>
-    </div>
-  </nav>
 
-  <main class="container">
-    <!-- Intro -->
-    <section class="travel-hero">
-      <h1>Travel journal</h1>
-      <p>I like collecting little moments from trips—good food, long walks, and views that make you quiet for a sec. Here are a few favorites.</p>
-    </section>
-
-    <!-- Sticky chips for fast jump -->
-    <nav class="trip-nav" aria-label="Jump to trip">
-      <a class="trip-chip" href="#spain-2023"><span class="dot spain"></span> Spain ’23</a>
-      <a class="trip-chip" href="#ny-2024"><span class="dot ny"></span> New York ’24</a>
-      <a class="trip-chip" href="#catalina-2025"><span class="dot catalina"></span> Catalina ’25</a>
-      <a class="trip-chip" href="#hawaii-2025"><span class="dot hawaii"></span> Hawai‘i ’25</a>
-    </nav>
-
-    <!-- =========================
-         Spain – March 2023
-    ========================== -->
-    <section id="spain-2023" class="trip">
-      <header>
-        <div>
-          <h2>Spain</h2>
-          <div class="meta-line">March 2023 · Madrid & Barcelona</div>
-        </div>
-      </header>
-
-      <div class="masonry">
-        <a class="card" href="images/Spain1.JPG" data-large="images/Spain1.JPG">
-          <div class="thumb"><img src="images/Spain1.JPG" alt="Spain trip photo 1"></div>
-          <div class="meta"><span class="tag">Spain</span><h3>First morning wander</h3><p>Pastries + plazas.</p></div>
-        </a>
-        <a class="card" href="images/Spain2.JPG" data-large="images/Spain2.JPG">
-          <div class="thumb"><img src="images/Spain2.JPG" alt="Spain trip photo 2"></div>
-          <div class="meta"><span class="tag">Spain</span><h3>Park break</h3><p>Sun and shade.</p></div>
-        </a>
-        <a class="card" href="images/Spain3.JPG" data-large="images/Spain3.JPG">
-          <div class="thumb"><img src="images/Spain3.JPG" alt="Spain trip photo 3"></div>
-          <div class="meta"><span class="tag">Spain</span><h3>Late-night streets</h3><p>Tapas run.</p></div>
-        </a>
-      </div>
-    </section>
-
-    <!-- =========================
-         New York – July 2024
-    ========================== -->
-    <section id="ny-2024" class="trip">
-      <header>
-        <div>
-          <h2>New York City</h2>
-          <div class="meta-line">July 2024 · Brooklyn & Manhattan</div>
-        </div>
-      </header>
-
-      <div class="masonry">
-        <a class="card" href="images/NewYork1.JPG" data-large="images/NewYork1.JPG">
-          <div class="thumb"><img src="images/NewYork1.JPG" alt="NYC photo 1"></div>
-          <div class="meta"><span class="tag">NYC</span><h3>Bridge walk</h3><p>Golden evening.</p></div>
-        </a>
-        <a class="card" href="images/NewYork2.JPG" data-large="images/NewYork2.JPG">
-          <div class="thumb"><img src="images/NewYork2.JPG" alt="NYC photo 2"></div>
-          <div class="meta"><span class="tag">NYC</span><h3>Coffee stop</h3><p>Neighborhood morning.</p></div>
-        </a>
-        <a class="card" href="images/NewYork3.JPG" data-large="images/NewYork3.JPG">
-          <div class="thumb"><img src="images/NewYork3.JPG" alt="NYC photo 3"></div>
-          <div class="meta"><span class="tag">NYC</span><h3>Subway blur</h3><p>Always moving.</p></div>
-        </a>
-        <a class="card" href="images/NewYork4.JPG" data-large="images/NewYork4.JPG">
-          <div class="thumb"><img src="images/NewYork4.JPG" alt="NYC photo 4"></div>
-          <div class="meta"><span class="tag">NYC</span><h3>Rooftop hour</h3><p>Skyline therapy.</p></div>
-        </a>
-        <a class="card" href="images/NewYork5.JPG" data-large="images/NewYork5.JPG">
-          <div class="thumb"><img src="images/NewYork5.JPG" alt="NYC photo 5"></div>
-          <div class="meta"><span class="tag">NYC</span><h3>After dark</h3><p>Lights on lights.</p></div>
-        </a>
-      </div>
-    </section>
-
-    <!-- =========================
-         Catalina Island – Jan 2025
-    ========================== -->
-    <section id="catalina-2025" class="trip">
-      <header>
-        <div>
-          <h2>Catalina Island</h2>
-          <div class="meta-line">January 2025 · Off the SoCal coast</div>
-        </div>
-      </header>
-
-      <div class="masonry">
-        <a class="card" href="images/Catalinaisland1.JPG" data-large="images/Catalinaisland1.JPG">
-          <div class="thumb"><img src="images/Catalinaisland1.JPG" alt="Catalina photo 1"></div>
-          <div class="meta"><span class="tag">Catalina</span><h3>Ferry in</h3><p>Sea breeze start.</p></div>
-        </a>
-        <a class="card" href="images/Catalinaisland2.JPG" data-large="images/Catalinaisland2.JPG">
-          <div class="thumb"><img src="images/Catalinaisland2.JPG" alt="Catalina photo 2"></div>
-          <div class="meta"><span class="tag">Catalina</span><h3>Harbor walk</h3><p>Quiet streets.</p></div>
-        </a>
-        <a class="card" href="images/Catalinaisland3.JPG" data-large="images/Catalinaisland3.JPG">
-          <div class="thumb"><img src="images/Catalinaisland3.JPG" alt="Catalina photo 3"></div>
-          <div class="meta"><span class="tag">Catalina</span><h3>Vista point</h3><p>That turquoise water.</p></div>
-        </a>
-        <a class="card" href="images/Catalinaisland4.JPG" data-large="images/Catalinaisland4.JPG">
-          <div class="thumb"><img src="images/Catalinaisland4.JPG" alt="Catalina photo 4"></div>
-          <div class="meta"><span class="tag">Catalina</span><h3>Golden hour</h3><p>Warm light on the bay.</p></div>
-        </a>
-      </div>
-    </section>
-
-    <!-- =========================
-         Hawai‘i – March 2025
-    ========================== -->
-    <section id="hawaii-2025" class="trip">
-      <header>
-        <div>
-          <h2>Hawai‘i (O‘ahu)</h2>
-          <div class="meta-line">March 2025 · North Shore & Honolulu</div>
-        </div>
-      </header>
-
-      <div class="masonry">
-        <a class="card" href="images/Hawaii.JPG" data-large="images/Hawaii.JPG">
-          <div class="thumb"><img src="images/Hawaii.JPG" alt="Hawaii photo 0"></div>
-          <div class="meta"><span class="tag">Hawai‘i</span><h3>Trail lookout</h3><p>Trade winds + views.</p></div>
-        </a>
-        <a class="card" href="images/Hawaii1.JPG" data-large="images/Hawaii1.JPG">
-          <div class="thumb"><img src="images/Hawaii1.JPG" alt="Hawaii photo 1"></div>
-          <div class="meta"><span class="tag">Hawai‘i</span><h3>Beach stop</h3><p>Blue on blue.</p></div>
-        </a>
-        <a class="card" href="images/Hawaii2.JPG" data-large="images/Hawaii2.JPG">
-          <div class="thumb"><img src="images/Hawaii2.JPG" alt="Hawaii photo 2"></div>
-          <div class="meta"><span class="tag">Hawai‘i</span><h3>Town wander</h3><p>Spam musubi break.</p></div>
-        </a>
-        <a class="card" href="images/Hawaii3.JPG" data-large="images/Hawaii3.JPG">
-          <div class="thumb"><img src="images/Hawaii3.JPG" alt="Hawaii photo 3"></div>
-          <div class="meta"><span class="tag">Hawai‘i</span><h3>Cloudy cove</h3><p>Still perfect.</p></div>
-        </a>
-        <a class="card" href="images/Hawaii4.JPG" data-large="images/Hawaii4.JPG">
-          <div class="thumb"><img src="images/Hawaii4.JPG" alt="Hawaii photo 4"></div>
-          <div class="meta"><span class="tag">Hawai‘i</span><h3>With a friend</h3><p>Best kind of views.</p></div>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
-
-  <!-- Lightbox -->
-  <div class="lightbox" id="lb">
-    <div class="lightbox-content">
-      <div class="lightbox-header">
-        <strong style="font-weight:600;">Photo</strong>
-        <button class="close" id="lbClose">Close</button>
-      </div>
-      <div class="lightbox-body"><img id="lbImg" alt=""></div>
+  <!-- Top nav (same vibe as other pages) -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="chip" href="index.html">Projects</a>
+      <a class="chip" href="races.html">Races</a>
+      <a class="chip" href="bake.html">Bake</a>
+      <span class="chip active">Travel</span>
+      <a class="chip" href="work.html">Contact</a>
     </div>
   </div>
 
-  <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
+  <!-- Hero -->
+  <header class="hero container">
+    <div class="hero-rail">
+      <section class="hero-card">
+        <h1>Trips I’ve loved</h1>
+        <p class="lead">
+          A rolling journal of places I’ve visited and the small moments that made them stick.
+          Click any card to open photos and a short story.
+        </p>
+      </section>
 
-    // lightbox
-    const lb = document.getElementById('lb');
-    const lbImg = document.getElementById('lbImg');
-    const lbClose = document.getElementById('lbClose');
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        e.preventDefault();
-        lb.classList.add('open');
-        lbImg.src = card.dataset.large || card.getAttribute('href');
+      <figure class="hero-polaroid">
+        <img src="images/Eug+Jan.JPG" alt="Cake-cutting with friends" />
+        <figcaption>friends who eat cake together travel together</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main class="container" aria-labelledby="trips-head">
+    <div class="section-head">
+      <h2 id="trips-head">Trips</h2>
+    </div>
+
+    <!-- Cards grid (order: Spain → New York → Catalina → Hawaii) -->
+    <div class="grid" id="tripGrid">
+
+      <!-- Spain -->
+      <article class="trip" tabindex="0"
+        data-title="Spain — March 2023"
+        data-date="Mar 2023"
+        data-gallery='["images/Spain1.JPG","images/Spain2.JPG","images/Spain3.JPG"]'
+        data-blurb="First time in Spain. Long walks, late dinners, and getting happily lost among old streets.">
+        <div class="trip-meta"><span class="pill">Mar 2023</span></div>
+        <img class="trip-image" src="images/Spain1.JPG" alt="Spain" loading="lazy">
+        <div class="trip-body">
+          <h3>Spain</h3>
+          <p>sunsets + stone streets + way too many photos</p>
+        </div>
+      </article>
+
+      <!-- New York -->
+      <article class="trip" tabindex="0"
+        data-title="New York — July 2024"
+        data-date="Jul 2024"
+        data-gallery='["images/NewYork1.JPG","images/NewYork2.JPG","images/NewYork3.JPG","images/NewYork4.JPG","images/NewYork5.JPG"]'
+        data-blurb="A heatwave kind of trip. Subway breeze, deli snacks, and skyline views that never get old.">
+        <div class="trip-meta"><span class="pill">Jul 2024</span></div>
+        <img class="trip-image" src="images/NewYork1.JPG" alt="New York" loading="lazy">
+        <div class="trip-body">
+          <h3>New York</h3>
+          <p>bagels, bridges, and catching our breath in the shade</p>
+        </div>
+      </article>
+
+      <!-- Catalina Island -->
+      <article class="trip" tabindex="0"
+        data-title="Catalina Island — January 2025"
+        data-date="Jan 2025"
+        data-gallery='["images/Catalinaisland1.JPG","images/Catalinaisland2.JPG","images/Catalinaisland3.JPG","images/Catalinaisland4.JPG"]'
+        data-blurb="Quiet mornings, the sea doing its thing, and the kind of blue you only get off the California coast.">
+        <div class="trip-meta"><span class="pill">Jan 2025</span></div>
+        <img class="trip-image" src="images/Catalinaisland1.JPG" alt="Catalina Island" loading="lazy">
+        <div class="trip-body">
+          <h3>Catalina Island</h3>
+          <p>salt hair + ferry laughs + clear water</p>
+        </div>
+      </article>
+
+      <!-- Hawaii -->
+      <article class="trip" tabindex="0"
+        data-title="Hawaii — March 2025"
+        data-date="Mar 2025"
+        data-gallery='["images/Hawaii4.JPG","images/Hawaii1.JPG","images/Hawaii2.JPG","images/Hawaii3.JPG"]'
+        data-blurb="Hikes, plate lunches, and that after-sun tired that feels like vacation done right.">
+        <div class="trip-meta"><span class="pill">Mar 2025</span></div>
+        <img class="trip-image" src="images/Hawaii4.JPG" alt="Hawaii" loading="lazy">
+        <div class="trip-body">
+          <h3>Hawaii</h3>
+          <p>ridges, rain, and perfect water</p>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <dialog class="modal" id="travelModal">
+    <div class="sheet" role="document">
+      <div class="sheet-head">
+        <h3 class="sheet-title" id="modalTitle">Trip</h3>
+        <div class="sheet-sub" id="modalDate"></div>
+      </div>
+
+      <div class="sheet-body">
+        <section class="sheet-gallery">
+          <div class="viewer">
+            <button class="nav-btn prev" aria-label="Previous photo" id="prevBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="#e5e7eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <img id="heroImg" alt="">
+            <button class="nav-btn next" aria-label="Next photo" id="nextBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#e5e7eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="thumbs" id="thumbs"></div>
+        </section>
+
+        <section class="sheet-copy">
+          <h4 id="copyHead">Notes</h4>
+          <p id="copyBody">…</p>
+        </section>
+      </div>
+
+      <button class="x" id="closeModal" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#e5e7eb" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </dialog>
+
+  <script>
+    // Grab elements
+    const modal = document.getElementById('travelModal');
+    const heroImg = document.getElementById('heroImg');
+    const thumbs = document.getElementById('thumbs');
+    const titleEl = document.getElementById('modalTitle');
+    const dateEl  = document.getElementById('modalDate');
+    const copyEl  = document.getElementById('copyBody');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const closeBtn= document.getElementById('closeModal');
+
+    let gallery = [];
+    let idx = 0;
+
+    function renderHero() {
+      if (!gallery.length) return;
+      heroImg.src = gallery[idx];
+      heroImg.alt = titleEl.textContent + ' photo ' + (idx+1);
+      [...thumbs.children].forEach((t,i)=>t.classList.toggle('active', i===idx));
+    }
+
+    function openTrip(card){
+      titleEl.textContent = card.dataset.title || 'Trip';
+      dateEl.textContent  = card.dataset.date  || '';
+      copyEl.textContent  = card.dataset.blurb || '';
+      try{
+        gallery = JSON.parse(card.dataset.gallery) || [];
+      }catch{ gallery = []; }
+      idx = 0;
+
+      // Build thumbs
+      thumbs.innerHTML = '';
+      gallery.forEach((src, i)=>{
+        const t = document.createElement('img');
+        t.src = src; t.alt = 'thumbnail ' + (i+1);
+        t.addEventListener('click', ()=>{ idx=i; renderHero(); });
+        thumbs.appendChild(t);
       });
+
+      renderHero();
+      if (typeof modal.showModal === 'function') modal.showModal();
+      else modal.setAttribute('open','');  // fallback
+    }
+
+    // Card clicks
+    document.querySelectorAll('.trip').forEach(card=>{
+      card.addEventListener('click', ()=>openTrip(card));
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openTrip(card); }});
     });
-    lbClose.onclick = () => lb.classList.remove('open');
-    lb.addEventListener('click', (e) => { if (e.target === lb) lb.classList.remove('open'); });
+
+    // Nav controls
+    prevBtn.addEventListener('click', ()=>{ idx = (idx-1+gallery.length)%gallery.length; renderHero(); });
+    nextBtn.addEventListener('click', ()=>{ idx = (idx+1)%gallery.length; renderHero(); });
+    document.addEventListener('keydown', (e)=>{
+      if(!modal.open) return;
+      if(e.key==='ArrowLeft') prevBtn.click();
+      if(e.key==='ArrowRight') nextBtn.click();
+      if(e.key==='Escape') closeBtn.click();
+    });
+
+    // Close
+    function closeModal(){
+      if (typeof modal.close === 'function') modal.close(); else modal.removeAttribute('open');
+    }
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
   </script>
 </body>
 </html>
