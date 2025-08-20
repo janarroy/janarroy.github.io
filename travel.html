@@ -1,334 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Travel — Jan Arroyo</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Travel – Jan Arroyo</title>
 
-  <!-- Page-only styles so you can paste this one file -->
-  <style>
-    :root{
-      --bg: #f7f8fb;
-      --card: #ffffff;
-      --ink: #14151a;
-      --muted: #5b6170;
-      --ring: 0 10px 30px rgba(20,21,26,.08),
-               0 2px 10px rgba(20,21,26,.04);
-      --pill:#0f172a;
-      --pill-ink:#fff;
-      --accent:#3b82f6;         /* link & focus */
-      --tape:#ffe3b3;
-    }
+<!-- Page-specific styles so you can drop this in as-is -->
+<style>
+  :root{
+    --bg-cream:#fff7ed;
+    --bg-cream-2:#fbf1e6;
+    --ink:#141417;
+    --muted:#6b7280;
+    --pill:#f3f4f6;
+    --pill-ink:#0f172a;
+    --ring:rgba(15,23,42,.12);
+    --card:#fffaf3;
+    --card-ink:#161616;
+    --brand:#111827;
+    --accent:#f59e0b; /* warm honey */
+    --shadow:0 10px 30px rgba(17,24,39,.12);
+  }
 
-    /* Reset-ish */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
-    img{max-width:100%;display:block}
-    a{color:inherit;text-decoration:none}
-    button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
-    .container{width:min(1100px,92%);margin-inline:auto}
+  /* ===== Base ===== */
+  html,body{margin:0;padding:0}
+  body{
+    font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Apple Color Emoji,Segoe UI Emoji;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 20% -10%, var(--bg-cream) 0%, #f7efe5 45%, #f6f6f8 100%);
+    min-height:100dvh;
+  }
+  .container{max-width:1120px;margin:0 auto;padding:24px 20px 96px}
 
-    /* Confetti backdrop (subtle) */
-    body{
-      background:
-        radial-gradient(12px 12px at 8% 10%, #ffd5e1 0 30%, #0000 35%),
-        radial-gradient(12px 12px at 92% 18%, #d8e8ff 0 30%, #0000 35%),
-        radial-gradient(12px 12px at 18% 82%, #dfffe1 0 30%, #0000 35%),
-        radial-gradient(12px 12px at 82% 90%, #ffeec5 0 30%, #0000 35%),
-        var(--bg);
-      background-attachment: fixed;
-    }
+  /* ===== Top Nav (matches other pages) ===== */
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    backdrop-filter:saturate(1.2) blur(8px);
+    background:linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.55));
+    border-bottom:1px solid rgba(17,24,39,.06);
+  }
+  .topbar-inner{max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:16px}
+  .brand{font-weight:800;letter-spacing:.08em}
+  .brand a{color:var(--brand);text-decoration:none}
+  .nav{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 14px;border-radius:999px;
+    background:var(--pill);color:var(--pill-ink);text-decoration:none;
+    box-shadow:inset 0 0 0 1px rgba(17,24,39,.06);
+    transition:transform .15s ease, box-shadow .2s ease;
+    font-weight:600;font-size:14px;
+  }
+  .pill:hover{transform:translateY(-1px);box-shadow:0 2px 8px var(--ring)}
+  .pill.active{background:#111827;color:#fff;}
 
-    /* Top nav (re-using your pill style quickly) */
-    .nav{position:sticky;top:0;backdrop-filter:saturate(160%) blur(8px);background:rgba(247,248,251,.7);z-index:30}
-    .nav-inner{display:flex;gap:.5rem;justify-content:center;align-items:center;padding:.65rem}
-    .chip{border:1px solid #e7e7ee;background:#fff;border-radius:999px;padding:.45rem .9rem;box-shadow:0 1px 0 #f0f0f6 inset}
-    .chip.active{background:#111827;color:#fff;border-color:#111827}
+  /* ===== Floating “stickers” (no assets) ===== */
+  .floaters{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .floater{
+    position:absolute;font-size:28px;opacity:.70;filter:saturate(1.1);
+    animation:floatUp 22s linear infinite;
+  }
+  @keyframes floatUp{
+    0%{transform:translateY(40vh) translateX(0) rotate(0deg);opacity:.0}
+    10%{opacity:.65}
+    50%{transform:translateY(-10vh) translateX(20px) rotate(5deg)}
+    100%{transform:translateY(-60vh) translateX(-20px) rotate(-6deg);opacity:0}
+  }
+  /* place a few */
+  .floater.f1{left:6%; animation-delay:.3s}
+  .floater.f2{left:86%; animation-delay:2.1s}
+  .floater.f3{left:45%; animation-delay:4.2s}
+  .floater.f4{left:72%; animation-delay:6.3s}
 
-    /* Hero */
-    .hero{position:relative;padding:72px 0 18px}
-    .hero-rail{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:end}
-    .hero-card{
-      background:linear-gradient(180deg,#fff, #fffefc);
-      border-radius:28px;
-      box-shadow:var(--ring);
-      padding:28px 28px 26px;
-      position:relative;
-    }
-    .hero-card::before{
-      content:"";
-      position:absolute;inset:-8px -8px auto auto;width:120px;height:20px;
-      background:repeating-linear-gradient(90deg,#fff6,#fff6 10px,#0000 10px,#0000 20px), var(--tape);
-      border-radius:6px;transform:rotate(-3deg);
-      box-shadow:0 3px 0 rgba(0,0,0,.06);
-    }
-    h1{font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin:0 0 10px}
-    .lead{color:var(--muted);margin:0}
-    .hero-polaroid{
-      justify-self:end;
-      background:#fff;border-radius:14px;padding:12px 12px 18px;width:min(360px,100%);box-shadow:var(--ring);position:relative;transform:rotate(2deg)
-    }
-    .hero-polaroid::before{
-      content:"";position:absolute;top:-10px;left:18px;width:92px;height:18px;background:var(--tape);
-      transform:rotate(-6deg);border-radius:5px;box-shadow:0 2px 0 rgba(0,0,0,.08)
-    }
-    .hero-polaroid::after{
-      content:"";position:absolute;top:-8px;right:22px;width:76px;height:18px;background:var(--tape);
-      transform:rotate(8deg);border-radius:5px;box-shadow:0 2px 0 rgba(0,0,0,.08)
-    }
-    .hero-polaroid figcaption{font-size:.82rem;color:#6b7280;text-align:center;margin-top:8px}
+  /* ===== Hero ===== */
+  .hero{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;margin-top:28px}
+  .intro{
+    background:linear-gradient(180deg,#fffaf4, #fff6ea);
+    border:1px solid rgba(17,24,39,.06);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:22px 22px 20px;
+    position:relative;
+  }
+  .intro h1{
+    font-size:clamp(26px, 3vw, 36px);
+    letter-spacing:.2px;margin:0 0 8px 0;
+  }
+  .intro p{margin:0;color:var(--muted)}
 
-    /* Section title */
-    .section-head{display:flex;align-items:end;justify-content:space-between;margin:28px 0 14px}
-    .section-head h2{font-size:clamp(24px,2.4vw,30px);margin:0}
-    .underline{height:3px;background:#e5e7eb;border-radius:999px;position:relative;overflow:hidden}
-    .underline span{position:absolute;left:0;top:0;bottom:0;width:120px;background:#111827;border-radius:999px}
+  /* polaroid */
+  .polaroid{
+    background:#fff;border-radius:12px;
+    padding:10px 10px 14px;
+    box-shadow:0 12px 40px rgba(17,24,39,.18);
+    transform:rotate(-2.5deg);
+    border:1px solid rgba(17,24,39,.08);
+  }
+  .polaroid .ph{width:240px;height:180px;border-radius:8px;object-fit:cover;display:block}
+  .polaroid small{display:block;text-align:center;margin-top:6px;color:#6b7280}
 
-    /* Trip grid */
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-    .trip{grid-column:span 6;background:var(--card);border-radius:18px;box-shadow:var(--ring);overflow:hidden;position:relative;transition:transform .2s ease, box-shadow .2s ease}
-    .trip:hover{transform:translateY(-2px);box-shadow:0 14px 46px rgba(0,0,0,.08)}
-    .trip-image{aspect-ratio:16/10;background:#f2f3f6;object-fit:cover;width:100%}
-    .trip-meta{display:flex;gap:8px;align-items:center;position:absolute;top:10px;left:10px;background:rgba(17,24,39,.8);color:#fff;font-size:.78rem;padding:.25rem .55rem;border-radius:999px}
-    .trip-body{padding:14px 16px 16px}
-    .trip h3{margin:0 0 2px;font-size:1.05rem}
-    .trip p{margin:0;color:var(--muted);font-size:.92rem}
+  /* ===== Section title ===== */
+  .section-title{
+    margin:30px 0 12px 0;
+    font-size:22px;font-weight:800;
+    display:flex;align-items:center;gap:10px
+  }
+  .section-title::after{
+    content:"";flex:1;height:1px;background:rgba(17,24,39,.10)
+  }
 
-    @media (max-width:820px){
-      .hero-rail{grid-template-columns:1fr}
-      .hero-polaroid{justify-self:start;transform:none}
-      .trip{grid-column:span 12}
-    }
+  /* ===== Trip grid ===== */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:18px;
+  }
+  @media (max-width:820px){ .grid{grid-template-columns:1fr} }
 
-    /* Modal (overlay story) */
-    .modal{position:fixed;inset:0;background:rgba(10,11,16,.62);backdrop-filter:blur(6px) saturate(130%);display:none;align-items:center;justify-content:center;padding:24px 14px;z-index:60}
-    .modal[open]{display:flex;animation:fadeIn .18s ease}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .sheet{background:#0b0d12;color:#f8fafc;max-width:min(980px,94vw);width:100%;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
-    .sheet-head{display:flex;gap:14px;align-items:baseline;padding:16px 18px 8px}
-    .sheet-title{font-size:1.15rem;margin:0}
-    .sheet-sub{font-size:.85rem;color:#cbd5e1;margin-left:auto}
-    .sheet-body{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;padding:0 18px 18px}
-    .sheet-gallery{border-radius:12px;overflow:hidden;background:#0f1117}
-    .viewer{position:relative}
-    .viewer img{width:100%;height:420px;object-fit:cover;background:#0f1117}
-    .thumbs{display:flex;gap:6px;padding:8px;background:#0f1117;overflow:auto}
-    .thumbs img{width:70px;height:52px;object-fit:cover;border-radius:8px;opacity:.7;transition:opacity .2s,transform .2s}
-    .thumbs img.active{opacity:1;outline:2px solid #60a5fa;transform:translateY(-1px)}
-    .sheet-copy{font-size:.95rem;color:#cbd5e1}
-    .sheet-copy h4{margin:.2rem 0 .35rem;font-size:1rem;color:#e5e7eb}
-    .sheet-copy p{margin:.3rem 0}
-    .x{position:absolute;top:12px;right:12px;background:#0b0d12;border:1px solid #1f2937;border-radius:10px;padding:.45rem .6rem;color:#e5e7eb}
-    .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.7);border:1px solid #1f2937;border-radius:10px;padding:.5rem .6rem}
-    .nav-btn.prev{left:10px}.nav-btn.next{right:10px}
-    .nav-btn svg,.x svg{display:block}
+  .trip{
+    border-radius:18px;background:#fff;overflow:hidden;position:relative;
+    border:1px solid rgba(17,24,39,.06);box-shadow:var(--shadow);
+    transition:transform .18s ease, box-shadow .18s ease;
+    opacity:.0; transform:translateY(12px) scale(.995);
+  }
+  .trip.in-view{opacity:1; transform:translateY(0) scale(1)}
+  .trip:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(17,24,39,.16)}
+  .trip .date{
+    position:absolute;top:10px;left:10px;background:rgba(17,24,39,.82);color:#fff;
+    font-size:12px;border-radius:999px;padding:6px 10px
+  }
+  .trip img{width:100%;height:320px;object-fit:cover;display:block}
+  .trip .meta{padding:12px 14px 14px}
+  .trip h3{margin:0 0 4px 0;font-size:18px}
+  .trip p{margin:0;color:var(--muted);font-size:14px}
 
-    /* Focus outlines for a11y */
-    .trip:focus-visible,.x:focus-visible,.nav-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:12px}
+  /* ===== Cream Lightbox ===== */
+  .lightbox{
+    position:fixed;inset:0;display:none;place-items:center;z-index:30;
+    background:rgba(17,24,39,.36);backdrop-filter:blur(4px) saturate(1.1);
+  }
+  .lightbox.open{display:grid;}
+  .lb-card{
+    width:min(1020px, 92vw);max-height:86vh;display:grid;grid-template-columns:1.15fr .85fr;gap:14px;
+    background:linear-gradient(180deg,#fff8ef,#fff4e6);
+    border:1px solid rgba(17,24,39,.08);border-radius:18px;box-shadow:0 30px 80px rgba(17,24,39,.28);
+    overflow:hidden;position:relative;
+  }
+  @media (max-width:920px){ .lb-card{grid-template-columns:1fr;max-height:88vh} }
+  .lb-left{padding:14px;display:grid;grid-template-rows:auto auto}
+  .lb-stage{background:#fff;border-radius:12px;border:1px solid rgba(17,24,39,.06);
+    display:grid;place-items:center;position:relative;overflow:hidden;height:min(58vh,520px)}
+  .lb-stage img{max-width:100%;max-height:100%;object-fit:contain}
+  .navbtn{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(17,24,39,.75);color:#fff;border:none;border-radius:999px;
+    width:34px;height:34px;display:grid;place-items:center;cursor:pointer
+  }
+  .navbtn.left{left:10px}.navbtn.right{right:10px}
+  .thumbs{display:flex;gap:8px;overflow:auto;margin-top:10px;padding-bottom:6px}
+  .thumbs img{width:62px;height:62px;border-radius:10px;object-fit:cover;border:2px solid transparent;cursor:pointer}
+  .thumbs img.active{border-color:var(--accent)}
+  .lb-right{padding:16px 18px 18px 6px}
+  .lb-title{font-weight:800;font-size:20px;margin:2px 0 2px}
+  .lb-sub{color:var(--muted);font-size:13px;margin-bottom:10px}
+  .lb-notes{line-height:1.6;font-size:15px;overflow:auto;max-height:calc(86vh - 190px)}
+  .lb-close{
+    position:absolute;top:10px;right:10px;border:none;background:#111827;color:#fff;border-radius:999px;width:36px;height:36px;
+    font-size:18px;cursor:pointer;box-shadow:0 8px 18px rgba(17,24,39,.2)
+  }
 
-    /* Tiny styled badge for date */
-    .pill{background:var(--pill);color:var(--pill-ink);font-size:.72rem;padding:.18rem .5rem;border-radius:999px}
-  </style>
+  /* subtle confetti dots layer (cream-friendly) */
+  .confetti{
+    position:absolute;inset:-20px;pointer-events:none;z-index:-1;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(245,158,11,.16) 1.5px, transparent 1.5px),
+      radial-gradient(circle at 70% 10%, rgba(59,130,246,.13) 1.6px, transparent 1.6px),
+      radial-gradient(circle at 30% 80%, rgba(244,63,94,.13) 1.4px, transparent 1.4px),
+      radial-gradient(circle at 85% 70%, rgba(16,185,129,.13) 1.6px, transparent 1.6px);
+    background-size: 1400px 700px;
+    animation: drift 40s linear infinite;
+    opacity:.55;
+  }
+  @keyframes drift{0%{background-position:0 0}100%{background-position:1400px 0}}
+</style>
 </head>
 <body>
 
-  <!-- Top nav (same vibe as other pages) -->
-  <div class="nav">
-    <div class="nav-inner">
-      <a class="chip" href="index.html">Projects</a>
-      <a class="chip" href="races.html">Races</a>
-      <a class="chip" href="bake.html">Bake</a>
-      <span class="chip active">Travel</span>
-      <a class="chip" href="work.html">Contact</a>
-    </div>
+  <!-- Floating emoji “stickers” (no files needed) -->
+  <div class="floaters">
+    <span class="floater f1">✈️</span>
+    <span class="floater f2">🇪🇸</span>
+    <span class="floater f3">🗽</span>
+    <span class="floater f4">🏝️</span>
   </div>
 
-  <!-- Hero -->
-  <header class="hero container">
-    <div class="hero-rail">
-      <section class="hero-card">
-        <h1>Trips I’ve loved</h1>
-        <p class="lead">
-          A rolling journal of places I’ve visited and the small moments that made them stick.
-          Click any card to open photos and a short story.
-        </p>
-      </section>
-
-      <figure class="hero-polaroid">
-        <img src="images/Eug+Jan.JPG" alt="Cake-cutting with friends" />
-        <figcaption>friends who eat cake together travel together</figcaption>
-      </figure>
+  <!-- Top nav (same vibe as other pages) -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><a href="index.html">JAN</a></div>
+      <nav class="nav">
+        <a class="pill" href="index.html">Projects</a>
+        <a class="pill" href="races.html">Races</a>
+        <a class="pill" href="bake.html">Bake</a>
+        <a class="pill active" href="travel.html">Travel</a>
+        <a class="pill" href="work.html">Contact</a>
+      </nav>
     </div>
   </header>
 
-  <main class="container" aria-labelledby="trips-head">
-    <div class="section-head">
-      <h2 id="trips-head">Trips</h2>
-    </div>
+  <main class="container">
+    <!-- hero -->
+    <section class="hero">
+      <div class="intro">
+        <div class="confetti"></div>
+        <h1>Trips I’ve loved</h1>
+        <p>A running log of places I’ve been and the small moments that stuck.
+          Click a card to open photos and a short story.</p>
+      </div>
+      <aside class="polaroid">
+        <img class="ph" src="images/Eug+Jan.JPG" alt="cake-cutting crew">
+        <small>cake-cutting crew</small>
+      </aside>
+    </section>
 
-    <!-- Cards grid (order: Spain → New York → Catalina → Hawaii) -->
-    <div class="grid" id="tripGrid">
+    <!-- section header -->
+    <h2 class="section-title">Trips</h2>
 
-      <!-- Spain -->
-      <article class="trip" tabindex="0"
+    <!-- grid of trips (order requested) -->
+    <section class="grid" id="tripGrid">
+
+      <!-- Spain – Mar 2023 -->
+      <article
+        class="trip reveal"
         data-title="Spain — March 2023"
         data-date="Mar 2023"
-        data-gallery='["images/Spain1.JPG","images/Spain2.JPG","images/Spain3.JPG"]'
-        data-blurb="First time in Spain. Long walks, late dinners, and getting happily lost among old streets.">
-        <div class="trip-meta"><span class="pill">Mar 2023</span></div>
-        <img class="trip-image" src="images/Spain1.JPG" alt="Spain" loading="lazy">
-        <div class="trip-body">
+        data-notes="First time in Spain. Long walks, late dinners, and getting happily lost among old streets."
+        data-images="images/Spain1.JPG|images/spain1.JPG,images/Spain2.JPG|images/spain2.JPG,images/Spain3.JPG|images/spain3.JPG">
+        <span class="date">Mar 2023</span>
+        <img alt="Spain" src="images/Spain1.JPG" onerror="this.onerror=null;this.src='images/spain1.JPG'">
+        <div class="meta">
           <h3>Spain</h3>
-          <p>sunsets + stone streets + way too many photos</p>
+          <p>sunsets • stone streets • way too many photos</p>
         </div>
       </article>
 
-      <!-- New York -->
-      <article class="trip" tabindex="0"
+      <!-- New York – Jul 2024 -->
+      <article
+        class="trip reveal"
         data-title="New York — July 2024"
         data-date="Jul 2024"
-        data-gallery='["images/NewYork1.JPG","images/NewYork2.JPG","images/NewYork3.JPG","images/NewYork4.JPG","images/NewYork5.JPG"]'
-        data-blurb="A heatwave kind of trip. Subway breeze, deli snacks, and skyline views that never get old.">
-        <div class="trip-meta"><span class="pill">Jul 2024</span></div>
-        <img class="trip-image" src="images/NewYork1.JPG" alt="New York" loading="lazy">
-        <div class="trip-body">
+        data-notes="Bagels, bridges, and catching our breath in the shade."
+        data-images="images/NewYork1.JPG,images/NewYork2.JPG,images/NewYork3.JPG,images/NewYork4.JPG,images/NewYork5.JPG">
+        <span class="date">Jul 2024</span>
+        <img alt="New York" src="images/NewYork1.JPG">
+        <div class="meta">
           <h3>New York</h3>
-          <p>bagels, bridges, and catching our breath in the shade</p>
+          <p>bridges • bagels • late sunsets on the water</p>
         </div>
       </article>
 
-      <!-- Catalina Island -->
-      <article class="trip" tabindex="0"
-        data-title="Catalina Island — January 2025"
+      <!-- Catalina Island – Jan 2025 (filenames are tricky; we try a few) -->
+      <article
+        class="trip reveal"
+        data-title="Catalina Island — Jan 2025"
         data-date="Jan 2025"
-        data-gallery='["images/Catalinaisland1.JPG","images/Catalinaisland2.JPG","images/Catalinaisland3.JPG","images/Catalinaisland4.JPG"]'
-        data-blurb="Quiet mornings, the sea doing its thing, and the kind of blue you only get off the California coast.">
-        <div class="trip-meta"><span class="pill">Jan 2025</span></div>
-        <img class="trip-image" src="images/Catalinaisland1.JPG" alt="Catalina Island" loading="lazy">
-        <div class="trip-body">
+        data-notes="Cold air, warm sun. Quiet mornings and boats everywhere."
+        data-images="images/CatalinaIsland1.JPG|images/Catalinaisland1.JPG|images/Catalinalisland1.JPG,
+                     images/CatalinaIsland2.JPG|images/Catalinaisland2.JPG|images/Catalinalisland2.JPG,
+                     images/CatalinaIsland3.JPG|images/Catalinaisland3.JPG|images/Catalinalisland3.JPG">
+        <span class="date">Jan 2025</span>
+        <img alt="Catalina Island"
+             src="images/CatalinaIsland1.JPG"
+             onerror="this.onerror=null;this.src='images/Catalinaisland1.JPG';this.onerror=function(){this.src='images/Catalinalisland1.JPG'}">
+        <div class="meta">
           <h3>Catalina Island</h3>
-          <p>salt hair + ferry laughs + clear water</p>
+          <p>quiet coves • boats • crisp mornings</p>
         </div>
       </article>
 
-      <!-- Hawaii -->
-      <article class="trip" tabindex="0"
+      <!-- Hawaii – Mar 2025 -->
+      <article
+        class="trip reveal"
         data-title="Hawaii — March 2025"
         data-date="Mar 2025"
-        data-gallery='["images/Hawaii4.JPG","images/Hawaii1.JPG","images/Hawaii2.JPG","images/Hawaii3.JPG"]'
-        data-blurb="Hikes, plate lunches, and that after-sun tired that feels like vacation done right.">
-        <div class="trip-meta"><span class="pill">Mar 2025</span></div>
-        <img class="trip-image" src="images/Hawaii4.JPG" alt="Hawaii" loading="lazy">
-        <div class="trip-body">
+        data-notes="Palm shade, short hikes, and impossible blues. Slower days I still think about."
+        data-images="images/Hawaii1.JPG,images/Hawaii2.JPG,images/Hawaii3.JPG,images/Hawaii4.JPG|images/Hawaii.JPG">
+        <span class="date">Mar 2025</span>
+        <img alt="Hawaii" src="images/Hawaii1.JPG" onerror="this.onerror=null;this.src='images/Hawaii.JPG'">
+        <div class="meta">
           <h3>Hawaii</h3>
-          <p>ridges, rain, and perfect water</p>
+          <p>tide pools • snacks • windows down</p>
         </div>
       </article>
 
-    </div>
+    </section>
   </main>
 
-  <!-- Modal -->
-  <dialog class="modal" id="travelModal">
-    <div class="sheet" role="document">
-      <div class="sheet-head">
-        <h3 class="sheet-title" id="modalTitle">Trip</h3>
-        <div class="sheet-sub" id="modalDate"></div>
+  <!-- Cream Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lb-card" role="dialog" aria-modal="true">
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+
+      <div class="lb-left">
+        <div class="lb-stage">
+          <button class="navbtn left" id="prev" aria-label="Previous">‹</button>
+          <img id="lbImg" alt="">
+          <button class="navbtn right" id="next" aria-label="Next">›</button>
+        </div>
+        <div class="thumbs" id="thumbs"></div>
       </div>
 
-      <div class="sheet-body">
-        <section class="sheet-gallery">
-          <div class="viewer">
-            <button class="nav-btn prev" aria-label="Previous photo" id="prevBtn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="#e5e7eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <img id="heroImg" alt="">
-            <button class="nav-btn next" aria-label="Next photo" id="nextBtn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#e5e7eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
-          <div class="thumbs" id="thumbs"></div>
-        </section>
-
-        <section class="sheet-copy">
-          <h4 id="copyHead">Notes</h4>
-          <p id="copyBody">…</p>
-        </section>
+      <div class="lb-right">
+        <div class="lb-title" id="lbTitle">Trip</div>
+        <div class="lb-sub" id="lbDate">Date</div>
+        <div class="lb-notes" id="lbNotes">Notes</div>
       </div>
-
-      <button class="x" id="closeModal" aria-label="Close">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#e5e7eb" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
     </div>
-  </dialog>
+  </div>
 
-  <script>
-    // Grab elements
-    const modal = document.getElementById('travelModal');
-    const heroImg = document.getElementById('heroImg');
-    const thumbs = document.getElementById('thumbs');
-    const titleEl = document.getElementById('modalTitle');
-    const dateEl  = document.getElementById('modalDate');
-    const copyEl  = document.getElementById('copyBody');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const closeBtn= document.getElementById('closeModal');
+<script>
+  /* IntersectionObserver: reveal cards smoothly */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
+    });
+  },{rootMargin:"-10% 0px -10% 0px", threshold:.2});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-    let gallery = [];
-    let idx = 0;
-
-    function renderHero() {
-      if (!gallery.length) return;
-      heroImg.src = gallery[idx];
-      heroImg.alt = titleEl.textContent + ' photo ' + (idx+1);
-      [...thumbs.children].forEach((t,i)=>t.classList.toggle('active', i===idx));
+  /* Utility: pick first path that actually loads (handles Catalina filename variants) */
+  function pickImage(paths, cb){
+    const list = (paths||"").split('|').map(s=>s.trim()).filter(Boolean);
+    if(!list.length){ cb(""); return; }
+    let i = 0, img = new Image();
+    function tryNext(){
+      if(i>=list.length){ cb(list[0]); return; } // fallback
+      img = new Image();
+      img.onload = ()=>cb(list[i]);
+      img.onerror = ()=>{ i++; tryNext(); };
+      img.src = list[i];
     }
+    tryNext();
+  }
 
-    function openTrip(card){
-      titleEl.textContent = card.dataset.title || 'Trip';
-      dateEl.textContent  = card.dataset.date  || '';
-      copyEl.textContent  = card.dataset.blurb || '';
-      try{
-        gallery = JSON.parse(card.dataset.gallery) || [];
-      }catch{ gallery = []; }
+  /* Lightbox logic */
+  const trips = document.querySelectorAll('.trip');
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbDate = document.getElementById('lbDate');
+  const lbNotes = document.getElementById('lbNotes');
+  const thumbs = document.getElementById('thumbs');
+  const btnPrev = document.getElementById('prev');
+  const btnNext = document.getElementById('next');
+  const btnClose = document.getElementById('lbClose');
+
+  let currentList = [], idx = 0;
+
+  function openLB(node){
+    // Build image list, resolving any “a|b|c” options to first that exists
+    const raw = node.dataset.images.split(',').map(s=>s.trim());
+    const resolved = [];
+    let done = 0;
+    raw.forEach((entry, k)=>{
+      pickImage(entry, (ok)=>{ resolved[k]=ok; done++; if(done===raw.length){ show(resolved); }});
+    });
+
+    function show(list){
+      currentList = list.filter(Boolean);
       idx = 0;
-
-      // Build thumbs
-      thumbs.innerHTML = '';
-      gallery.forEach((src, i)=>{
-        const t = document.createElement('img');
-        t.src = src; t.alt = 'thumbnail ' + (i+1);
-        t.addEventListener('click', ()=>{ idx=i; renderHero(); });
-        thumbs.appendChild(t);
-      });
-
-      renderHero();
-      if (typeof modal.showModal === 'function') modal.showModal();
-      else modal.setAttribute('open','');  // fallback
+      lbTitle.textContent = node.dataset.title || '';
+      lbDate.textContent = node.dataset.date || '';
+      lbNotes.textContent = node.dataset.notes || '';
+      renderStage();
+      renderThumbs();
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden','false');
     }
+  }
 
-    // Card clicks
-    document.querySelectorAll('.trip').forEach(card=>{
-      card.addEventListener('click', ()=>openTrip(card));
-      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openTrip(card); }});
+  function renderStage(){
+    if(!currentList.length) return;
+    lbImg.src = currentList[idx];
+    // update active thumb
+    [...thumbs.children].forEach((t, i)=>t.classList.toggle('active', i===idx));
+  }
+
+  function renderThumbs(){
+    thumbs.innerHTML = '';
+    currentList.forEach((src,i)=>{
+      const im = document.createElement('img');
+      im.src = src; if(i===idx) im.classList.add('active');
+      im.addEventListener('click',()=>{ idx=i; renderStage(); });
+      thumbs.appendChild(im);
     });
+  }
 
-    // Nav controls
-    prevBtn.addEventListener('click', ()=>{ idx = (idx-1+gallery.length)%gallery.length; renderHero(); });
-    nextBtn.addEventListener('click', ()=>{ idx = (idx+1)%gallery.length; renderHero(); });
-    document.addEventListener('keydown', (e)=>{
-      if(!modal.open) return;
-      if(e.key==='ArrowLeft') prevBtn.click();
-      if(e.key==='ArrowRight') nextBtn.click();
-      if(e.key==='Escape') closeBtn.click();
-    });
+  function closeLB(){
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden','true');
+    lbImg.src='';
+  }
 
-    // Close
-    function closeModal(){
-      if (typeof modal.close === 'function') modal.close(); else modal.removeAttribute('open');
-    }
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
-  </script>
+  btnPrev.addEventListener('click', ()=>{ idx = (idx-1+currentList.length)%currentList.length; renderStage(); });
+  btnNext.addEventListener('click', ()=>{ idx = (idx+1)%currentList.length; renderStage(); });
+  btnClose.addEventListener('click', closeLB);
+  lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLB(); });
+  document.addEventListener('keydown', (e)=>{
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') closeLB();
+    if(e.key==='ArrowLeft') btnPrev.click();
+    if(e.key==='ArrowRight') btnNext.click();
+  });
+
+  trips.forEach(card=>{
+    card.addEventListener('click', ()=>openLB(card));
+  });
+</script>
 </body>
 </html>
