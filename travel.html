@@ -182,7 +182,7 @@
     <path id="routeBG" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
       <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
     </path>
-    <!-- small emoji plane -->
+    <!-- small emoji plane (auto-rotates along the path to avoid looking crooked) -->
     <text font-size="26" text-anchor="middle" dominant-baseline="middle">✈️
       <animateMotion dur="18s" repeatCount="indefinite" rotate="auto">
         <mpath href="#routeBG"/>
@@ -503,4 +503,6 @@
 </script>
 </body>
 </html>
+
+
 
