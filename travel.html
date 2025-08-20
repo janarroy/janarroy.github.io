@@ -26,7 +26,7 @@
   }
   .container{max-width:1120px;margin:0 auto;padding:20px 20px 100px}
 
-  /* ---------- Top nav (match the rest of the site) ---------- */
+  /* ---------- Top nav (match other pages) ---------- */
   .topbar{position:sticky;top:0;z-index:20;backdrop-filter:saturate(1.2) blur(8px);
     background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.58));
     border-bottom:1px solid rgba(17,24,39,.06)
@@ -39,7 +39,7 @@
     box-shadow:inset 0 0 0 1px rgba(17,24,39,.08)}
   .pill.active{background:#111827;color:#fff}
 
-  /* ---------- Decorative route + plane ---------- */
+  /* ---------- Decorative route + plane emoji ---------- */
   .scene{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
   .route-dash{stroke:rgba(17,24,39,.22);stroke-width:1.6;stroke-dasharray:7 9;fill:none}
 
@@ -73,7 +73,7 @@
   .city{font-size:12px;margin-top:2px}
   .map{
     grid-column:1/-1;margin-top:10px;border:1px dashed rgba(17,24,39,.18);
-    border-radius:14px;height:110px;display:grid;place-items:center;background:#fff;
+    border-radius:14px;height:110px;display:grid;place-items:center;background:#fff;position:relative;
   }
   .map svg{width:92%;height:auto;opacity:.25}
   .route{
@@ -81,7 +81,8 @@
     width:58%;height:1.5px;background:
       repeating-linear-gradient(90deg,#111827 0 8px,#0000 8px 14px);opacity:.45;border-radius:2px;
   }
-  .plane{position:absolute;top:calc(52% - 24px);left:18%;width:48px;height:48px;opacity:.92;animation:fly 10s linear infinite}
+  /* the little ✈️ on the boarding pass */
+  .plane{position:absolute;top:calc(52% - 16px);left:18%;font-size:24px;line-height:1;animation:fly 10s linear infinite}
   @keyframes fly{0%{left:18%}100%{left:78%}}
 
   .col-right{padding:18px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -90,7 +91,7 @@
   .barcode{grid-column:1/-1;height:40px;border-radius:8px;border:1px solid rgba(17,24,39,.12);
     background:repeating-linear-gradient(90deg,#111827 0 2px, transparent 2px 4px),#fff}
 
-  /* ---------- NEXT UP (single widget with SVG flags) ---------- */
+  /* ---------- NEXT UP ---------- */
   .next{
     margin:10px 0 18px;
     border-radius:18px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow);
@@ -156,7 +157,6 @@
   .lb-close{position:absolute;top:10px;right:10px;border:none;background:#111827;color:#fff;border-radius:999px;
     width:36px;height:36px;font-size:18px;cursor:pointer;box-shadow:0 8px 18px rgba(17,24,39,.2)}
 
-  /* smooth zoom clone */
   .zoom-clone{position:fixed;z-index:40;border-radius:14px;object-fit:cover;box-shadow:0 16px 40px rgba(17,24,39,.25);
     transition:all .45s var(--bezier)}
 </style>
@@ -177,47 +177,17 @@
     </div>
   </header>
 
-  <!-- background dashed route + emoji-style airplane -->
+  <!-- background dashed route + ✈️ emoji following the path -->
   <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <!-- EXACT emoji-style plane: light fuselage, blue wings/tail, small engines -->
-      <g id="planeEmoji">
-        <!-- main wing (blue) -->
-        <rect x="-140" y="-22" width="280" height="44" rx="22"
-              fill="#5B7CFB" transform="rotate(25)"/>
-        <!-- tail plane (blue, other diagonal) -->
-        <rect x="-140" y="-20" width="280" height="40" rx="20"
-              fill="#4F6EDC" transform="rotate(-58)"/>
-
-        <!-- fuselage (light with darker edge) -->
-        <rect x="-180" y="-30" width="360" height="60" rx="30"
-              fill="#E9EFF7" stroke="#C4CFD9" stroke-width="10"/>
-
-        <!-- cockpit / nose accent -->
-        <path d="M170,-18 q22,18 0,36" fill="#B8C5D0"/>
-
-        <!-- soft highlight along fuselage -->
-        <path d="M-150,-10 q90,36 300,0 q-150,24 -300,0z" fill="#F7FAFE" opacity=".8"/>
-
-        <!-- little engine pods on wings -->
-        <rect x="48"  y="-74" width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(25)"/>
-        <rect x="-30" y="-88" width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(25)"/>
-        <rect x="18"  y="68"  width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(-58)"/>
-        <rect x="-60" y="82"  width="32" height="18" rx="9" fill="#B8C5D0" transform="rotate(-58)"/>
-      </g>
-    </defs>
-
-    <!-- dashed route -->
     <path id="routeBG" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
       <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
     </path>
-
-    <!-- airplane follows the path, rotates with tangent -->
-    <use href="#planeEmoji">
+    <!-- small emoji plane -->
+    <text font-size="26" text-anchor="middle" dominant-baseline="middle">✈️
       <animateMotion dur="18s" repeatCount="indefinite" rotate="auto">
         <mpath href="#routeBG"/>
       </animateMotion>
-    </use>
+    </text>
   </svg>
 
   <main class="container">
@@ -246,10 +216,8 @@
           </div>
 
           <div class="route"></div>
-          <!-- tiny emoji-style plane on the boarding pass map -->
-          <svg class="plane" viewBox="-200 -150 400 300" aria-hidden="true">
-            <use href="#planeEmoji"/>
-          </svg>
+          <!-- tiny emoji plane on the boarding pass map -->
+          <div class="plane" aria-hidden="true">✈️</div>
         </div>
 
         <div class="perforation" aria-hidden="true"></div>
@@ -276,11 +244,10 @@
       </div>
     </section>
 
-    <!-- Next up (both trips in one widget) -->
+    <!-- Next up -->
     <section class="next" aria-label="Upcoming trips">
       <h3>Next up</h3>
       <div class="next-list">
-        <!-- Mexico City -->
         <div class="next-item">
           <div class="flag" aria-hidden="true">
             <!-- Mexico flag -->
@@ -288,7 +255,6 @@
               <rect width="1" height="2" x="0" y="0" fill="#006847"/>
               <rect width="1" height="2" x="1" y="0" fill="#ffffff"/>
               <rect width="1" height="2" x="2" y="0" fill="#ce1126"/>
-              <!-- tiny emblem approximation inside the white stripe -->
               <g transform="translate(1.5,1) scale(.18)">
                 <circle r="2.6" fill="#fff"/>
                 <path d="M0-2.2c.9.2 1.2 1 .6 1.7-.4.5-1 .8-1.6.9.4.3.8.6 1 .9" fill="#8b5e3c" />
@@ -304,18 +270,15 @@
           <div class="badge" id="eta-mex">—</div>
         </div>
 
-        <!-- Seoul, Korea -->
         <div class="next-item">
           <div class="flag" aria-hidden="true">
             <!-- South Korea flag -->
             <svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg">
               <rect width="3" height="2" fill="#ffffff"/>
-              <!-- taegeuk -->
               <g transform="translate(1.5,1)">
                 <path d="M0,-.55a.55.55 0 1 1 0,1.1a.28.28 0 0 0 0 -.55z" fill="#2563eb"/>
                 <path d="M0,.55a.55.55 0 1 1 0,-1.1a.28.28 0 0 1 0 .55z" fill="#e11d48"/>
               </g>
-              <!-- trigrams -->
               <g stroke="#111827" stroke-width=".12">
                 <g transform="translate(.45,.35) rotate(-30)">
                   <line x1="-.36" y1="-.20" x2=".36" y2="-.20"/>
@@ -353,9 +316,7 @@
 
     <h2 class="section-title">Trips</h2>
 
-    <!-- Trip cards -->
     <section class="grid" id="tripGrid">
-      <!-- Spain -->
       <article
         class="trip reveal"
         data-title="Spain — March 2023"
@@ -367,7 +328,6 @@
         <div class="meta"><h3>Spain</h3><p>sunsets • stone streets • way too many photos</p></div>
       </article>
 
-      <!-- New York -->
       <article
         class="trip reveal"
         data-title="New York — July 2024"
@@ -379,7 +339,6 @@
         <div class="meta"><h3>New York</h3><p>bridges • bagels • late sunsets on the water</p></div>
       </article>
 
-      <!-- Catalina -->
       <article
         class="trip reveal"
         data-title="Catalina Island — Jan 2025"
@@ -395,7 +354,6 @@
         <div class="meta"><h3>Catalina Island</h3><p>quiet coves • boats • crisp mornings</p></div>
       </article>
 
-      <!-- Hawaii -->
       <article
         class="trip reveal"
         data-title="Hawaii — March 2025"
@@ -535,10 +493,14 @@
       const days=Math.ceil(diff/86400000);
       elmt.textContent = days===1 ? 'in 1 day' : `in ${days} days`;
     }
-    update(); setInterval(update, 3600*1000); // hourly is fine
+    update(); setInterval(update, 3600*1000);
   }
   setCountdown('eta-mex',   '2025-10-08T00:00:00');
   setCountdown('eta-seoul', '2025-12-17T00:00:00');
+
+  /* reveal in */
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
+
