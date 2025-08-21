@@ -9,15 +9,15 @@
     :root{
       --sep: rgba(17,19,24,.18);
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
-      --card: #ffffff; --bd: rgba(17,19,24,.12); --shadow: 0 10px 28px rgba(17,19,24,.04);
+      --card:#ffffff; --bd:rgba(17,19,24,.12); --shadow:0 10px 28px rgba(17,19,24,.04);
+      --grad1:#a78bfa; --grad2:#60a5fa; --grad3:#34d399;
     }
     /* page + narrow column */
     .page{padding:32px 16px;}
-    .narrow{width:min(680px, 92vw); margin-inline:auto;}
-
+    .narrow{width:min(680px,92vw);margin-inline:auto;}
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* Work/Inv lists (unchanged style) */
+    /* Work / Involvements (kept) */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -34,58 +34,67 @@
     @media (max-width:560px){ .role{display:none;} }
     footer .narrow{padding:26px 0; font-size:14px; color:var(--muted2);}
 
-    /* ---------- Projects & Artifacts ---------- */
-    .projects{margin-top:34px}
-    .projects .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
-    .artifact-list{display:flex;flex-direction:column;gap:22px}
+    /* ================= Projects: Single “Art Bubble” ================= */
+    .projects{margin-top:36px;}
+    .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
 
-    .artifact-row{
-      display:grid; align-items:center; gap:14px;
-      grid-template-columns: 1fr 1.2fr;
+    /* ONE bubble containing media (left) + text (right) */
+    .bubble{
+      position:relative; border-radius:18px; overflow:hidden; background:var(--card);
+      border:1px solid var(--bd); box-shadow:var(--shadow);
+      background-image:
+        radial-gradient(transparent 0, transparent 12px, rgba(17,19,24,.03) 12px),
+        linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.7));
+      background-size: 22px 22px, auto;
+      background-position: -10px -10px, 0 0;
     }
-    .artifact-row:nth-child(even){ grid-template-columns: 1.2fr 1fr; }
-    .artifact-row:nth-child(even) .artifact-media{ order:2; }
-    .artifact-row:nth-child(even) .artifact-text{ order:1; }
-
-    .artifact-media{
-      background:var(--card); border:1px solid var(--bd); border-radius:14px; box-shadow:var(--shadow);
-      overflow:hidden;
+    .bubble::before{
+      content:""; position:absolute; inset:-1px; border-radius:20px; padding:1px;
+      background: conic-gradient(from 180deg, var(--grad1), var(--grad2), var(--grad3), var(--grad1));
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      pointer-events:none;
     }
-    .media-pad{position:relative; display:block}
-    .media-pad img{display:block;width:100%;height:auto}
-    .media-pad video{display:block;width:100%;height:auto;background:#000}
-    .deck-frame{display:block;width:100%;height:280px;border:0}
+    .bubble::after{
+      content:""; position:absolute; top:-60px; left:-60px; width:220px; height:220px; border-radius:50%;
+      background: radial-gradient(closest-side, rgba(255,255,255,.55), rgba(255,255,255,0));
+      filter: blur(12px);
+      pointer-events:none;
+    }
+    .bubble-grid{
+      position:relative; display:grid; gap:12px; align-items:stretch;
+      grid-template-columns: 1.05fr 1fr;
+      padding:12px;
+    }
+    @media (max-width:780px){
+      .bubble-grid{grid-template-columns:1fr; padding:12px}
+    }
 
+    .media{border-radius:12px; overflow:hidden; background:#f7f7f8; border:1px solid var(--bd);}
+    .deck-frame{display:block; width:100%; height:320px; border:0; background:#fff}
+    @media (max-width:780px){ .deck-frame{height:240px} }
     .deck-controls{
       display:flex; align-items:center; justify-content:space-between; gap:8px;
       padding:8px 10px; border-top:1px solid var(--bd); background:#fafafa;
     }
-    .btn{
-      appearance:none; border:1px solid var(--bd); background:#fff; padding:6px 10px; border-radius:8px;
-      font-size:13px; cursor:pointer;
-    }
+    .btn{appearance:none; border:1px solid var(--bd); background:#fff; padding:6px 10px; border-radius:8px; font-size:13px; cursor:pointer;}
     .btn[disabled]{opacity:.5; cursor:not-allowed}
     .page-ind{font-size:12px; color:var(--muted2)}
 
-    .artifact-text{
-      background:var(--card); border:1px solid var(--bd); border-radius:14px; box-shadow:var(--shadow);
-      padding:14px;
+    .text{
+      border-radius:12px; border:1px dashed var(--bd); background:rgba(255,255,255,.7);
+      backdrop-filter: blur(4px);
+      padding:14px; display:flex; flex-direction:column; justify-content:center;
     }
-    .artifact-text h3{margin:0 0 6px; font-size:16px}
-    .artifact-text p{margin:0 0 8px; color:var(--muted)}
-    .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-    .tag{font-size:12px;padding:4px 8px;border:1px solid var(--bd);border-radius:999px;background:#fff;color:#374151}
-
-    @media (max-width:780px){
-      .artifact-row,
-      .artifact-row:nth-child(even){grid-template-columns:1fr}
-      .artifact-row:nth-child(even) .artifact-media{order:1}
-      .artifact-row:nth-child(even) .artifact-text{order:2}
-      .deck-frame{height:220px}
-    }
+    .text h3{margin:0 0 6px; font-size:18px}
+    .text p{margin:0 0 10px; color:var(--muted)}
+    .tags{display:flex; gap:6px; flex-wrap:wrap}
+    .tag{font-size:12px; padding:4px 8px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
 
     /* Lightbox */
-    .lb{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50}
+    .lb{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:50}
     .lb.open{display:flex}
     .lb-inner{width:min(1100px,92vw); background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.35)}
     .lb-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--bd)}
@@ -111,12 +120,10 @@
   </nav>
 
   <main class="page">
-    <!-- Optional résumé embed zone (kept) -->
-    <section class="narrow" id="resume-slot">
-      <!-- Example: <iframe src="resume.pdf#view=FitH" width="100%" height="760" style="border:0;border-radius:12px"></iframe> -->
-    </section>
+    <!-- Optional: résumé embed area -->
+    <section class="narrow" id="resume-slot"></section>
 
-    <!-- Work -->
+    <!-- ================= Work ================= -->
     <section class="narrow">
       <h1 class="section-title">Work</h1>
       <ul class="list" aria-label="Work experience">
@@ -124,10 +131,7 @@
           <a class="row" href="#" aria-label="USC Marshall Peer Career Advisor – Tech">
             <span class="left">
               <img class="logo" src="images/Marshall.JPG" alt="">
-              <span class="meta">
-                <span class="co">USC Marshall</span>
-                <span class="role">Peer Career Advisor – Tech</span>
-              </span>
+              <span class="meta"><span class="co">USC Marshall</span><span class="role">Peer Career Advisor – Tech</span></span>
             </span>
             <span class="right">Aug 2025</span>
           </a>
@@ -256,89 +260,46 @@
       </ul>
     </section>
 
-    <!-- ========= Projects & Artifacts (NEW) ========= -->
-    <section class="narrow projects">
+    <!-- =================== Projects & Artifacts (Single Bubble) =================== -->
+    <section class="narrow projects" id="projects">
       <div class="kicker">Projects &amp; Artifacts</div>
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
 
-      <div class="artifact-list">
-
-        <!-- 1) Deck example — Quokka Brew (PDF with pager + expand) -->
-        <!-- Put the PDF file right next to work.html or update the src below -->
-        <article class="artifact-row">
-          <div class="artifact-media">
-            <div class="media-pad deck"
-                 data-title="Quokka Brew – Design Research Deck"
-                 data-src="Quokka Brew.pdf"  <!-- file path; spaces OK -->
-                 data-pages="67">
-              <iframe class="deck-frame" loading="lazy"></iframe>
-              <div class="deck-controls">
-                <div>
-                  <button class="btn" data-act="prev">Prev</button>
-                  <button class="btn" data-act="next">Next</button>
-                </div>
-                <div class="page-ind" aria-live="polite">Page 1 / 67</div>
-                <button class="btn" data-act="expand">Expand</button>
+      <!-- Quokka Bubble -->
+      <article class="bubble" id="quokka">
+        <div class="bubble-grid">
+          <!-- Artifact (PDF deck in /Projects/) -->
+          <div class="media deck"
+               data-title="Quokka Brew — Design Research Deck"
+               data-src="Projects/Quokka%20Brew.pdf"   <!-- UPDATED PATH -->
+               data-pages="67">
+            <iframe class="deck-frame" loading="lazy" title="Quokka deck"></iframe>
+            <div class="deck-controls">
+              <div>
+                <button class="btn" data-act="prev">Prev</button>
+                <button class="btn" data-act="next">Next</button>
               </div>
+              <div class="page-ind" aria-live="polite">Page 1 / 67</div>
+              <button class="btn" data-act="expand">Expand</button>
             </div>
           </div>
-          <div class="artifact-text">
-            <h3>Quokka Brew: Can Design Research &amp; Iterations</h3>
-            <p>60 interviews, brand &amp; logo perception testing, and flavor-specific visual systems culminating in design recs and MVP iterations.</p>
+
+          <!-- Description (same bubble) -->
+          <div class="text">
+            <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
+            <p>60+ interviews, perception testing on brand + flavors, and an iterative system that increased shelf recognition and informed go-to-market visuals.</p>
             <div class="tags">
-              <span class="tag">Deck</span><span class="tag">Design Research</span><span class="tag">Consumer Insights</span>
+              <span class="tag">Deck</span>
+              <span class="tag">Consumer Insights</span>
+              <span class="tag">Design Research</span>
             </div>
           </div>
-        </article>
-
-        <!-- 2) Example: Image artifact (conference talk) -->
-        <!-- Replace the image/link and copy/paste to add more entries -->
-        <article class="artifact-row">
-          <div class="artifact-media">
-            <a class="media-pad" href="images/conference.jpg" data-expand="image">
-              <img src="images/conference.jpg" alt="Conference talk photo" loading="lazy">
-            </a>
-          </div>
-          <div class="artifact-text">
-            <h3>Conference Talk — Product Strategy</h3>
-            <p>Invited session on aligning user research with roadmap prioritization; shared a framework for linking problem statements to measurable outcomes.</p>
-            <div class="tags"><span class="tag">Talk</span><span class="tag">Strategy</span></div>
-          </div>
-        </article>
-
-        <!-- 3) Example: Link card (magazine feature) -->
-        <article class="artifact-row">
-          <div class="artifact-media">
-            <a class="media-pad" href="https://example.com/magazine-feature" target="_blank" rel="noopener">
-              <img src="images/magazine.jpg" alt="Magazine feature cover" loading="lazy">
-            </a>
-          </div>
-          <div class="artifact-text">
-            <h3>Magazine Feature</h3>
-            <p>Profiled for student leadership and community impact—covering BTG, first-gen initiatives, and startup projects.</p>
-            <div class="tags"><span class="tag">Press</span></div>
-          </div>
-        </article>
-
-        <!-- 4) Example: Code project (screenshot or gif; link out to repo/demo) -->
-        <article class="artifact-row">
-          <div class="artifact-media">
-            <a class="media-pad" href="https://example.com/demo" target="_blank" rel="noopener">
-              <img src="images/code-screenshot.jpg" alt="App screenshot" loading="lazy">
-            </a>
-          </div>
-          <div class="artifact-text">
-            <h3>LLM Chatbot for Lens DB</h3>
-            <p>TPM of a cross-functional team building an LLM assistant that accelerated retrieval &amp; analysis by 80% and automated compliance workflows.</p>
-            <div class="tags"><span class="tag">LLM</span><span class="tag">Product</span><span class="tag">Automation</span></div>
-          </div>
-        </article>
-
-      </div>
+        </div>
+      </article>
     </section>
   </main>
 
-  <!-- Lightbox (used for deck expand or image enlarge) -->
+  <!-- Lightbox (for Expand) -->
   <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Viewer">
     <div class="lb-inner">
       <div class="lb-head">
@@ -364,43 +325,34 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // -------- Deck viewer (inline) ----------
-    (function initDecks(){
-      const decks = document.querySelectorAll('.deck');
-      decks.forEach(deck=>{
-        const iframe = deck.querySelector('.deck-frame');
-        const prev = deck.querySelector('[data-act="prev"]');
-        const next = deck.querySelector('[data-act="next"]');
-        const expand = deck.querySelector('[data-act="expand"]');
-        const ind = deck.querySelector('.page-ind');
-        const file = deck.dataset.src;
-        const total = parseInt(deck.dataset.pages||'1',10);
-        let page = 1;
+    // ---------- Inline Deck wiring ----------
+    (function initDeck(){
+      const deck = document.querySelector('.media.deck');
+      if(!deck) return;
+      const iframe = deck.querySelector('.deck-frame');
+      const prev = deck.querySelector('[data-act="prev"]');
+      const next = deck.querySelector('[data-act="next"]');
+      const expand = deck.querySelector('[data-act="expand"]');
+      const ind = deck.querySelector('.page-ind');
+      const file = deck.dataset.src;               // e.g., "Projects/Quokka%20Brew.pdf"
+      const total = parseInt(deck.dataset.pages||'1',10);
+      let page = 1;
 
-        function setSrc(){
-          const src = encodeURI(file) + '#page=' + page + '&zoom=page-width';
-          iframe.src = src;
-          ind.textContent = 'Page ' + page + ' / ' + total;
-          prev.disabled = (page<=1);
-          next.disabled = (page>=total);
-        }
-        setSrc();
+      function setSrc(){
+        const src = file + '#page=' + page + '&zoom=page-width';
+        iframe.src = src;
+        ind.textContent = 'Page ' + page + ' / ' + total;
+        prev.disabled = (page<=1);
+        next.disabled = (page>=total);
+      }
+      prev.addEventListener('click', ()=>{ if(page>1){ page--; setSrc(); }});
+      next.addEventListener('click', ()=>{ if(page<total){ page++; setSrc(); }});
+      expand.addEventListener('click', ()=> openLightbox({title: deck.dataset.title||'Deck', file, page, total}));
 
-        prev.addEventListener('click', ()=>{ if(page>1){ page--; setSrc(); }});
-        next.addEventListener('click', ()=>{ if(page<total){ page++; setSrc(); }});
-        expand.addEventListener('click', ()=> openLightbox({title: deck.dataset.title||'Deck', file, page, total}));
-      });
+      setSrc(); // initial
     })();
 
-    // -------- Image enlarge (optional) ----------
-    document.querySelectorAll('[data-expand="image"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        openLightbox({title:'Preview', image:a.getAttribute('href')});
-      });
-    });
-
-    // -------- Lightbox ----------
+    // ---------- Lightbox ----------
     const LB = document.getElementById('lightbox');
     const LB_BODY = document.getElementById('lb-body');
     const LB_TITLE = document.getElementById('lb-title');
@@ -410,46 +362,31 @@
     const LB_NEXT = document.getElementById('lb-next');
     const LB_IND  = document.getElementById('lb-ind');
 
-    let lbState = null; // {mode:'deck'|'image', file, page, total}
+    let lbState = null; // {file,page,total}
 
     function openLightbox(opts){
-      lbState = null;
-      LB_CONTROLS.hidden = true;
       LB_BODY.innerHTML = '';
-      LB.classList.add('open');
       LB_TITLE.textContent = opts.title || 'Viewer';
+      LB.classList.add('open');
 
-      if (opts.image){
-        const img = document.createElement('img');
-        img.src = opts.image;
-        img.alt = opts.title || 'Image';
-        img.style.display='block'; img.style.width='100%'; img.style.height='auto';
-        LB_BODY.appendChild(img);
-      } else if (opts.file){
-        lbState = {mode:'deck', file:opts.file, page:opts.page||1, total:opts.total||1};
-        const iframe = document.createElement('iframe');
-        iframe.className = 'lb-frame';
-        LB_BODY.appendChild(iframe);
-        LB_CONTROLS.hidden = false;
+      lbState = {file:opts.file, page:opts.page||1, total:opts.total||1};
+      const iframe = document.createElement('iframe');
+      iframe.className = 'lb-frame';
+      LB_BODY.appendChild(iframe);
+      LB_CONTROLS.hidden = false;
 
-        function set(){
-          iframe.src = encodeURI(lbState.file) + '#page=' + lbState.page + '&zoom=page-width';
-          LB_IND.textContent = 'Page ' + lbState.page + ' / ' + lbState.total;
-          LB_PREV.disabled = (lbState.page<=1);
-          LB_NEXT.disabled = (lbState.page>=lbState.total);
-        }
-        set();
-
-        LB_PREV.onclick = ()=>{ if(lbState.page>1){ lbState.page--; set(); } };
-        LB_NEXT.onclick = ()=>{ if(lbState.page<lbState.total){ lbState.page++; set(); } };
+      function set(){
+        iframe.src = lbState.file + '#page=' + lbState.page + '&zoom=page-width';
+        LB_IND.textContent = 'Page ' + lbState.page + ' / ' + lbState.total;
+        LB_PREV.disabled = (lbState.page<=1);
+        LB_NEXT.disabled = (lbState.page>=lbState.total);
       }
+      LB_PREV.onclick = ()=>{ if(lbState.page>1){ lbState.page--; set(); } };
+      LB_NEXT.onclick = ()=>{ if(lbState.page<lbState.total){ lbState.page++; set(); } };
+      set();
     }
     LB_CLOSE.addEventListener('click', ()=> LB.classList.remove('open'));
     LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.classList.remove('open'); });
   </script>
 </body>
 </html>
-
-
-
-
