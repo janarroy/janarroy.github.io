@@ -4,22 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Work · Jan Arroyo</title>
-  <link href="styles.css" rel="stylesheet" />
+  <link href="styles.css?v=5" rel="stylesheet" />
 </head>
 <body>
-    <nav class="nav">
-        <div class="container nav-inner">
-          <a class="brand" href="./">JAN</a>
-          <div class="nav-links">
-            <a class="btn" href="work.html">Projects</a>
-            <a class="btn" href="races.html">Races</a>
-            <a class="btn" href="bake.html">Bake</a>
-            <a class="btn" href="travel.html">Travel</a>
-            <a class="btn" href="#contact">Contact</a>
-          </div>
-        </div>
-      </nav>
-      
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="./">JAN</a>
+      <div class="nav-links">
+        <a class="btn" href="work.html">Projects</a>
+        <a class="btn" href="races.html">Races</a>
+        <a class="btn" href="bake.html">Bake</a>
+        <a class="btn" href="travel.html">Travel</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
 
   <main class="container work">
     <h1 class="page-title">Projects</h1>
@@ -31,77 +30,136 @@
       <button class="chip" data-filter="design">Design</button>
     </div>
 
+    <!-- Masonry grid (unchanged, add ids to feature cards) -->
     <div class="masonry" id="grid">
-      <!-- Card template -->
-      <a class="card" href="#" data-tags="tpm,data" data-img="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop">
-        <div class="thumb"><img loading="lazy" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="Lens DB AI Chatbot"/></div>
+      <a class="card" id="proj-amazon-chatbot" href="#" data-tags="tpm,data" data-img="images/spotlight/chatbot.jpg">
+        <div class="thumb"><img loading="lazy" src="images/spotlight/chatbot.jpg" alt="Lens DB AI Chatbot"/></div>
         <div class="meta">
           <span class="tag">TPM</span>
           <h3>Lens DB AI Chatbot</h3>
-          <p>Integrated DARLens + Synergos for knowledge retrieval; reduced query time & tickets.</p>
+          <p>LLM-powered retrieval assistant; sped up data retrieval & analysis by 80%.</p>
         </div>
       </a>
 
-      <a class="card" href="#" data-tags="tpm" data-img="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1600&auto=format&fit=crop">
-        <div class="thumb"><img loading="lazy" src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=800&auto=format&fit=crop" alt="DFS + JIRA Automation"/></div>
-        <div class="meta">
-          <span class="tag">TPM</span>
-          <h3>DFS + JIRA Automation</h3>
-          <p>Automated ticket lifecycle & reporting; improved SLA adherence and signal quality.</p>
-        </div>
-      </a>
-
-      <a class="card" href="#" data-tags="design" data-img="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop">
-        <div class="thumb"><img loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop" alt="Azure Campus Growth"/></div>
-        <div class="meta">
-          <span class="tag">Design</span>
-          <h3>Azure Campus Growth</h3>
-          <p>Design-thinking project to increase student adoption & parity in sign-ups.</p>
-        </div>
-      </a>
-
-      <a class="card" href="#" data-tags="data" data-img="https://images.unsplash.com/photo-1516245834210-c4c142787335?q=80&w=1600&auto=format&fit=crop">
-        <div class="thumb"><img loading="lazy" src="https://images.unsplash.com/photo-1516245834210-c4c142787335?q=80&w=800&auto=format&fit=crop" alt="Cohort Metrics Dashboard"/></div>
+      <a class="card" id="proj-accenture-dashboard" href="#" data-tags="data" data-img="images/spotlight/dashboard.jpg">
+        <div class="thumb"><img loading="lazy" src="images/spotlight/dashboard.jpg" alt="Cohort Metrics Dashboard"/></div>
         <div class="meta">
           <span class="tag">Data</span>
           <h3>Cohort Metrics Dashboard</h3>
-          <p>SQL + Python pipeline to track adoption, retention, and code review efficiency.</p>
+          <p>SQL + Python pipeline; developer efficiency up 20% and visibility up 83%.</p>
         </div>
       </a>
 
-      <a class="card" href="#" data-tags="tpm,design" data-img="https://images.unsplash.com/photo-1483478550801-ceba5fe50e8e?q=80&w=1600&auto=format&fit=crop">
-        <div class="thumb"><img loading="lazy" src="https://images.unsplash.com/photo-1483478550801-ceba5fe50e8e?q=80&w=800&auto=format&fit=crop" alt="OfflineTV Collab Finder"/></div>
+      <a class="card" id="proj-ey-case" href="#" data-tags="design" data-img="images/spotlight/ey.jpg">
+        <div class="thumb"><img loading="lazy" src="images/spotlight/ey.jpg" alt="EY Case Competition"/></div>
         <div class="meta">
-          <span class="tag">TPM</span>
-          <h3>OfflineTV Collab Finder</h3>
-          <p>Data-led creator matching to prioritize high-yield collabs.</p>
+          <span class="tag">Design</span>
+          <h3>EY Case – 1st Place</h3>
+          <p>Projected +25% revenue and $100k in funding for a startup.</p>
+        </div>
+      </a>
+
+      <a class="card" id="proj-quokka" href="#" data-tags="design" data-img="images/spotlight/quokka.jpg">
+        <div class="thumb"><img loading="lazy" src="images/spotlight/quokka.jpg" alt="Quokka Brew"/></div>
+        <div class="meta">
+          <span class="tag">Design</span>
+          <h3>Quokka Brew Redesign</h3>
+          <p>Design-thinking → 85% increase in shelf recognition.</p>
         </div>
       </a>
     </div>
 
-    <h2 class="page-title" style="margin-top:36px">Experience</h2>
+    <h2 class="page-title" id="experience">Experience</h2>
     <div class="timeline">
-      <div class="panel item">
+      <div class="panel item" id="experience-amazon">
         <h4>Technical Program Manager Intern <span class="org">· Amazon</span></h4>
-        <div class="time">Summer 2025</div>
+        <div class="time">May–Aug 2025 · San Francisco</div>
         <ul>
-          <li>Led Lens DB chatbot integration to improve retrieval latency & accuracy.</li>
-          <li>Scoped and delivered DFS → JIRA automation MVP, boosting on‑time updates.</li>
-          <li>Partnered with 5+ stakeholders across Eng, Ops, PM for launch readiness.</li>
+          <li>Led the end-to-end build of an LLM chatbot with hardware, software, and data engineers, increasing data retrieval & analysis speed by <strong>80%</strong> and saving <strong>374</strong> hours annually across 3 TPMs. :contentReference[oaicite:1]{index=1}</li>
+          <li>Built a tool to auto-generate safety documents + a Jira automation mechanism, cutting document creation time by <strong>75%</strong> and Jira creation time by <strong>98%</strong> (11+ hours saved per project). :contentReference[oaicite:2]{index=2}</li>
+          <li>Created a Confluence knowledge tool and AI app to create/update pages instantly, reducing onboarding time by <strong>33%</strong> (64 hours per hire saved). :contentReference[oaicite:3]{index=3}</li>
         </ul>
       </div>
-      <div class="panel item">
-        <h4>VP of Projects / PM <span class="org">· USC Business Technology Group</span></h4>
-        <div class="time">2024–2025</div>
+
+      <div class="panel item" id="experience-accenture">
+        <h4>Strategy Tech Apps & Dev Analyst Intern <span class="org">· Accenture</span></h4>
+        <div class="time">Jun–Aug 2024 · Los Angeles</div>
         <ul>
-          <li>Managed 5 client teams; 100% client satisfaction & more repeat business.</li>
-          <li>Built PM training on surveys, interviews, Excel, and AI tooling.</li>
-          <li>Delivered data-led recommendations for Microsoft, OfflineTV, Waymo, Caruso.</li>
+          <li>Launched metrics dashboards tracking commits, LOC, and Jira status → developer efficiency up <strong>20%</strong>, delivery timelines faster by <strong>16%</strong>. :contentReference[oaicite:4]{index=4}</li>
+          <li>Analyzed <strong>50,000+</strong> rows using AWS, ReactJS, Python, and SQL; improved status tracking by <strong>27%</strong> and leadership visibility by <strong>83%</strong>. :contentReference[oaicite:5]{index=5}</li>
+          <li>Researched 20+ APIs; SQL/JSON metrics improved reporting accuracy by <strong>78%</strong>. :contentReference[oaicite:6]{index=6}</li>
         </ul>
       </div>
+
+      <div class="panel item" id="experience-microsoft">
+        <h4>Finance Data Analyst Intern <span class="org">· Microsoft</span></h4>
+        <div class="time">May–Aug 2023 · Los Angeles</div>
+        <ul>
+          <li>Developed strategies across 4 initiatives using research with 100+ participants → customer satisfaction +<strong>38%</strong> and new business +<strong>12%</strong>. :contentReference[oaicite:7]{index=7}</li>
+          <li>Managed $45K for 8+ events → employee satisfaction +<strong>26%</strong>; multi-unit engagement +<strong>22%</strong>. :contentReference[oaicite:8]{index=8}</li>
+        </ul>
+      </div>
+
+      <div class="panel item" id="experience-btg">
+        <h4>VP of Projects <span class="org">· USC Business Technology Group</span></h4>
+        <div class="time">Apr 2024–Present · Los Angeles</div>
+        <ul>
+          <li>Oversaw 20 consultants; led 5 client quality assessments → client retention +<strong>80%</strong>. :contentReference[oaicite:9]{index=9}</li>
+          <li>Built a Python + Google APIs CRM reaching 15k+ contacts; response rates +<strong>15%</strong>; outreach speed <strong>3×</strong>. :contentReference[oaicite:10]{index=10}</li>
+        </ul>
+      </div>
+
+      <div class="panel item" id="experience-ey">
+        <h4>Education Strategy Consultant <span class="org">· EY</span></h4>
+        <div class="time">Aug 2023–Present · Los Angeles</div>
+        <ul>
+          <li>Consulted to 3 LAUSD high schools; increased involvement by <strong>83%</strong> and enrollment by <strong>46%</strong> with scalable programs. :contentReference[oaicite:11]{index=11}</li>
+        </ul>
+      </div>
+
+      <div class="panel item" id="experience-quokka">
+        <h4>Project Manager <span class="org">· Quokka Brew</span></h4>
+        <div class="time">Dec 2023–Apr 2024</div>
+        <ul>
+          <li>Analyzed 100+ interviews; operationalized 20+ prototypes → shelf recognition +<strong>85%</strong>. :contentReference[oaicite:12]{index=12}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Decks / Artifacts -->
+    <h2 class="page-title" id="artifacts" style="margin-top:36px">Decks & Artifacts</h2>
+    <div class="masonry">
+      <!-- replace href/src with your real files (Google Slides/Drive, PDF, etc.) -->
+      <a class="card" href="decks/amazon-chatbot.pdf" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/decks/amazon-chatbot-cover.jpg" alt=""></div>
+        <div class="meta">
+          <span class="tag">Deck</span>
+          <h3>Amazon LLM Chatbot – Spec & Launch</h3>
+          <p>Problem framing, design, and rollout notes.</p>
+        </div>
+      </a>
+
+      <a class="card" href="decks/accenture-dashboard.pdf" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/decks/accenture-dashboard-cover.jpg" alt=""></div>
+        <div class="meta">
+          <span class="tag">Deck</span>
+          <h3>Accenture Metrics Dashboard – Case Study</h3>
+          <p>Architecture, data model, and outcomes.</p>
+        </div>
+      </a>
+
+      <a class="card" href="decks/ey-case.pdf" target="_blank" rel="noopener">
+        <div class="thumb"><img src="images/decks/ey-case-cover.jpg" alt=""></div>
+        <div class="meta">
+          <span class="tag">Deck</span>
+          <h3>EY Case – 1st Place</h3>
+          <p>+25% revenue projection; $100k funding plan.</p>
+        </div>
+      </a>
     </div>
   </main>
 
+  <!-- Lightbox (unchanged) -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project preview">
     <div class="lightbox-content">
       <div class="lightbox-header">
@@ -119,7 +177,7 @@
   <script>
     document.getElementById('y2').textContent = new Date().getFullYear();
 
-    // Filters
+    // Filters (unchanged)
     const chips = Array.from(document.querySelectorAll('.chip'));
     const cards = Array.from(document.querySelectorAll('.card'));
     chips.forEach(ch => ch.addEventListener('click', () => {
@@ -127,24 +185,25 @@
       ch.classList.add('active');
       const f = ch.dataset.filter;
       cards.forEach(card => {
-        const tags = card.dataset.tags.split(',');
+        const tags = (card.dataset.tags || '').split(',');
         const show = f === 'all' || tags.includes(f);
         card.style.display = show ? 'block' : 'none';
       });
       const grid = document.getElementById('grid');
-      grid.style.transform = 'translateZ(0)';
-      setTimeout(()=> grid.style.transform = '', 100);
+      if (grid) { grid.style.transform = 'translateZ(0)'; setTimeout(()=> grid.style.transform = '', 100); }
     }));
 
-    // Lightbox
+    // Lightbox (unchanged)
     const lb = document.getElementById('lightbox');
     const lbBody = document.getElementById('lb-body');
     const lbTitle = document.getElementById('lb-title');
     document.getElementById('lb-close').addEventListener('click', () => lb.classList.remove('open'));
     lb.addEventListener('click', (e) => { if (e.target === lb) lb.classList.remove('open'); });
-    cards.forEach(card => card.addEventListener('click', (e) => {
-      e.preventDefault();
+    Array.from(document.querySelectorAll('.masonry .card')).forEach(card => card.addEventListener('click', (e) => {
+      // only lightbox cards that have data-img
       const img = card.getAttribute('data-img');
+      if (!img) return; // allow normal links (decks) to open
+      e.preventDefault();
       const title = card.querySelector('h3').textContent;
       lbTitle.textContent = title;
       lbBody.innerHTML = `<img src="${img}" alt="${title}">`;
@@ -153,4 +212,3 @@
   </script>
 </body>
 </html>
-
