@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jan Arroyo</title>
   <meta name="description" content="Jan Arroyo – personal site" />
-  <link href="styles.css?v=5" rel="stylesheet">
+  <link href="styles.css?v=4" rel="stylesheet">
 </head>
 <body>
   <nav class="nav">
@@ -20,15 +20,17 @@
       </div>
     </div>
   </nav>
+  
 
-  <!-- Landing / Splash (unchanged) -->
+  <!-- Landing / Splash -->
   <header class="container splash">
     <div class="splash-left">
       <div class="console-line"><span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span></div>
       <h1 class="name">I’m <span>Jan Arroyo</span></h1>
-      <div class="rotate-line">
+      <!-- Rotating typewriter line -->
+    <div class="rotate-line">
         <span id="rotate-text"></span><span class="caret">▍</span>
-      </div>
+    </div>
       <p class="tag">TPM / APM · I like clean specs and useful products.</p>
       <div class="cta-row">
         <a class="primary" href="work.html">See my work</a>
@@ -36,104 +38,51 @@
         <a class="ghost" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
       </div>
     </div>
-
     <div class="splash-right">
-      <!-- FLIP CARD (unchanged) -->
-      <div class="flip-card" id="aboutFlip">
-        <div class="flip-inner">
-          <div class="flip-face flip-front">
-            <img src="images/Hawaii.JPG" alt="Jan Arroyo">
-          </div>
-          <div class="flip-face flip-back">
-            <div class="about-back">
-              <img class="about-avatar" src="images/headshot.JPG" alt="Jan – headshot">
-              <p class="about-intro">
-                I’ve been a builder for as long as I can remember. I like clear specs,
-                fast feedback loops, and shipping useful things with kind teams.
-              </p>
-              <ul class="about-bullets">
-                <li>🎓 studying business + CS + AI at USC</li>
-                <li>☕️ an (avid) barista and baker</li>
-                <li>🚀 a founder building and growing crazy ideas</li>
-                <li>🏃‍♂️ a decent runner</li>
-                <li>🧭 a PM trying to build cool things</li>
-              </ul>
+        <!-- FLIP CARD -->
+        <div class="flip-card" id="aboutFlip">
+          <div class="flip-inner">
+            <!-- FRONT: your normal photo -->
+            <div class="flip-face flip-front">
+              <img src="images/Hawaii.JPG" alt="Jan Arroyo">
+            </div>
+      
+            <!-- BACK: circular headshot + about -->
+            <div class="flip-face flip-back">
+              <div class="about-back">
+                <img class="about-avatar" src="images/headshot.JPG" alt="Jan – headshot">
+                <p class="about-intro">
+                  I’ve been a builder for as long as I can remember. I like clear specs,
+                  fast feedback loops, and shipping useful things with kind teams.
+                </p>
+                <ul class="about-bullets">
+                  <li>🎓 studying business + CS + AI at USC</li>
+                  <li>☕️ an (avid) barista and baker</li>
+                  <li>🚀 a founder building and growing crazy ideas</li>
+                  <li>🏃‍♂️ a decent runner</li>
+                  <li>🧭 a PM trying to build cool things</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Playlist (unchanged) -->
-      <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:14px;">
-        <h3 class="spotify-title">My Current Playlist</h3>
-        <iframe style="border-radius:12px"
-          src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
-          width="100%" height="152" frameborder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
-    </div>
+      
+        <!-- keep your playlist below if you want -->
+        <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:14px;">
+          <h3 class="spotify-title">My Current Playlist</h3>
+          <iframe style="border-radius:12px"
+            src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
+            width="100%" height="152" frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+        </div>
+      </div>      
+      
+      
+      
   </header>
 
-  <!-- NEW: Résumé Highlights -->
-  <section class="container home-highlights">
-    <h2 class="section-title">Résumé Highlights</h2>
-    <div class="mini-grid">
-      <a class="mini-card" href="work.html#experience-amazon">
-        <div class="mini-top">
-          <img class="mini-logo" src="images/logos/amazon.svg" alt="">
-          <div class="mini-tag">Amazon</div>
-        </div>
-        <h3 class="mini-title">LLM Chatbot & Compliance Automation</h3>
-        <p class="mini-desc"><strong>80% faster</strong> data retrieval, <strong>75% less</strong> safety-doc time, and <strong>98% less</strong> Jira creation time. </p>
-      </a>
-
-      <a class="mini-card" href="work.html#experience-accenture">
-        <div class="mini-top">
-          <img class="mini-logo" src="images/logos/accenture.svg" alt="">
-          <div class="mini-tag">Accenture</div>
-        </div>
-        <h3 class="mini-title">Metrics Dashboard for Dev Teams</h3>
-        <p class="mini-desc"><strong>20%</strong> developer efficiency lift; leadership visibility up <strong>83%</strong>; 50k+ rows analyzed.</p>
-      </a>
-
-      <a class="mini-card" href="work.html#experience-btg">
-        <div class="mini-top">
-          <img class="mini-logo" src="images/logos/usc.svg" alt="">
-          <div class="mini-tag">BTG · VP</div>
-        </div>
-        <h3 class="mini-title">Led 20 Consultants, 5 Clients</h3>
-        <p class="mini-desc">CRM automation to 15k+ contacts; outreach speed up <strong>3×</strong>; client retention up <strong>80%</strong>.</p>
-      </a>
-    </div>
-  </section>
-
-  <!-- NEW: Project Spotlight -->
-  <section class="container spotlight">
-    <h2 class="section-title">Project Spotlight</h2>
-    <div class="spot-grid">
-      <a class="spot-card" href="work.html#proj-amazon-chatbot">
-        <img class="spot-thumb" src="images/spotlight/chatbot.jpg" alt="">
-        <h3>Lens DB LLM Chatbot</h3>
-        <p>Retrieval & analysis sped up by 80% with LLM + internal tools.</p>
-      </a>
-      <a class="spot-card" href="work.html#proj-accenture-dashboard">
-        <img class="spot-thumb" src="images/spotlight/dashboard.jpg" alt="">
-        <h3>Cohort Metrics Dashboard</h3>
-        <p>SQL/Python pipeline to track adoption, retention, and code review efficiency.</p>
-      </a>
-      <a class="spot-card" href="work.html#proj-ey-case">
-        <img class="spot-thumb" src="images/spotlight/ey.jpg" alt="">
-        <h3>EY Case – 1st Place</h3>
-        <p>Projected +25% revenue & $100k funding for a startup.</p>
-      </a>
-      <a class="spot-card" href="work.html#proj-quokka">
-        <img class="spot-thumb" src="images/spotlight/quokka.jpg" alt="">
-        <h3>Quokka Brew Redesign</h3>
-        <p>Design-thinking → 85% increase in shelf recognition.</p>
-      </a>
-    </div>
-  </section>
+  
 
   <footer>
     <div class="container">© <span id="y"></span> Jan Arroyo</div>
@@ -142,46 +91,69 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // typewriter (unchanged)
+    // Simple typewriter for the console line
     const el = document.getElementById('console-txt');
     const text = el?.dataset.text || '';
     let i = 0;
-    function type(){ if(!el) return; el.textContent = text.slice(0, i++); if(i <= text.length) setTimeout(type, 40); }
-    type();
-
-    // rotating line (unchanged)
-    const rotateEl = document.getElementById('rotate-text');
-    const phrases = [
-      "studying business + CS + AI at USC",
-      "an (avid) barista and baker",
-      "a founder building and growing crazy ideas",
-      "a decent runner",
-      "a PM trying to build cool things"
-    ];
-    function startRotateTyper(el, list, typeMs = 40, deleteMs = 20, holdMs = 1200) {
-      let i = 0, j = 0, typing = true;
-      function tick() {
-        const s = list[i];
-        if (typing) { j++; el.textContent = s.slice(0, j);
-          if (j === s.length) { typing = false; return setTimeout(tick, holdMs); }
-          return setTimeout(tick, typeMs);
-        } else { j--; el.textContent = s.slice(0, j);
-          if (j === 0) { typing = true; i = (i + 1) % list.length; return setTimeout(tick, 300); }
-          return setTimeout(tick, deleteMs);
-        }
-      }
-      tick();
+    function type(){
+      if(!el) return;
+      el.textContent = text.slice(0, i++);
+      const speed = 40; // ms per char
+      if(i <= text.length) setTimeout(type, speed);
     }
-    if (rotateEl) startRotateTyper(rotateEl, phrases);
+    type();
+    const rotateEl = document.getElementById('rotate-text');
+  const phrases = [
+    "studying business + CS + AI at USC",
+    "an (avid) barista and baker",
+    "a founder building and growing crazy ideas",
+    "a decent runner",
+    "a PM trying to build cool things"
+  ];
 
-    // mobile flip toggle (unchanged)
-    (function(){
-      const card = document.getElementById('aboutFlip');
-      if (!card) return;
-      card.addEventListener('click', function(){
-        if (matchMedia('(hover: none)').matches) card.classList.toggle('flipped');
-      });
-    })();
+  function startRotateTyper(el, list, typeMs = 40, deleteMs = 20, holdMs = 1200) {
+    let i = 0, j = 0, typing = true;
+
+    function tick() {
+      const s = list[i];
+
+      if (typing) {
+        j++;
+        el.textContent = s.slice(0, j);
+        if (j === s.length) {
+          typing = false;
+          return setTimeout(tick, holdMs);
+        }
+        return setTimeout(tick, typeMs);
+      } else {
+        j--;
+        el.textContent = s.slice(0, j);
+        if (j === 0) {
+          typing = true;
+          i = (i + 1) % list.length;
+          return setTimeout(tick, 300);
+        }
+        return setTimeout(tick, deleteMs);
+      }
+    }
+
+    tick();
+  }
+
+  if (rotateEl) startRotateTyper(rotateEl, phrases);
+
+  // Mobile tap toggle for the flip card
+  (function(){
+    const card = document.getElementById('aboutFlip');
+    if (!card) return;
+    card.addEventListener('click', function(){
+      // Only enable tap-toggle on touch-capable devices
+      if (matchMedia('(hover: none)').matches) {
+        card.classList.toggle('flipped');
+      }
+    });
+  })();
+
   </script>
 </body>
 </html>
