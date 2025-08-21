@@ -4,27 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Work · Jan Arroyo</title>
-  <!-- keep your global css if you want your site-wide nav/header styles -->
   <link href="styles.css" rel="stylesheet" />
-
-  <!-- Page-specific styles (narrow centered column) -->
   <style>
     :root{
       --sep: rgba(17,19,24,.18);
-      --muted: #6b7280;
-      --muted2:#7a7f87;
-      --title: #1f2937;
+      --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
+      --card: #ffffff; --bd: rgba(17,19,24,.12); --shadow: 0 10px 28px rgba(17,19,24,.04);
     }
     /* page + narrow column */
     .page{padding:32px 16px;}
     .narrow{width:min(680px, 92vw); margin-inline:auto;}
 
-    .section-title{
-      font-size:22px; margin:26px 0 14px; color:var(--title);
-      font-weight:700; letter-spacing:.2px;
-    }
+    .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* clean list with dashed separators; each row is a hidden link */
+    /* Work/Inv lists (unchanged style) */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -32,20 +25,75 @@
       text-decoration:none; color:inherit;
     }
     .row:focus-visible{outline:2px solid rgba(59,130,246,.5); outline-offset:4px; border-bottom-color:transparent;}
-
     .left{display:flex; align-items:center; gap:12px; min-width:0;}
-    .logo{
-      width:24px; height:24px; display:block; object-fit:contain; border-radius:6px;
-      image-rendering:-webkit-optimize-contrast; transform:translateZ(0);
-    }
+    .logo{width:24px;height:24px;display:block;object-fit:contain;border-radius:6px;image-rendering:-webkit-optimize-contrast;transform:translateZ(0)}
     .meta{display:flex; align-items:center; gap:10px; min-width:0;}
     .co{font-weight:600; white-space:nowrap;}
     .role{font-size:13px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .right{margin-left:auto; font-size:13px; color:var(--muted2); white-space:nowrap;}
-
     @media (max-width:560px){ .role{display:none;} }
-
     footer .narrow{padding:26px 0; font-size:14px; color:var(--muted2);}
+
+    /* ---------- Projects & Artifacts ---------- */
+    .projects{margin-top:34px}
+    .projects .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
+    .artifact-list{display:flex;flex-direction:column;gap:22px}
+
+    .artifact-row{
+      display:grid; align-items:center; gap:14px;
+      grid-template-columns: 1fr 1.2fr;
+    }
+    .artifact-row:nth-child(even){ grid-template-columns: 1.2fr 1fr; }
+    .artifact-row:nth-child(even) .artifact-media{ order:2; }
+    .artifact-row:nth-child(even) .artifact-text{ order:1; }
+
+    .artifact-media{
+      background:var(--card); border:1px solid var(--bd); border-radius:14px; box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .media-pad{position:relative; display:block}
+    .media-pad img{display:block;width:100%;height:auto}
+    .media-pad video{display:block;width:100%;height:auto;background:#000}
+    .deck-frame{display:block;width:100%;height:280px;border:0}
+
+    .deck-controls{
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      padding:8px 10px; border-top:1px solid var(--bd); background:#fafafa;
+    }
+    .btn{
+      appearance:none; border:1px solid var(--bd); background:#fff; padding:6px 10px; border-radius:8px;
+      font-size:13px; cursor:pointer;
+    }
+    .btn[disabled]{opacity:.5; cursor:not-allowed}
+    .page-ind{font-size:12px; color:var(--muted2)}
+
+    .artifact-text{
+      background:var(--card); border:1px solid var(--bd); border-radius:14px; box-shadow:var(--shadow);
+      padding:14px;
+    }
+    .artifact-text h3{margin:0 0 6px; font-size:16px}
+    .artifact-text p{margin:0 0 8px; color:var(--muted)}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .tag{font-size:12px;padding:4px 8px;border:1px solid var(--bd);border-radius:999px;background:#fff;color:#374151}
+
+    @media (max-width:780px){
+      .artifact-row,
+      .artifact-row:nth-child(even){grid-template-columns:1fr}
+      .artifact-row:nth-child(even) .artifact-media{order:1}
+      .artifact-row:nth-child(even) .artifact-text{order:2}
+      .deck-frame{height:220px}
+    }
+
+    /* Lightbox */
+    .lb{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50}
+    .lb.open{display:flex}
+    .lb-inner{width:min(1100px,92vw); background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.35)}
+    .lb-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--bd)}
+    .lb-title{font-weight:600}
+    .lb-close{appearance:none;border:1px solid var(--bd);background:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
+    .lb-body{display:block}
+    .lb-frame{width:100%; height:70vh; border:0}
+    .lb-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-top:1px solid var(--bd);background:#fafafa}
   </style>
 </head>
 <body>
@@ -63,14 +111,14 @@
   </nav>
 
   <main class="page">
-    <!-- Drop your résumé embed or intro block here; it will be centered & narrow -->
+    <!-- Optional résumé embed zone (kept) -->
     <section class="narrow" id="resume-slot">
-      <!-- e.g., <iframe src="resume.pdf" width="100%" height="700" style="border:0;border-radius:12px"></iframe> -->
+      <!-- Example: <iframe src="resume.pdf#view=FitH" width="100%" height="760" style="border:0;border-radius:12px"></iframe> -->
     </section>
 
+    <!-- Work -->
     <section class="narrow">
       <h1 class="section-title">Work</h1>
-      <!-- newest → oldest -->
       <ul class="list" aria-label="Work experience">
         <li>
           <a class="row" href="#" aria-label="USC Marshall Peer Career Advisor – Tech">
@@ -84,93 +132,65 @@
             <span class="right">Aug 2025</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.amazon.jobs/content/en/teams/devices-and-services/lab126" target="_blank" rel="noopener" aria-label="Amazon">
             <span class="left">
               <img class="logo" src="images/Amazon.JPG" alt="">
-              <span class="meta">
-                <span class="co">Amazon</span>
-                <span class="role">Technical Program Manager Intern</span>
-              </span>
+              <span class="meta"><span class="co">Amazon</span><span class="role">Technical Program Manager Intern</span></span>
             </span>
             <span class="right">May–Aug 2025</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.accenture.com/us-en/services/ecosystem-partners/microsoft" target="_blank" rel="noopener" aria-label="Accenture">
             <span class="left">
               <img class="logo" src="images/Accenture.JPG" alt="">
-              <span class="meta">
-                <span class="co">Accenture</span>
-                <span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span>
-              </span>
+              <span class="meta"><span class="co">Accenture</span><span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span></span>
             </span>
             <span class="right">Jun–Aug 2024</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.apple.com/careers/us/work-at-apple/students.html" target="_blank" rel="noopener" aria-label="Apple">
             <span class="left">
               <img class="logo" src="images/Apple.JPG" alt="">
-              <span class="meta">
-                <span class="co">Apple</span>
-                <span class="role">Product Management Intern</span>
-              </span>
+              <span class="meta"><span class="co">Apple</span><span class="role">Product Management Intern</span></span>
             </span>
             <span class="right">Aug 2023–Jan 2024</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.microsoft.com/en-us/modernfinance/digitaltransformation.aspx" target="_blank" rel="noopener" aria-label="Microsoft">
             <span class="left">
               <img class="logo" src="images/Microsoft.JPG" alt="">
-              <span class="meta">
-                <span class="co">Microsoft</span>
-                <span class="role">Finance Data Analyst Intern</span>
-              </span>
+              <span class="meta"><span class="co">Microsoft</span><span class="role">Finance Data Analyst Intern</span></span>
             </span>
             <span class="right">May–Aug 2023</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://worldfitforkids.org/" target="_blank" rel="noopener" aria-label="A World Fit For Kids">
             <span class="left">
               <img class="logo" src="images/A-World-Fit-for-Kids.JPG" alt="">
-              <span class="meta">
-                <span class="co">A World Fit For Kids</span>
-                <span class="role">Strategy Consultant</span>
-              </span>
+              <span class="meta"><span class="co">A World Fit For Kids</span><span class="role">Strategy Consultant</span></span>
             </span>
             <span class="right">2022–2023</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="Los Angeles Rams">
             <span class="left">
               <img class="logo" src="images/LARAMS.JPG" alt="">
-              <span class="meta">
-                <span class="co">Los Angeles Rams</span>
-                <span class="role">Data &amp; Systems Analyst – Intern</span>
-              </span>
+              <span class="meta"><span class="co">Los Angeles Rams</span><span class="role">Data &amp; Systems Analyst – Intern</span></span>
             </span>
             <span class="right">Jun–Aug 2021</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="LA Conservation Corps">
             <span class="left">
               <img class="logo" src="images/LACC.JPG" alt="">
-              <span class="meta">
-                <span class="co">LA Conservation Corps</span>
-                <span class="role">Project Lead</span>
-              </span>
+              <span class="meta"><span class="co">LA Conservation Corps</span><span class="role">Project Lead</span></span>
             </span>
             <span class="right">Dec 2019–May 2020</span>
           </a>
@@ -183,82 +203,159 @@
           <a class="row" href="https://www.uscbtg.org/" target="_blank" rel="noopener" aria-label="Business Technology Group (USC)">
             <span class="left">
               <img class="logo" src="images/BTG.JPG" alt="">
-              <span class="meta">
-                <span class="co">Business Technology Group (USC)</span>
-                <span class="role">VP of Projects</span>
-              </span>
+              <span class="meta"><span class="co">Business Technology Group (USC)</span><span class="role">VP of Projects</span></span>
             </span>
             <span class="right">2024–Present</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.ey.com/en_us/about-us/corporate-responsibility/mentoring-of-the-future-workforce-strengthens-communities-and-careers" target="_blank" rel="noopener" aria-label="EY CMAP">
             <span class="left">
               <img class="logo" src="images/EY.JPG" alt="">
-              <span class="meta">
-                <span class="co">EY CMAP</span>
-                <span class="role">Education Strategy Consultant</span>
-              </span>
+              <span class="meta"><span class="co">EY CMAP</span><span class="role">Education Strategy Consultant</span></span>
             </span>
             <span class="right">2023–Present</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://uscfgsa.carrd.co/" target="_blank" rel="noopener" aria-label="USC First-Generation Student Center">
             <span class="left">
               <img class="logo" src="images/FGSA.JPG" alt="">
-              <span class="meta">
-                <span class="co">USC First-Generation Student Center</span>
-                <span class="role">Program Manager</span>
-              </span>
+              <span class="meta"><span class="co">USC First-Generation Student Center</span><span class="role">Program Manager</span></span>
             </span>
             <span class="right">2023–2025</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.usclbsa.com/" target="_blank" rel="noopener" aria-label="Latino Business Student Association">
             <span class="left">
               <img class="logo" src="images/LBSA.JPG" alt="">
-              <span class="meta">
-                <span class="co">Latino Business Student Association</span>
-                <span class="role">Member</span>
-              </span>
+              <span class="meta"><span class="co">Latino Business Student Association</span><span class="role">Member</span></span>
             </span>
             <span class="right">2023–2025</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://www.uscisa.org/" target="_blank" rel="noopener" aria-label="International Student Assembly">
             <span class="left">
               <img class="logo" src="images/ISA.JPG" alt="">
-              <span class="meta">
-                <span class="co">International Student Assembly</span>
-                <span class="role">Advocacy &amp; Program Manager Intern</span>
-              </span>
+              <span class="meta"><span class="co">International Student Assembly</span><span class="role">Advocacy &amp; Program Manager Intern</span></span>
             </span>
             <span class="right">2023–2024</span>
           </a>
         </li>
-
         <li>
           <a class="row" href="https://partnershipla.org/who-we-are/" target="_blank" rel="noopener" aria-label="The LA Partnership">
             <span class="left">
               <img class="logo" src="images/Partnership.JPG" alt="">
-              <span class="meta">
-                <span class="co">The LA Partnership</span>
-                <span class="role">Policy Advisory Board Member</span>
-              </span>
+              <span class="meta"><span class="co">The LA Partnership</span><span class="role">Policy Advisory Board Member</span></span>
             </span>
             <span class="right">2021–2022</span>
           </a>
         </li>
       </ul>
     </section>
+
+    <!-- ========= Projects & Artifacts (NEW) ========= -->
+    <section class="narrow projects">
+      <div class="kicker">Projects &amp; Artifacts</div>
+      <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
+
+      <div class="artifact-list">
+
+        <!-- 1) Deck example — Quokka Brew (PDF with pager + expand) -->
+        <!-- Put the PDF file right next to work.html or update the src below -->
+        <article class="artifact-row">
+          <div class="artifact-media">
+            <div class="media-pad deck"
+                 data-title="Quokka Brew – Design Research Deck"
+                 data-src="Quokka Brew.pdf"  <!-- file path; spaces OK -->
+                 data-pages="67">
+              <iframe class="deck-frame" loading="lazy"></iframe>
+              <div class="deck-controls">
+                <div>
+                  <button class="btn" data-act="prev">Prev</button>
+                  <button class="btn" data-act="next">Next</button>
+                </div>
+                <div class="page-ind" aria-live="polite">Page 1 / 67</div>
+                <button class="btn" data-act="expand">Expand</button>
+              </div>
+            </div>
+          </div>
+          <div class="artifact-text">
+            <h3>Quokka Brew: Can Design Research &amp; Iterations</h3>
+            <p>60 interviews, brand &amp; logo perception testing, and flavor-specific visual systems culminating in design recs and MVP iterations.</p>
+            <div class="tags">
+              <span class="tag">Deck</span><span class="tag">Design Research</span><span class="tag">Consumer Insights</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2) Example: Image artifact (conference talk) -->
+        <!-- Replace the image/link and copy/paste to add more entries -->
+        <article class="artifact-row">
+          <div class="artifact-media">
+            <a class="media-pad" href="images/conference.jpg" data-expand="image">
+              <img src="images/conference.jpg" alt="Conference talk photo" loading="lazy">
+            </a>
+          </div>
+          <div class="artifact-text">
+            <h3>Conference Talk — Product Strategy</h3>
+            <p>Invited session on aligning user research with roadmap prioritization; shared a framework for linking problem statements to measurable outcomes.</p>
+            <div class="tags"><span class="tag">Talk</span><span class="tag">Strategy</span></div>
+          </div>
+        </article>
+
+        <!-- 3) Example: Link card (magazine feature) -->
+        <article class="artifact-row">
+          <div class="artifact-media">
+            <a class="media-pad" href="https://example.com/magazine-feature" target="_blank" rel="noopener">
+              <img src="images/magazine.jpg" alt="Magazine feature cover" loading="lazy">
+            </a>
+          </div>
+          <div class="artifact-text">
+            <h3>Magazine Feature</h3>
+            <p>Profiled for student leadership and community impact—covering BTG, first-gen initiatives, and startup projects.</p>
+            <div class="tags"><span class="tag">Press</span></div>
+          </div>
+        </article>
+
+        <!-- 4) Example: Code project (screenshot or gif; link out to repo/demo) -->
+        <article class="artifact-row">
+          <div class="artifact-media">
+            <a class="media-pad" href="https://example.com/demo" target="_blank" rel="noopener">
+              <img src="images/code-screenshot.jpg" alt="App screenshot" loading="lazy">
+            </a>
+          </div>
+          <div class="artifact-text">
+            <h3>LLM Chatbot for Lens DB</h3>
+            <p>TPM of a cross-functional team building an LLM assistant that accelerated retrieval &amp; analysis by 80% and automated compliance workflows.</p>
+            <div class="tags"><span class="tag">LLM</span><span class="tag">Product</span><span class="tag">Automation</span></div>
+          </div>
+        </article>
+
+      </div>
+    </section>
   </main>
+
+  <!-- Lightbox (used for deck expand or image enlarge) -->
+  <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Viewer">
+    <div class="lb-inner">
+      <div class="lb-head">
+        <div class="lb-title" id="lb-title">Viewer</div>
+        <button class="lb-close" id="lb-close" aria-label="Close">Close</button>
+      </div>
+      <div class="lb-body" id="lb-body"></div>
+      <div class="lb-controls" id="lb-controls" hidden>
+        <div>
+          <button class="btn" id="lb-prev">Prev</button>
+          <button class="btn" id="lb-next">Next</button>
+        </div>
+        <div class="page-ind" id="lb-ind">Page 1</div>
+        <span></span>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <div class="narrow">© <span id="y"></span> Jan Arroyo</div>
@@ -266,9 +363,93 @@
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // -------- Deck viewer (inline) ----------
+    (function initDecks(){
+      const decks = document.querySelectorAll('.deck');
+      decks.forEach(deck=>{
+        const iframe = deck.querySelector('.deck-frame');
+        const prev = deck.querySelector('[data-act="prev"]');
+        const next = deck.querySelector('[data-act="next"]');
+        const expand = deck.querySelector('[data-act="expand"]');
+        const ind = deck.querySelector('.page-ind');
+        const file = deck.dataset.src;
+        const total = parseInt(deck.dataset.pages||'1',10);
+        let page = 1;
+
+        function setSrc(){
+          const src = encodeURI(file) + '#page=' + page + '&zoom=page-width';
+          iframe.src = src;
+          ind.textContent = 'Page ' + page + ' / ' + total;
+          prev.disabled = (page<=1);
+          next.disabled = (page>=total);
+        }
+        setSrc();
+
+        prev.addEventListener('click', ()=>{ if(page>1){ page--; setSrc(); }});
+        next.addEventListener('click', ()=>{ if(page<total){ page++; setSrc(); }});
+        expand.addEventListener('click', ()=> openLightbox({title: deck.dataset.title||'Deck', file, page, total}));
+      });
+    })();
+
+    // -------- Image enlarge (optional) ----------
+    document.querySelectorAll('[data-expand="image"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        openLightbox({title:'Preview', image:a.getAttribute('href')});
+      });
+    });
+
+    // -------- Lightbox ----------
+    const LB = document.getElementById('lightbox');
+    const LB_BODY = document.getElementById('lb-body');
+    const LB_TITLE = document.getElementById('lb-title');
+    const LB_CLOSE = document.getElementById('lb-close');
+    const LB_CONTROLS = document.getElementById('lb-controls');
+    const LB_PREV = document.getElementById('lb-prev');
+    const LB_NEXT = document.getElementById('lb-next');
+    const LB_IND  = document.getElementById('lb-ind');
+
+    let lbState = null; // {mode:'deck'|'image', file, page, total}
+
+    function openLightbox(opts){
+      lbState = null;
+      LB_CONTROLS.hidden = true;
+      LB_BODY.innerHTML = '';
+      LB.classList.add('open');
+      LB_TITLE.textContent = opts.title || 'Viewer';
+
+      if (opts.image){
+        const img = document.createElement('img');
+        img.src = opts.image;
+        img.alt = opts.title || 'Image';
+        img.style.display='block'; img.style.width='100%'; img.style.height='auto';
+        LB_BODY.appendChild(img);
+      } else if (opts.file){
+        lbState = {mode:'deck', file:opts.file, page:opts.page||1, total:opts.total||1};
+        const iframe = document.createElement('iframe');
+        iframe.className = 'lb-frame';
+        LB_BODY.appendChild(iframe);
+        LB_CONTROLS.hidden = false;
+
+        function set(){
+          iframe.src = encodeURI(lbState.file) + '#page=' + lbState.page + '&zoom=page-width';
+          LB_IND.textContent = 'Page ' + lbState.page + ' / ' + lbState.total;
+          LB_PREV.disabled = (lbState.page<=1);
+          LB_NEXT.disabled = (lbState.page>=lbState.total);
+        }
+        set();
+
+        LB_PREV.onclick = ()=>{ if(lbState.page>1){ lbState.page--; set(); } };
+        LB_NEXT.onclick = ()=>{ if(lbState.page<lbState.total){ lbState.page++; set(); } };
+      }
+    }
+    LB_CLOSE.addEventListener('click', ()=> LB.classList.remove('open'));
+    LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.classList.remove('open'); });
   </script>
 </body>
 </html>
+
 
 
 
