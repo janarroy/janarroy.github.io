@@ -4,7 +4,51 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Work · Jan Arroyo</title>
-  <link href="styles.css?v=5" rel="stylesheet" />
+  <!-- keep your global css if you want nav/containers to look the same -->
+  <link href="styles.css" rel="stylesheet" />
+
+  <!-- Work-page-only styles -->
+  <style>
+    /* layout helpers in case container isn't defined globally */
+    .container{max-width:980px;margin:0 auto;padding:0 16px;}
+
+    /* ——— List-style Work page ——— */
+    .page-title{font-size:22px;margin:22px 0 12px;}
+    .worklist{list-style:none;padding:0;margin:10px 0 0;}
+    .workrow{
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+      padding:12px 14px;border:1px solid rgba(17,19,24,.08);
+      border-radius:14px;background:#fff;margin-bottom:10px;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .workrow:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(17,19,24,.05);border-color:rgba(17,19,24,.14);}
+    .workrow .left{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;}
+    .workrow .logo{width:28px;height:28px;border-radius:8px;object-fit:contain;background:#f3f4f6;flex:0 0 28px;}
+    .workrow .meta{display:flex;flex-direction:column;}
+    .workrow .co{font-weight:600;line-height:1.1;}
+    .workrow .role{font-size:13px;color:#60646c;}
+    .workrow .right{margin-left:auto;color:#7a7f87;font-size:13px;}
+    @media (max-width:640px){
+      .workrow{padding:12px;}
+      .workrow .right{font-size:12px;}
+    }
+
+    /* ——— Simple project spotlight cards (optional) ——— */
+    .spot-grid{
+      display:grid;gap:16px;margin-top:10px;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    }
+    .spot-card{
+      display:block;background:#fff;border:1px solid rgba(17,19,24,.10);
+      border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(17,19,24,.04);
+      transition:transform .15s ease, box-shadow .15s ease;text-decoration:none;color:inherit;
+    }
+    .spot-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(17,19,24,.06);}
+    .spot-thumb{width:100%;height:160px;object-fit:cover;display:block;}
+    .spot-card h3{margin:10px 12px 4px;font-size:16px;}
+    .spot-card p{margin:0 12px 12px;color:#60646c;font-size:14px;}
+    footer .container{padding:24px 0;color:#7a7f87;font-size:14px;}
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -20,155 +64,108 @@
     </div>
   </nav>
 
-  <main class="container work">
-    <h1 class="page-title">Projects</h1>
+  <main class="container">
+    <!-- WORK LIST -->
+    <h1 class="page-title">Work</h1>
 
-    <div class="filters">
-      <button class="chip active" data-filter="all">All</button>
-      <button class="chip" data-filter="tpm">TPM</button>
-      <button class="chip" data-filter="data">Data</button>
-      <button class="chip" data-filter="design">Design</button>
-    </div>
+    <ul class="worklist" aria-label="Work experience">
+      <li class="workrow">
+        <a class="left" href="decks/amazon-chatbot.pdf" target="_blank" rel="noopener">
+          <img class="logo" src="images/logos/amazon.svg" alt="">
+          <div class="meta">
+            <div class="co">Amazon</div>
+            <div class="role">Technical Program Manager Intern</div>
+          </div>
+        </a>
+        <div class="right">May 2025–Aug 2025</div>
+      </li>
 
-    <!-- Masonry grid (unchanged, add ids to feature cards) -->
-    <div class="masonry" id="grid">
-      <a class="card" id="proj-amazon-chatbot" href="#" data-tags="tpm,data" data-img="images/spotlight/chatbot.jpg">
-        <div class="thumb"><img loading="lazy" src="images/spotlight/chatbot.jpg" alt="Lens DB AI Chatbot"/></div>
-        <div class="meta">
-          <span class="tag">TPM</span>
-          <h3>Lens DB AI Chatbot</h3>
-          <p>LLM-powered retrieval assistant; sped up data retrieval & analysis by 80%.</p>
-        </div>
+      <li class="workrow">
+        <a class="left" href="decks/accenture-dashboard.pdf" target="_blank" rel="noopener">
+          <img class="logo" src="images/logos/accenture.svg" alt="">
+          <div class="meta">
+            <div class="co">Accenture</div>
+            <div class="role">Strategy Tech Apps & Dev Analyst Intern</div>
+          </div>
+        </a>
+        <div class="right">Jun 2024–Aug 2024</div>
+      </li>
+
+      <li class="workrow">
+        <a class="left" href="decks/microsoft-initiatives.pdf" target="_blank" rel="noopener">
+          <img class="logo" src="images/logos/microsoft.svg" alt="">
+          <div class="meta">
+            <div class="co">Microsoft</div>
+            <div class="role">Finance Data Analyst Intern</div>
+          </div>
+        </a>
+        <div class="right">May 2023–Aug 2023</div>
+      </li>
+
+      <li class="workrow">
+        <a class="left" href="decks/quokka.pdf" target="_blank" rel="noopener">
+          <img class="logo" src="images/logos/quokka.svg" alt="">
+          <div class="meta">
+            <div class="co">Quokka Brew</div>
+            <div class="role">Project Manager</div>
+          </div>
+        </a>
+        <div class="right">Dec 2023–Apr 2024</div>
+      </li>
+    </ul>
+
+    <!-- INVOLVEMENTS LIST -->
+    <h2 class="page-title" style="margin-top:28px;">Involvements</h2>
+
+    <ul class="worklist" aria-label="Leadership & involvement">
+      <li class="workrow">
+        <a class="left" href="decks/btg-crm.pdf" target="_blank" rel="noopener">
+          <img class="logo" src="images/logos/usc.svg" alt="">
+          <div class="meta">
+            <div class="co">Business Technology Group (USC)</div>
+            <div class="role">VP of Projects</div>
+          </div>
+        </a>
+        <div class="right">Apr 2024–Present</div>
+      </li>
+
+      <li class="workrow">
+        <a class="left" href="decks/ey-education.pdf" target="_blank" rel="noopener">
+          <img class="logo" src="images/logos/ey.svg" alt="">
+          <div class="meta">
+            <div class="co">Ernst &amp; Young</div>
+            <div class="role">Education Strategy Consultant</div>
+          </div>
+        </a>
+        <div class="right">Aug 2023–Present</div>
+      </li>
+    </ul>
+
+    <!-- OPTIONAL: project spotlight (simple) -->
+    <h2 class="page-title" style="margin-top:36px;">Project Spotlight</h2>
+    <div class="spot-grid">
+      <a class="spot-card" href="decks/amazon-chatbot.pdf" target="_blank" rel="noopener">
+        <img class="spot-thumb" src="images/spotlight/chatbot.jpg" alt="">
+        <h3>Lens DB LLM Chatbot</h3>
+        <p>80% faster retrieval & analysis.</p>
       </a>
-
-      <a class="card" id="proj-accenture-dashboard" href="#" data-tags="data" data-img="images/spotlight/dashboard.jpg">
-        <div class="thumb"><img loading="lazy" src="images/spotlight/dashboard.jpg" alt="Cohort Metrics Dashboard"/></div>
-        <div class="meta">
-          <span class="tag">Data</span>
-          <h3>Cohort Metrics Dashboard</h3>
-          <p>SQL + Python pipeline; developer efficiency up 20% and visibility up 83%.</p>
-        </div>
+      <a class="spot-card" href="decks/accenture-dashboard.pdf" target="_blank" rel="noopener">
+        <img class="spot-thumb" src="images/spotlight/dashboard.jpg" alt="">
+        <h3>Metrics Dashboard</h3>
+        <p>Developer efficiency +20%, visibility +83%.</p>
       </a>
-
-      <a class="card" id="proj-ey-case" href="#" data-tags="design" data-img="images/spotlight/ey.jpg">
-        <div class="thumb"><img loading="lazy" src="images/spotlight/ey.jpg" alt="EY Case Competition"/></div>
-        <div class="meta">
-          <span class="tag">Design</span>
-          <h3>EY Case – 1st Place</h3>
-          <p>Projected +25% revenue and $100k in funding for a startup.</p>
-        </div>
+      <a class="spot-card" href="decks/ey-case.pdf" target="_blank" rel="noopener">
+        <img class="spot-thumb" src="images/spotlight/ey.jpg" alt="">
+        <h3>EY Case – 1st Place</h3>
+        <p>+25% revenue, $100k funding plan.</p>
       </a>
-
-      <a class="card" id="proj-quokka" href="#" data-tags="design" data-img="images/spotlight/quokka.jpg">
-        <div class="thumb"><img loading="lazy" src="images/spotlight/quokka.jpg" alt="Quokka Brew"/></div>
-        <div class="meta">
-          <span class="tag">Design</span>
-          <h3>Quokka Brew Redesign</h3>
-          <p>Design-thinking → 85% increase in shelf recognition.</p>
-        </div>
-      </a>
-    </div>
-
-    <h2 class="page-title" id="experience">Experience</h2>
-    <div class="timeline">
-      <div class="panel item" id="experience-amazon">
-        <h4>Technical Program Manager Intern <span class="org">· Amazon</span></h4>
-        <div class="time">May–Aug 2025 · San Francisco</div>
-        <ul>
-          <li>Led the end-to-end build of an LLM chatbot with hardware, software, and data engineers, increasing data retrieval & analysis speed by <strong>80%</strong> and saving <strong>374</strong> hours annually across 3 TPMs. :contentReference[oaicite:1]{index=1}</li>
-          <li>Built a tool to auto-generate safety documents + a Jira automation mechanism, cutting document creation time by <strong>75%</strong> and Jira creation time by <strong>98%</strong> (11+ hours saved per project). :contentReference[oaicite:2]{index=2}</li>
-          <li>Created a Confluence knowledge tool and AI app to create/update pages instantly, reducing onboarding time by <strong>33%</strong> (64 hours per hire saved). :contentReference[oaicite:3]{index=3}</li>
-        </ul>
-      </div>
-
-      <div class="panel item" id="experience-accenture">
-        <h4>Strategy Tech Apps & Dev Analyst Intern <span class="org">· Accenture</span></h4>
-        <div class="time">Jun–Aug 2024 · Los Angeles</div>
-        <ul>
-          <li>Launched metrics dashboards tracking commits, LOC, and Jira status → developer efficiency up <strong>20%</strong>, delivery timelines faster by <strong>16%</strong>. :contentReference[oaicite:4]{index=4}</li>
-          <li>Analyzed <strong>50,000+</strong> rows using AWS, ReactJS, Python, and SQL; improved status tracking by <strong>27%</strong> and leadership visibility by <strong>83%</strong>. :contentReference[oaicite:5]{index=5}</li>
-          <li>Researched 20+ APIs; SQL/JSON metrics improved reporting accuracy by <strong>78%</strong>. :contentReference[oaicite:6]{index=6}</li>
-        </ul>
-      </div>
-
-      <div class="panel item" id="experience-microsoft">
-        <h4>Finance Data Analyst Intern <span class="org">· Microsoft</span></h4>
-        <div class="time">May–Aug 2023 · Los Angeles</div>
-        <ul>
-          <li>Developed strategies across 4 initiatives using research with 100+ participants → customer satisfaction +<strong>38%</strong> and new business +<strong>12%</strong>. :contentReference[oaicite:7]{index=7}</li>
-          <li>Managed $45K for 8+ events → employee satisfaction +<strong>26%</strong>; multi-unit engagement +<strong>22%</strong>. :contentReference[oaicite:8]{index=8}</li>
-        </ul>
-      </div>
-
-      <div class="panel item" id="experience-btg">
-        <h4>VP of Projects <span class="org">· USC Business Technology Group</span></h4>
-        <div class="time">Apr 2024–Present · Los Angeles</div>
-        <ul>
-          <li>Oversaw 20 consultants; led 5 client quality assessments → client retention +<strong>80%</strong>. :contentReference[oaicite:9]{index=9}</li>
-          <li>Built a Python + Google APIs CRM reaching 15k+ contacts; response rates +<strong>15%</strong>; outreach speed <strong>3×</strong>. :contentReference[oaicite:10]{index=10}</li>
-        </ul>
-      </div>
-
-      <div class="panel item" id="experience-ey">
-        <h4>Education Strategy Consultant <span class="org">· EY</span></h4>
-        <div class="time">Aug 2023–Present · Los Angeles</div>
-        <ul>
-          <li>Consulted to 3 LAUSD high schools; increased involvement by <strong>83%</strong> and enrollment by <strong>46%</strong> with scalable programs. :contentReference[oaicite:11]{index=11}</li>
-        </ul>
-      </div>
-
-      <div class="panel item" id="experience-quokka">
-        <h4>Project Manager <span class="org">· Quokka Brew</span></h4>
-        <div class="time">Dec 2023–Apr 2024</div>
-        <ul>
-          <li>Analyzed 100+ interviews; operationalized 20+ prototypes → shelf recognition +<strong>85%</strong>. :contentReference[oaicite:12]{index=12}</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Decks / Artifacts -->
-    <h2 class="page-title" id="artifacts" style="margin-top:36px">Decks & Artifacts</h2>
-    <div class="masonry">
-      <!-- replace href/src with your real files (Google Slides/Drive, PDF, etc.) -->
-      <a class="card" href="decks/amazon-chatbot.pdf" target="_blank" rel="noopener">
-        <div class="thumb"><img src="images/decks/amazon-chatbot-cover.jpg" alt=""></div>
-        <div class="meta">
-          <span class="tag">Deck</span>
-          <h3>Amazon LLM Chatbot – Spec & Launch</h3>
-          <p>Problem framing, design, and rollout notes.</p>
-        </div>
-      </a>
-
-      <a class="card" href="decks/accenture-dashboard.pdf" target="_blank" rel="noopener">
-        <div class="thumb"><img src="images/decks/accenture-dashboard-cover.jpg" alt=""></div>
-        <div class="meta">
-          <span class="tag">Deck</span>
-          <h3>Accenture Metrics Dashboard – Case Study</h3>
-          <p>Architecture, data model, and outcomes.</p>
-        </div>
-      </a>
-
-      <a class="card" href="decks/ey-case.pdf" target="_blank" rel="noopener">
-        <div class="thumb"><img src="images/decks/ey-case-cover.jpg" alt=""></div>
-        <div class="meta">
-          <span class="tag">Deck</span>
-          <h3>EY Case – 1st Place</h3>
-          <p>+25% revenue projection; $100k funding plan.</p>
-        </div>
+      <a class="spot-card" href="decks/quokka.pdf" target="_blank" rel="noopener">
+        <img class="spot-thumb" src="images/spotlight/quokka.jpg" alt="">
+        <h3>Quokka Brew Redesign</h3>
+        <p>85% increase in shelf recognition.</p>
       </a>
     </div>
   </main>
-
-  <!-- Lightbox (unchanged) -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project preview">
-    <div class="lightbox-content">
-      <div class="lightbox-header">
-        <div id="lb-title" class="lb-title">Preview</div>
-        <button class="close" id="lb-close" aria-label="Close">Close</button>
-      </div>
-      <div class="lightbox-body" id="lb-body"></div>
-    </div>
-  </div>
 
   <footer>
     <div class="container">© <span id="y2"></span> Jan Arroyo</div>
@@ -176,39 +173,6 @@
 
   <script>
     document.getElementById('y2').textContent = new Date().getFullYear();
-
-    // Filters (unchanged)
-    const chips = Array.from(document.querySelectorAll('.chip'));
-    const cards = Array.from(document.querySelectorAll('.card'));
-    chips.forEach(ch => ch.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
-      ch.classList.add('active');
-      const f = ch.dataset.filter;
-      cards.forEach(card => {
-        const tags = (card.dataset.tags || '').split(',');
-        const show = f === 'all' || tags.includes(f);
-        card.style.display = show ? 'block' : 'none';
-      });
-      const grid = document.getElementById('grid');
-      if (grid) { grid.style.transform = 'translateZ(0)'; setTimeout(()=> grid.style.transform = '', 100); }
-    }));
-
-    // Lightbox (unchanged)
-    const lb = document.getElementById('lightbox');
-    const lbBody = document.getElementById('lb-body');
-    const lbTitle = document.getElementById('lb-title');
-    document.getElementById('lb-close').addEventListener('click', () => lb.classList.remove('open'));
-    lb.addEventListener('click', (e) => { if (e.target === lb) lb.classList.remove('open'); });
-    Array.from(document.querySelectorAll('.masonry .card')).forEach(card => card.addEventListener('click', (e) => {
-      // only lightbox cards that have data-img
-      const img = card.getAttribute('data-img');
-      if (!img) return; // allow normal links (decks) to open
-      e.preventDefault();
-      const title = card.querySelector('h3').textContent;
-      lbTitle.textContent = title;
-      lbBody.innerHTML = `<img src="${img}" alt="${title}">`;
-      lb.classList.add('open');
-    }));
   </script>
 </body>
 </html>
