@@ -4,44 +4,53 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Work · Jan Arroyo</title>
-  <!-- keep your global css for nav/base layout -->
+  <!-- keep your global css if you want your site-wide nav/header styles -->
   <link href="styles.css" rel="stylesheet" />
 
-  <!-- Work-page-only styles (no black box behind logos) -->
+  <!-- Page-specific styles (narrow centered column) -->
   <style>
-    .container{max-width:960px;margin:0 auto;padding:0 16px;}
-    .page-title{font-size:22px;margin:28px 0 14px;}
+    :root{
+      --sep: rgba(17,19,24,.18);
+      --muted: #6b7280;
+      --muted2:#7a7f87;
+      --title: #1f2937;
+    }
+    /* page + narrow column */
+    .page{padding:32px 16px;}
+    .narrow{width:min(680px, 92vw); margin-inline:auto;}
 
-    /* clean list with dotted separators + full-row links */
-    .list{margin:8px 0 0;padding:0;list-style:none;}
+    .section-title{
+      font-size:22px; margin:26px 0 14px; color:var(--title);
+      font-weight:700; letter-spacing:.2px;
+    }
+
+    /* clean list with dashed separators; each row is a hidden link */
+    .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
-      display:flex;align-items:center;justify-content:space-between;gap:16px;
-      padding:12px 0;border-bottom:1px dashed rgba(17,19,24,.18);
-      text-decoration:none;color:inherit;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:12px 0; border-bottom:1px dashed var(--sep);
+      text-decoration:none; color:inherit;
     }
-    .row:focus-visible{outline:2px solid rgba(59,130,246,.5);outline-offset:4px;border-bottom-color:transparent;}
-    .left{display:flex;align-items:center;gap:12px;min-width:0;}
+    .row:focus-visible{outline:2px solid rgba(59,130,246,.5); outline-offset:4px; border-bottom-color:transparent;}
 
-    /* logos: same size as before, a touch crisper, no background tile */
+    .left{display:flex; align-items:center; gap:12px; min-width:0;}
     .logo{
-      width:24px;height:24px;display:block;object-fit:contain;border-radius:6px;
-      image-rendering:-webkit-optimize-contrast; /* WebKit crispness */
-      image-rendering:crisp-edges;               /* others */
-      transform:translateZ(0);                    /* avoid subpixel blur */
+      width:24px; height:24px; display:block; object-fit:contain; border-radius:6px;
+      image-rendering:-webkit-optimize-contrast; transform:translateZ(0);
     }
+    .meta{display:flex; align-items:center; gap:10px; min-width:0;}
+    .co{font-weight:600; white-space:nowrap;}
+    .role{font-size:13px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .right{margin-left:auto; font-size:13px; color:var(--muted2); white-space:nowrap;}
 
-    .meta{display:flex;align-items:center;gap:10px;min-width:0;}
-    .co{font-weight:600;white-space:nowrap;}
-    .role{color:#6b7280;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .right{color:#7a7f87;font-size:13px;white-space:nowrap;margin-left:auto;}
     @media (max-width:560px){ .role{display:none;} }
 
-    footer .container{padding:24px 0;color:#7a7f87;font-size:14px;}
+    footer .narrow{padding:26px 0; font-size:14px; color:var(--muted2);}
   </style>
 </head>
 <body>
   <nav class="nav">
-    <div class="container nav-inner">
+    <div class="narrow nav-inner">
       <a class="brand" href="./">JAN</a>
       <div class="nav-links">
         <a class="btn" href="work.html">Projects</a>
@@ -53,214 +62,206 @@
     </div>
   </nav>
 
-  <main class="container">
-    <!-- WORK (newest → oldest) -->
-    <h1 class="page-title">Work</h1>
-    <ul class="list" aria-label="Work experience">
-      <!-- USC Marshall PCA Tech (no URL provided yet) -->
-      <li>
-        <a class="row" href="#" aria-label="USC Marshall Peer Career Advisor – Tech">
-          <span class="left">
-            <img class="logo" src="images/Marshall.JPG" alt="">
-            <span class="meta">
-              <span class="co">USC Marshall</span>
-              <span class="role">Peer Career Advisor – Tech</span>
-            </span>
-          </span>
-          <span class="right">Aug 2025</span>
-        </a>
-      </li>
+  <main class="page">
+    <!-- Drop your résumé embed or intro block here; it will be centered & narrow -->
+    <section class="narrow" id="resume-slot">
+      <!-- e.g., <iframe src="resume.pdf" width="100%" height="700" style="border:0;border-radius:12px"></iframe> -->
+    </section>
 
-      <!-- Amazon -->
-      <li>
-        <a class="row" href="https://www.amazon.jobs/content/en/teams/devices-and-services/lab126" target="_blank" rel="noopener" aria-label="Amazon">
-          <span class="left">
-            <img class="logo" src="images/Amazon.JPG" alt="">
-            <span class="meta">
-              <span class="co">Amazon</span>
-              <span class="role">Technical Program Manager Intern</span>
+    <section class="narrow">
+      <h1 class="section-title">Work</h1>
+      <!-- newest → oldest -->
+      <ul class="list" aria-label="Work experience">
+        <li>
+          <a class="row" href="#" aria-label="USC Marshall Peer Career Advisor – Tech">
+            <span class="left">
+              <img class="logo" src="images/Marshall.JPG" alt="">
+              <span class="meta">
+                <span class="co">USC Marshall</span>
+                <span class="role">Peer Career Advisor – Tech</span>
+              </span>
             </span>
-          </span>
-          <span class="right">May–Aug 2025</span>
-        </a>
-      </li>
+            <span class="right">Aug 2025</span>
+          </a>
+        </li>
 
-      <!-- Accenture -->
-      <li>
-        <a class="row" href="https://www.accenture.com/us-en/services/ecosystem-partners/microsoft" target="_blank" rel="noopener" aria-label="Accenture">
-          <span class="left">
-            <img class="logo" src="images/Accenture.JPG" alt="">
-            <span class="meta">
-              <span class="co">Accenture</span>
-              <span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span>
+        <li>
+          <a class="row" href="https://www.amazon.jobs/content/en/teams/devices-and-services/lab126" target="_blank" rel="noopener" aria-label="Amazon">
+            <span class="left">
+              <img class="logo" src="images/Amazon.JPG" alt="">
+              <span class="meta">
+                <span class="co">Amazon</span>
+                <span class="role">Technical Program Manager Intern</span>
+              </span>
             </span>
-          </span>
-          <span class="right">Jun–Aug 2024</span>
-        </a>
-      </li>
+            <span class="right">May–Aug 2025</span>
+          </a>
+        </li>
 
-      <!-- Apple -->
-      <li>
-        <a class="row" href="https://www.apple.com/careers/us/work-at-apple/students.html" target="_blank" rel="noopener" aria-label="Apple">
-          <span class="left">
-            <img class="logo" src="images/Apple.JPG" alt="">
-            <span class="meta">
-              <span class="co">Apple</span>
-              <span class="role">Product Management Intern</span>
+        <li>
+          <a class="row" href="https://www.accenture.com/us-en/services/ecosystem-partners/microsoft" target="_blank" rel="noopener" aria-label="Accenture">
+            <span class="left">
+              <img class="logo" src="images/Accenture.JPG" alt="">
+              <span class="meta">
+                <span class="co">Accenture</span>
+                <span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span>
+              </span>
             </span>
-          </span>
-          <span class="right">Aug 2023–Jan 2024</span>
-        </a>
-      </li>
+            <span class="right">Jun–Aug 2024</span>
+          </a>
+        </li>
 
-      <!-- Microsoft -->
-      <li>
-        <a class="row" href="https://www.microsoft.com/en-us/modernfinance/digitaltransformation.aspx" target="_blank" rel="noopener" aria-label="Microsoft">
-          <span class="left">
-            <img class="logo" src="images/Microsoft.JPG" alt="">
-            <span class="meta">
-              <span class="co">Microsoft</span>
-              <span class="role">Finance Data Analyst Intern</span>
+        <li>
+          <a class="row" href="https://www.apple.com/careers/us/work-at-apple/students.html" target="_blank" rel="noopener" aria-label="Apple">
+            <span class="left">
+              <img class="logo" src="images/Apple.JPG" alt="">
+              <span class="meta">
+                <span class="co">Apple</span>
+                <span class="role">Product Management Intern</span>
+              </span>
             </span>
-          </span>
-          <span class="right">May–Aug 2023</span>
-        </a>
-      </li>
+            <span class="right">Aug 2023–Jan 2024</span>
+          </a>
+        </li>
 
-      <!-- A World Fit For Kids (under Work) -->
-      <li>
-        <a class="row" href="https://worldfitforkids.org/" target="_blank" rel="noopener" aria-label="A World Fit For Kids">
-          <span class="left">
-            <img class="logo" src="images/A-World-Fit-for-Kids.JPG" alt="">
-            <span class="meta">
-              <span class="co">A World Fit For Kids</span>
-              <span class="role">Strategy Consultant</span>
+        <li>
+          <a class="row" href="https://www.microsoft.com/en-us/modernfinance/digitaltransformation.aspx" target="_blank" rel="noopener" aria-label="Microsoft">
+            <span class="left">
+              <img class="logo" src="images/Microsoft.JPG" alt="">
+              <span class="meta">
+                <span class="co">Microsoft</span>
+                <span class="role">Finance Data Analyst Intern</span>
+              </span>
             </span>
-          </span>
-          <span class="right">2022–2023</span>
-        </a>
-      </li>
+            <span class="right">May–Aug 2023</span>
+          </a>
+        </li>
 
-      <!-- LA Rams -->
-      <li>
-        <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="Los Angeles Rams">
-          <span class="left">
-            <img class="logo" src="images/LARAMS.JPG" alt="">
-            <span class="meta">
-              <span class="co">Los Angeles Rams</span>
-              <span class="role">Data &amp; Systems Analyst – Intern</span>
+        <li>
+          <a class="row" href="https://worldfitforkids.org/" target="_blank" rel="noopener" aria-label="A World Fit For Kids">
+            <span class="left">
+              <img class="logo" src="images/A-World-Fit-for-Kids.JPG" alt="">
+              <span class="meta">
+                <span class="co">A World Fit For Kids</span>
+                <span class="role">Strategy Consultant</span>
+              </span>
             </span>
-          </span>
-          <span class="right">Jun–Aug 2021</span>
-        </a>
-      </li>
+            <span class="right">2022–2023</span>
+          </a>
+        </li>
 
-      <!-- LA Conservation Corps -->
-      <li>
-        <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="LA Conservation Corps">
-          <span class="left">
-            <img class="logo" src="images/LACC.JPG" alt="">
-            <span class="meta">
-              <span class="co">LA Conservation Corps</span>
-              <span class="role">Project Lead</span>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="Los Angeles Rams">
+            <span class="left">
+              <img class="logo" src="images/LARAMS.JPG" alt="">
+              <span class="meta">
+                <span class="co">Los Angeles Rams</span>
+                <span class="role">Data &amp; Systems Analyst – Intern</span>
+              </span>
             </span>
-          </span>
-          <span class="right">Dec 2019–May 2020</span>
-        </a>
-      </li>
-    </ul>
+            <span class="right">Jun–Aug 2021</span>
+          </a>
+        </li>
 
-    <!-- INVOLVEMENTS -->
-    <h2 class="page-title" style="margin-top:28px;">Involvements</h2>
-    <ul class="list" aria-label="Student & community involvement">
-      <!-- BTG -->
-      <li>
-        <a class="row" href="https://www.uscbtg.org/" target="_blank" rel="noopener" aria-label="Business Technology Group (USC)">
-          <span class="left">
-            <img class="logo" src="images/BTG.JPG" alt="">
-            <span class="meta">
-              <span class="co">Business Technology Group (USC)</span>
-              <span class="role">VP of Projects</span>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="LA Conservation Corps">
+            <span class="left">
+              <img class="logo" src="images/LACC.JPG" alt="">
+              <span class="meta">
+                <span class="co">LA Conservation Corps</span>
+                <span class="role">Project Lead</span>
+              </span>
             </span>
-          </span>
-          <span class="right">2024–Present</span>
-        </a>
-      </li>
+            <span class="right">Dec 2019–May 2020</span>
+          </a>
+        </li>
+      </ul>
 
-      <!-- EY CMAP -->
-      <li>
-        <a class="row" href="https://www.ey.com/en_us/about-us/corporate-responsibility/mentoring-of-the-future-workforce-strengthens-communities-and-careers" target="_blank" rel="noopener" aria-label="EY CMAP">
-          <span class="left">
-            <img class="logo" src="images/EY.JPG" alt="">
-            <span class="meta">
-              <span class="co">EY CMAP</span>
-              <span class="role">Education Strategy Consultant</span>
+      <h2 class="section-title">Involvements</h2>
+      <ul class="list" aria-label="Student & community involvement">
+        <li>
+          <a class="row" href="https://www.uscbtg.org/" target="_blank" rel="noopener" aria-label="Business Technology Group (USC)">
+            <span class="left">
+              <img class="logo" src="images/BTG.JPG" alt="">
+              <span class="meta">
+                <span class="co">Business Technology Group (USC)</span>
+                <span class="role">VP of Projects</span>
+              </span>
             </span>
-          </span>
-          <span class="right">2023–Present</span>
-        </a>
-      </li>
+            <span class="right">2024–Present</span>
+          </a>
+        </li>
 
-      <!-- USC First-Gen Student Center -->
-      <li>
-        <a class="row" href="https://uscfgsa.carrd.co/" target="_blank" rel="noopener" aria-label="USC First-Generation Student Center">
-          <span class="left">
-            <img class="logo" src="images/FGSA.JPG" alt="">
-            <span class="meta">
-              <span class="co">USC First-Generation Student Center</span>
-              <span class="role">Program Manager</span>
+        <li>
+          <a class="row" href="https://www.ey.com/en_us/about-us/corporate-responsibility/mentoring-of-the-future-workforce-strengthens-communities-and-careers" target="_blank" rel="noopener" aria-label="EY CMAP">
+            <span class="left">
+              <img class="logo" src="images/EY.JPG" alt="">
+              <span class="meta">
+                <span class="co">EY CMAP</span>
+                <span class="role">Education Strategy Consultant</span>
+              </span>
             </span>
-          </span>
-          <span class="right">2023–2025</span>
-        </a>
-      </li>
+            <span class="right">2023–Present</span>
+          </a>
+        </li>
 
-      <!-- LBSA -->
-      <li>
-        <a class="row" href="https://www.usclbsa.com/" target="_blank" rel="noopener" aria-label="Latino Business Student Association">
-          <span class="left">
-            <img class="logo" src="images/LBSA.JPG" alt="">
-            <span class="meta">
-              <span class="co">Latino Business Student Association</span>
-              <span class="role">Member</span>
+        <li>
+          <a class="row" href="https://uscfgsa.carrd.co/" target="_blank" rel="noopener" aria-label="USC First-Generation Student Center">
+            <span class="left">
+              <img class="logo" src="images/FGSA.JPG" alt="">
+              <span class="meta">
+                <span class="co">USC First-Generation Student Center</span>
+                <span class="role">Program Manager</span>
+              </span>
             </span>
-          </span>
-          <span class="right">2023–2025</span>
-        </a>
-      </li>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
 
-      <!-- ISA -->
-      <li>
-        <a class="row" href="https://www.uscisa.org/" target="_blank" rel="noopener" aria-label="International Student Assembly">
-          <span class="left">
-            <img class="logo" src="images/ISA.JPG" alt="">
-            <span class="meta">
-              <span class="co">International Student Assembly</span>
-              <span class="role">Advocacy &amp; Program Manager Intern</span>
+        <li>
+          <a class="row" href="https://www.usclbsa.com/" target="_blank" rel="noopener" aria-label="Latino Business Student Association">
+            <span class="left">
+              <img class="logo" src="images/LBSA.JPG" alt="">
+              <span class="meta">
+                <span class="co">Latino Business Student Association</span>
+                <span class="role">Member</span>
+              </span>
             </span>
-          </span>
-          <span class="right">2023–2024</span>
-        </a>
-      </li>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
 
-      <!-- The LA Partnership -->
-      <li>
-        <a class="row" href="https://partnershipla.org/who-we-are/" target="_blank" rel="noopener" aria-label="The LA Partnership">
-          <span class="left">
-            <img class="logo" src="images/Partnership.JPG" alt="">
-            <span class="meta">
-              <span class="co">The LA Partnership</span>
-              <span class="role">Policy Advisory Board Member</span>
+        <li>
+          <a class="row" href="https://www.uscisa.org/" target="_blank" rel="noopener" aria-label="International Student Assembly">
+            <span class="left">
+              <img class="logo" src="images/ISA.JPG" alt="">
+              <span class="meta">
+                <span class="co">International Student Assembly</span>
+                <span class="role">Advocacy &amp; Program Manager Intern</span>
+              </span>
             </span>
-          </span>
-          <span class="right">2021–2022</span>
-        </a>
-      </li>
-    </ul>
+            <span class="right">2023–2024</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="row" href="https://partnershipla.org/who-we-are/" target="_blank" rel="noopener" aria-label="The LA Partnership">
+            <span class="left">
+              <img class="logo" src="images/Partnership.JPG" alt="">
+              <span class="meta">
+                <span class="co">The LA Partnership</span>
+                <span class="role">Policy Advisory Board Member</span>
+              </span>
+            </span>
+            <span class="right">2021–2022</span>
+          </a>
+        </li>
+      </ul>
+    </section>
   </main>
 
   <footer>
-    <div class="container">© <span id="y"></span> Jan Arroyo</div>
+    <div class="narrow">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
   <script>
@@ -268,5 +269,6 @@
   </script>
 </body>
 </html>
+
 
 
