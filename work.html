@@ -9,15 +9,19 @@
     :root{
       --sep: rgba(17,19,24,.18);
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
-      --card:#ffffff; --bd:rgba(17,19,24,.12); --shadow:0 10px 28px rgba(17,19,24,.04);
+      --card:#ffffff; --bd:rgba(17,19,24,.12);
+      --shadow: 0 18px 50px rgba(17,19,24,.08);
       --grad1:#a78bfa; --grad2:#60a5fa; --grad3:#34d399;
     }
-    /* page + narrow column */
+
+    /* ---------- page shells ---------- */
     .page{padding:32px 16px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
+    .wide{width:min(980px,95vw);margin-inline:auto;} /* wider just for Projects */
+
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* Work / Involvements (kept) */
+    /* ---------- Work / Involvements (kept as-is) ---------- */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -32,77 +36,100 @@
     .role{font-size:13px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .right{margin-left:auto; font-size:13px; color:var(--muted2); white-space:nowrap;}
     @media (max-width:560px){ .role{display:none;} }
-    footer .narrow{padding:26px 0; font-size:14px; color:var(--muted2);}
+    footer .narrow, footer .wide{padding:26px 0; font-size:14px; color:var(--muted2);}
 
-    /* ================= Projects: Single “Art Bubble” ================= */
-    .projects{margin-top:36px;}
+    /* ============== Projects: Single Artistic Bubble ============== */
+    .projects{margin-top:42px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
 
-    /* ONE bubble containing media (left) + text (right) */
     .bubble{
-      position:relative; border-radius:18px; overflow:hidden; background:var(--card);
+      position:relative; border-radius:22px; overflow:hidden; background:var(--card);
       border:1px solid var(--bd); box-shadow:var(--shadow);
       background-image:
-        radial-gradient(transparent 0, transparent 12px, rgba(17,19,24,.03) 12px),
-        linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.7));
+        radial-gradient(transparent 0, transparent 12px, rgba(17,19,24,.035) 12px),
+        linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.9));
       background-size: 22px 22px, auto;
       background-position: -10px -10px, 0 0;
+      isolation:isolate;
     }
+    /* gradient outline */
     .bubble::before{
-      content:""; position:absolute; inset:-1px; border-radius:20px; padding:1px;
-      background: conic-gradient(from 180deg, var(--grad1), var(--grad2), var(--grad3), var(--grad1));
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
-      pointer-events:none;
+      content:""; position:absolute; inset:-1px; border-radius:24px; padding:1px;
+      background: conic-gradient(from 200deg, var(--grad1), var(--grad2), var(--grad3), var(--grad1));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
     }
+    /* soft gloss */
     .bubble::after{
-      content:""; position:absolute; top:-60px; left:-60px; width:220px; height:220px; border-radius:50%;
+      content:""; position:absolute; top:-70px; right:-70px; width:260px; height:260px; border-radius:50%;
       background: radial-gradient(closest-side, rgba(255,255,255,.55), rgba(255,255,255,0));
-      filter: blur(12px);
-      pointer-events:none;
+      filter: blur(14px); pointer-events:none;
     }
+
     .bubble-grid{
-      position:relative; display:grid; gap:12px; align-items:stretch;
-      grid-template-columns: 1.05fr 1fr;
-      padding:12px;
+      position:relative; display:grid; gap:16px; align-items:stretch;
+      grid-template-columns: 1.35fr 1fr; padding:16px;
     }
-    @media (max-width:780px){
-      .bubble-grid{grid-template-columns:1fr; padding:12px}
+    @media (max-width:900px){ .bubble-grid{grid-template-columns:1fr; padding:14px} }
+
+    /* media pane (PDF) */
+    .media{
+      position:relative; border-radius:14px; overflow:hidden; background:#f7f7f8; border:1px solid var(--bd);
+    }
+    .deck-frame{display:block; width:100%; height:440px; border:0; background:#fff}
+    @media (max-width:900px){ .deck-frame{height:300px} }
+
+    /* overlay controls */
+    .ctrl{
+      position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+      width:40px; height:40px; border-radius:999px; border:1px solid var(--bd);
+      background:rgba(255,255,255,.9); backdrop-filter:saturate(120%) blur(2px);
+      display:grid; place-items:center; cursor:pointer; user-select:none;
+      box-shadow:0 6px 16px rgba(17,19,24,.12);
+    }
+    .ctrl:disabled{opacity:.5; cursor:not-allowed}
+    .ctrl.prev{left:10px}
+    .ctrl.next{right:10px}
+    .ctrl svg{width:18px;height:18px}
+
+    /* top overlays */
+    .pill{
+      position:absolute; top:10px; right:10px; z-index:3;
+      font-size:12px; color:#1f2937; background:rgba(255,255,255,.9); border:1px solid var(--bd);
+      border-radius:999px; padding:4px 8px;
+    }
+    .expand-btn{
+      position:absolute; top:10px; left:10px; z-index:3;
+      font-size:12px; background:rgba(255,255,255,.9); border:1px solid var(--bd);
+      border-radius:999px; padding:4px 10px; cursor:pointer;
     }
 
-    .media{border-radius:12px; overflow:hidden; background:#f7f7f8; border:1px solid var(--bd);}
-    .deck-frame{display:block; width:100%; height:320px; border:0; background:#fff}
-    @media (max-width:780px){ .deck-frame{height:240px} }
-    .deck-controls{
-      display:flex; align-items:center; justify-content:space-between; gap:8px;
-      padding:8px 10px; border-top:1px solid var(--bd); background:#fafafa;
-    }
-    .btn{appearance:none; border:1px solid var(--bd); background:#fff; padding:6px 10px; border-radius:8px; font-size:13px; cursor:pointer;}
-    .btn[disabled]{opacity:.5; cursor:not-allowed}
-    .page-ind{font-size:12px; color:var(--muted2)}
-
+    /* description pane inside the same bubble */
     .text{
-      border-radius:12px; border:1px dashed var(--bd); background:rgba(255,255,255,.7);
+      border-radius:14px; border:1px dashed var(--bd); background:rgba(255,255,255,.75);
       backdrop-filter: blur(4px);
-      padding:14px; display:flex; flex-direction:column; justify-content:center;
+      padding:16px; display:flex; flex-direction:column; justify-content:center;
     }
-    .text h3{margin:0 0 6px; font-size:18px}
-    .text p{margin:0 0 10px; color:var(--muted)}
-    .tags{display:flex; gap:6px; flex-wrap:wrap}
-    .tag{font-size:12px; padding:4px 8px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
+    .text h3{margin:0 0 8px; font-size:20px}
+    .text p{margin:0 0 12px; color:var(--muted)}
+    .tags{display:flex; gap:8px; flex-wrap:wrap}
+    .tag{font-size:12px; padding:5px 10px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
 
     /* Lightbox */
-    .lb{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:50}
+    .lb{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:center; justify-content:center; z-index:50}
     .lb.open{display:flex}
-    .lb-inner{width:min(1100px,92vw); background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.35)}
-    .lb-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--bd)}
+    .lb-inner{width:min(1200px,95vw); background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 40px 100px rgba(0,0,0,.35)}
+    .lb-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
     .lb-title{font-weight:600}
     .lb-close{appearance:none;border:1px solid var(--bd);background:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-    .lb-body{display:block}
-    .lb-frame{width:100%; height:70vh; border:0}
-    .lb-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-top:1px solid var(--bd);background:#fafafa}
+    .lb-body{position:relative}
+    .lb-frame{width:100%; height:78vh; border:0; background:#fff}
+    .lb-ctrl{position:absolute; top:50%; transform:translateY(-50%); z-index:8;
+      width:46px; height:46px; border-radius:999px; border:1px solid var(--bd); background:rgba(255,255,255,.95);
+      display:grid; place-items:center; cursor:pointer; box-shadow:0 8px 20px rgba(17,19,24,.15)}
+    .lb-ctrl.prev{left:12px}
+    .lb-ctrl.next{right:12px}
+    .lb-pill{position:absolute; top:12px; right:12px; background:rgba(255,255,255,.92); border:1px solid var(--bd); border-radius:999px; padding:4px 10px; font-size:12px}
   </style>
 </head>
 <body>
@@ -120,10 +147,10 @@
   </nav>
 
   <main class="page">
-    <!-- Optional: résumé embed area -->
+    <!-- (optional) résumé embed zone -->
     <section class="narrow" id="resume-slot"></section>
 
-    <!-- ================= Work ================= -->
+    <!-- ========= Work (unchanged width) ========= -->
     <section class="narrow">
       <h1 class="section-title">Work</h1>
       <ul class="list" aria-label="Work experience">
@@ -260,34 +287,34 @@
       </ul>
     </section>
 
-    <!-- =================== Projects & Artifacts (Single Bubble) =================== -->
-    <section class="narrow projects" id="projects">
+    <!-- ========= Projects (wider, one bubble) ========= -->
+    <section class="wide projects" id="projects">
       <div class="kicker">Projects &amp; Artifacts</div>
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
 
-      <!-- Quokka Bubble -->
       <article class="bubble" id="quokka">
         <div class="bubble-grid">
-          <!-- Artifact (PDF deck in /Projects/) -->
+          <!-- MEDIA: PDF deck (Projects/Quokka Brew.pdf) -->
           <div class="media deck"
                data-title="Quokka Brew — Design Research Deck"
-               data-src="Projects/Quokka%20Brew.pdf"   <!-- UPDATED PATH -->
-               data-pages="67">
+               data-src="Projects/Quokka%20Brew.pdf"
+               data-pages="67"
+               tabindex="0" aria-label="Quokka deck viewer">
+            <button class="expand-btn" data-act="expand">Expand</button>
+            <div class="pill" data-role="indicator">Page 1 / 67</div>
+            <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
             <iframe class="deck-frame" loading="lazy" title="Quokka deck"></iframe>
-            <div class="deck-controls">
-              <div>
-                <button class="btn" data-act="prev">Prev</button>
-                <button class="btn" data-act="next">Next</button>
-              </div>
-              <div class="page-ind" aria-live="polite">Page 1 / 67</div>
-              <button class="btn" data-act="expand">Expand</button>
-            </div>
           </div>
 
-          <!-- Description (same bubble) -->
+          <!-- TEXT (same bubble) -->
           <div class="text">
             <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-            <p>60+ interviews, perception testing on brand + flavors, and an iterative system that increased shelf recognition and informed go-to-market visuals.</p>
+            <p>60+ interviews, perception testing on brand + flavors, and an iterative visual system that improved shelf recognition and informed go-to-market assets.</p>
             <div class="tags">
               <span class="tag">Deck</span>
               <span class="tag">Consumer Insights</span>
@@ -299,94 +326,116 @@
     </section>
   </main>
 
-  <!-- Lightbox (for Expand) -->
+  <!-- Lightbox -->
   <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Viewer">
     <div class="lb-inner">
       <div class="lb-head">
         <div class="lb-title" id="lb-title">Viewer</div>
-        <button class="lb-close" id="lb-close" aria-label="Close">Close</button>
+        <button class="lb-close" id="lb-close" aria-label="Close (Esc)">Close</button>
       </div>
-      <div class="lb-body" id="lb-body"></div>
-      <div class="lb-controls" id="lb-controls" hidden>
-        <div>
-          <button class="btn" id="lb-prev">Prev</button>
-          <button class="btn" id="lb-next">Next</button>
-        </div>
-        <div class="page-ind" id="lb-ind">Page 1</div>
-        <span></span>
+      <div class="lb-body" id="lb-body">
+        <button class="lb-ctrl prev" id="lb-prev" aria-label="Previous (Left Arrow)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="lb-ctrl next" id="lb-next" aria-label="Next (Right Arrow)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="lb-pill" id="lb-ind">Page 1</div>
+        <iframe class="lb-frame" id="lb-frame" title="Expanded deck"></iframe>
       </div>
     </div>
   </div>
 
   <footer>
-    <div class="narrow">© <span id="y"></span> Jan Arroyo</div>
+    <div class="wide">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ---------- Inline Deck wiring ----------
-    (function initDeck(){
+    // -------- Inline deck viewer with arrow buttons + keyboard --------
+    (function(){
       const deck = document.querySelector('.media.deck');
       if(!deck) return;
+
       const iframe = deck.querySelector('.deck-frame');
-      const prev = deck.querySelector('[data-act="prev"]');
-      const next = deck.querySelector('[data-act="next"]');
-      const expand = deck.querySelector('[data-act="expand"]');
-      const ind = deck.querySelector('.page-ind');
-      const file = deck.dataset.src;               // e.g., "Projects/Quokka%20Brew.pdf"
-      const total = parseInt(deck.dataset.pages||'1',10);
+      const prevBtn = deck.querySelector('[data-act="prev"]');
+      const nextBtn = deck.querySelector('[data-act="next"]');
+      const expandBtn = deck.querySelector('[data-act="expand"]');
+      const indicator = deck.querySelector('[data-role="indicator"]');
+
+      const file  = deck.dataset.src;              // e.g., Projects/Quokka%20Brew.pdf
+      const total = parseInt(deck.dataset.pages || '1', 10);
       let page = 1;
 
-      function setSrc(){
-        const src = file + '#page=' + page + '&zoom=page-width';
-        iframe.src = src;
-        ind.textContent = 'Page ' + page + ' / ' + total;
-        prev.disabled = (page<=1);
-        next.disabled = (page>=total);
+      function set(){
+        iframe.src = file + '#page=' + page + '&zoom=page-width';
+        indicator.textContent = 'Page ' + page + ' / ' + total;
+        prevBtn.disabled = (page<=1);
+        nextBtn.disabled = (page>=total);
       }
-      prev.addEventListener('click', ()=>{ if(page>1){ page--; setSrc(); }});
-      next.addEventListener('click', ()=>{ if(page<total){ page++; setSrc(); }});
-      expand.addEventListener('click', ()=> openLightbox({title: deck.dataset.title||'Deck', file, page, total}));
+      function go(delta){
+        page = Math.min(total, Math.max(1, page + delta));
+        set();
+      }
 
-      setSrc(); // initial
+      prevBtn.addEventListener('click', ()=>go(-1));
+      nextBtn.addEventListener('click', ()=>go(1));
+      expandBtn.addEventListener('click', ()=>openLightbox({title: 'Quokka Brew — Design Research Deck', file, page, total}));
+
+      // Keyboard: Left/Right when deck is focused or mouse is over it
+      let hover = false;
+      deck.addEventListener('mouseenter', ()=> hover = true);
+      deck.addEventListener('mouseleave', ()=> hover = false);
+      deck.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight'){ e.preventDefault(); go(1); }
+        if(e.key === 'ArrowLeft'){  e.preventDefault(); go(-1); }
+      });
+      document.addEventListener('keydown', (e)=>{
+        if(!hover) return;
+        if(e.key === 'ArrowRight'){ e.preventDefault(); go(1); }
+        if(e.key === 'ArrowLeft'){  e.preventDefault(); go(-1); }
+      });
+
+      set();
     })();
 
-    // ---------- Lightbox ----------
+    // -------- Lightbox (Expand) with keyboard arrows + Esc --------
     const LB = document.getElementById('lightbox');
-    const LB_BODY = document.getElementById('lb-body');
+    const LB_FRAME = document.getElementById('lb-frame');
     const LB_TITLE = document.getElementById('lb-title');
     const LB_CLOSE = document.getElementById('lb-close');
-    const LB_CONTROLS = document.getElementById('lb-controls');
-    const LB_PREV = document.getElementById('lb-prev');
-    const LB_NEXT = document.getElementById('lb-next');
-    const LB_IND  = document.getElementById('lb-ind');
+    const LB_PREV  = document.getElementById('lb-prev');
+    const LB_NEXT  = document.getElementById('lb-next');
+    const LB_IND   = document.getElementById('lb-ind');
 
-    let lbState = null; // {file,page,total}
+    let LB_STATE = null; // {file,page,total}
 
-    function openLightbox(opts){
-      LB_BODY.innerHTML = '';
-      LB_TITLE.textContent = opts.title || 'Viewer';
+    function openLightbox({title,file,page,total}){
+      LB_STATE = {file, page, total};
+      LB_TITLE.textContent = title || 'Viewer';
       LB.classList.add('open');
-
-      lbState = {file:opts.file, page:opts.page||1, total:opts.total||1};
-      const iframe = document.createElement('iframe');
-      iframe.className = 'lb-frame';
-      LB_BODY.appendChild(iframe);
-      LB_CONTROLS.hidden = false;
-
-      function set(){
-        iframe.src = lbState.file + '#page=' + lbState.page + '&zoom=page-width';
-        LB_IND.textContent = 'Page ' + lbState.page + ' / ' + lbState.total;
-        LB_PREV.disabled = (lbState.page<=1);
-        LB_NEXT.disabled = (lbState.page>=lbState.total);
-      }
-      LB_PREV.onclick = ()=>{ if(lbState.page>1){ lbState.page--; set(); } };
-      LB_NEXT.onclick = ()=>{ if(lbState.page<lbState.total){ lbState.page++; set(); } };
-      set();
+      renderLB();
     }
+    function renderLB(){
+      if(!LB_STATE) return;
+      LB_FRAME.src = LB_STATE.file + '#page=' + LB_STATE.page + '&zoom=page-width';
+      LB_IND.textContent = 'Page ' + LB_STATE.page + ' / ' + LB_STATE.total;
+      LB_PREV.disabled = (LB_STATE.page<=1);
+      LB_NEXT.disabled = (LB_STATE.page>=LB_STATE.total);
+    }
+    function lbGo(d){ LB_STATE.page = Math.min(LB_STATE.total, Math.max(1, LB_STATE.page + d)); renderLB(); }
+
+    LB_PREV.addEventListener('click', ()=>lbGo(-1));
+    LB_NEXT.addEventListener('click', ()=>lbGo(1));
     LB_CLOSE.addEventListener('click', ()=> LB.classList.remove('open'));
     LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.classList.remove('open'); });
+    document.addEventListener('keydown', (e)=>{
+      if(!LB.classList.contains('open')) return;
+      if(e.key === 'ArrowRight'){ e.preventDefault(); lbGo(1); }
+      if(e.key === 'ArrowLeft'){  e.preventDefault(); lbGo(-1); }
+      if(e.key === 'Escape'){     e.preventDefault(); LB.classList.remove('open'); }
+    });
   </script>
 </body>
 </html>
