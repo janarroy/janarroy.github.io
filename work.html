@@ -17,7 +17,7 @@
     /* ---------- page shells ---------- */
     .page{padding:32px 16px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
-    .wide{width:min(1120px,95vw);margin-inline:auto;} /* wider just for Projects */
+    .wide{width:min(1120px,95vw);margin-inline:auto;} /* wider Projects */
 
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
@@ -38,9 +38,10 @@
     @media (max-width:560px){ .role{display:none;} }
     footer .narrow, footer .wide{padding:26px 0; font-size:14px; color:var(--muted2);}
 
-    /* ============== Projects: Single Artistic Bubble ============== */
+    /* ============== Projects: Artistic Bubbles ============== */
     .projects{margin-top:48px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
+    .proj-list{display:flex;flex-direction:column;gap:28px}
 
     .bubble{
       position:relative; border-radius:26px; overflow:hidden; background:var(--card);
@@ -68,16 +69,19 @@
       position:relative; display:grid; gap:18px; align-items:stretch;
       grid-template-columns: 1.75fr 1fr; padding:18px;
     }
+    .proj-list .bubble:nth-child(even) .bubble-grid{grid-template-columns: 1fr 1.75fr;}
+    .proj-list .bubble:nth-child(even) .media{order:2}
+    .proj-list .bubble:nth-child(even) .text{order:1}
     @media (max-width:1020px){ .bubble-grid{grid-template-columns:1fr; padding:16px} }
 
-    /* media pane (PDF via canvas, no scroll) */
+    /* media pane (PDF canvas or image gallery) */
     .media{
       position:relative; border-radius:18px; overflow:hidden; background:#f7f7f8; border:1px solid var(--bd);
-      min-height:560px; /* larger viewer */
+      min-height:560px;
     }
     @media (max-width:1020px){ .media{min-height:380px} }
-    .pdf-wrap{position:relative; width:100%; height:100%; display:grid; place-items:center;}
-    .pdf-canvas{display:block; max-width:100%; height:auto}
+    .pdf-wrap, .gallery-wrap{position:relative; width:100%; height:100%; display:grid; place-items:center;}
+    .pdf-canvas, .lb-canvas, .gallery-img{display:block; max-width:100%; height:auto; background:#fff}
 
     /* overlay controls */
     .ctrl{
@@ -103,7 +107,7 @@
       border-radius:999px; padding:6px 12px; cursor:pointer;
     }
 
-    /* description pane inside the same bubble */
+    /* description pane */
     .text{
       border-radius:18px; border:1px dashed var(--bd); background:rgba(255,255,255,.8);
       backdrop-filter: blur(4px);
@@ -121,7 +125,7 @@
     .lb-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
     .lb-title{font-weight:600}
     .lb-close{appearance:none;border:1px solid var(--bd);background:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-    .lb-body{position:relative; background:#fff}
+    .lb-body{position:relative; background:#fff; display:grid; place-items:center; padding:10px}
     .lb-canvas{display:block; width:100%; height:auto}
     .lb-ctrl{position:absolute; top:50%; transform:translateY(-50%); z-index:8;
       width:54px; height:54px; border-radius:999px; border:1px solid var(--bd); background:rgba(255,255,255,.98);
@@ -286,44 +290,116 @@
       </ul>
     </section>
 
-    <!-- ========= Projects (wider, one bubble, big canvas) ========= -->
+    <!-- ========= Projects (wider, alternating art bubbles) ========= -->
     <section class="wide projects" id="projects">
       <div class="kicker">Projects &amp; Artifacts</div>
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
 
-      <article class="bubble" id="quokka">
-        <div class="bubble-grid">
-          <!-- MEDIA: pdf.js canvas (Projects/Quokka Brew.pdf) -->
-          <div class="media deck"
-               data-title="Quokka Brew — Design Research Deck"
-               data-src="Projects/Quokka%20Brew.pdf"
-               data-pages="67"
-               tabindex="0" aria-label="Quokka deck viewer">
-            <button class="expand-btn" data-act="expand">Expand</button>
-            <div class="pill" data-role="indicator">Page 1 / 67</div>
-            <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="pdf-wrap">
-              <canvas class="pdf-canvas"></canvas>
-            </div>
-          </div>
+      <div class="proj-list">
 
-          <!-- TEXT (same bubble) -->
-          <div class="text">
-            <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-            <p>60+ interviews, perception testing on brand + flavors, and an iterative visual system that improved shelf recognition and informed go-to-market assets.</p>
-            <div class="tags">
-              <span class="tag">Deck</span>
-              <span class="tag">Consumer Insights</span>
-              <span class="tag">Design Research</span>
+        <!-- 1) QUOKKA (single PDF) -->
+        <article class="bubble">
+          <div class="bubble-grid">
+            <div class="media deck"
+                 data-type="pdf-single"
+                 data-title="Quokka Brew — Design Research Deck"
+                 data-src="Projects/Quokka%20Brew.pdf"
+                 tabindex="0" aria-label="Quokka deck viewer">
+              <button class="expand-btn" data-act="expand">Expand</button>
+              <div class="pill" data-role="indicator">Loading…</div>
+              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="pdf-wrap"><canvas class="pdf-canvas"></canvas></div>
+            </div>
+            <div class="text">
+              <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
+              <p>60+ interviews, perception testing on brand + flavors, and an iterative visual system that improved shelf recognition and informed go-to-market assets.</p>
+              <div class="tags"><span class="tag">Deck</span><span class="tag">Consumer Insights</span><span class="tag">Design Research</span></div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+
+        <!-- 2) CLEAR CLINICAL (MERGED: Mid + Final) -->
+        <article class="bubble">
+          <div class="bubble-grid">
+            <div class="media deck"
+                 data-type="pdf-merged"
+                 data-title="Clear Clinical — Mid + Final Presentations"
+                 data-srcs="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf|Projects/FINAL%20PRESENTATION%20CLEAR%20CLINICAL%20.pdf"
+                 tabindex="0" aria-label="Clear Clinical merged viewer">
+              <button class="expand-btn" data-act="expand">Expand</button>
+              <div class="pill" data-role="indicator">Loading…</div>
+              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="pdf-wrap"><canvas class="pdf-canvas"></canvas></div>
+            </div>
+            <div class="text">
+              <h3>Clear Clinical — Product Strategy &amp; UX</h3>
+              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both **Mid-Semester Deliverable** and **Final Presentation** into one smooth deck.</p>
+              <div class="tags"><span class="tag">Deck</span><span class="tag">Product Strategy</span><span class="tag">Research</span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3) EY Workshop (gallery) -->
+        <article class="bubble">
+          <div class="bubble-grid">
+            <div class="media gallery"
+                 data-title="EY Workshop — Design Thinking for Low-Income Students"
+                 data-images="Projects/EY1.JPG|Projects/EY2.JPG|Projects/EY3.JPG|Projects/EY4.JPG"
+                 tabindex="0" aria-label="EY workshop gallery">
+              <button class="expand-btn" data-act="expand">Expand</button>
+              <div class="pill" data-role="indicator">1 / 4</div>
+              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="gallery-wrap"><img class="gallery-img" alt="EY workshop photo"></div>
+            </div>
+            <div class="text">
+              <h3>EY Workshop — Design Thinking</h3>
+              <p>Planned and facilitated a hands-on workshop introducing design-thinking tools to low-income high-school students; focused on problem framing, rapid ideation, and prototyping.</p>
+              <div class="tags"><span class="tag">Workshop</span><span class="tag">Education</span><span class="tag">Community</span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4) Partnership Advocacy Day (gallery) -->
+        <article class="bubble">
+          <div class="bubble-grid">
+            <div class="media gallery"
+                 data-title="Policy Advocacy Day — Sacramento"
+                 data-images="Projects/Partnership_Advocacy_Day1.JPG|Projects/Partnership_Advocacy_Day2.JPG"
+                 tabindex="0" aria-label="Partnership Advocacy gallery">
+              <button class="expand-btn" data-act="expand">Expand</button>
+              <div class="pill" data-role="indicator">1 / 2</div>
+              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="gallery-wrap"><img class="gallery-img" alt="Policy advocacy photo"></div>
+            </div>
+            <div class="text">
+              <h3>Policy Advocacy Day — Sacramento</h3>
+              <p>Met with California legislators to advocate for education and youth-support policies alongside community partners; coordinated talking points and constituent stories.</p>
+              <div class="tags"><span class="tag">Advocacy</span><span class="tag">Policy</span><span class="tag">Community</span></div>
+            </div>
+          </div>
+        </article>
+
+      </div>
     </section>
   </main>
 
@@ -342,9 +418,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="lb-pill" id="lb-ind">Page 1</div>
-        <div style="display:grid;place-items:center;background:#fff;">
-          <canvas class="lb-canvas" id="lb-canvas"></canvas>
-        </div>
+        <canvas class="lb-canvas" id="lb-canvas"></canvas>
+        <img id="lb-image" style="display:none;max-width:100%;height:auto;" alt="">
       </div>
     </div>
   </div>
@@ -357,139 +432,210 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    // -------- pdf.js render helper (fits to container width) --------
-    function renderPdfPageToCanvas(pdf, pageNum, canvas, maxW, maxH){
+    /* ---------- Helpers ---------- */
+    function fitPdfToCanvas(pdf, pageNum, canvas, maxW, maxH){
       return pdf.getPage(pageNum).then(page=>{
-        const unscaled = page.getViewport({ scale: 1 });
-        // Fit to width (inline) or both width/height (lightbox)
-        let scale;
-        if (maxH){
-          scale = Math.min(maxW / unscaled.width, maxH / unscaled.height);
-        } else {
-          scale = maxW / unscaled.width;
-        }
-        const viewport = page.getViewport({ scale });
-        const outputScale = (window.devicePixelRatio || 1);
-        const ctx = canvas.getContext('2d', { alpha: false });
-
-        canvas.width  = Math.floor(viewport.width  * outputScale);
-        canvas.height = Math.floor(viewport.height * outputScale);
-        canvas.style.width  = Math.floor(viewport.width)  + 'px';
-        canvas.style.height = Math.floor(viewport.height) + 'px';
-
-        const transform = outputScale !== 1 ? [outputScale,0,0,outputScale,0,0] : null;
-        return page.render({ canvasContext: ctx, viewport, transform }).promise;
+        const v1 = page.getViewport({scale:1});
+        let scale = maxH ? Math.min(maxW/v1.width, maxH/v1.height) : (maxW/v1.width);
+        const vp = page.getViewport({scale});
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(vp.width * dpr);
+        canvas.height = Math.floor(vp.height * dpr);
+        canvas.style.width = Math.floor(vp.width) + 'px';
+        canvas.style.height = Math.floor(vp.height) + 'px';
+        const ctx = canvas.getContext('2d', {alpha:false});
+        const transform = dpr !== 1 ? [dpr,0,0,dpr,0,0] : null;
+        return page.render({canvasContext:ctx, viewport:vp, transform}).promise;
       });
     }
+    function setIndicator(el, txt){ el.textContent = txt; }
 
-    // -------- Inline deck viewer: arrows + keyboard (no scrolling) --------
-    (function(){
-      const deck = document.querySelector('.media.deck');
-      if(!deck || !window['pdfjsLib']) return;
-
-      const file  = deck.dataset.src;
-      const total = parseInt(deck.dataset.pages || '1', 10);
+    /* ---------- PDF: single file viewer ---------- */
+    function wirePdfSingle(deck){
+      const file = deck.dataset.src;
       const canvas = deck.querySelector('.pdf-canvas');
-      const indicator = deck.querySelector('[data-role="indicator"]');
-      const prevBtn = deck.querySelector('[data-act="prev"]');
-      const nextBtn = deck.querySelector('[data-act="next"]');
-      const expandBtn = deck.querySelector('[data-act="expand"]');
+      const ind = deck.querySelector('[data-role="indicator"]');
+      const prev = deck.querySelector('[data-act="prev"]');
+      const next = deck.querySelector('[data-act="next"]');
+      const expand = deck.querySelector('[data-act="expand"]');
+      let pdf=null, page=1, total=1, rendering=false, hover=false;
 
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      let pdfDoc = null, page = 1, rendering = false;
+      function update(){ setIndicator(ind, 'Page '+page+' / '+total); prev.disabled=(page<=1); next.disabled=(page>=total); }
+      function render(){
+        if(!pdf || rendering) return; rendering=true;
+        const maxW = deck.clientWidth - 2;
+        fitPdfToCanvas(pdf,page,canvas,maxW).finally(()=>{rendering=false; update();});
+      }
+      function go(d){ page=Math.min(total,Math.max(1,page+d)); render(); }
 
-      function updateUI(){
-        indicator.textContent = 'Page ' + page + ' / ' + total;
-        prevBtn.disabled = (page<=1);
-        nextBtn.disabled = (page>=total);
+      deck.addEventListener('mouseenter',()=>hover=true); deck.addEventListener('mouseleave',()=>hover=false);
+      deck.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
+      document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
+      prev.addEventListener('click',()=>go(-1)); next.addEventListener('click',()=>go(1));
+      expand.addEventListener('click',()=> openLBPdf(deck.dataset.title,file,page,total));
+
+      window.addEventListener('resize',render);
+      pdfjsLib.getDocument(file).promise.then(p=>{ pdf=p; total=p.numPages; render(); });
+    }
+
+    /* ---------- PDF: merged multi-file viewer (pages across files) ---------- */
+    function wirePdfMerged(deck){
+      const files = deck.dataset.srcs.split('|').map(s=>s.trim());
+      const canvas = deck.querySelector('.pdf-canvas');
+      const ind = deck.querySelector('[data-role="indicator"]');
+      const prev = deck.querySelector('[data-act="prev"]');
+      const next = deck.querySelector('[data-act="next"]');
+      const expand = deck.querySelector('[data-act="expand"]');
+      let pdfs=[], pagesPer=[], total=0, curDoc=0, curPage=1, hover=false, rendering=false;
+
+      function absIndex(){ // 1-based absolute page index
+        let idx=0; for(let i=0;i<curDoc;i++) idx+=pagesPer[i]; return idx+curPage;
+      }
+      function update(){ setIndicator(ind, 'Page '+absIndex()+' / '+total); prev.disabled=(absIndex()<=1); next.disabled=(absIndex()>=total); }
+      function render(){
+        if(!pdfs.length || rendering) return; rendering=true;
+        const pdf = pdfs[curDoc];
+        const maxW = deck.clientWidth - 2;
+        fitPdfToCanvas(pdf,curPage,canvas,maxW).finally(()=>{rendering=false; update();});
+      }
+      function step(d){
+        let a = absIndex()+d; a = Math.min(total,Math.max(1,a));
+        // convert absolute back to (doc,page)
+        let left = a; curDoc=0;
+        while(left>pagesPer[curDoc]){ left-=pagesPer[curDoc]; curDoc++; }
+        curPage = left; render();
       }
 
-      function renderCurrent(){
-        if (!pdfDoc || rendering) return;
-        rendering = true;
-        const maxW = deck.clientWidth - 2; // fit inside media
-        renderPdfPageToCanvas(pdfDoc, page, canvas, maxW).finally(()=>{ rendering=false; updateUI(); });
-      }
+      deck.addEventListener('mouseenter',()=>hover=true); deck.addEventListener('mouseleave',()=>hover=false);
+      deck.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();step(1)} if(e.key==='ArrowLeft'){e.preventDefault();step(-1)} });
+      document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();step(1)} if(e.key==='ArrowLeft'){e.preventDefault();step(-1)} });
+      prev.addEventListener('click',()=>step(-1)); next.addEventListener('click',()=>step(1));
+      expand.addEventListener('click',()=> openLBPdfMerged(deck.dataset.title, files, absIndex(), total, pagesPer));
 
-      function go(delta){
-        page = Math.min(total, Math.max(1, page + delta));
-        renderCurrent();
-      }
-
-      prevBtn.addEventListener('click', ()=>go(-1));
-      nextBtn.addEventListener('click', ()=>go(1));
-      expandBtn.addEventListener('click', ()=> openLightbox({ title: deck.dataset.title, file, page, total }));
-
-      // Keyboard arrows when focused/hovered
-      let hover=false;
-      deck.addEventListener('mouseenter', ()=>hover=true);
-      deck.addEventListener('mouseleave', ()=>hover=false);
-      deck.addEventListener('keydown', (e)=>{
-        if(e.key==='ArrowRight'){ e.preventDefault(); go(1); }
-        if(e.key==='ArrowLeft'){  e.preventDefault(); go(-1); }
-      });
-      document.addEventListener('keydown', (e)=>{
-        if(!hover) return;
-        if(e.key==='ArrowRight'){ e.preventDefault(); go(1); }
-        if(e.key==='ArrowLeft'){  e.preventDefault(); go(-1); }
-      });
-      window.addEventListener('resize', ()=> renderCurrent());
-
-      pdfjsLib.getDocument(file).promise.then(pdf=>{
-        pdfDoc = pdf;
-        renderCurrent();
-      });
-    })();
-
-    // -------- Lightbox (canvas + arrows + keyboard) --------
-    const LB = document.getElementById('lightbox');
-    const LB_TITLE = document.getElementById('lb-title');
-    const LB_CLOSE = document.getElementById('lb-close');
-    const LB_CANVAS = document.getElementById('lb-canvas');
-    const LB_PREV  = document.getElementById('lb-prev');
-    const LB_NEXT  = document.getElementById('lb-next');
-    const LB_IND   = document.getElementById('lb-ind');
-
-    let LB_PDF=null, LB_STATE=null;
-
-    function openLightbox({title,file,page,total}){
-      LB_TITLE.textContent = title || 'Viewer';
-      LB.classList.add('open');
-      LB_IND.textContent = 'Page ' + page + ' / ' + total;
-
-      pdfjsLib.getDocument(file).promise.then(pdf=>{
-        LB_PDF = pdf;
-        LB_STATE = { file, page, total };
-        renderLB();
+      window.addEventListener('resize',render);
+      // load all PDFs, then render
+      Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(arr=>{
+        pdfs = arr; pagesPer = arr.map(p=>p.numPages); total = pagesPer.reduce((a,b)=>a+b,0);
+        render();
       });
     }
 
-    function renderLB(){
-      if(!LB_PDF || !LB_STATE) return;
-      const wrap = document.getElementById('lb-body');
-      const maxW = Math.min(wrap.clientWidth - 24, 1280);
-      const maxH = Math.min(window.innerHeight * 0.78, 900);
-      renderPdfPageToCanvas(LB_PDF, LB_STATE.page, LB_CANVAS, maxW, maxH).then(()=>{
+    /* ---------- Image gallery viewer ---------- */
+    function wireGallery(gal){
+      const imgs = gal.dataset.images.split('|').map(s=>s.trim());
+      const imgEl = gal.querySelector('.gallery-img');
+      const ind = gal.querySelector('[data-role="indicator"]');
+      const prev = gal.querySelector('[data-act="prev"]');
+      const next = gal.querySelector('[data-act="next"]');
+      const expand = gal.querySelector('[data-act="expand"]');
+      let i=0, hover=false;
+
+      function set(){ imgEl.src = imgs[i]; setIndicator(ind, (i+1)+' / '+imgs.length); prev.disabled=(i===0); next.disabled=(i===imgs.length-1); }
+      function go(d){ i=Math.min(imgs.length-1, Math.max(0, i+d)); set(); }
+
+      gal.addEventListener('mouseenter',()=>hover=true); gal.addEventListener('mouseleave',()=>hover=false);
+      gal.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
+      document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
+
+      prev.addEventListener('click',()=>go(-1)); next.addEventListener('click',()=>go(1));
+      expand.addEventListener('click',()=> openLBImages(gal.dataset.title, imgs, i));
+
+      set();
+    }
+
+    /* ---------- Lightbox modes ---------- */
+    const LB = document.getElementById('lightbox');
+    const LB_CLOSE = document.getElementById('lb-close');
+    const LB_TITLE = document.getElementById('lb-title');
+    const LB_IND = document.getElementById('lb-ind');
+    const LB_PREV = document.getElementById('lb-prev');
+    const LB_NEXT = document.getElementById('lb-next');
+    const LB_CANVAS = document.getElementById('lb-canvas');
+    const LB_IMG = document.getElementById('lb-image');
+
+    let LB_MODE=null; // 'pdf-single','pdf-merged','images'
+    let LB_STATE=null; // per mode
+
+    function openLBPdf(title, file, page, total){
+      LB_MODE='pdf-single'; LB_STATE={file,page,total,pdf:null};
+      LB_TITLE.textContent = title || 'Viewer';
+      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.classList.add('open');
+      pdfjsLib.getDocument(file).promise.then(p=>{LB_STATE.pdf=p; lbRenderPdf();});
+    }
+    function openLBPdfMerged(title, files, absIndex, total, pagesPer){
+      LB_MODE='pdf-merged'; LB_STATE={files,absIndex,total,pdfs:null,pagesPer};
+      LB_TITLE.textContent = title || 'Viewer';
+      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.classList.add('open');
+      Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(ps=>{LB_STATE.pdfs=ps; lbRenderPdfMerged();});
+    }
+    function openLBImages(title, imgs, idx){
+      LB_MODE='images'; LB_STATE={imgs,idx};
+      LB_TITLE.textContent = title || 'Viewer';
+      LB_CANVAS.style.display='none'; LB_IMG.style.display='block'; LB.classList.add('open');
+      lbRenderImages();
+    }
+
+    function lbRenderPdf(){
+      const body = document.getElementById('lb-body');
+      const maxW = Math.min(body.clientWidth-24, 1280);
+      const maxH = Math.min(window.innerHeight*0.8, 900);
+      fitPdfToCanvas(LB_STATE.pdf, LB_STATE.page, LB_CANVAS, maxW, maxH).then(()=>{
         LB_IND.textContent = 'Page ' + LB_STATE.page + ' / ' + LB_STATE.total;
         LB_PREV.disabled = (LB_STATE.page<=1);
         LB_NEXT.disabled = (LB_STATE.page>=LB_STATE.total);
       });
     }
+    function lbRenderPdfMerged(){
+      function convert(abs){
+        let left=abs, d=0;
+        while(left>LB_STATE.pagesPer[d]){ left-=LB_STATE.pagesPer[d]; d++; }
+        return {doc:d, page:left};
+      }
+      const body = document.getElementById('lb-body');
+      const maxW = Math.min(body.clientWidth-24, 1280);
+      const maxH = Math.min(window.innerHeight*0.8, 900);
+      const pos = convert(LB_STATE.absIndex);
+      fitPdfToCanvas(LB_STATE.pdfs[pos.doc], pos.page, LB_CANVAS, maxW, maxH).then(()=>{
+        LB_IND.textContent = 'Page ' + LB_STATE.absIndex + ' / ' + LB_STATE.total;
+        LB_PREV.disabled = (LB_STATE.absIndex<=1);
+        LB_NEXT.disabled = (LB_STATE.absIndex>=LB_STATE.total);
+      });
+    }
+    function lbRenderImages(){
+      LB_IMG.src = LB_STATE.imgs[LB_STATE.idx];
+      LB_IND.textContent = (LB_STATE.idx+1) + ' / ' + LB_STATE.imgs.length;
+      LB_PREV.disabled = (LB_STATE.idx===0);
+      LB_NEXT.disabled = (LB_STATE.idx===LB_STATE.imgs.length-1);
+    }
 
-    function lbGo(d){ if(!LB_STATE) return; LB_STATE.page = Math.min(LB_STATE.total, Math.max(1, LB_STATE.page + d)); renderLB(); }
+    function lbGo(d){
+      if(LB_MODE==='pdf-single'){
+        LB_STATE.page = Math.min(LB_STATE.total, Math.max(1, LB_STATE.page + d)); lbRenderPdf();
+      }else if(LB_MODE==='pdf-merged'){
+        LB_STATE.absIndex = Math.min(LB_STATE.total, Math.max(1, LB_STATE.absIndex + d)); lbRenderPdfMerged();
+      }else if(LB_MODE==='images'){
+        LB_STATE.idx = Math.min(LB_STATE.imgs.length-1, Math.max(0, LB_STATE.idx + d)); lbRenderImages();
+      }
+    }
 
-    LB_PREV.addEventListener('click', ()=> lbGo(-1));
-    LB_NEXT.addEventListener('click', ()=> lbGo(1));
+    LB_PREV.addEventListener('click', ()=>lbGo(-1));
+    LB_NEXT.addEventListener('click', ()=>lbGo(1));
     LB_CLOSE.addEventListener('click', ()=> LB.classList.remove('open'));
     LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.classList.remove('open'); });
-    window.addEventListener('resize', renderLB);
+    window.addEventListener('resize', ()=>{ if(!LB.classList.contains('open')) return; if(LB_MODE==='pdf-single') lbRenderPdf(); if(LB_MODE==='pdf-merged') lbRenderPdfMerged(); });
     document.addEventListener('keydown', (e)=>{
       if(!LB.classList.contains('open')) return;
       if(e.key==='ArrowRight'){ e.preventDefault(); lbGo(1); }
       if(e.key==='ArrowLeft'){  e.preventDefault(); lbGo(-1); }
       if(e.key==='Escape'){     e.preventDefault(); LB.classList.remove('open'); }
     });
+
+    /* ---------- Wire up all viewers ---------- */
+    document.querySelectorAll('.media.deck[data-type="pdf-single"]').forEach(wirePdfSingle);
+    document.querySelectorAll('.media.deck[data-type="pdf-merged"]').forEach(wirePdfMerged);
+    document.querySelectorAll('.media.gallery').forEach(wireGallery);
   </script>
 </body>
 </html>
