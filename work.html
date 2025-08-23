@@ -11,17 +11,19 @@
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
       --card:#ffffff; --bd:rgba(17,19,24,.12);
       --shadow: 0 22px 60px rgba(17,19,24,.10);
-      --grad1:#a78bfa; --grad2:#60a5fa; --grad3:#34d399;
+      --mint1:#34d399; --mint2:#60a5fa;
+      --amber1:#f59e0b; --amber2:#f472b6;
+      --ind1:#6366f1;  --ind2:#22d3ee;
+      --rose1:#fb7185; --rose2:#8b5cf6;
     }
 
     /* ---------- page shells ---------- */
     .page{padding:32px 16px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
     .wide{width:min(1120px,95vw);margin-inline:auto;} /* wider Projects */
-
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* ---------- Work / Involvements (kept) ---------- */
+    /* ---------- Work / Involvements ---------- */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -51,14 +53,22 @@
         linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.92));
       background-size: 22px 22px, auto;
       background-position: -10px -10px, 0 0;
-      isolation:isolate;
+      isolation:isolate; transition: transform .2s ease;
     }
+    .bubble:hover{ transform: translateY(-2px); }
+
+    /* theme rings */
     .bubble::before{
       content:""; position:absolute; inset:-1px; border-radius:28px; padding:1px;
-      background: conic-gradient(from 200deg, var(--grad1), var(--grad2), var(--grad3), var(--grad1));
+      background: var(--ring, conic-gradient(from 200deg, #a78bfa,#60a5fa,#34d399,#a78bfa));
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
     }
+    .theme-mint   { --ring: conic-gradient(from 200deg, var(--mint1), var(--mint2), #10b981, var(--mint1)); }
+    .theme-amber  { --ring: conic-gradient(from 200deg, var(--amber1), var(--amber2), #ef4444, var(--amber1)); }
+    .theme-indigo { --ring: conic-gradient(from 200deg, var(--ind1), var(--ind2), #14b8a6, var(--ind1)); }
+    .theme-rose   { --ring: conic-gradient(from 200deg, var(--rose1), var(--rose2), #22c55e, var(--rose1)); }
+
     .bubble::after{
       content:""; position:absolute; top:-80px; right:-80px; width:300px; height:300px; border-radius:50%;
       background: radial-gradient(closest-side, rgba(255,255,255,.55), rgba(255,255,255,0));
@@ -74,14 +84,20 @@
     .proj-list .bubble:nth-child(even) .text{order:1}
     @media (max-width:1020px){ .bubble-grid{grid-template-columns:1fr; padding:16px} }
 
-    /* media pane (PDF canvas or image gallery) */
+    /* media pane (PDF canvas or image gallery) with UNIFORM VIEWPORT */
     .media{
       position:relative; border-radius:18px; overflow:hidden; background:#f7f7f8; border:1px solid var(--bd);
-      min-height:560px;
     }
-    @media (max-width:1020px){ .media{min-height:380px} }
-    .pdf-wrap, .gallery-wrap{position:relative; width:100%; height:100%; display:grid; place-items:center;}
-    .pdf-canvas, .lb-canvas, .gallery-img{display:block; max-width:100%; height:auto; background:#fff}
+    .viewport{
+      width:100%;
+      aspect-ratio: 16 / 10; /* keeps identical size for portrait/landscape */
+      display:grid; place-items:center; background:
+        radial-gradient(60% 60% at 30% 20%, rgba(255,255,255,.9), rgba(255,255,255,.7)),
+        linear-gradient(135deg, rgba(17,19,24,.02), rgba(17,19,24,.05));
+    }
+    @media (max-width:700px){ .viewport{ aspect-ratio: 4 / 3; } }
+
+    .pdf-canvas, .lb-canvas, .gallery-img{width:100%; height:100%; object-fit:contain; display:block; background:#fff}
 
     /* overlay controls */
     .ctrl{
@@ -91,7 +107,7 @@
       display:grid; place-items:center; cursor:pointer; user-select:none;
       box-shadow:0 10px 24px rgba(17,19,24,.18);
     }
-    .ctrl:disabled{opacity:.5; cursor:not-allowed}
+    .ctrl:disabled{opacity:.45; cursor:not-allowed}
     .ctrl.prev{left:12px}
     .ctrl.next{right:12px}
     .ctrl svg{width:20px;height:20px}
@@ -117,22 +133,6 @@
     .text p{margin:0 0 14px; color:var(--muted)}
     .tags{display:flex; gap:8px; flex-wrap:wrap}
     .tag{font-size:12px; padding:6px 10px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
-
-    /* Lightbox */
-    .lb{position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:50}
-    .lb.open{display:flex}
-    .lb-inner{width:min(1280px,96vw); background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 50px 120px rgba(0,0,0,.38)}
-    .lb-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
-    .lb-title{font-weight:600}
-    .lb-close{appearance:none;border:1px solid var(--bd);background:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-    .lb-body{position:relative; background:#fff; display:grid; place-items:center; padding:10px}
-    .lb-canvas{display:block; width:100%; height:auto}
-    .lb-ctrl{position:absolute; top:50%; transform:translateY(-50%); z-index:8;
-      width:54px; height:54px; border-radius:999px; border:1px solid var(--bd); background:rgba(255,255,255,.98);
-      display:grid; place-items:center; cursor:pointer; box-shadow:0 12px 28px rgba(17,19,24,.2)}
-    .lb-ctrl.prev{left:14px}
-    .lb-ctrl.next{right:14px}
-    .lb-pill{position:absolute; top:12px; right:12px; background:rgba(255,255,255,.98); border:1px solid var(--bd); border-radius:999px; padding:4px 10px; font-size:12px}
   </style>
 </head>
 <body>
@@ -290,7 +290,7 @@
       </ul>
     </section>
 
-    <!-- ========= Projects (wider, alternating art bubbles) ========= -->
+    <!-- ========= Projects (wider, alternating, themed) ========= -->
     <section class="wide projects" id="projects">
       <div class="kicker">Projects &amp; Artifacts</div>
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
@@ -298,7 +298,7 @@
       <div class="proj-list">
 
         <!-- 1) QUOKKA (single PDF) -->
-        <article class="bubble">
+        <article class="bubble theme-mint">
           <div class="bubble-grid">
             <div class="media deck"
                  data-type="pdf-single"
@@ -313,7 +313,7 @@
               <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <div class="pdf-wrap"><canvas class="pdf-canvas"></canvas></div>
+              <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
             </div>
             <div class="text">
               <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
@@ -323,8 +323,8 @@
           </div>
         </article>
 
-        <!-- 2) CLEAR CLINICAL (MERGED: Mid + Final) -->
-        <article class="bubble">
+        <!-- 2) CLEAR CLINICAL (MERGED PDFS) -->
+        <article class="bubble theme-indigo">
           <div class="bubble-grid">
             <div class="media deck"
                  data-type="pdf-merged"
@@ -339,18 +339,18 @@
               <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <div class="pdf-wrap"><canvas class="pdf-canvas"></canvas></div>
+              <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
             </div>
             <div class="text">
               <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both **Mid-Semester Deliverable** and **Final Presentation** into one smooth deck.</p>
+              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both <em>Mid-Semester Deliverable</em> and <em>Final Presentation</em> into one deck.</p>
               <div class="tags"><span class="tag">Deck</span><span class="tag">Product Strategy</span><span class="tag">Research</span></div>
             </div>
           </div>
         </article>
 
         <!-- 3) EY Workshop (gallery) -->
-        <article class="bubble">
+        <article class="bubble theme-amber">
           <div class="bubble-grid">
             <div class="media gallery"
                  data-title="EY Workshop — Design Thinking for Low-Income Students"
@@ -364,7 +364,7 @@
               <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <div class="gallery-wrap"><img class="gallery-img" alt="EY workshop photo"></div>
+              <div class="viewport"><img class="gallery-img" alt="EY workshop photo"></div>
             </div>
             <div class="text">
               <h3>EY Workshop — Design Thinking</h3>
@@ -375,7 +375,7 @@
         </article>
 
         <!-- 4) Partnership Advocacy Day (gallery) -->
-        <article class="bubble">
+        <article class="bubble theme-rose">
           <div class="bubble-grid">
             <div class="media gallery"
                  data-title="Policy Advocacy Day — Sacramento"
@@ -389,7 +389,7 @@
               <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <div class="gallery-wrap"><img class="gallery-img" alt="Policy advocacy photo"></div>
+              <div class="viewport"><img class="gallery-img" alt="Policy advocacy photo"></div>
             </div>
             <div class="text">
               <h3>Policy Advocacy Day — Sacramento</h3>
@@ -404,22 +404,24 @@
   </main>
 
   <!-- Lightbox -->
-  <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Viewer">
+  <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Viewer" style="display:none;">
     <div class="lb-inner">
       <div class="lb-head">
         <div class="lb-title" id="lb-title">Viewer</div>
         <button class="lb-close" id="lb-close" aria-label="Close (Esc)">Close</button>
       </div>
-      <div class="lb-body" id="lb-body">
-        <button class="lb-ctrl prev" id="lb-prev" aria-label="Previous (Left Arrow)">
+      <div class="lb-body" id="lb-body" style="position:relative; background:#fff; display:grid; place-items:center; padding:10px">
+        <button class="ctrl lb prev" id="lb-prev" aria-label="Previous (Left Arrow)" style="position:absolute;left:14px;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="lb-ctrl next" id="lb-next" aria-label="Next (Right Arrow)">
+        <button class="ctrl lb next" id="lb-next" aria-label="Next (Right Arrow)" style="position:absolute;right:14px;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="lb-pill" id="lb-ind">Page 1</div>
-        <canvas class="lb-canvas" id="lb-canvas"></canvas>
-        <img id="lb-image" style="display:none;max-width:100%;height:auto;" alt="">
+        <div class="pill" id="lb-ind" style="position:absolute;top:12px;right:12px;">Page 1</div>
+        <div class="viewport" id="lb-viewport" style="width:100%; max-width:1280px;">
+          <canvas class="lb-canvas" id="lb-canvas"></canvas>
+          <img id="lb-image" style="display:none;width:100%;height:100%;object-fit:contain;" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -435,10 +437,15 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     /* ---------- Helpers ---------- */
+    function viewportBounds(el){
+      // use the .viewport box for consistent sizing (16:10 or 4:3)
+      const vp = el.querySelector('.viewport') || el;
+      return { w: vp.clientWidth, h: vp.clientHeight };
+    }
     function fitPdfToCanvas(pdf, pageNum, canvas, maxW, maxH){
       return pdf.getPage(pageNum).then(page=>{
         const v1 = page.getViewport({scale:1});
-        let scale = maxH ? Math.min(maxW/v1.width, maxH/v1.height) : (maxW/v1.width);
+        let scale = Math.min(maxW/v1.width, maxH/v1.height);
         const vp = page.getViewport({scale});
         const dpr = window.devicePixelRatio || 1;
         canvas.width = Math.floor(vp.width * dpr);
@@ -451,6 +458,34 @@
       });
     }
     function setIndicator(el, txt){ el.textContent = txt; }
+
+    /* ---------- Image preloader with JPG/jpg fallback & broken-skip ---------- */
+    function preloadImages(paths){
+      return new Promise(resolve=>{
+        const good = [];
+        let left = paths.length;
+        if(!left) return resolve(good);
+
+        paths.forEach(p=>{
+          let triedLower = false;
+          const img = new Image();
+          img.onload = ()=>{ good.push(p); if(--left===0) resolve(good); };
+          img.onerror = ()=>{
+            if(!triedLower){
+              triedLower = true;
+              const lower = p.replace(/\.JPG$/i, '.jpg');
+              const img2 = new Image();
+              img2.onload = ()=>{ good.push(lower); if(--left===0) resolve(good); };
+              img2.onerror = ()=>{ if(--left===0) resolve(good); };
+              img2.src = lower;
+            } else {
+              if(--left===0) resolve(good);
+            }
+          };
+          img.src = p;
+        });
+      });
+    }
 
     /* ---------- PDF: single file viewer ---------- */
     function wirePdfSingle(deck){
@@ -465,8 +500,8 @@
       function update(){ setIndicator(ind, 'Page '+page+' / '+total); prev.disabled=(page<=1); next.disabled=(page>=total); }
       function render(){
         if(!pdf || rendering) return; rendering=true;
-        const maxW = deck.clientWidth - 2;
-        fitPdfToCanvas(pdf,page,canvas,maxW).finally(()=>{rendering=false; update();});
+        const {w,h} = viewportBounds(deck);
+        fitPdfToCanvas(pdf,page,canvas,w,h).finally(()=>{rendering=false; update();});
       }
       function go(d){ page=Math.min(total,Math.max(1,page+d)); render(); }
 
@@ -490,22 +525,18 @@
       const expand = deck.querySelector('[data-act="expand"]');
       let pdfs=[], pagesPer=[], total=0, curDoc=0, curPage=1, hover=false, rendering=false;
 
-      function absIndex(){ // 1-based absolute page index
-        let idx=0; for(let i=0;i<curDoc;i++) idx+=pagesPer[i]; return idx+curPage;
-      }
+      function absIndex(){ let idx=0; for(let i=0;i<curDoc;i++) idx+=pagesPer[i]; return idx+curPage; }
       function update(){ setIndicator(ind, 'Page '+absIndex()+' / '+total); prev.disabled=(absIndex()<=1); next.disabled=(absIndex()>=total); }
       function render(){
         if(!pdfs.length || rendering) return; rendering=true;
+        const {w,h} = viewportBounds(deck);
         const pdf = pdfs[curDoc];
-        const maxW = deck.clientWidth - 2;
-        fitPdfToCanvas(pdf,curPage,canvas,maxW).finally(()=>{rendering=false; update();});
+        fitPdfToCanvas(pdf,curPage,canvas,w,h).finally(()=>{rendering=false; update();});
       }
       function step(d){
-        let a = absIndex()+d; a = Math.min(total,Math.max(1,a));
-        // convert absolute back to (doc,page)
-        let left = a; curDoc=0;
-        while(left>pagesPer[curDoc]){ left-=pagesPer[curDoc]; curDoc++; }
-        curPage = left; render();
+        let a = Math.min(total, Math.max(1, absIndex()+d));
+        let left=a, doc=0; while(left>pagesPer[doc]){ left-=pagesPer[doc]; doc++; }
+        curDoc=doc; curPage=left; render();
       }
 
       deck.addEventListener('mouseenter',()=>hover=true); deck.addEventListener('mouseleave',()=>hover=false);
@@ -515,24 +546,29 @@
       expand.addEventListener('click',()=> openLBPdfMerged(deck.dataset.title, files, absIndex(), total, pagesPer));
 
       window.addEventListener('resize',render);
-      // load all PDFs, then render
       Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(arr=>{
         pdfs = arr; pagesPer = arr.map(p=>p.numPages); total = pagesPer.reduce((a,b)=>a+b,0);
         render();
       });
     }
 
-    /* ---------- Image gallery viewer ---------- */
+    /* ---------- Image gallery viewer (uniform viewport + preload + fallback) ---------- */
     function wireGallery(gal){
-      const imgs = gal.dataset.images.split('|').map(s=>s.trim());
+      const raw = gal.dataset.images.split('|').map(s=>s.trim());
       const imgEl = gal.querySelector('.gallery-img');
       const ind = gal.querySelector('[data-role="indicator"]');
       const prev = gal.querySelector('[data-act="prev"]');
       const next = gal.querySelector('[data-act="next"]');
       const expand = gal.querySelector('[data-act="expand"]');
-      let i=0, hover=false;
+      let imgs = [], i=0, hover=false;
 
-      function set(){ imgEl.src = imgs[i]; setIndicator(ind, (i+1)+' / '+imgs.length); prev.disabled=(i===0); next.disabled=(i===imgs.length-1); }
+      preloadImages(raw).then(valid=>{
+        imgs = valid;
+        if(!imgs.length){ ind.textContent = 'No images'; prev.disabled = next.disabled = true; return; }
+        set();
+      });
+
+      function set(){ imgEl.src = imgs[i]; ind.textContent = (i+1)+' / '+imgs.length; prev.disabled=(i===0); next.disabled=(i===imgs.length-1); }
       function go(d){ i=Math.min(imgs.length-1, Math.max(0, i+d)); set(); }
 
       gal.addEventListener('mouseenter',()=>hover=true); gal.addEventListener('mouseleave',()=>hover=false);
@@ -541,8 +577,6 @@
 
       prev.addEventListener('click',()=>go(-1)); next.addEventListener('click',()=>go(1));
       expand.addEventListener('click',()=> openLBImages(gal.dataset.title, imgs, i));
-
-      set();
     }
 
     /* ---------- Lightbox modes ---------- */
@@ -554,6 +588,7 @@
     const LB_NEXT = document.getElementById('lb-next');
     const LB_CANVAS = document.getElementById('lb-canvas');
     const LB_IMG = document.getElementById('lb-image');
+    const LB_VP = document.getElementById('lb-viewport');
 
     let LB_MODE=null; // 'pdf-single','pdf-merged','images'
     let LB_STATE=null; // per mode
@@ -561,43 +596,37 @@
     function openLBPdf(title, file, page, total){
       LB_MODE='pdf-single'; LB_STATE={file,page,total,pdf:null};
       LB_TITLE.textContent = title || 'Viewer';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.classList.add('open');
+      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.style.display='flex';
       pdfjsLib.getDocument(file).promise.then(p=>{LB_STATE.pdf=p; lbRenderPdf();});
     }
     function openLBPdfMerged(title, files, absIndex, total, pagesPer){
       LB_MODE='pdf-merged'; LB_STATE={files,absIndex,total,pdfs:null,pagesPer};
       LB_TITLE.textContent = title || 'Viewer';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.classList.add('open');
+      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.style.display='flex';
       Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(ps=>{LB_STATE.pdfs=ps; lbRenderPdfMerged();});
     }
     function openLBImages(title, imgs, idx){
       LB_MODE='images'; LB_STATE={imgs,idx};
       LB_TITLE.textContent = title || 'Viewer';
-      LB_CANVAS.style.display='none'; LB_IMG.style.display='block'; LB.classList.add('open');
+      LB_CANVAS.style.display='none'; LB_IMG.style.display='block'; LB.style.display='flex';
       lbRenderImages();
     }
 
+    function lbBounds(){ return { w: LB_VP.clientWidth, h: LB_VP.clientHeight }; }
+
     function lbRenderPdf(){
-      const body = document.getElementById('lb-body');
-      const maxW = Math.min(body.clientWidth-24, 1280);
-      const maxH = Math.min(window.innerHeight*0.8, 900);
-      fitPdfToCanvas(LB_STATE.pdf, LB_STATE.page, LB_CANVAS, maxW, maxH).then(()=>{
+      const {w,h} = lbBounds();
+      fitPdfToCanvas(LB_STATE.pdf, LB_STATE.page, LB_CANVAS, w, h).then(()=>{
         LB_IND.textContent = 'Page ' + LB_STATE.page + ' / ' + LB_STATE.total;
         LB_PREV.disabled = (LB_STATE.page<=1);
         LB_NEXT.disabled = (LB_STATE.page>=LB_STATE.total);
       });
     }
     function lbRenderPdfMerged(){
-      function convert(abs){
-        let left=abs, d=0;
-        while(left>LB_STATE.pagesPer[d]){ left-=LB_STATE.pagesPer[d]; d++; }
-        return {doc:d, page:left};
-      }
-      const body = document.getElementById('lb-body');
-      const maxW = Math.min(body.clientWidth-24, 1280);
-      const maxH = Math.min(window.innerHeight*0.8, 900);
+      function convert(abs){ let left=abs, d=0; while(left>LB_STATE.pagesPer[d]){ left-=LB_STATE.pagesPer[d]; d++; } return {doc:d, page:left}; }
+      const {w,h} = lbBounds();
       const pos = convert(LB_STATE.absIndex);
-      fitPdfToCanvas(LB_STATE.pdfs[pos.doc], pos.page, LB_CANVAS, maxW, maxH).then(()=>{
+      fitPdfToCanvas(LB_STATE.pdfs[pos.doc], pos.page, LB_CANVAS, w, h).then(()=>{
         LB_IND.textContent = 'Page ' + LB_STATE.absIndex + ' / ' + LB_STATE.total;
         LB_PREV.disabled = (LB_STATE.absIndex<=1);
         LB_NEXT.disabled = (LB_STATE.absIndex>=LB_STATE.total);
@@ -622,14 +651,16 @@
 
     LB_PREV.addEventListener('click', ()=>lbGo(-1));
     LB_NEXT.addEventListener('click', ()=>lbGo(1));
-    LB_CLOSE.addEventListener('click', ()=> LB.classList.remove('open'));
-    LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.classList.remove('open'); });
-    window.addEventListener('resize', ()=>{ if(!LB.classList.contains('open')) return; if(LB_MODE==='pdf-single') lbRenderPdf(); if(LB_MODE==='pdf-merged') lbRenderPdfMerged(); });
+    LB_CLOSE.addEventListener('click', ()=> LB.style.display='none');
+    LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.style.display='none'; });
+    window.addEventListener('resize', ()=>{ if(LB.style.display!=='flex') return; if(LB_MODE==='pdf-single') lbRenderPdf(); if(LB_MODE==='pdf-merged') lbRenderPdfMerged(); });
+
     document.addEventListener('keydown', (e)=>{
-      if(!LB.classList.contains('open')) return;
-      if(e.key==='ArrowRight'){ e.preventDefault(); lbGo(1); }
-      if(e.key==='ArrowLeft'){  e.preventDefault(); lbGo(-1); }
-      if(e.key==='Escape'){     e.preventDefault(); LB.classList.remove('open'); }
+      if(LB.style.display==='flex'){ // lightbox open
+        if(e.key==='ArrowRight'){ e.preventDefault(); lbGo(1); }
+        if(e.key==='ArrowLeft'){  e.preventDefault(); lbGo(-1); }
+        if(e.key==='Escape'){     e.preventDefault(); LB.style.display='none'; }
+      }
     });
 
     /* ---------- Wire up all viewers ---------- */
