@@ -10,18 +10,18 @@
       --sep: rgba(17,19,24,.18);
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
       --card:#ffffff; --bd:rgba(17,19,24,.12);
-      --shadow: 0 18px 50px rgba(17,19,24,.08);
+      --shadow: 0 22px 60px rgba(17,19,24,.10);
       --grad1:#a78bfa; --grad2:#60a5fa; --grad3:#34d399;
     }
 
     /* ---------- page shells ---------- */
     .page{padding:32px 16px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
-    .wide{width:min(980px,95vw);margin-inline:auto;} /* wider just for Projects */
+    .wide{width:min(1120px,95vw);margin-inline:auto;} /* wider just for Projects */
 
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* ---------- Work / Involvements (kept as-is) ---------- */
+    /* ---------- Work / Involvements (kept) ---------- */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -39,97 +39,96 @@
     footer .narrow, footer .wide{padding:26px 0; font-size:14px; color:var(--muted2);}
 
     /* ============== Projects: Single Artistic Bubble ============== */
-    .projects{margin-top:42px;}
+    .projects{margin-top:48px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
 
     .bubble{
-      position:relative; border-radius:22px; overflow:hidden; background:var(--card);
+      position:relative; border-radius:26px; overflow:hidden; background:var(--card);
       border:1px solid var(--bd); box-shadow:var(--shadow);
       background-image:
         radial-gradient(transparent 0, transparent 12px, rgba(17,19,24,.035) 12px),
-        linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.9));
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.92));
       background-size: 22px 22px, auto;
       background-position: -10px -10px, 0 0;
       isolation:isolate;
     }
-    /* gradient outline */
     .bubble::before{
-      content:""; position:absolute; inset:-1px; border-radius:24px; padding:1px;
+      content:""; position:absolute; inset:-1px; border-radius:28px; padding:1px;
       background: conic-gradient(from 200deg, var(--grad1), var(--grad2), var(--grad3), var(--grad1));
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
     }
-    /* soft gloss */
     .bubble::after{
-      content:""; position:absolute; top:-70px; right:-70px; width:260px; height:260px; border-radius:50%;
+      content:""; position:absolute; top:-80px; right:-80px; width:300px; height:300px; border-radius:50%;
       background: radial-gradient(closest-side, rgba(255,255,255,.55), rgba(255,255,255,0));
-      filter: blur(14px); pointer-events:none;
+      filter: blur(16px); pointer-events:none;
     }
 
     .bubble-grid{
-      position:relative; display:grid; gap:16px; align-items:stretch;
-      grid-template-columns: 1.35fr 1fr; padding:16px;
+      position:relative; display:grid; gap:18px; align-items:stretch;
+      grid-template-columns: 1.75fr 1fr; padding:18px;
     }
-    @media (max-width:900px){ .bubble-grid{grid-template-columns:1fr; padding:14px} }
+    @media (max-width:1020px){ .bubble-grid{grid-template-columns:1fr; padding:16px} }
 
-    /* media pane (PDF) */
+    /* media pane (PDF via canvas, no scroll) */
     .media{
-      position:relative; border-radius:14px; overflow:hidden; background:#f7f7f8; border:1px solid var(--bd);
+      position:relative; border-radius:18px; overflow:hidden; background:#f7f7f8; border:1px solid var(--bd);
+      min-height:560px; /* larger viewer */
     }
-    .deck-frame{display:block; width:100%; height:440px; border:0; background:#fff}
-    @media (max-width:900px){ .deck-frame{height:300px} }
+    @media (max-width:1020px){ .media{min-height:380px} }
+    .pdf-wrap{position:relative; width:100%; height:100%; display:grid; place-items:center;}
+    .pdf-canvas{display:block; max-width:100%; height:auto}
 
     /* overlay controls */
     .ctrl{
       position:absolute; top:50%; transform:translateY(-50%); z-index:3;
-      width:40px; height:40px; border-radius:999px; border:1px solid var(--bd);
-      background:rgba(255,255,255,.9); backdrop-filter:saturate(120%) blur(2px);
+      width:48px; height:48px; border-radius:999px; border:1px solid var(--bd);
+      background:rgba(255,255,255,.95); backdrop-filter:saturate(120%) blur(2px);
       display:grid; place-items:center; cursor:pointer; user-select:none;
-      box-shadow:0 6px 16px rgba(17,19,24,.12);
+      box-shadow:0 10px 24px rgba(17,19,24,.18);
     }
     .ctrl:disabled{opacity:.5; cursor:not-allowed}
-    .ctrl.prev{left:10px}
-    .ctrl.next{right:10px}
-    .ctrl svg{width:18px;height:18px}
+    .ctrl.prev{left:12px}
+    .ctrl.next{right:12px}
+    .ctrl svg{width:20px;height:20px}
 
-    /* top overlays */
     .pill{
-      position:absolute; top:10px; right:10px; z-index:3;
-      font-size:12px; color:#1f2937; background:rgba(255,255,255,.9); border:1px solid var(--bd);
-      border-radius:999px; padding:4px 8px;
+      position:absolute; top:12px; right:12px; z-index:3;
+      font-size:12px; color:#1f2937; background:rgba(255,255,255,.95); border:1px solid var(--bd);
+      border-radius:999px; padding:4px 10px;
     }
     .expand-btn{
-      position:absolute; top:10px; left:10px; z-index:3;
-      font-size:12px; background:rgba(255,255,255,.9); border:1px solid var(--bd);
-      border-radius:999px; padding:4px 10px; cursor:pointer;
+      position:absolute; top:12px; left:12px; z-index:3;
+      font-size:12px; background:rgba(255,255,255,.95); border:1px solid var(--bd);
+      border-radius:999px; padding:6px 12px; cursor:pointer;
     }
 
     /* description pane inside the same bubble */
     .text{
-      border-radius:14px; border:1px dashed var(--bd); background:rgba(255,255,255,.75);
+      border-radius:18px; border:1px dashed var(--bd); background:rgba(255,255,255,.8);
       backdrop-filter: blur(4px);
-      padding:16px; display:flex; flex-direction:column; justify-content:center;
+      padding:18px; display:flex; flex-direction:column; justify-content:center;
     }
-    .text h3{margin:0 0 8px; font-size:20px}
-    .text p{margin:0 0 12px; color:var(--muted)}
+    .text h3{margin:0 0 10px; font-size:22px}
+    .text p{margin:0 0 14px; color:var(--muted)}
     .tags{display:flex; gap:8px; flex-wrap:wrap}
-    .tag{font-size:12px; padding:5px 10px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
+    .tag{font-size:12px; padding:6px 10px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
 
     /* Lightbox */
-    .lb{position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:center; justify-content:center; z-index:50}
+    .lb{position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:50}
     .lb.open{display:flex}
-    .lb-inner{width:min(1200px,95vw); background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 40px 100px rgba(0,0,0,.35)}
+    .lb-inner{width:min(1280px,96vw); background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 50px 120px rgba(0,0,0,.38)}
     .lb-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
     .lb-title{font-weight:600}
     .lb-close{appearance:none;border:1px solid var(--bd);background:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-    .lb-body{position:relative}
-    .lb-frame{width:100%; height:78vh; border:0; background:#fff}
+    .lb-body{position:relative; background:#fff}
+    .lb-canvas{display:block; width:100%; height:auto}
     .lb-ctrl{position:absolute; top:50%; transform:translateY(-50%); z-index:8;
-      width:46px; height:46px; border-radius:999px; border:1px solid var(--bd); background:rgba(255,255,255,.95);
-      display:grid; place-items:center; cursor:pointer; box-shadow:0 8px 20px rgba(17,19,24,.15)}
-    .lb-ctrl.prev{left:12px}
-    .lb-ctrl.next{right:12px}
-    .lb-pill{position:absolute; top:12px; right:12px; background:rgba(255,255,255,.92); border:1px solid var(--bd); border-radius:999px; padding:4px 10px; font-size:12px}
+      width:54px; height:54px; border-radius:999px; border:1px solid var(--bd); background:rgba(255,255,255,.98);
+      display:grid; place-items:center; cursor:pointer; box-shadow:0 12px 28px rgba(17,19,24,.2)}
+    .lb-ctrl.prev{left:14px}
+    .lb-ctrl.next{right:14px}
+    .lb-pill{position:absolute; top:12px; right:12px; background:rgba(255,255,255,.98); border:1px solid var(--bd); border-radius:999px; padding:4px 10px; font-size:12px}
   </style>
 </head>
 <body>
@@ -287,14 +286,14 @@
       </ul>
     </section>
 
-    <!-- ========= Projects (wider, one bubble) ========= -->
+    <!-- ========= Projects (wider, one bubble, big canvas) ========= -->
     <section class="wide projects" id="projects">
       <div class="kicker">Projects &amp; Artifacts</div>
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
 
       <article class="bubble" id="quokka">
         <div class="bubble-grid">
-          <!-- MEDIA: PDF deck (Projects/Quokka Brew.pdf) -->
+          <!-- MEDIA: pdf.js canvas (Projects/Quokka Brew.pdf) -->
           <div class="media deck"
                data-title="Quokka Brew — Design Research Deck"
                data-src="Projects/Quokka%20Brew.pdf"
@@ -308,7 +307,9 @@
             <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <iframe class="deck-frame" loading="lazy" title="Quokka deck"></iframe>
+            <div class="pdf-wrap">
+              <canvas class="pdf-canvas"></canvas>
+            </div>
           </div>
 
           <!-- TEXT (same bubble) -->
@@ -341,7 +342,9 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="lb-pill" id="lb-ind">Page 1</div>
-        <iframe class="lb-frame" id="lb-frame" title="Expanded deck"></iframe>
+        <div style="display:grid;place-items:center;background:#fff;">
+          <canvas class="lb-canvas" id="lb-canvas"></canvas>
+        </div>
       </div>
     </div>
   </div>
@@ -350,91 +353,142 @@
     <div class="wide">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
+  <!-- pdf.js (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // -------- Inline deck viewer with arrow buttons + keyboard --------
+    // -------- pdf.js render helper (fits to container width) --------
+    function renderPdfPageToCanvas(pdf, pageNum, canvas, maxW, maxH){
+      return pdf.getPage(pageNum).then(page=>{
+        const unscaled = page.getViewport({ scale: 1 });
+        // Fit to width (inline) or both width/height (lightbox)
+        let scale;
+        if (maxH){
+          scale = Math.min(maxW / unscaled.width, maxH / unscaled.height);
+        } else {
+          scale = maxW / unscaled.width;
+        }
+        const viewport = page.getViewport({ scale });
+        const outputScale = (window.devicePixelRatio || 1);
+        const ctx = canvas.getContext('2d', { alpha: false });
+
+        canvas.width  = Math.floor(viewport.width  * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+        canvas.style.width  = Math.floor(viewport.width)  + 'px';
+        canvas.style.height = Math.floor(viewport.height) + 'px';
+
+        const transform = outputScale !== 1 ? [outputScale,0,0,outputScale,0,0] : null;
+        return page.render({ canvasContext: ctx, viewport, transform }).promise;
+      });
+    }
+
+    // -------- Inline deck viewer: arrows + keyboard (no scrolling) --------
     (function(){
       const deck = document.querySelector('.media.deck');
-      if(!deck) return;
+      if(!deck || !window['pdfjsLib']) return;
 
-      const iframe = deck.querySelector('.deck-frame');
+      const file  = deck.dataset.src;
+      const total = parseInt(deck.dataset.pages || '1', 10);
+      const canvas = deck.querySelector('.pdf-canvas');
+      const indicator = deck.querySelector('[data-role="indicator"]');
       const prevBtn = deck.querySelector('[data-act="prev"]');
       const nextBtn = deck.querySelector('[data-act="next"]');
       const expandBtn = deck.querySelector('[data-act="expand"]');
-      const indicator = deck.querySelector('[data-role="indicator"]');
 
-      const file  = deck.dataset.src;              // e.g., Projects/Quokka%20Brew.pdf
-      const total = parseInt(deck.dataset.pages || '1', 10);
-      let page = 1;
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      let pdfDoc = null, page = 1, rendering = false;
 
-      function set(){
-        iframe.src = file + '#page=' + page + '&zoom=page-width';
+      function updateUI(){
         indicator.textContent = 'Page ' + page + ' / ' + total;
         prevBtn.disabled = (page<=1);
         nextBtn.disabled = (page>=total);
       }
+
+      function renderCurrent(){
+        if (!pdfDoc || rendering) return;
+        rendering = true;
+        const maxW = deck.clientWidth - 2; // fit inside media
+        renderPdfPageToCanvas(pdfDoc, page, canvas, maxW).finally(()=>{ rendering=false; updateUI(); });
+      }
+
       function go(delta){
         page = Math.min(total, Math.max(1, page + delta));
-        set();
+        renderCurrent();
       }
 
       prevBtn.addEventListener('click', ()=>go(-1));
       nextBtn.addEventListener('click', ()=>go(1));
-      expandBtn.addEventListener('click', ()=>openLightbox({title: 'Quokka Brew — Design Research Deck', file, page, total}));
+      expandBtn.addEventListener('click', ()=> openLightbox({ title: deck.dataset.title, file, page, total }));
 
-      // Keyboard: Left/Right when deck is focused or mouse is over it
-      let hover = false;
-      deck.addEventListener('mouseenter', ()=> hover = true);
-      deck.addEventListener('mouseleave', ()=> hover = false);
+      // Keyboard arrows when focused/hovered
+      let hover=false;
+      deck.addEventListener('mouseenter', ()=>hover=true);
+      deck.addEventListener('mouseleave', ()=>hover=false);
       deck.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowRight'){ e.preventDefault(); go(1); }
-        if(e.key === 'ArrowLeft'){  e.preventDefault(); go(-1); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); go(1); }
+        if(e.key==='ArrowLeft'){  e.preventDefault(); go(-1); }
       });
       document.addEventListener('keydown', (e)=>{
         if(!hover) return;
-        if(e.key === 'ArrowRight'){ e.preventDefault(); go(1); }
-        if(e.key === 'ArrowLeft'){  e.preventDefault(); go(-1); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); go(1); }
+        if(e.key==='ArrowLeft'){  e.preventDefault(); go(-1); }
       });
+      window.addEventListener('resize', ()=> renderCurrent());
 
-      set();
+      pdfjsLib.getDocument(file).promise.then(pdf=>{
+        pdfDoc = pdf;
+        renderCurrent();
+      });
     })();
 
-    // -------- Lightbox (Expand) with keyboard arrows + Esc --------
+    // -------- Lightbox (canvas + arrows + keyboard) --------
     const LB = document.getElementById('lightbox');
-    const LB_FRAME = document.getElementById('lb-frame');
     const LB_TITLE = document.getElementById('lb-title');
     const LB_CLOSE = document.getElementById('lb-close');
+    const LB_CANVAS = document.getElementById('lb-canvas');
     const LB_PREV  = document.getElementById('lb-prev');
     const LB_NEXT  = document.getElementById('lb-next');
     const LB_IND   = document.getElementById('lb-ind');
 
-    let LB_STATE = null; // {file,page,total}
+    let LB_PDF=null, LB_STATE=null;
 
     function openLightbox({title,file,page,total}){
-      LB_STATE = {file, page, total};
       LB_TITLE.textContent = title || 'Viewer';
       LB.classList.add('open');
-      renderLB();
-    }
-    function renderLB(){
-      if(!LB_STATE) return;
-      LB_FRAME.src = LB_STATE.file + '#page=' + LB_STATE.page + '&zoom=page-width';
-      LB_IND.textContent = 'Page ' + LB_STATE.page + ' / ' + LB_STATE.total;
-      LB_PREV.disabled = (LB_STATE.page<=1);
-      LB_NEXT.disabled = (LB_STATE.page>=LB_STATE.total);
-    }
-    function lbGo(d){ LB_STATE.page = Math.min(LB_STATE.total, Math.max(1, LB_STATE.page + d)); renderLB(); }
+      LB_IND.textContent = 'Page ' + page + ' / ' + total;
 
-    LB_PREV.addEventListener('click', ()=>lbGo(-1));
-    LB_NEXT.addEventListener('click', ()=>lbGo(1));
+      pdfjsLib.getDocument(file).promise.then(pdf=>{
+        LB_PDF = pdf;
+        LB_STATE = { file, page, total };
+        renderLB();
+      });
+    }
+
+    function renderLB(){
+      if(!LB_PDF || !LB_STATE) return;
+      const wrap = document.getElementById('lb-body');
+      const maxW = Math.min(wrap.clientWidth - 24, 1280);
+      const maxH = Math.min(window.innerHeight * 0.78, 900);
+      renderPdfPageToCanvas(LB_PDF, LB_STATE.page, LB_CANVAS, maxW, maxH).then(()=>{
+        LB_IND.textContent = 'Page ' + LB_STATE.page + ' / ' + LB_STATE.total;
+        LB_PREV.disabled = (LB_STATE.page<=1);
+        LB_NEXT.disabled = (LB_STATE.page>=LB_STATE.total);
+      });
+    }
+
+    function lbGo(d){ if(!LB_STATE) return; LB_STATE.page = Math.min(LB_STATE.total, Math.max(1, LB_STATE.page + d)); renderLB(); }
+
+    LB_PREV.addEventListener('click', ()=> lbGo(-1));
+    LB_NEXT.addEventListener('click', ()=> lbGo(1));
     LB_CLOSE.addEventListener('click', ()=> LB.classList.remove('open'));
     LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.classList.remove('open'); });
+    window.addEventListener('resize', renderLB);
     document.addEventListener('keydown', (e)=>{
       if(!LB.classList.contains('open')) return;
-      if(e.key === 'ArrowRight'){ e.preventDefault(); lbGo(1); }
-      if(e.key === 'ArrowLeft'){  e.preventDefault(); lbGo(-1); }
-      if(e.key === 'Escape'){     e.preventDefault(); LB.classList.remove('open'); }
+      if(e.key==='ArrowRight'){ e.preventDefault(); lbGo(1); }
+      if(e.key==='ArrowLeft'){  e.preventDefault(); lbGo(-1); }
+      if(e.key==='Escape'){     e.preventDefault(); LB.classList.remove('open'); }
     });
   </script>
 </body>
