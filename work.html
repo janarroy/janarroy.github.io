@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Work · Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
   <style>
@@ -11,15 +11,28 @@
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
       --card:#ffffff; --bd:#e5e7eb;
       --shadow: 0 24px 56px rgba(17,19,24,.12);
-      --panel-h: clamp(420px, 62vh, 740px);
+      --panel-h: clamp(440px, 64vh, 760px);
+      --bezier:cubic-bezier(.22,.61,.36,1);
     }
 
+    /* PAGE LAYOUT */
     .page{padding:32px 16px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
     .wide{width:min(1200px,96vw);margin-inline:auto;}
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* ===== Work / Involvements ===== */
+    /* Top nav (matches your other pages) */
+    .nav{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.58));backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid rgba(17,24,39,.06)}
+    .nav-inner{display:flex;align-items:center;gap:12px;padding:10px 0}
+    .brand{font-weight:900;letter-spacing:.08em;text-decoration:none;color:#111}
+    .btn{padding:8px 14px;border-radius:999px;background:#f3f4f6;text-decoration:none;color:#0f172a;font-weight:600;box-shadow:inset 0 0 0 1px rgba(17,24,39,.08)}
+    .nav-links{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+
+    /* Snoopy hero */
+    .hero{display:grid;place-items:center;margin:16px 0 8px}
+    .snoopy{width:min(520px,80vw);height:auto;display:block;filter:drop-shadow(0 18px 40px rgba(17,19,24,.18));border-radius:24px}
+
+    /* ===== Work / Involvements (same look) ===== */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -38,10 +51,8 @@
     /* ===== Projects ===== */
     .projects{margin-top:48px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
-
     .panels{display:flex;flex-direction:column;gap:46px;}
 
-    /* Big cinematic panel */
     .panel{
       position:relative; border-radius:32px; overflow:hidden; background:var(--card);
       border:1px solid var(--bd); box-shadow:var(--shadow);
@@ -49,26 +60,17 @@
       transition:opacity .6s ease, transform .6s ease;
     }
     .panel.revealed{opacity:1; transform:none;}
-
     .panel-grid{
       display:grid; gap:24px; align-items:center;
       grid-template-columns: 1.6fr 1fr; padding:22px;
     }
     @media (max-width:1020px){ .panel-grid{grid-template-columns:1fr; padding:16px} }
 
-    /* Media area (uniform height, no jump) */
     .media{ position:relative; border-radius:22px; overflow:hidden; background:#fff; border:1px solid var(--bd); }
     .viewport{ width:100%; height:var(--panel-h); display:grid; place-items:center; background:#fff; }
+    .pdf-canvas, .gallery-img{ width:100%; height:100%; object-fit:contain; display:block; background:#fff; opacity:0; transition:opacity 220ms ease; }
+    .media-ready .pdf-canvas, .media-ready .gallery-img{ opacity:1; }
 
-    /* Fade between pages/images */
-    .pdf-canvas, .lb-canvas, .gallery-img{
-      width:100%; height:100%; object-fit:contain; display:block; background:#fff;
-      opacity:0; transition:opacity 220ms ease;
-    }
-    .media-ready .pdf-canvas,
-    .media-ready .gallery-img{ opacity:1; }
-
-    /* Controls */
     .ctrl{
       position:absolute; top:50%; transform:translateY(-50%); z-index:3;
       width:48px; height:48px; border-radius:999px; border:1px solid var(--bd);
@@ -80,21 +82,17 @@
     .ctrl.prev{left:14px}
     .ctrl.next{right:14px}
     .ctrl svg{width:22px;height:22px}
-
     .pill{
       position:absolute; top:12px; right:12px; z-index:3;
       font-size:12px; color:#1f2937; background:rgba(255,255,255,.96); border:1px solid var(--bd);
-      border-radius:999px; padding:4px 10px;
-      box-shadow:0 6px 16px rgba(17,19,24,.12);
+      border-radius:999px; padding:4px 10px; box-shadow:0 6px 16px rgba(17,19,24,.12);
     }
     .expand-btn{
       position:absolute; top:12px; left:12px; z-index:3;
       font-size:12px; background:rgba(255,255,255,.96); border:1px solid var(--bd);
-      border-radius:999px; padding:6px 12px; cursor:pointer;
-      box-shadow:0 6px 16px rgba(17,19,24,.12);
+      border-radius:999px; padding:6px 12px; cursor:pointer; box-shadow:0 6px 16px rgba(17,19,24,.12);
     }
 
-    /* Description */
     .text{
       border-radius:22px; background:linear-gradient(180deg,#ffffff 0%,#fafafa 100%);
       border:1px solid var(--bd); padding:24px 22px;
@@ -107,13 +105,39 @@
     .tag{font-size:12px; padding:6px 10px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
 
     footer .wide{padding:28px 0; font-size:14px; color:var(--muted2);}
+
+    /* ===== Lightbox (borrowed from Travel) ===== */
+    .lightbox{position:fixed;inset:0;display:none;place-items:center;z-index:100;background:rgba(17,24,39,.35);backdrop-filter:blur(4px) saturate(1.05)}
+    .lightbox.open{display:grid;animation:fadeIn .25s ease forwards}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .lb-card{width:min(1020px,92vw);max-height:86vh;display:grid;grid-template-columns:1.15fr .85fr;gap:14px;
+      background:linear-gradient(180deg,#fff,#fafafa);border:1px solid var(--bd);border-radius:18px;
+      box-shadow:0 30px 80px rgba(17,24,39,.28);overflow:hidden;position:relative;
+      transform:translateY(8px) scale(.98);opacity:0;animation:cardIn .32s var(--bezier) forwards .1s}
+    @keyframes cardIn{to{transform:translateY(0) scale(1);opacity:1}}
+    @media (max-width:920px){.lb-card{grid-template-columns:1fr;max-height:88vh}}
+    .lb-left{padding:14px;display:grid;grid-template-rows:auto auto}
+    .lb-stage{background:#fff;border-radius:12px;border:1px solid var(--bd);display:grid;place-items:center;
+      position:relative;overflow:hidden;height:min(58vh,520px)}
+    .lb-stage canvas,.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;opacity:0;transition:opacity .2s ease}
+    .lb-stage canvas.show,.lb-stage img.show{opacity:1}
+    .navbtn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.75);color:#fff;border:none;border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer}
+    .navbtn.left{left:10px}.navbtn.right{right:10px}
+    .thumbs{display:flex;gap:8px;overflow:auto;margin-top:10px;padding-bottom:6px}
+    .thumbs img{width:62px;height:62px;border-radius:10px;object-fit:cover;border:2px solid transparent;cursor:pointer}
+    .thumbs img.active{border-color:#3b82f6}
+    .lb-right{padding:16px 18px 18px 6px}
+    .lb-title{font-weight:800;font-size:20px;margin:2px 0 2px}
+    .lb-sub{color:var(--muted);font-size:13px;margin-bottom:10px}
+    .lb-notes{line-height:1.6;font-size:15px;overflow:auto;max-height:calc(86vh - 190px)}
+    .lb-close{position:absolute;top:10px;right:10px;border:none;background:#111827;color:#fff;border-radius:999px;width:36px;height:36px;font-size:18px;cursor:pointer;box-shadow:0 8px 18px rgba(17,24,39,.2)}
   </style>
 </head>
 <body>
   <!-- Nav -->
   <nav class="nav">
     <div class="narrow nav-inner">
-      <a class="brand" href="./">JAN</a>
+      <a class="brand" href="./index.html">JAN</a>
       <div class="nav-links">
         <a class="btn" href="work.html">Projects</a>
         <a class="btn" href="races.html">Races</a>
@@ -125,8 +149,10 @@
   </nav>
 
   <main class="page">
-    <!-- (optional) résumé slot -->
-    <section class="narrow" id="resume-slot"></section>
+    <!-- Snoopy welcome -->
+    <section class="hero">
+      <img class="snoopy" src="Snoopy_Welcome.png" alt="Welcome — Snoopy" />
+    </section>
 
     <!-- ===================== WORK ===================== -->
     <section class="narrow">
@@ -271,7 +297,6 @@
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
 
       <div class="panels">
-
         <!-- 1) Quokka -->
         <article class="panel">
           <div class="panel-grid">
@@ -329,7 +354,7 @@
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="EY Workshop — Design Thinking for Low-Income Students"
-                 data-images="Projects/EY1.JPG|Projects/EY2.JPG|Projects/EY3.JPG|Projects/EY4.JPG"
+                 data-images="Projects/EY1.JPG|Projects/EY1.jpg|Projects/EY.JPG,Projects/EY2.JPG|Projects/EY2.jpg,Projects/EY3.JPG|Projects/EY3.jpg,Projects/EY4.JPG|Projects/EY4.jpg"
                  tabindex="0" aria-label="EY workshop gallery">
               <button class="expand-btn" data-act="expand">Expand</button>
               <div class="pill" data-role="indicator">1 / 4</div>
@@ -339,7 +364,7 @@
               <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <div class="viewport"><img class="gallery-img" alt="EY workshop photo"></div>
+              <div class="viewport"><img class="gallery-img" alt="EY workshop"></div>
             </div>
             <div class="text">
               <h3>EY Workshop — Design Thinking</h3>
@@ -354,7 +379,7 @@
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="Policy Advocacy Day — Sacramento"
-                 data-images="Projects/Partnership_Advocacy_Day1.JPG|Projects/Partnership_Advocacy_Day2.JPG"
+                 data-images="Projects/Partnership_Advocacy_Day1.JPG|Projects/Partnership_Advocacy_Day1.jpg,Projects/Partnership_Advocacy_Day2.JPG|Projects/Partnership_Advocacy_Day2.jpg"
                  tabindex="0" aria-label="Partnership Advocacy gallery">
               <button class="expand-btn" data-act="expand">Expand</button>
               <div class="pill" data-role="indicator">1 / 2</div>
@@ -364,7 +389,7 @@
               <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <div class="viewport"><img class="gallery-img" alt="Policy advocacy photo"></div>
+              <div class="viewport"><img class="gallery-img" alt="Policy advocacy"></div>
             </div>
             <div class="text">
               <h3>Policy Advocacy Day — Sacramento</h3>
@@ -379,7 +404,7 @@
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="Magazine Feature"
-                 data-images="Projects/Magazine1.JPG|Projects/Magazine2.JPG|Projects/Magazine3.JPG"
+                 data-images="Projects/Magazine1.JPG|Projects/Magazine1.jpg,Projects/Magazine2.JPG|Projects/Magazine2.jpg,Projects/Magazine3.JPG|Projects/Magazine3.jpg"
                  tabindex="0" aria-label="Magazine gallery">
               <button class="expand-btn" data-act="expand">Expand</button>
               <div class="pill" data-role="indicator">1 / 3</div>
@@ -403,25 +428,23 @@
     </section>
   </main>
 
-  <!-- Lightbox -->
-  <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Viewer" style="display:none;">
-    <div class="lb-inner">
-      <div class="lb-head">
-        <div class="lb-title" id="lb-title">Viewer</div>
-        <button class="lb-close" id="lb-close" aria-label="Close (Esc)">Close</button>
-      </div>
-      <div class="lb-body" id="lb-body" style="position:relative; background:#fff; display:grid; place-items:center; padding:10px">
-        <button class="ctrl lb prev" id="lb-prev" aria-label="Previous" style="position:absolute;left:14px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="ctrl lb next" id="lb-next" aria-label="Next" style="position:absolute;right:14px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="pill" id="lb-ind" style="position:absolute;top:12px;right:12px;">Page 1</div>
-        <div class="viewport" id="lb-viewport" style="width:100%; max-width:1280px;">
-          <canvas class="lb-canvas" id="lb-canvas"></canvas>
-          <img id="lb-image" style="display:none;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity 220ms ease;" alt="">
+  <!-- Lightbox (same pattern as travel) -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lb-card" role="dialog" aria-modal="true">
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+      <div class="lb-left">
+        <div class="lb-stage" id="stage">
+          <button class="navbtn left" id="lbPrev" aria-label="Previous">‹</button>
+          <canvas id="lbCanvas"></canvas>
+          <img id="lbImg" alt="">
+          <button class="navbtn right" id="lbNext" aria-label="Next">›</button>
         </div>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+      <div class="lb-right">
+        <div class="lb-title" id="lbTitle">Viewer</div>
+        <div class="lb-sub" id="lbSub">—</div>
+        <div class="lb-notes" id="lbNotes">Use ← → to navigate. Esc to close.</div>
       </div>
     </div>
   </div>
@@ -436,11 +459,11 @@
     document.getElementById('y').textContent = new Date().getFullYear();
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    /* ---------- sizing ---------- */
-    function viewportBounds(el){
-      const vp = el.querySelector('.viewport') || el;
-      return { w: vp.clientWidth, h: vp.clientHeight };
-    }
+    /* ---------- helpers ---------- */
+    function viewportBounds(el){ const vp = el.querySelector('.viewport') || el; return { w: vp.clientWidth, h: vp.clientHeight }; }
+    function setIndicator(el, txt){ el.textContent = txt; }
+
+    /* fit pdf page to canvas cleanly (retina aware) */
     function fitPdfToCanvas(pdf, pageNum, canvas, maxW, maxH){
       return pdf.getPage(pageNum).then(page=>{
         const v1 = page.getViewport({scale:1});
@@ -456,36 +479,34 @@
         return page.render({canvasContext:ctx, viewport:vp, transform}).promise;
       });
     }
-    function setIndicator(el, txt){ el.textContent = txt; }
 
-    /* ---------- preload images with JPG/jpg fallback ---------- */
+    /* ---------- image preloader with JPG/jpg fallbacks ---------- */
+    function pick(paths, cb){
+      const list=(paths||"").split('|').map(s=>s.trim()).filter(Boolean);
+      if(!list.length){ cb(""); return; }
+      let i=0, img=new Image();
+      (function tryNext(){
+        if(i>=list.length){ cb(list[0]); return; }
+        img=new Image();
+        img.onload=()=>cb(list[i]);
+        img.onerror=()=>{ i++; tryNext(); };
+        img.src=list[i];
+      })();
+    }
     function preloadImages(paths){
       return new Promise(resolve=>{
-        const good = [];
-        let left = paths.length;
+        const good = []; let left = paths.length;
         if(!left) return resolve(good);
         paths.forEach(p=>{
-          let triedLower = false;
-          const img = new Image();
-          img.onload = ()=>{ good.push(p); if(--left===0) resolve(good); };
-          img.onerror = ()=>{
-            if(!triedLower){
-              triedLower = true;
-              const lower = p.replace(/\.JPG$/i, '.jpg');
-              const img2 = new Image();
-              img2.onload = ()=>{ good.push(lower); if(--left===0) resolve(good); };
-              img2.onerror = ()=>{ if(--left===0) resolve(good); };
-              img2.src = lower;
-            } else {
-              if(--left===0) resolve(good);
-            }
-          };
-          img.src = p;
+          pick(p, ok=>{
+            if(ok) good.push(ok);
+            if(--left===0) resolve(good);
+          });
         });
       });
     }
 
-    /* ---------- PDF (single) ---------- */
+    /* ---------- Deck (single PDF) ---------- */
     function wirePdfSingle(deck){
       const file = deck.dataset.src;
       const canvas = deck.querySelector('.pdf-canvas');
@@ -517,7 +538,7 @@
       pdfjsLib.getDocument(file).promise.then(p=>{ pdf=p; total=p.numPages; render(); });
     }
 
-    /* ---------- PDF (merged) ---------- */
+    /* ---------- Deck (merged PDFs) ---------- */
     function wirePdfMerged(deck){
       const files = deck.dataset.srcs.split('|').map(s=>s.trim());
       const canvas = deck.querySelector('.pdf-canvas');
@@ -560,7 +581,7 @@
 
     /* ---------- Image gallery ---------- */
     function wireGallery(gal){
-      const raw = gal.dataset.images.split('|').map(s=>s.trim());
+      const raw = gal.dataset.images.split(',').map(s=>s.trim());
       const imgEl = gal.querySelector('.gallery-img');
       const ind = gal.querySelector('[data-role="indicator"]');
       const prev = gal.querySelector('[data-act="prev"]');
@@ -590,99 +611,115 @@
 
       prev.addEventListener('click',()=>go(-1)); next.addEventListener('click',()=>go(1));
       expand.addEventListener('click',()=> openLBImages(gal.dataset.title, imgs, i));
+
+      // expose for LB re-open step
+      gal._getImages = ()=>imgs;
+      gal._getIndex = ()=>i;
     }
 
-    /* ---------- Lightbox ---------- */
+    /* ---------- Lightbox (travel-style) ---------- */
     const LB = document.getElementById('lightbox');
-    const LB_CLOSE = document.getElementById('lb-close');
-    const LB_TITLE = document.getElementById('lb-title');
-    const LB_IND = document.getElementById('lb-ind');
-    const LB_PREV = document.getElementById('lb-prev');
-    const LB_NEXT = document.getElementById('lb-next');
-    const LB_CANVAS = document.getElementById('lb-canvas');
-    const LB_IMG = document.getElementById('lb-image');
-    const LB_VP = document.getElementById('lb-viewport');
+    const LB_CLOSE = document.getElementById('lbClose');
+    const LB_TITLE = document.getElementById('lbTitle');
+    const LB_SUB = document.getElementById('lbSub');
+    const LB_NOTES = document.getElementById('lbNotes');
+    const LB_PREV = document.getElementById('lbPrev');
+    const LB_NEXT = document.getElementById('lbNext');
+    const LB_CANVAS = document.getElementById('lbCanvas');
+    const LB_IMG = document.getElementById('lbImg');
+    const LB_THUMBS = document.getElementById('thumbs');
+    const LB_STAGE = document.getElementById('stage');
 
     let LB_MODE=null; let LB_STATE=null;
 
+    function lbOpen(){ LB.classList.add('open'); LB.setAttribute('aria-hidden','false'); }
+    function lbClose(){ LB.classList.remove('open'); LB.setAttribute('aria-hidden','true'); LB_IMG.src=''; LB_IMG.classList.remove('show'); LB_CANVAS.classList.remove('show'); LB_THUMBS.innerHTML=''; }
+
     function openLBPdf(title, file, page, total){
       LB_MODE='pdf-single'; LB_STATE={file,page,total,pdf:null};
-      LB_TITLE.textContent = title || 'Viewer';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.style.display='flex';
-      LB_CANVAS.style.opacity=0;
+      LB_TITLE.textContent = title || 'Deck';
+      LB_SUB.textContent = 'PDF deck';
+      LB_NOTES.textContent = 'Use ← → to navigate. Esc to close.';
+      LB_IMG.style.display='none'; LB_CANVAS.style.display='block';
+      lbOpen();
       pdfjsLib.getDocument(file).promise.then(p=>{LB_STATE.pdf=p; lbRenderPdf();});
     }
     function openLBPdfMerged(title, files, absIndex, total, pagesPer){
       LB_MODE='pdf-merged'; LB_STATE={files,absIndex,total,pdfs:null,pagesPer};
-      LB_TITLE.textContent = title || 'Viewer';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; LB.style.display='flex';
-      LB_CANVAS.style.opacity=0;
+      LB_TITLE.textContent = title || 'Deck';
+      LB_SUB.textContent = 'Merged PDF';
+      LB_NOTES.textContent = 'Use ← → to navigate. Esc to close.';
+      LB_IMG.style.display='none'; LB_CANVAS.style.display='block';
+      lbOpen();
       Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(ps=>{LB_STATE.pdfs=ps; lbRenderPdfMerged();});
     }
     function openLBImages(title, imgs, idx){
       LB_MODE='images'; LB_STATE={imgs,idx};
-      LB_TITLE.textContent = title || 'Viewer';
-      LB_CANVAS.style.display='none'; LB_IMG.style.display='block'; LB.style.display='flex';
-      LB_IMG.style.opacity=0; lbRenderImages();
+      LB_TITLE.textContent = title || 'Gallery';
+      LB_SUB.textContent = 'Images';
+      LB_IMG.style.display='block'; LB_CANVAS.style.display='none';
+      lbOpen(); lbRenderImages(); renderThumbs();
     }
 
-    function lbBounds(){ return { w: LB_VP.clientWidth, h: LB_VP.clientHeight }; }
+    function lbBounds(){ return { w: LB_STAGE.clientWidth-20, h: LB_STAGE.clientHeight-20 }; }
 
     function lbRenderPdf(){
       const {w,h} = lbBounds();
       fitPdfToCanvas(LB_STATE.pdf, LB_STATE.page, LB_CANVAS, w, h).then(()=>{
-        LB_IND.textContent = 'Page ' + LB_STATE.page + ' / ' + LB_STATE.total;
-        LB_PREV.disabled = (LB_STATE.page<=1);
-        LB_NEXT.disabled = (LB_STATE.page>=LB_STATE.total);
-        requestAnimationFrame(()=>LB_CANVAS.style.opacity=1);
+        LB_CANVAS.classList.add('show'); LB_IMG.classList.remove('show');
+        LB_PREV.disabled=(LB_STATE.page<=1); LB_NEXT.disabled=(LB_STATE.page>=LB_STATE.total);
       });
     }
     function lbRenderPdfMerged(){
       function convert(abs){ let left=abs, d=0; while(left>LB_STATE.pagesPer[d]){ left-=LB_STATE.pagesPer[d]; d++; } return {doc:d, page:left}; }
-      const {w,h} = lbBounds();
-      const pos = convert(LB_STATE.absIndex);
+      const {w,h} = lbBounds(); const pos=convert(LB_STATE.absIndex);
       fitPdfToCanvas(LB_STATE.pdfs[pos.doc], pos.page, LB_CANVAS, w, h).then(()=>{
-        LB_IND.textContent = 'Page ' + LB_STATE.absIndex + ' / ' + LB_STATE.total;
-        LB_PREV.disabled = (LB_STATE.absIndex<=1);
-        LB_NEXT.disabled = (LB_STATE.absIndex>=LB_STATE.total);
-        requestAnimationFrame(()=>LB_CANVAS.style.opacity=1);
+        LB_CANVAS.classList.add('show'); LB_IMG.classList.remove('show');
+        LB_PREV.disabled=(LB_STATE.absIndex<=1); LB_NEXT.disabled=(LB_STATE.absIndex>=LB_STATE.total);
       });
     }
     function lbRenderImages(){
-      LB_IMG.onload = ()=> requestAnimationFrame(()=>LB_IMG.style.opacity=1);
+      LB_IMG.classList.remove('show');
+      LB_IMG.onload=()=>LB_IMG.classList.add('show');
       LB_IMG.src = LB_STATE.imgs[LB_STATE.idx];
-      LB_IND.textContent = (LB_STATE.idx+1) + ' / ' + LB_STATE.imgs.length;
-      LB_PREV.disabled = (LB_STATE.idx===0);
-      LB_NEXT.disabled = (LB_STATE.idx===LB_STATE.imgs.length-1);
+      LB_PREV.disabled=(LB_STATE.idx===0); LB_NEXT.disabled=(LB_STATE.idx===LB_STATE.imgs.length-1);
+    }
+    function renderThumbs(){
+      LB_THUMBS.innerHTML='';
+      LB_STATE.imgs.forEach((src,i)=>{
+        const im=new Image(); im.src=src; if(i===LB_STATE.idx) im.classList.add('active');
+        im.addEventListener('click',()=>{ LB_STATE.idx=i; lbRenderImages(); renderThumbs(); });
+        LB_THUMBS.appendChild(im);
+      });
+      LB_THUMBS.style.display = (LB_MODE==='images') ? 'flex' : 'none';
     }
     function lbGo(d){
-      if(LB_MODE==='pdf-single'){
-        LB_STATE.page = Math.min(LB_STATE.total, Math.max(1, LB_STATE.page + d)); LB_CANVAS.style.opacity=0; lbRenderPdf();
-      }else if(LB_MODE==='pdf-merged'){
-        LB_STATE.absIndex = Math.min(LB_STATE.total, Math.max(1, LB_STATE.absIndex + d)); LB_CANVAS.style.opacity=0; lbRenderPdfMerged();
-      }else if(LB_MODE==='images'){
-        LB_STATE.idx = Math.min(LB_STATE.imgs.length-1, Math.max(0, LB_STATE.idx + d)); LB_IMG.style.opacity=0; lbRenderImages();
-      }
+      if(LB_MODE==='pdf-single'){ LB_STATE.page=Math.min(LB_STATE.total,Math.max(1,LB_STATE.page+d)); lbRenderPdf(); }
+      else if(LB_MODE==='pdf-merged'){ LB_STATE.absIndex=Math.min(LB_STATE.total,Math.max(1,LB_STATE.absIndex+d)); lbRenderPdfMerged(); }
+      else if(LB_MODE==='images'){ LB_STATE.idx=Math.min(LB_STATE.imgs.length-1,Math.max(0,LB_STATE.idx+d)); lbRenderImages(); renderThumbs(); }
     }
-    LB_PREV.addEventListener('click', ()=>lbGo(-1));
-    LB_NEXT.addEventListener('click', ()=>lbGo(1));
-    LB_CLOSE.addEventListener('click', ()=> LB.style.display='none');
-    LB.addEventListener('click', (e)=>{ if(e.target===LB) LB.style.display='none'; });
-    window.addEventListener('resize', ()=>{ if(LB.style.display!=='flex') return; if(LB_MODE==='pdf-single') lbRenderPdf(); if(LB_MODE==='pdf-merged') lbRenderPdfMerged(); });
-    document.addEventListener('keydown', (e)=>{
-      if(LB.style.display==='flex'){
-        if(e.key==='ArrowRight'){ e.preventDefault(); lbGo(1); }
-        if(e.key==='ArrowLeft'){  e.preventDefault(); lbGo(-1); }
-        if(e.key==='Escape'){     e.preventDefault(); LB.style.display='none'; }
-      }
+    LB_PREV.addEventListener('click',()=>lbGo(-1));
+    LB_NEXT.addEventListener('click',()=>lbGo(1));
+    LB_CLOSE.addEventListener('click',lbClose);
+    LB.addEventListener('click',e=>{ if(e.target===LB) lbClose(); });
+    document.addEventListener('keydown',e=>{
+      if(!LB.classList.contains('open')) return;
+      if(e.key==='Escape') lbClose();
+      if(e.key==='ArrowLeft') lbGo(-1);
+      if(e.key==='ArrowRight') lbGo(1);
+    });
+    window.addEventListener('resize', ()=>{
+      if(!LB.classList.contains('open')) return;
+      if(LB_MODE==='pdf-single') lbRenderPdf();
+      if(LB_MODE==='pdf-merged') lbRenderPdfMerged();
     });
 
-    /* Wire up viewers */
+    /* Wire viewers */
     document.querySelectorAll('.media.deck[data-type="pdf-single"]').forEach(wirePdfSingle);
     document.querySelectorAll('.media.deck[data-type="pdf-merged"]').forEach(wirePdfMerged);
     document.querySelectorAll('.media.gallery').forEach(wireGallery);
 
-    /* Fade-in on scroll */
+    /* Reveal panels on scroll */
     const io = new IntersectionObserver((ents)=>{
       ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); } });
     }, {threshold:.2});
@@ -690,3 +727,4 @@
   </script>
 </body>
 </html>
+
