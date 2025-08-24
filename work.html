@@ -10,15 +10,16 @@
       --sep: rgba(17,19,24,.16);
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
       --card:#ffffff; --bd:#e5e7eb;
-      --shadow: 0 16px 44px rgba(17,19,24,.10);
+      --shadow: 0 24px 56px rgba(17,19,24,.12);
+      --panel-h: clamp(420px, 62vh, 740px);
     }
 
     .page{padding:32px 16px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
-    .wide{width:min(1120px,95vw);margin-inline:auto;}
+    .wide{width:min(1200px,96vw);margin-inline:auto;}
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* ===== Work / Involvements (centered, danielgao-style list) ===== */
+    /* ===== Work / Involvements ===== */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -33,38 +34,33 @@
     .role{font-size:13px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .right{margin-left:auto; font-size:13px; color:var(--muted2); white-space:nowrap;}
     @media (max-width:560px){ .role{display:none;} }
-    footer .narrow, footer .wide{padding:26px 0; font-size:14px; color:var(--muted2);}
 
-    /* ===== Projects (refreshed look) ===== */
+    /* ===== Projects ===== */
     .projects{margin-top:48px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
-    .proj-list{display:flex;flex-direction:column;gap:28px}
 
-    .bubble{
-      position:relative; border-radius:26px; overflow:hidden; background:var(--card);
-      border:1px solid var(--bd); box-shadow:var(--shadow); transition: transform .2s ease;
+    .panels{display:flex;flex-direction:column;gap:46px;}
+
+    /* Big cinematic panel */
+    .panel{
+      position:relative; border-radius:32px; overflow:hidden; background:var(--card);
+      border:1px solid var(--bd); box-shadow:var(--shadow);
+      opacity:0; transform:translateY(28px);
+      transition:opacity .6s ease, transform .6s ease;
     }
-    .bubble:hover{ transform: translateY(-2px); }
+    .panel.revealed{opacity:1; transform:none;}
 
-    .bubble-grid{
-      position:relative; display:grid; gap:18px; align-items:stretch;
-      grid-template-columns: 1.75fr 1fr; padding:18px;
+    .panel-grid{
+      display:grid; gap:24px; align-items:center;
+      grid-template-columns: 1.6fr 1fr; padding:22px;
     }
-    .proj-list .bubble:nth-child(even) .bubble-grid{grid-template-columns: 1fr 1.75fr;}
-    .proj-list .bubble:nth-child(even) .media{order:2}
-    .proj-list .bubble:nth-child(even) .text{order:1}
-    @media (max-width:1020px){ .bubble-grid{grid-template-columns:1fr; padding:16px} }
+    @media (max-width:1020px){ .panel-grid{grid-template-columns:1fr; padding:16px} }
 
-    .media{ position:relative; border-radius:18px; overflow:hidden; background:#ffffff; border:1px solid var(--bd); }
-    .viewport{
-      width:100%;
-      aspect-ratio: 16 / 10;        /* uniform frame; no jump on portrait/landscape */
-      display:grid; place-items:center;
-      background:#fff;
-    }
-    @media (max-width:700px){ .viewport{ aspect-ratio: 4 / 3; } }
+    /* Media area (uniform height, no jump) */
+    .media{ position:relative; border-radius:22px; overflow:hidden; background:#fff; border:1px solid var(--bd); }
+    .viewport{ width:100%; height:var(--panel-h); display:grid; place-items:center; background:#fff; }
 
-    /* Fade-in on change */
+    /* Fade between pages/images */
     .pdf-canvas, .lb-canvas, .gallery-img{
       width:100%; height:100%; object-fit:contain; display:block; background:#fff;
       opacity:0; transition:opacity 220ms ease;
@@ -72,17 +68,18 @@
     .media-ready .pdf-canvas,
     .media-ready .gallery-img{ opacity:1; }
 
+    /* Controls */
     .ctrl{
       position:absolute; top:50%; transform:translateY(-50%); z-index:3;
-      width:44px; height:44px; border-radius:999px; border:1px solid var(--bd);
+      width:48px; height:48px; border-radius:999px; border:1px solid var(--bd);
       background:rgba(255,255,255,.96); backdrop-filter:saturate(120%) blur(3px);
       display:grid; place-items:center; cursor:pointer; user-select:none;
-      box-shadow:0 10px 24px rgba(17,19,24,.14);
+      box-shadow:0 14px 28px rgba(17,19,24,.18);
     }
     .ctrl:disabled{opacity:.45; cursor:not-allowed}
-    .ctrl.prev{left:12px}
-    .ctrl.next{right:12px}
-    .ctrl svg{width:20px;height:20px}
+    .ctrl.prev{left:14px}
+    .ctrl.next{right:14px}
+    .ctrl svg{width:22px;height:22px}
 
     .pill{
       position:absolute; top:12px; right:12px; z-index:3;
@@ -97,14 +94,19 @@
       box-shadow:0 6px 16px rgba(17,19,24,.12);
     }
 
+    /* Description */
     .text{
-      border-radius:18px; border:1px dashed var(--bd); background:rgba(255,255,255,.9);
-      padding:18px; display:flex; flex-direction:column; justify-content:center;
+      border-radius:22px; background:linear-gradient(180deg,#ffffff 0%,#fafafa 100%);
+      border:1px solid var(--bd); padding:24px 22px;
+      display:flex; flex-direction:column; justify-content:center;
+      min-height: min(var(--panel-h), 56vh);
     }
-    .text h3{margin:0 0 10px; font-size:22px}
-    .text p{margin:0 0 14px; color:var(--muted)}
+    .text h3{margin:0 0 12px; font-size:26px; line-height:1.15;}
+    .text p{margin:0 0 16px; color:var(--muted); font-size:15px; line-height:1.55;}
     .tags{display:flex; gap:8px; flex-wrap:wrap}
     .tag{font-size:12px; padding:6px 10px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
+
+    footer .wide{padding:28px 0; font-size:14px; color:var(--muted2);}
   </style>
 </head>
 <body>
@@ -123,7 +125,7 @@
   </nav>
 
   <main class="page">
-    <!-- (optional resume embed slot) -->
+    <!-- (optional) résumé slot -->
     <section class="narrow" id="resume-slot"></section>
 
     <!-- ===================== WORK ===================== -->
@@ -268,11 +270,11 @@
       <div class="kicker">Projects &amp; Artifacts</div>
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
 
-      <div class="proj-list">
+      <div class="panels">
 
         <!-- 1) Quokka -->
-        <article class="bubble">
-          <div class="bubble-grid">
+        <article class="panel">
+          <div class="panel-grid">
             <div class="media deck"
                  data-type="pdf-single"
                  data-title="Quokka Brew — Design Research Deck"
@@ -297,8 +299,8 @@
         </article>
 
         <!-- 2) Clear Clinical (merged PDFs) -->
-        <article class="bubble">
-          <div class="bubble-grid">
+        <article class="panel">
+          <div class="panel-grid">
             <div class="media deck"
                  data-type="pdf-merged"
                  data-title="Clear Clinical — Mid + Final Presentations"
@@ -316,15 +318,15 @@
             </div>
             <div class="text">
               <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both <em>Mid-Semester Deliverable</em> and <em>Final Presentation</em> into one deck.</p>
+              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both <em>Mid-Semester</em> and <em>Final</em> decks.</p>
               <div class="tags"><span class="tag">Deck</span><span class="tag">Product Strategy</span><span class="tag">Research</span></div>
             </div>
           </div>
         </article>
 
         <!-- 3) EY Workshop -->
-        <article class="bubble">
-          <div class="bubble-grid">
+        <article class="panel">
+          <div class="panel-grid">
             <div class="media gallery"
                  data-title="EY Workshop — Design Thinking for Low-Income Students"
                  data-images="Projects/EY1.JPG|Projects/EY2.JPG|Projects/EY3.JPG|Projects/EY4.JPG"
@@ -348,8 +350,8 @@
         </article>
 
         <!-- 4) Partnership Advocacy Day -->
-        <article class="bubble">
-          <div class="bubble-grid">
+        <article class="panel">
+          <div class="panel-grid">
             <div class="media gallery"
                  data-title="Policy Advocacy Day — Sacramento"
                  data-images="Projects/Partnership_Advocacy_Day1.JPG|Projects/Partnership_Advocacy_Day2.JPG"
@@ -373,8 +375,8 @@
         </article>
 
         <!-- 5) Magazine Feature -->
-        <article class="bubble">
-          <div class="bubble-grid">
+        <article class="panel">
+          <div class="panel-grid">
             <div class="media gallery"
                  data-title="Magazine Feature"
                  data-images="Projects/Magazine1.JPG|Projects/Magazine2.JPG|Projects/Magazine3.JPG"
@@ -434,6 +436,7 @@
     document.getElementById('y').textContent = new Date().getFullYear();
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
+    /* ---------- sizing ---------- */
     function viewportBounds(el){
       const vp = el.querySelector('.viewport') || el;
       return { w: vp.clientWidth, h: vp.clientHeight };
@@ -455,6 +458,7 @@
     }
     function setIndicator(el, txt){ el.textContent = txt; }
 
+    /* ---------- preload images with JPG/jpg fallback ---------- */
     function preloadImages(paths){
       return new Promise(resolve=>{
         const good = [];
@@ -481,6 +485,7 @@
       });
     }
 
+    /* ---------- PDF (single) ---------- */
     function wirePdfSingle(deck){
       const file = deck.dataset.src;
       const canvas = deck.querySelector('.pdf-canvas');
@@ -512,6 +517,7 @@
       pdfjsLib.getDocument(file).promise.then(p=>{ pdf=p; total=p.numPages; render(); });
     }
 
+    /* ---------- PDF (merged) ---------- */
     function wirePdfMerged(deck){
       const files = deck.dataset.srcs.split('|').map(s=>s.trim());
       const canvas = deck.querySelector('.pdf-canvas');
@@ -552,6 +558,7 @@
       });
     }
 
+    /* ---------- Image gallery ---------- */
     function wireGallery(gal){
       const raw = gal.dataset.images.split('|').map(s=>s.trim());
       const imgEl = gal.querySelector('.gallery-img');
@@ -585,7 +592,7 @@
       expand.addEventListener('click',()=> openLBImages(gal.dataset.title, imgs, i));
     }
 
-    /* Lightbox */
+    /* ---------- Lightbox ---------- */
     const LB = document.getElementById('lightbox');
     const LB_CLOSE = document.getElementById('lb-close');
     const LB_TITLE = document.getElementById('lb-title');
@@ -674,6 +681,12 @@
     document.querySelectorAll('.media.deck[data-type="pdf-single"]').forEach(wirePdfSingle);
     document.querySelectorAll('.media.deck[data-type="pdf-merged"]').forEach(wirePdfMerged);
     document.querySelectorAll('.media.gallery').forEach(wireGallery);
+
+    /* Fade-in on scroll */
+    const io = new IntersectionObserver((ents)=>{
+      ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); } });
+    }, {threshold:.2});
+    document.querySelectorAll('.panel').forEach(p=>io.observe(p));
   </script>
 </body>
 </html>
