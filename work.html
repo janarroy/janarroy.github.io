@@ -11,7 +11,6 @@
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
       --card:#ffffff; --bd:#e5e7eb;
       --shadow: 0 16px 44px rgba(17,19,24,.10);
-      --soft: 10px;
     }
 
     .page{padding:32px 16px;}
@@ -19,7 +18,7 @@
     .wide{width:min(1120px,95vw);margin-inline:auto;}
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
 
-    /* Work / Involvements (unchanged look) */
+    /* ===== Work / Involvements (centered, danielgao-style list) ===== */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -36,12 +35,11 @@
     @media (max-width:560px){ .role{display:none;} }
     footer .narrow, footer .wide{padding:26px 0; font-size:14px; color:var(--muted2);}
 
-    /* ============== Projects (refreshed look) ============== */
+    /* ===== Projects (refreshed look) ===== */
     .projects{margin-top:48px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
     .proj-list{display:flex;flex-direction:column;gap:28px}
 
-    /* Bubble: clean white card, soft shadow, rounded; no colored corners/pattern */
     .bubble{
       position:relative; border-radius:26px; overflow:hidden; background:var(--card);
       border:1px solid var(--bd); box-shadow:var(--shadow); transition: transform .2s ease;
@@ -57,17 +55,16 @@
     .proj-list .bubble:nth-child(even) .text{order:1}
     @media (max-width:1020px){ .bubble-grid{grid-template-columns:1fr; padding:16px} }
 
-    /* Media pane — UNIFORM viewport; portrait/landscape never change height */
     .media{ position:relative; border-radius:18px; overflow:hidden; background:#ffffff; border:1px solid var(--bd); }
     .viewport{
       width:100%;
-      aspect-ratio: 16 / 10;        /* desktop uniform */
+      aspect-ratio: 16 / 10;        /* uniform frame; no jump on portrait/landscape */
       display:grid; place-items:center;
-      background:#fff;              /* plain white (no corner color) */
+      background:#fff;
     }
     @media (max-width:700px){ .viewport{ aspect-ratio: 4 / 3; } }
 
-    /* Canvas/image always contained, and they fade in when updated */
+    /* Fade-in on change */
     .pdf-canvas, .lb-canvas, .gallery-img{
       width:100%; height:100%; object-fit:contain; display:block; background:#fff;
       opacity:0; transition:opacity 220ms ease;
@@ -75,7 +72,6 @@
     .media-ready .pdf-canvas,
     .media-ready .gallery-img{ opacity:1; }
 
-    /* Controls */
     .ctrl{
       position:absolute; top:50%; transform:translateY(-50%); z-index:3;
       width:44px; height:44px; border-radius:999px; border:1px solid var(--bd);
@@ -101,7 +97,6 @@
       box-shadow:0 6px 16px rgba(17,19,24,.12);
     }
 
-    /* Description pane */
     .text{
       border-radius:18px; border:1px dashed var(--bd); background:rgba(255,255,255,.9);
       padding:18px; display:flex; flex-direction:column; justify-content:center;
@@ -113,7 +108,7 @@
   </style>
 </head>
 <body>
-  <!-- NAV -->
+  <!-- Nav -->
   <nav class="nav">
     <div class="narrow nav-inner">
       <a class="brand" href="./">JAN</a>
@@ -128,22 +123,154 @@
   </nav>
 
   <main class="page">
-    <!-- (optional) résumé slot untouched) -->
+    <!-- (optional resume embed slot) -->
     <section class="narrow" id="resume-slot"></section>
 
-    <!-- ===== Work ===== (your current list preserved) -->
-    <!-- -------------- COPY OF YOUR CURRENT WORK/INVOLVEMENTS BLOCK GOES HERE -------------- -->
-    <!-- I’m not repeating it to keep this reply short, but keep exactly what you already have
-         in the previous version. Only the Projects section + styles/JS changed. -->
+    <!-- ===================== WORK ===================== -->
+    <section class="narrow">
+      <h1 class="section-title">Work</h1>
+      <ul class="list" aria-label="Work experience">
+        <li>
+          <a class="row" href="#" aria-label="USC Marshall Peer Career Advisor – Tech">
+            <span class="left">
+              <img class="logo" src="images/Marshall.JPG" alt="">
+              <span class="meta"><span class="co">USC Marshall</span><span class="role">Peer Career Advisor – Tech</span></span>
+            </span>
+            <span class="right">Aug 2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.amazon.jobs/content/en/teams/devices-and-services/lab126" target="_blank" rel="noopener" aria-label="Amazon">
+            <span class="left">
+              <img class="logo" src="images/Amazon.JPG" alt="">
+              <span class="meta"><span class="co">Amazon</span><span class="role">Technical Program Manager Intern</span></span>
+            </span>
+            <span class="right">May–Aug 2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.accenture.com/us-en/services/ecosystem-partners/microsoft" target="_blank" rel="noopener" aria-label="Accenture">
+            <span class="left">
+              <img class="logo" src="images/Accenture.JPG" alt="">
+              <span class="meta"><span class="co">Accenture</span><span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span></span>
+            </span>
+            <span class="right">Jun–Aug 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.apple.com/careers/us/work-at-apple/students.html" target="_blank" rel="noopener" aria-label="Apple">
+            <span class="left">
+              <img class="logo" src="images/Apple.JPG" alt="">
+              <span class="meta"><span class="co">Apple</span><span class="role">Product Management Intern</span></span>
+            </span>
+            <span class="right">Aug 2023–Jan 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.microsoft.com/en-us/modernfinance/digitaltransformation.aspx" target="_blank" rel="noopener" aria-label="Microsoft">
+            <span class="left">
+              <img class="logo" src="images/Microsoft.JPG" alt="">
+              <span class="meta"><span class="co">Microsoft</span><span class="role">Finance Data Analyst Intern</span></span>
+            </span>
+            <span class="right">May–Aug 2023</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://worldfitforkids.org/" target="_blank" rel="noopener" aria-label="A World Fit For Kids">
+            <span class="left">
+              <img class="logo" src="images/A-World-Fit-for-Kids.JPG" alt="">
+              <span class="meta"><span class="co">A World Fit For Kids</span><span class="role">Strategy Consultant</span></span>
+            </span>
+            <span class="right">2022–2023</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="Los Angeles Rams">
+            <span class="left">
+              <img class="logo" src="images/LARAMS.JPG" alt="">
+              <span class="meta"><span class="co">Los Angeles Rams</span><span class="role">Data &amp; Systems Analyst – Intern</span></span>
+            </span>
+            <span class="right">Jun–Aug 2021</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="LA Conservation Corps">
+            <span class="left">
+              <img class="logo" src="images/LACC.JPG" alt="">
+              <span class="meta"><span class="co">LA Conservation Corps</span><span class="role">Project Lead</span></span>
+            </span>
+            <span class="right">Dec 2019–May 2020</span>
+          </a>
+        </li>
+      </ul>
 
-    <!-- ===== Projects (same items you already have; only visuals/JS changed) ===== -->
+      <h2 class="section-title">Involvements</h2>
+      <ul class="list" aria-label="Student & community involvement">
+        <li>
+          <a class="row" href="https://www.uscbtg.org/" target="_blank" rel="noopener" aria-label="Business Technology Group (USC)">
+            <span class="left">
+              <img class="logo" src="images/BTG.JPG" alt="">
+              <span class="meta"><span class="co">Business Technology Group (USC)</span><span class="role">VP of Projects</span></span>
+            </span>
+            <span class="right">2024–Present</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.ey.com/en_us/about-us/corporate-responsibility/mentoring-of-the-future-workforce-strengthens-communities-and-careers" target="_blank" rel="noopener" aria-label="EY CMAP">
+            <span class="left">
+              <img class="logo" src="images/EY.JPG" alt="">
+              <span class="meta"><span class="co">EY CMAP</span><span class="role">Education Strategy Consultant</span></span>
+            </span>
+            <span class="right">2023–Present</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://uscfgsa.carrd.co/" target="_blank" rel="noopener" aria-label="USC First-Generation Student Center">
+            <span class="left">
+              <img class="logo" src="images/FGSA.JPG" alt="">
+              <span class="meta"><span class="co">USC First-Generation Student Center</span><span class="role">Program Manager</span></span>
+            </span>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.usclbsa.com/" target="_blank" rel="noopener" aria-label="Latino Business Student Association">
+            <span class="left">
+              <img class="logo" src="images/LBSA.JPG" alt="">
+              <span class="meta"><span class="co">Latino Business Student Association</span><span class="role">Member</span></span>
+            </span>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.uscisa.org/" target="_blank" rel="noopener" aria-label="International Student Assembly">
+            <span class="left">
+              <img class="logo" src="images/ISA.JPG" alt="">
+              <span class="meta"><span class="co">International Student Assembly</span><span class="role">Advocacy &amp; Program Manager Intern</span></span>
+            </span>
+            <span class="right">2023–2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://partnershipla.org/who-we-are/" target="_blank" rel="noopener" aria-label="The LA Partnership">
+            <span class="left">
+              <img class="logo" src="images/Partnership.JPG" alt="">
+              <span class="meta"><span class="co">The LA Partnership</span><span class="role">Policy Advisory Board Member</span></span>
+            </span>
+            <span class="right">2021–2022</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===================== PROJECTS / ARTIFACTS ===================== -->
     <section class="wide projects" id="projects">
       <div class="kicker">Projects &amp; Artifacts</div>
       <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
 
       <div class="proj-list">
 
-        <!-- QUOKKA (single PDF) -->
+        <!-- 1) Quokka -->
         <article class="bubble">
           <div class="bubble-grid">
             <div class="media deck"
@@ -169,7 +296,7 @@
           </div>
         </article>
 
-        <!-- CLEAR CLINICAL (merged PDFs) -->
+        <!-- 2) Clear Clinical (merged PDFs) -->
         <article class="bubble">
           <div class="bubble-grid">
             <div class="media deck"
@@ -189,13 +316,13 @@
             </div>
             <div class="text">
               <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both <em>Mid-Semester</em> and <em>Final</em> decks.</p>
+              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both <em>Mid-Semester Deliverable</em> and <em>Final Presentation</em> into one deck.</p>
               <div class="tags"><span class="tag">Deck</span><span class="tag">Product Strategy</span><span class="tag">Research</span></div>
             </div>
           </div>
         </article>
 
-        <!-- EY WORKSHOP (gallery) -->
+        <!-- 3) EY Workshop -->
         <article class="bubble">
           <div class="bubble-grid">
             <div class="media gallery"
@@ -220,7 +347,7 @@
           </div>
         </article>
 
-        <!-- PARTNERSHIP ADVOCACY (gallery) -->
+        <!-- 4) Partnership Advocacy Day -->
         <article class="bubble">
           <div class="bubble-grid">
             <div class="media gallery"
@@ -245,7 +372,7 @@
           </div>
         </article>
 
-        <!-- MAGAZINE (gallery) -->
+        <!-- 5) Magazine Feature -->
         <article class="bubble">
           <div class="bubble-grid">
             <div class="media gallery"
@@ -274,7 +401,7 @@
     </section>
   </main>
 
-  <!-- Lightbox (unchanged layout) -->
+  <!-- Lightbox -->
   <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Viewer" style="display:none;">
     <div class="lb-inner">
       <div class="lb-head">
@@ -307,7 +434,6 @@
     document.getElementById('y').textContent = new Date().getFullYear();
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    /* ---------- sizing helpers ---------- */
     function viewportBounds(el){
       const vp = el.querySelector('.viewport') || el;
       return { w: vp.clientWidth, h: vp.clientHeight };
@@ -329,7 +455,6 @@
     }
     function setIndicator(el, txt){ el.textContent = txt; }
 
-    /* ---------- preload images with JPG/jpg fallback & skip broken ---------- */
     function preloadImages(paths){
       return new Promise(resolve=>{
         const good = [];
@@ -356,7 +481,6 @@
       });
     }
 
-    /* ---------- PDF (single) with fade ---------- */
     function wirePdfSingle(deck){
       const file = deck.dataset.src;
       const canvas = deck.querySelector('.pdf-canvas');
@@ -369,11 +493,10 @@
       function update(){ setIndicator(ind, 'Page '+page+' / '+total); prev.disabled=(page<=1); next.disabled=(page>=total); }
       function render(){
         if(!pdf || rendering) return; rendering=true;
-        deck.classList.remove('media-ready'); // start fade
+        deck.classList.remove('media-ready');
         const {w,h} = viewportBounds(deck);
         fitPdfToCanvas(pdf,page,canvas,w,h).finally(()=>{
           rendering=false; update();
-          // end fade on next frame to ensure pixels are drawn
           requestAnimationFrame(()=>deck.classList.add('media-ready'));
         });
       }
@@ -389,7 +512,6 @@
       pdfjsLib.getDocument(file).promise.then(p=>{ pdf=p; total=p.numPages; render(); });
     }
 
-    /* ---------- PDF (merged) with fade ---------- */
     function wirePdfMerged(deck){
       const files = deck.dataset.srcs.split('|').map(s=>s.trim());
       const canvas = deck.querySelector('.pdf-canvas');
@@ -430,7 +552,6 @@
       });
     }
 
-    /* ---------- Image gallery with fade + strict uniform viewport ---------- */
     function wireGallery(gal){
       const raw = gal.dataset.images.split('|').map(s=>s.trim());
       const imgEl = gal.querySelector('.gallery-img');
@@ -447,7 +568,7 @@
       });
 
       function set(initial=false){
-        gal.classList.remove('media-ready'); // start fade
+        gal.classList.remove('media-ready');
         imgEl.onload = ()=>{ requestAnimationFrame(()=>gal.classList.add('media-ready')); };
         imgEl.src = imgs[i];
         ind.textContent = (i+1)+' / '+imgs.length;
@@ -464,7 +585,7 @@
       expand.addEventListener('click',()=> openLBImages(gal.dataset.title, imgs, i));
     }
 
-    /* ---------- Lightbox ---------- */
+    /* Lightbox */
     const LB = document.getElementById('lightbox');
     const LB_CLOSE = document.getElementById('lb-close');
     const LB_TITLE = document.getElementById('lb-title');
@@ -549,7 +670,7 @@
       }
     });
 
-    /* Wire up all viewers (same data you already have on the page) */
+    /* Wire up viewers */
     document.querySelectorAll('.media.deck[data-type="pdf-single"]').forEach(wirePdfSingle);
     document.querySelectorAll('.media.deck[data-type="pdf-merged"]').forEach(wirePdfMerged);
     document.querySelectorAll('.media.gallery').forEach(wireGallery);
