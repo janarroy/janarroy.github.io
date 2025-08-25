@@ -15,12 +15,6 @@
       --bezier:cubic-bezier(.22,.61,.36,1);
     }
 
-    /* Force a single, solid background (no gradient seam) */
-    html, body{
-      background:#f7f8fc !important;
-      background-image:none !important;
-    }
-
     /* Top bar */
     .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.84);backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid rgba(17,24,39,.06)}
     .nav-inner{display:flex;align-items:center;gap:12px;padding:10px 0}
@@ -28,15 +22,14 @@
     .btn{padding:8px 14px;border-radius:999px;background:#f3f4f6;text-decoration:none;color:#0f172a;font-weight:600;box-shadow:inset 0 0 0 1px rgba(17,24,39,.08)}
     .nav-links{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
 
-    .page{padding:20px 16px 32px;} /* was 32px top → tightened */
+    .page{padding:20px 16px 32px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
     .wide{width:min(1200px,96vw);margin-inline:auto;}
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
-    /* pull the first title up directly under Snoopy */
     .hero + .narrow .section-title:first-child{margin-top:8px;}
 
-    /* Snoopy hero (small + centered, Daniel-style) */
-    .hero{display:grid;place-items:center;margin:6px 0 0} /* tighter */
+    /* Snoopy hero (small + centered) */
+    .hero{display:grid;place-items:center;margin:6px 0 0}
     .snoopy{width:min(200px,42vw);height:auto;display:block;border-radius:18px;filter:drop-shadow(0 12px 28px rgba(17,19,24,.16))}
     .intro{margin-top:10px;text-align:center}
     .intro h1{margin:8px 0 6px;font-size:24px}
@@ -59,7 +52,7 @@
     @media (max-width:560px){ .role{display:none;} }
 
     /* ===== Projects ===== */
-    .projects{margin-top:36px;} /* keep a little breathing room */
+    .projects{margin-top:36px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
     .panels{display:flex;flex-direction:column;gap:46px;}
 
@@ -79,7 +72,7 @@
     .media{ position:relative; border-radius:22px; overflow:hidden; background:#fff; border:1px solid var(--bd); cursor:pointer; }
     .viewport{ width:100%; height:var(--panel-h); display:grid; place-items:center; background:#fff; }
     .pdf-canvas{ width:100%; height:100%; display:block; background:#fff; opacity:0; transition:opacity 220ms ease; }
-    .gallery-img{ width:100%; height:100%; object-fit:cover; display:block; background:#fff; opacity:0; transition:opacity 220ms ease; } /* crop in panel */
+    .gallery-img{ width:100%; height:100%; object-fit:cover; display:block; background:#fff; opacity:0; transition:opacity 220ms ease; }
     .media-ready .pdf-canvas, .media-ready .gallery-img{ opacity:1; }
 
     .ctrl{
@@ -111,7 +104,7 @@
 
     footer .wide{padding:28px 0; font-size:14px; color:var(--muted2);}
 
-    /* ===== Lightbox (fit to screen; no cropping) ===== */
+    /* ===== Lightbox ===== */
     .lightbox{position:fixed;inset:0;display:none;place-items:center;z-index:100;background:rgba(17,24,39,.35);backdrop-filter:blur(4px) saturate(1.05)}
     .lightbox.open{display:grid;animation:fadeIn .25s ease forwards}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -154,7 +147,7 @@
   </nav>
 
   <main class="page">
-    <!-- Snoopy welcome (smaller) -->
+    <!-- Snoopy welcome -->
     <section class="hero">
       <img class="snoopy" src="Snoopy_Welcome.png" alt="Welcome — Snoopy" />
       <div class="intro">
@@ -301,44 +294,12 @@
     </section>
 
     <!-- ===================== PROJECTS / ARTIFACTS ===================== -->
-   <!-- Example: give your panels/sections ids -->
-<section class="wide projects" id="projects">
-  <div class="kicker">Projects &amp; Artifacts</div>
-  <h2 class="section-title" style="margin-top:4px;">Spotlight</h2>
-
-  <div class="panels">
- <!-- 1) Quokka -->
-<article class="panel" id="quokka">
-  …
-</article>
-
-<!-- 2) Clear Clinical -->
-<article class="panel" id="clear-clinical">
-  …
-</article>
-
-<!-- 3) EY Workshop -->
-<article class="panel" id="ey-workshop">
-  …
-</article>
-
-<!-- 4) Policy Advocacy Day -->
-<article class="panel" id="advocacy-day">
-  …
-</article>
-
-<!-- 5) Magazine Feature -->
-<article class="panel" id="magazine">
-  …
-</article>
-
-
-    <!-- Keep the rest of your panels as-is -->
-  </div>
-</section>
+    <section class="wide projects" id="projects">
+      <div class="kicker">Projects &amp; Artifacts</div>
+      <div class="panels">
 
         <!-- 1) Quokka -->
-        <article class="panel">
+        <article class="panel" id="quokka">
           <div class="panel-grid">
             <div class="media deck"
                  data-type="pdf-single"
@@ -363,7 +324,7 @@
         </article>
 
         <!-- 2) Clear Clinical (merged PDFs) -->
-        <article class="panel">
+        <article class="panel" id="clear-clinical">
           <div class="panel-grid">
             <div class="media deck"
                  data-type="pdf-merged"
@@ -388,7 +349,7 @@
         </article>
 
         <!-- 3) EY Workshop -->
-        <article class="panel">
+        <article class="panel" id="ey-workshop">
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="EY Workshop — Design Thinking for Low-Income Students"
@@ -412,7 +373,7 @@
         </article>
 
         <!-- 4) Policy Advocacy Day -->
-        <article class="panel">
+        <article class="panel" id="advocacy-day">
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="Policy Advocacy Day — Sacramento"
@@ -436,7 +397,7 @@
         </article>
 
         <!-- 5) Magazine Feature -->
-        <article class="panel">
+        <article class="panel" id="magazine">
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="Magazine Feature"
@@ -458,6 +419,7 @@
             </div>
           </div>
         </article>
+
       </div>
     </section>
   </main>
@@ -749,6 +711,3 @@
   </script>
 </body>
 </html>
-
-
-
