@@ -1068,3 +1068,23 @@ body.oscar-bg {
   margin-top: 4px;
   color: #60646c;
 }
+
+/* --- Bring hero + spotlight higher on the page --- */
+.splash{
+  padding: 56px 0 18px;      /* was ~90px top, reduce a lot */
+  min-height: auto;          /* don't force a tall hero */
+}
+
+/* Left column spacing around Spotify */
+.splash-left .spotify-wrap{
+  margin-top: 12px;          /* a bit tighter */
+}
+
+/* Spotlight section sits closer to hero */
+.spotlight{
+  padding-top: 18px;         /* reduce top space above title */
+  padding-bottom: 26px;
+}
+
+/* Optional: slightly smaller Hawaii card shadow so it feels lighter */
+.flip-card{ box-shadow: 0 10px 24px rgba(0,0,0,.05); }
