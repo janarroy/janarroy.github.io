@@ -1002,3 +1002,69 @@ body.oscar-bg {
 .spot-media.tile.alt {
   background: linear-gradient(135deg, #141821, #202938);
 }
+
+/* --- Back of flip card styled like Oscar's --- */
+.about-back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 24px 20px;
+  gap: 12px;
+}
+
+.about-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(17,19,24,.12);
+  box-shadow: 0 6px 16px rgba(17,19,24,.08);
+}
+
+.about-intro {
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 520px;
+  color: #111318;
+}
+
+.about-bullets {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style-position: inside;
+  text-align: left;
+  font-size: 14px;
+  color: #60646c;
+}
+
+.about-bullets li {
+  margin: 4px 0;
+}
+
+.contact-links {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.contact-links .ghost {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid rgba(17,19,24,.12);
+  background: #fff;
+}
+
+.contact-links .ghost:hover {
+  background: rgba(17,19,24,.05);
+}
+
+.contact-links .location {
+  margin-top: 4px;
+  color: #60646c;
+}
