@@ -1,159 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jan Arroyo</title>
-  <meta name="description" content="Jan Arroyo – personal site" />
-  <link href="styles.css?v=4" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet" />
+  <style>
+    /* --- Spotlight (horizontal scroll) --- */
+    .spotlight {
+      margin: 56px auto 10px;
+      width: min(1200px, 96vw);
+    }
+    .spotlight h2 {
+      font-size: 28px;
+      margin: 0 0 18px;
+      letter-spacing: .2px;
+    }
+    .spotlight-wrap {
+      position: relative;
+    }
+    .spotlight-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(260px, 1fr);
+      gap: 18px;
+      overflow-x: auto;
+      padding: 6px 4px 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      mask-image: linear-gradient(90deg, transparent 0, #000 28px calc(100% - 28px), transparent 100%);
+    }
+    .spotlight-row::-webkit-scrollbar { display: none; }
+
+    .spot-card {
+      scroll-snap-align: start;
+      border-radius: 22px;
+      background: var(--panel);
+      border: 1px solid var(--bd);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: grid;
+      grid-template-rows: 150px auto;
+      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .spot-card:focus-visible { outline: 2px solid var(--ring-strong); outline-offset: 3px; }
+    .spot-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--bd-strong); }
+
+    .spot-media {
+      background: #000;
+      display: grid; place-items: center;
+      overflow: hidden;
+    }
+    .spot-media img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .spot-body { padding: 18px; background: var(--card-grad); }
+    .spot-title { font-weight: 800; font-size: 20px; margin: 0 0 8px; }
+    .spot-desc { margin: 0; color: var(--muted); line-height: 1.55; }
+    .spot-rail-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 42px; height: 42px; border-radius: 999px;
+      border: 1px solid var(--bd); background: var(--panel);
+      box-shadow: var(--shadow-soft); display: grid; place-items: center;
+      cursor: pointer;
+    }
+    .spot-rail-btn svg { width: 22px; height: 22px; }
+    .spot-left { left: -4px; }
+    .spot-right { right: -4px; }
+    @media (max-width: 780px){ .spot-left, .spot-right { display: none; } }
+
+    /* --- Theme toggle button --- */
+    .theme-toggle {
+      border: 1px solid var(--bd);
+      background: var(--panel);
+      border-radius: 999px;
+      padding: 8px 12px;
+      display: inline-flex; align-items: center; gap: 8px;
+      cursor: pointer; font-weight: 600;
+      box-shadow: var(--shadow-soft);
+    }
+    .theme-toggle .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--text); opacity: .6; }
+  </style>
 </head>
 <body>
+  <!-- Nav -->
   <nav class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="./">JAN</a>
+    <div class="narrow nav-inner">
+      <a class="brand" href="./index.html">JAN</a>
       <div class="nav-links">
         <a class="btn" href="work.html">Projects</a>
         <a class="btn" href="races.html">Races</a>
         <a class="btn" href="bake.html">Bake</a>
         <a class="btn" href="travel.html">Travel</a>
         <a class="btn" href="#contact">Contact</a>
+        <button id="themeBtn" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <span id="themeIcon" aria-hidden="true">🌙</span>
+          <span id="themeText">Dark</span>
+          <span class="dot"></span>
+        </button>
       </div>
     </div>
   </nav>
-  
 
-  <!-- Landing / Splash -->
-  <header class="container splash">
-    <div class="splash-left">
-      <div class="console-line"><span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span></div>
-      <h1 class="name">I’m <span>Jan Arroyo</span></h1>
-      <!-- Rotating typewriter line -->
-    <div class="rotate-line">
-        <span id="rotate-text"></span><span class="caret">▍</span>
-    </div>
-      <p class="tag">TPM / APM · I like clean specs and useful products.</p>
-      <div class="cta-row">
-        <a class="primary" href="work.html">See my work</a>
-        <a class="ghost" href="mailto:jan@example.com">Email</a>
-        <a class="ghost" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
+  <!-- Hero (keep your current layout) -->
+  <main class="page">
+    <section class="hero-split">
+      <div class="hero-left">
+        <div class="hello">cout &lt;&lt; "hello world";</div>
+        <h1>I’m <span class="brand-accent">Jan Arroyo</span></h1>
+        <p class="sub">a PM trying — TPM / APM · I like clean specs and useful products.</p>
+        <div class="cta-row">
+          <a class="cta btn-primary" href="work.html">See my work</a>
+          <a class="cta btn" href="mailto:janarroy@usc.edu">Email</a>
+          <a class="cta btn" href="Jan_Arroyo_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+        </div>
       </div>
-    </div>
-    <div class="splash-right">
-        <!-- FLIP CARD -->
-        <div class="flip-card" id="aboutFlip">
-          <div class="flip-inner">
-            <!-- FRONT: your normal photo -->
-            <div class="flip-face flip-front">
-              <img src="images/Hawaii.JPG" alt="Jan Arroyo">
-            </div>
-      
-            <!-- BACK: circular headshot + about -->
-            <div class="flip-face flip-back">
-              <div class="about-back">
-                <img class="about-avatar" src="images/headshot.JPG" alt="Jan – headshot">
-                <p class="about-intro">
-                  I’ve been a builder for as long as I can remember. I like clear specs,
-                  fast feedback loops, and shipping useful things with kind teams.
-                </p>
-                <ul class="about-bullets">
-                  <li>🎓 studying business + CS + AI at USC</li>
-                  <li>☕️ an (avid) barista and baker</li>
-                  <li>🚀 a founder building and growing crazy ideas</li>
-                  <li>🏃‍♂️ a decent runner</li>
-                  <li>🧭 a PM trying to build cool things</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      
-        <!-- keep your playlist below if you want -->
-        <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:14px;">
-          <h3 class="spotify-title">My Current Playlist</h3>
-          <iframe style="border-radius:12px"
-            src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
-            width="100%" height="152" frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"></iframe>
-        </div>
-      </div>      
-      
-      
-      
-  </header>
+      <div class="hero-right">
+        <img src="images/Hawaii.jpg" alt="Jan at the beach" width="800" height="1040" />
+      </div>
+    </section>
 
-  
+    <!-- Spotlight carousel -->
+    <section class="spotlight" aria-label="Project Spotlight">
+      <h2>Project Spotlight</h2>
+      <div class="spotlight-wrap">
+        <button class="spot-rail-btn spot-left" id="spotLeft" aria-label="Scroll left">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="spotlight-row" id="spotRow">
+          <!-- Sage -->
+          <a class="spot-card" href="work.html#sage">
+            <div class="spot-media">
+              <img src="images/spotlight/sage.jpg" alt="Sage project thumbnail" loading="lazy" />
+            </div>
+            <div class="spot-body">
+              <div class="spot-title">Sage</div>
+              <p class="spot-desc">Intelligent legal workbench to streamline workflows and surface insights faster.</p>
+            </div>
+          </a>
+
+          <!-- Glance -->
+          <a class="spot-card" href="work.html#glance">
+            <div class="spot-media">
+              <img src="images/spotlight/glance.jpg" alt="Glance project thumbnail" loading="lazy" />
+            </div>
+            <div class="spot-body">
+              <div class="spot-title">Glance</div>
+              <p class="spot-desc">Automated documentation that keeps teams aligned by killing knowledge silos.</p>
+            </div>
+          </a>
+
+          <!-- Octavo -->
+          <a class="spot-card" href="work.html#octavo">
+            <div class="spot-media">
+              <img src="images/spotlight/octavo.jpg" alt="Octavo project thumbnail" loading="lazy" />
+            </div>
+            <div class="spot-body">
+              <div class="spot-title">Octavo</div>
+              <p class="spot-desc">Human-centered search powered by memory agents. UC Berkeley AI Hackathon winner.</p>
+            </div>
+          </a>
+
+          <!-- Claude Cortex -->
+          <a class="spot-card" href="work.html#claude-cortex">
+            <div class="spot-media">
+              <img src="images/spotlight/claude.jpg" alt="Claude Cortex project thumbnail" loading="lazy" />
+            </div>
+            <div class="spot-body">
+              <div class="spot-title">Claude Cortex</div>
+              <p class="spot-desc">Secure reasoning agent that helps users think from more angles, more deeply.</p>
+            </div>
+          </a>
+        </div>
+
+        <button class="spot-rail-btn spot-right" id="spotRight" aria-label="Scroll right">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Your existing content continues… -->
+  </main>
 
   <footer>
-    <div class="container">© <span id="y"></span> Jan Arroyo</div>
+    <div class="wide">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
   <script>
+    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Simple typewriter for the console line
-    const el = document.getElementById('console-txt');
-    const text = el?.dataset.text || '';
-    let i = 0;
-    function type(){
-      if(!el) return;
-      el.textContent = text.slice(0, i++);
-      const speed = 40; // ms per char
-      if(i <= text.length) setTimeout(type, speed);
+    // --- Spotlight rail buttons ---
+    const row = document.getElementById('spotRow');
+    const leftBtn = document.getElementById('spotLeft');
+    const rightBtn = document.getElementById('spotRight');
+    function scrollByCards(dir){ row.scrollBy({left: dir * row.clientWidth * 0.9, behavior: 'smooth'}); }
+    leftBtn.addEventListener('click', ()=>scrollByCards(-1));
+    rightBtn.addEventListener('click', ()=>scrollByCards(1));
+
+    // --- Theme toggle (persists) ---
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeBtn');
+    const themeText = document.getElementById('themeText');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(mode){
+      root.setAttribute('data-theme', mode);
+      localStorage.setItem('jan_theme', mode);
+      if(mode === 'dark'){ themeText.textContent = 'Light'; themeIcon.textContent = '☀️'; }
+      else { themeText.textContent = 'Dark'; themeIcon.textContent = '🌙'; }
     }
-    type();
-    const rotateEl = document.getElementById('rotate-text');
-  const phrases = [
-    "studying business + CS + AI at USC",
-    "an (avid) barista and baker",
-    "a founder building and growing crazy ideas",
-    "a decent runner",
-    "a PM trying to build cool things"
-  ];
-
-  function startRotateTyper(el, list, typeMs = 40, deleteMs = 20, holdMs = 1200) {
-    let i = 0, j = 0, typing = true;
-
-    function tick() {
-      const s = list[i];
-
-      if (typing) {
-        j++;
-        el.textContent = s.slice(0, j);
-        if (j === s.length) {
-          typing = false;
-          return setTimeout(tick, holdMs);
-        }
-        return setTimeout(tick, typeMs);
-      } else {
-        j--;
-        el.textContent = s.slice(0, j);
-        if (j === 0) {
-          typing = true;
-          i = (i + 1) % list.length;
-          return setTimeout(tick, 300);
-        }
-        return setTimeout(tick, deleteMs);
-      }
-    }
-
-    tick();
-  }
-
-  if (rotateEl) startRotateTyper(rotateEl, phrases);
-
-  // Mobile tap toggle for the flip card
-  (function(){
-    const card = document.getElementById('aboutFlip');
-    if (!card) return;
-    card.addEventListener('click', function(){
-      // Only enable tap-toggle on touch-capable devices
-      if (matchMedia('(hover: none)').matches) {
-        card.classList.toggle('flipped');
-      }
+    // init from storage or prefers-color-scheme
+    (function(){
+      const saved = localStorage.getItem('jan_theme');
+      const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(saved || (preferDark ? 'dark' : 'light'));
+    })();
+    themeBtn.addEventListener('click', ()=>{
+      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     });
-  })();
-
   </script>
 </body>
 </html>
