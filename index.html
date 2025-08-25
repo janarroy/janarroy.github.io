@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jan Arroyo</title>
   <meta name="description" content="Jan Arroyo – personal site" />
-  <link href="styles.css?v=5" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet" />
 </head>
-<body>
+<body class="oscar-bg">
+  <!-- NAV -->
   <nav class="nav">
     <div class="container nav-inner">
       <a class="brand" href="./">JAN</a>
@@ -21,8 +22,9 @@
     </div>
   </nav>
 
-  <!-- Landing / Splash -->
+  <!-- HERO / SPLASH -->
   <header class="container splash">
+    <!-- LEFT: intro -->
     <div class="splash-left">
       <div class="console-line">
         <span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span>
@@ -30,64 +32,59 @@
 
       <h1 class="name">I’m <span>Jan Arroyo</span></h1>
 
-      <!-- Rotating typewriter line -->
+      <!-- rotating tagline -->
       <div class="rotate-line">
         <span id="rotate-text"></span><span class="caret">▍</span>
       </div>
 
       <p class="tag">TPM / APM · I like clean specs and useful products.</p>
 
+      <!-- ONE CTA only -->
       <div class="cta-row">
         <a class="primary" href="work.html">See my work</a>
-        <a class="ghost" href="mailto:jan@example.com">Email</a>
-        <a class="ghost" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
       </div>
     </div>
 
+    <!-- RIGHT: flip-card hub -->
     <div class="splash-right">
-      <!-- Flip Card -->
-<div class="flip-card" id="aboutFlip">
-  <div class="flip-inner">
-    <!-- FRONT -->
-    <div class="flip-face flip-front">
-      <img src="images/Hawaii.JPG" alt="Jan Arroyo" />
-    </div>
+      <div class="flip-card" id="aboutFlip">
+        <div class="flip-inner">
+          <!-- FRONT -->
+          <div class="flip-face flip-front">
+            <img src="images/Hawaii.JPG" alt="Jan Arroyo at the beach" />
+          </div>
 
-    <!-- BACK -->
-    <div class="flip-face flip-back">
-      <div class="about-back">
-        <img class="about-avatar" src="images/headshot.jpg" alt="Jan – headshot" />
+          <!-- BACK (About hub, Oscar-style) -->
+          <div class="flip-face flip-back">
+            <div class="about-back">
+              <img class="about-avatar" src="images/headshot.jpg" alt="Jan – headshot" />
 
-        <p class="about-intro">
-          I’m Jan Arroyo — a builder and runner passionate about combining 
-          business, design, and technology. I love creating clear specs, 
-          fast feedback loops, and useful products that make life easier.
-        </p>
+              <p class="about-intro">
+                I’m Jan Arroyo — a builder and runner who blends business, CS, and design to ship useful products.
+                I love clear specs, fast feedback loops, and teams that care about users.
+              </p>
+              <p class="about-intro">
+                I’ve led student teams at USC and worked across projects with Amazon, Accenture, and Microsoft focused
+                on product strategy, research, and execution. When I’m offline, I’m training for marathons, making matcha,
+                or baking for friends.
+              </p>
 
-        <p class="about-intro">
-          I’ve worked on consulting projects with global companies and startups, 
-          led student teams at USC, and built tools that blend product, strategy, 
-          and engineering. Outside of work, you’ll find me training for marathons, 
-          making matcha, or baking for friends.
-        </p>
+              <ul class="about-bullets">
+                <li>🎓 Business + CSBA @ USC ’26</li>
+                <li>🚀 Product & consulting projects with Amazon, Accenture, Microsoft</li>
+                <li>🏃‍♂️ Marathon runner & lifelong athlete</li>
+                <li>☕ Avid barista & baker</li>
+              </ul>
 
-        <ul class="about-bullets">
-          <li>🎓 Business + CSBA @ USC ’26</li>
-          <li>🚀 Product & consulting projects with Microsoft, Amazon, Accenture</li>
-          <li>🏃‍♂️ Marathon runner & lifelong athlete</li>
-          <li>☕ Avid barista and baker</li>
-        </ul>
-
-        <div class="contact-links">
-          <a class="ghost" href="mailto:janarroy@usc.edu">Email</a>
-          <a class="ghost" href="Jan_Arroyo_Resume.pdf" target="_blank">Résumé</a>
-          <span class="location">📍 Currently Los Angeles</span>
+              <div class="contact-links">
+                <a class="ghost" href="mailto:janarroy@usc.edu">Email</a>
+                <a class="ghost" href="Jan_Arroyo_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+                <span class="location">📍 Currently Los Angeles</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
 
       <!-- Spotify -->
       <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:14px;">
@@ -101,8 +98,8 @@
     </div>
   </header>
 
-  <!-- Project Spotlight (scrollable bar) -->
-  <section class="container spotlight">
+  <!-- PROJECT SPOTLIGHT -->
+  <section class="container spotlight" aria-label="Project Spotlight">
     <h2 class="spot-title">Project Spotlight</h2>
 
     <div class="spot-wrap">
@@ -110,55 +107,43 @@
         <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
 
-      <div class="spot-row" id="spotRow" tabindex="0" aria-label="Spotlight projects">
-        <!-- If you have cover images, use <img>. For deck-only items, tile fallback looks clean. -->
-
-       <!-- Quokka (deck-only, text tile) -->
-<a class="spot-card" href="work.html#quokka">
-  <div class="spot-media tile">Quokka Brew</div>
-  <div class="spot-body">
-    <div class="spot-card-title">Quokka Brew — Design Research</div>
-    <p class="spot-desc">60+ interviews and iterative can designs that improved shelf recognition.</p>
-  </div>
-</a>
-
-<!-- Clear Clinical (deck-only, text tile) -->
-<a class="spot-card" href="work.html#clear-clinical">
-  <div class="spot-media tile alt">Clear Clinical</div>
-  <div class="spot-body">
-    <div class="spot-card-title">Clear Clinical — Strategy &amp; UX</div>
-    <p class="spot-desc">Merged mid + final decks: research synthesis, roadmap, and proposals.</p>
-  </div>
-</a>
-
-
-        <!-- EY Workshop (real image) -->
-        <a class="spot-card" href="work.html#ey-workshop">
-          <div class="spot-media">
-            <img src="Projects/EY1.JPG" alt="EY workshop preview" loading="lazy">
+      <div class="spot-row" id="spotRow" tabindex="0">
+        <!-- Deck-only projects use polished text tiles -->
+        <a class="spot-card" href="work.html#quokka">
+          <div class="spot-media tile">Quokka Brew</div>
+          <div class="spot-body">
+            <div class="spot-card-title">Quokka Brew — Design Research</div>
+            <p class="spot-desc">60+ interviews and iterative can designs that improved shelf recognition.</p>
           </div>
+        </a>
+
+        <a class="spot-card" href="work.html#clear-clinical">
+          <div class="spot-media tile alt">Clear Clinical</div>
+          <div class="spot-body">
+            <div class="spot-card-title">Clear Clinical — Strategy &amp; UX</div>
+            <p class="spot-desc">Merged mid + final decks: research synthesis, roadmap, and proposals.</p>
+          </div>
+        </a>
+
+        <!-- Image-backed cards -->
+        <a class="spot-card" href="work.html#ey-workshop">
+          <div class="spot-media"><img src="Projects/EY1.JPG" alt="EY Workshop preview" loading="lazy" /></div>
           <div class="spot-body">
             <div class="spot-card-title">EY Workshop — Design Thinking</div>
             <p class="spot-desc">Hands-on session for students: problem framing, ideation, prototyping.</p>
           </div>
         </a>
 
-        <!-- Policy Advocacy Day -->
         <a class="spot-card" href="work.html#advocacy-day">
-          <div class="spot-media">
-            <img src="Projects/Partnership_Advocacy_Day1.JPG" alt="Policy Advocacy Day preview" loading="lazy">
-          </div>
+          <div class="spot-media"><img src="Projects/Partnership_Advocacy_Day1.JPG" alt="Policy Advocacy Day preview" loading="lazy" /></div>
           <div class="spot-body">
             <div class="spot-card-title">Policy Advocacy Day — Sacramento</div>
             <p class="spot-desc">Met with CA legislators to advocate for education &amp; youth policies.</p>
           </div>
         </a>
 
-        <!-- Magazine -->
         <a class="spot-card" href="work.html#magazine">
-          <div class="spot-media">
-            <img src="Projects/Magazine1.JPG" alt="Magazine preview" loading="lazy">
-          </div>
+          <div class="spot-media"><img src="Projects/Magazine1.JPG" alt="Magazine preview" loading="lazy" /></div>
           <div class="spot-body">
             <div class="spot-card-title">Magazine Feature</div>
             <p class="spot-desc">Press coverage of first-gen leadership, BTG projects, and community work.</p>
@@ -172,51 +157,53 @@
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="container">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
+  <!-- SCRIPTS -->
   <script>
+    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    /* ----- typewriter for the console line (unchanged) ----- */
-    const el = document.getElementById('console-txt');
-    const text = el?.dataset.text || '';
-    let i = 0;
-    (function type(){
+    // Typewriter for "cout << hello world"
+    (function(){
+      const el = document.getElementById('console-txt');
       if(!el) return;
-      el.textContent = text.slice(0, i++);
-      const speed = 40;
-      if(i <= text.length) setTimeout(type, speed);
+      const text = el.dataset.text || '';
+      let i = 0;
+      (function type(){
+        el.textContent = text.slice(0, i++);
+        if(i <= text.length) setTimeout(type, 40);
+      })();
     })();
 
-    /* ----- rotating line under the name (unchanged) ----- */
-    const rotateEl = document.getElementById('rotate-text');
-    const phrases = [
-      "studying business + CS + AI at USC",
-      "an (avid) barista and baker",
-      "a founder building and growing crazy ideas",
-      "a decent runner",
-      "a PM trying to build cool things"
-    ];
-    function startRotateTyper(el, list, typeMs = 40, deleteMs = 20, holdMs = 1200) {
+    // Rotating tagline
+    (function(){
+      const el = document.getElementById('rotate-text');
+      if(!el) return;
+      const phrases = [
+        'a decent runner',
+        'TPM / APM — I like clean specs and useful products',
+        'shipping with kind teams'
+      ];
       let i = 0, j = 0, typing = true;
-      (function tick() {
-        const s = list[i];
+      (function tick(){
+        const s = phrases[i];
         if (typing) {
-          j++; el.textContent = s.slice(0, j);
-          if (j === s.length) { typing = false; return setTimeout(tick, holdMs); }
-          return setTimeout(tick, typeMs);
+          j++; el.textContent = s.slice(0,j);
+          if (j === s.length){ typing = false; return setTimeout(tick, 1200); }
+          return setTimeout(tick, 34);
         } else {
-          j--; el.textContent = s.slice(0, j);
-          if (j === 0) { typing = true; i = (i + 1) % list.length; return setTimeout(tick, 300); }
-          return setTimeout(tick, deleteMs);
+          j--; el.textContent = s.slice(0,j);
+          if (j === 0){ typing = true; i = (i+1)%phrases.length; return setTimeout(tick, 280); }
+          return setTimeout(tick, 18);
         }
       })();
-    }
-    if (rotateEl) startRotateTyper(rotateEl, phrases);
+    })();
 
-    /* ----- Flip card tap toggle for mobile (unchanged) ----- */
+    // Flip card: tap to flip on touch devices
     (function(){
       const card = document.getElementById('aboutFlip');
       if (!card) return;
@@ -225,7 +212,7 @@
       });
     })();
 
-    /* ----- Spotlight scroll buttons ----- */
+    // Spotlight scroll buttons
     (function(){
       const row = document.getElementById('spotRow');
       const left = document.getElementById('spotLeft');
@@ -238,7 +225,7 @@
       left.addEventListener('click', () => scrollByAmount(-1));
       right.addEventListener('click', () => scrollByAmount(1));
 
-      // keyboard: arrow keys when row focused
+      // keyboard: arrow keys when focused
       row.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') { e.preventDefault(); scrollByAmount(1); }
         if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollByAmount(-1); }
