@@ -1,104 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jan Arroyo</title>
-  <link href="styles.css" rel="stylesheet" />
-
-  <!-- Scoped additions (kept minimal so they don't fight styles.css) -->
-  <style>
-    /* Smooth theme transitions */
-    html, body, .nav, .btn, .btn-primary, .spot-card, .spot-body,
-    .hero-right img, .theme-switch .label, footer {
-      transition: background-color .25s ease, color .25s ease,
-                  border-color .25s ease, box-shadow .25s ease, opacity .25s ease;
-    }
-    @media (prefers-reduced-motion: reduce){
-      html, body, .nav, .btn, .btn-primary, .spot-card, .spot-body,
-      .hero-right img, .theme-switch .label, footer { transition: none !important; }
-    }
-
-    /* Typing line */
-    .typing-wrap{ display:flex; gap:6px; align-items:center; margin-top:6px; color:var(--muted); }
-    .typing-line{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space:nowrap; }
-    .caret{ display:inline-block; width:10px; height:1.1em; margin-left:2px; background: currentColor; animation: blink 1s step-end infinite; vertical-align: text-bottom; }
-    @keyframes blink{ 50%{ opacity:0; } }
-
-    /* Rotating hero photo (cross-fade) */
-    .hero-right { position: relative; }
-    .hero-right .rot-img{
-      width:100%; height:auto; border-radius:22px; border:1px solid var(--bd); box-shadow:var(--shadow-soft);
-      position:absolute; inset:0; object-fit:cover; opacity:0;
-    }
-    .hero-right .rot-img.active{ opacity:1; position:relative; }
-
-    /* Spotlight row */
-    .spotlight { width:min(1200px,96vw); margin:40px auto 6px; }
-    .spotlight h2 { font-size:28px; margin:0 0 16px; letter-spacing:.2px; }
-    .spotlight-wrap { position:relative; }
-    .spot-row{
-      display:grid; grid-auto-flow:column; grid-auto-columns:minmax(260px,1fr);
-      gap:18px; overflow-x:auto; padding:6px 4px 10px;
-      scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-      scrollbar-width:none;
-      mask-image:linear-gradient(90deg,transparent 0,#000 28px calc(100% - 28px),transparent 100%);
-    }
-    .spot-row::-webkit-scrollbar{ display:none; }
-    .spot-card{
-      scroll-snap-align:start; border-radius:22px; background:var(--panel); box-shadow:var(--shadow-soft);
-      text-decoration:none; color:inherit; border:1px solid var(--bd);
-      display:grid; grid-template-rows:150px auto; overflow:hidden;
-      transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-    .spot-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow); border-color:var(--bd-strong); }
-    .spot-media{ background:#0f172a; display:grid; place-items:center; overflow:hidden; }
-    .spot-media img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .spot-body{ padding:18px; background:var(--card-grad); }
-    .spot-title{ font-weight:800; font-size:20px; margin:0 0 8px; }
-    .spot-desc{ margin:0; color:var(--muted); line-height:1.55; }
-    .spot-btn{
-      position:absolute; top:50%; transform:translateY(-50%);
-      width:42px; height:42px; border-radius:999px; border:1px solid var(--bd);
-      background:var(--panel); display:grid; place-items:center; box-shadow:var(--shadow-soft);
-      cursor:pointer;
-    }
-    .spot-btn svg{ width:22px; height:22px; }
-    .spot-left{ left:-4px; } .spot-right{ right:-4px; }
-    @media (max-width:780px){ .spot-left,.spot-right{ display:none; } }
-
-    /* Footer theme switch (pill slider) */
-    .theme-switch{
-      width:min(1200px,96vw); margin:32px auto 0;
-      display:flex; align-items:center; justify-content:center; gap:12px;
-    }
-    .theme-switch .label{
-      font-size:14px; color:var(--muted); user-select:none;
-      display:inline-flex; align-items:center; gap:8px;
-    }
-    .switch{ position:relative; width:56px; height:30px; cursor:pointer; display:inline-block; }
-    .switch input{ position:absolute; width:0; height:0; opacity:0; }
-    .slider{
-      position:absolute; inset:0; background:var(--panel); border:1px solid var(--bd); border-radius:999px;
-      box-shadow:var(--shadow-soft); transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
-    }
-    .slider::after{
-      content:""; position:absolute; top:2px; left:2px; width:26px; height:26px; border-radius:999px; background:var(--text);
-      transition: transform .25s ease, background-color .25s ease; box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    }
-    .switch input:checked + .slider::after{ transform: translateX(26px); }
-
-    /* Spotify card */
-    .spotify-wrap{ width:min(1200px,96vw); margin:24px auto 0; }
-    .spotify-card{ border-radius:18px; border:1px solid var(--bd); background:var(--panel); box-shadow:var(--shadow-soft); padding:8px; }
-    .spotify-card iframe{ width:100%; height:152px; border:0; border-radius:12px; display:block; }
-  </style>
+  <meta name="description" content="Jan Arroyo – personal site" />
+  <link href="styles.css?v=4" rel="stylesheet">
 </head>
 <body>
-  <!-- Nav (unchanged) -->
   <nav class="nav">
-    <div class="narrow nav-inner">
-      <a class="brand" href="./index.html">JAN</a>
+    <div class="container nav-inner">
+      <a class="brand" href="./">JAN</a>
       <div class="nav-links">
         <a class="btn" href="work.html">Projects</a>
         <a class="btn" href="races.html">Races</a>
@@ -108,176 +20,140 @@
       </div>
     </div>
   </nav>
+  
 
-  <main class="page">
-    <!-- Hero (Hawaii first, cycles through photos; typing + cout line present) -->
-    <section class="hero-split">
-      <div class="hero-left">
-        <div class="hello">cout &lt;&lt; "hello world";</div>
-        <h1>I’m <span class="brand-accent">Jan Arroyo</span></h1>
-
-        <div class="typing-wrap">
-          <span class="typing-line" id="typing">a PM trying</span>
-          <span class="caret" aria-hidden="true"></span>
+  <!-- Landing / Splash -->
+  <header class="container splash">
+    <div class="splash-left">
+      <div class="console-line"><span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span></div>
+      <h1 class="name">I’m <span>Jan Arroyo</span></h1>
+      <!-- Rotating typewriter line -->
+    <div class="rotate-line">
+        <span id="rotate-text"></span><span class="caret">▍</span>
+    </div>
+      <p class="tag">TPM / APM · I like clean specs and useful products.</p>
+      <div class="cta-row">
+        <a class="primary" href="work.html">See my work</a>
+        <a class="ghost" href="mailto:jan@example.com">Email</a>
+        <a class="ghost" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      </div>
+    </div>
+    <div class="splash-right">
+        <!-- FLIP CARD -->
+        <div class="flip-card" id="aboutFlip">
+          <div class="flip-inner">
+            <!-- FRONT: your normal photo -->
+            <div class="flip-face flip-front">
+              <img src="images/Hawaii.JPG" alt="Jan Arroyo">
+            </div>
+      
+            <!-- BACK: circular headshot + about -->
+            <div class="flip-face flip-back">
+              <div class="about-back">
+                <img class="about-avatar" src="images/headshot.JPG" alt="Jan – headshot">
+                <p class="about-intro">
+                  I’ve been a builder for as long as I can remember. I like clear specs,
+                  fast feedback loops, and shipping useful things with kind teams.
+                </p>
+                <ul class="about-bullets">
+                  <li>🎓 studying business + CS + AI at USC</li>
+                  <li>☕️ an (avid) barista and baker</li>
+                  <li>🚀 a founder building and growing crazy ideas</li>
+                  <li>🏃‍♂️ a decent runner</li>
+                  <li>🧭 a PM trying to build cool things</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="cta-row" style="margin-top:10px;">
-          <a class="cta btn-primary" href="work.html">See my work</a>
-          <a class="cta btn" href="mailto:janarroy@usc.edu">Email</a>
-          <a class="cta btn" href="Jan_Arroyo_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      
+        <!-- keep your playlist below if you want -->
+        <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:14px;">
+          <h3 class="spotify-title">My Current Playlist</h3>
+          <iframe style="border-radius:12px"
+            src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
+            width="100%" height="152" frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
         </div>
-      </div>
+      </div>      
+      
+      
+      
+  </header>
 
-      <div class="hero-right">
-        <!-- Hawaii photo is primary; then headshot + Marshall rotate in -->
-        <img class="rot-img active" src="images/Hawaii.JPG" alt="Jan at the beach" width="800" height="1040" />
-        <img class="rot-img" src="images/headshot.JPG" alt="Headshot" width="800" height="1040" />
-        <img class="rot-img" src="images/Marshall.JPG" alt="USC Marshall" width="800" height="1040" />
-      </div>
-    </section>
-
-    <!-- Project Spotlight (previews match Work panels) -->
-    <section class="spotlight" aria-label="Project Spotlight">
-      <h2>Project Spotlight</h2>
-      <div class="spotlight-wrap">
-        <button class="spot-btn spot-left" id="spotLeft" aria-label="Scroll left">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-
-        <div class="spot-row" id="spotRow">
-          <a class="spot-card" href="work.html#quokka">
-            <div class="spot-media"><img src="Projects/Quokka1.jpg" alt="Quokka Brew preview" loading="lazy" /></div>
-            <div class="spot-body">
-              <div class="spot-title">Quokka Brew — Design Research</div>
-              <p class="spot-desc">60+ interviews and iterative can designs that improved shelf recognition.</p>
-            </div>
-          </a>
-
-          <a class="spot-card" href="work.html#clear-clinical">
-            <div class="spot-media"><img src="Projects/ClearClinical1.jpg" alt="Clear Clinical preview" loading="lazy" /></div>
-            <div class="spot-body">
-              <div class="spot-title">Clear Clinical — Strategy &amp; UX</div>
-              <p class="spot-desc">Merged mid + final decks: research synthesis, roadmap, and proposals.</p>
-            </div>
-          </a>
-
-          <a class="spot-card" href="work.html#ey-workshop">
-            <div class="spot-media"><img src="Projects/EY1.jpg" alt="EY Workshop preview" loading="lazy" /></div>
-            <div class="spot-body">
-              <div class="spot-title">EY Workshop — Design Thinking</div>
-              <p class="spot-desc">Hands-on session for students: problem framing, ideation, prototyping.</p>
-            </div>
-          </a>
-
-          <a class="spot-card" href="work.html#advocacy-day">
-            <div class="spot-media"><img src="Projects/Partnership_Advocacy_Day1.jpg" alt="Policy Advocacy Day preview" loading="lazy" /></div>
-            <div class="spot-body">
-              <div class="spot-title">Policy Advocacy Day — Sacramento</div>
-              <p class="spot-desc">Met with CA legislators to advocate for education &amp; youth policies.</p>
-            </div>
-          </a>
-
-          <a class="spot-card" href="work.html#magazine">
-            <div class="spot-media"><img src="Projects/Magazine1.jpg" alt="Magazine preview" loading="lazy" /></div>
-            <div class="spot-body">
-              <div class="spot-title">Magazine Feature</div>
-              <p class="spot-desc">Press coverage of first-gen leadership, BTG projects, and community work.</p>
-            </div>
-          </a>
-        </div>
-
-        <button class="spot-btn spot-right" id="spotRight" aria-label="Scroll right">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-    </section>
-
-    <!-- Spotify embed (replace src with your original playlist if different) -->
-    <section class="spotify-wrap">
-      <div class="spotify-card">
-        <iframe
-          src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4WYpdgoIcn6?utm_source=generator"
-          loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-        </iframe>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Light/Dark toggle -->
-  <div class="theme-switch" role="group" aria-label="Color Theme">
-    <span class="label"><span id="modeWord">Light</span> Mode</span>
-    <label class="switch" aria-label="Toggle color theme">
-      <input id="themeChk" type="checkbox" />
-      <span class="slider"></span>
-    </label>
-  </div>
+  
 
   <footer>
-    <div class="wide">© <span id="y"></span> Jan Arroyo</div>
+    <div class="container">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
   <script>
-    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Spotlight scroll buttons
-    const spotRow = document.getElementById('spotRow');
-    document.getElementById('spotLeft').addEventListener('click', ()=> spotRow.scrollBy({left: -spotRow.clientWidth*0.9, behavior:'smooth'}));
-    document.getElementById('spotRight').addEventListener('click', ()=> spotRow.scrollBy({left:  spotRow.clientWidth*0.9, behavior:'smooth'}));
+    // Simple typewriter for the console line
+    const el = document.getElementById('console-txt');
+    const text = el?.dataset.text || '';
+    let i = 0;
+    function type(){
+      if(!el) return;
+      el.textContent = text.slice(0, i++);
+      const speed = 40; // ms per char
+      if(i <= text.length) setTimeout(type, speed);
+    }
+    type();
+    const rotateEl = document.getElementById('rotate-text');
+  const phrases = [
+    "studying business + CS + AI at USC",
+    "an (avid) barista and baker",
+    "a founder building and growing crazy ideas",
+    "a decent runner",
+    "a PM trying to build cool things"
+  ];
 
-    // Typing line
-    const phrases = [
-      'a PM trying',
-      'TPM / APM — I like clean specs and useful products',
-      'shipping with kind teams'
-    ];
-    const typingEl = document.getElementById('typing');
-    let p = 0, pos = 0, dir = 1;
-    function typeLoop(){
-      const text = phrases[p];
-      pos += dir;
-      typingEl.textContent = text.slice(0, pos);
-      if (dir > 0 && pos === text.length){
-        dir = -1; setTimeout(typeLoop, 1200);
-      } else if (dir < 0 && pos === 0){
-        dir = 1; p = (p + 1) % phrases.length; setTimeout(typeLoop, 280);
+  function startRotateTyper(el, list, typeMs = 40, deleteMs = 20, holdMs = 1200) {
+    let i = 0, j = 0, typing = true;
+
+    function tick() {
+      const s = list[i];
+
+      if (typing) {
+        j++;
+        el.textContent = s.slice(0, j);
+        if (j === s.length) {
+          typing = false;
+          return setTimeout(tick, holdMs);
+        }
+        return setTimeout(tick, typeMs);
       } else {
-        setTimeout(typeLoop, dir > 0 ? 34 : 18);
+        j--;
+        el.textContent = s.slice(0, j);
+        if (j === 0) {
+          typing = true;
+          i = (i + 1) % list.length;
+          return setTimeout(tick, 300);
+        }
+        return setTimeout(tick, deleteMs);
       }
     }
-    typeLoop();
 
-    // Rotating hero photo (cross-fade)
-    const imgs = Array.from(document.querySelectorAll('.hero-right .rot-img'));
-    let i = 0;
-    setInterval(()=>{
-      imgs[i].classList.remove('active');
-      i = (i + 1) % imgs.length;
-      imgs[i].classList.add('active');
-    }, 4200);
+    tick();
+  }
 
-    // Theme toggle (persist)
-    const root = document.documentElement;
-    const chk  = document.getElementById('themeChk');
-    const word = document.getElementById('modeWord');
-    function applyTheme(mode, {persist=true, sync=true} = {}){
-      root.setAttribute('data-theme', mode);
-      if (persist) localStorage.setItem('jan_theme', mode);
-      if (sync){ const dark = mode==='dark'; chk.checked = dark; word.textContent = dark ? 'Dark' : 'Light'; }
-    }
-    (function initTheme(){
-      const saved = localStorage.getItem('jan_theme');
-      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      applyTheme(saved || (systemDark ? 'dark' : 'light'), {persist:false});
-    })();
-    chk.addEventListener('change', () => applyTheme(chk.checked ? 'dark' : 'light'));
-    if (window.matchMedia){
-      const mql = window.matchMedia('(prefers-color-scheme: dark)');
-      mql.addEventListener?.('change', e => {
-        if (!localStorage.getItem('jan_theme')) applyTheme(e.matches ? 'dark' : 'light');
-      });
-    }
+  if (rotateEl) startRotateTyper(rotateEl, phrases);
+
+  // Mobile tap toggle for the flip card
+  (function(){
+    const card = document.getElementById('aboutFlip');
+    if (!card) return;
+    card.addEventListener('click', function(){
+      // Only enable tap-toggle on touch-capable devices
+      if (matchMedia('(hover: none)').matches) {
+        card.classList.toggle('flipped');
+      }
+    });
+  })();
+
   </script>
 </body>
 </html>
