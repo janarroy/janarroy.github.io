@@ -24,7 +24,7 @@
 
   <!-- HERO / SPLASH -->
   <header class="container splash">
-    <!-- LEFT: intro -->
+    <!-- LEFT: intro + spotify -->
     <div class="splash-left">
       <div class="console-line">
         <span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span>
@@ -32,16 +32,21 @@
 
       <h1 class="name">I’m <span>Jan Arroyo</span></h1>
 
-      <!-- rotating tagline -->
+      <!-- rotating tagline (typing line) -->
       <div class="rotate-line">
         <span id="rotate-text"></span><span class="caret">▍</span>
       </div>
 
-      <p class="tag">TPM / APM · I like clean specs and useful products.</p>
+      <!-- (Removed TPM/APM line and See my work button) -->
 
-      <!-- ONE CTA only -->
-      <div class="cta-row">
-        <a class="primary" href="work.html">See my work</a>
+      <!-- Spotify moved to the left -->
+      <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:18px;">
+        <h3 class="spotify-title">My Current Playlist</h3>
+        <iframe style="border-radius:12px"
+          src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
+          width="100%" height="152" frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
       </div>
     </div>
 
@@ -65,40 +70,28 @@
               </p>
               <p class="about-intro">
                 I’ve led student teams at USC and worked across projects with Amazon, Accenture, and Microsoft focused
-                on product strategy, research, and execution. When I’m offline, I’m training for marathons, making matcha,
-                or baking for friends.
+                on product strategy, research, and execution.
               </p>
 
               <ul class="about-bullets">
-                <li>🎓 Business + CSBA @ USC ’26</li>
-                <li>🚀 Product & consulting projects with Amazon, Accenture, Microsoft</li>
-                <li>🏃‍♂️ Marathon runner & lifelong athlete</li>
-                <li>☕ Avid barista & baker</li>
+                <li>🎓 Business + CS + AI @ USC ’26</li>
+                <li>🚀 TPM Intern @ Amazon</li>
+                <li>📄 Resume</li>
+                <li>📍 Los Angeles</li>
               </ul>
 
               <div class="contact-links">
                 <a class="ghost" href="mailto:janarroy@usc.edu">Email</a>
                 <a class="ghost" href="Jan_Arroyo_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
-                <span class="location">📍 Currently Los Angeles</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Spotify -->
-      <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:14px;">
-        <h3 class="spotify-title">My Current Playlist</h3>
-        <iframe style="border-radius:12px"
-          src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
-          width="100%" height="152" frameborder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
     </div>
   </header>
 
-  <!-- PROJECT SPOTLIGHT -->
+  <!-- PROJECT SPOTLIGHT (moved up visually by removing extra content on the left) -->
   <section class="container spotlight" aria-label="Project Spotlight">
     <h2 class="spot-title">Project Spotlight</h2>
 
@@ -185,8 +178,8 @@
       if(!el) return;
       const phrases = [
         'a decent runner',
-        'TPM / APM — I like clean specs and useful products',
-        'shipping with kind teams'
+        'shipping with kind teams',
+        'building products with clear specs'
       ];
       let i = 0, j = 0, typing = true;
       (function tick(){
