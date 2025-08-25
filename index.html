@@ -5,88 +5,62 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
+
+  <!-- Scoped styles: Spotlight + Theme toggle only -->
   <style>
-    /* --- Spotlight (horizontal scroll) --- */
-    .spotlight {
-      margin: 56px auto 10px;
-      width: min(1200px, 96vw);
+    /* ---------- Project Spotlight ---------- */
+    .spotlight { width:min(1200px,96vw); margin:40px auto 6px; }
+    .spotlight h2 { font-size:28px; margin:0 0 16px; letter-spacing:.2px; }
+    .spotlight-wrap { position:relative; }
+    .spot-row{
+      display:grid; grid-auto-flow:column; grid-auto-columns:minmax(260px,1fr);
+      gap:18px; overflow-x:auto; padding:6px 4px 10px;
+      scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      mask-image:linear-gradient(90deg,transparent 0,#000 28px calc(100% - 28px),transparent 100%);
     }
-    .spotlight h2 {
-      font-size: 28px;
-      margin: 0 0 18px;
-      letter-spacing: .2px;
-    }
-    .spotlight-wrap {
-      position: relative;
-    }
-    .spotlight-row {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(260px, 1fr);
-      gap: 18px;
-      overflow-x: auto;
-      padding: 6px 4px 10px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      mask-image: linear-gradient(90deg, transparent 0, #000 28px calc(100% - 28px), transparent 100%);
-    }
-    .spotlight-row::-webkit-scrollbar { display: none; }
+    .spot-row::-webkit-scrollbar{ display:none; }
 
-    .spot-card {
-      scroll-snap-align: start;
-      border-radius: 22px;
-      background: var(--panel);
-      border: 1px solid var(--bd);
-      box-shadow: var(--shadow-soft);
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      display: grid;
-      grid-template-rows: 150px auto;
-      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+    .spot-card{
+      scroll-snap-align:start;
+      border-radius:22px; background:var(--panel); box-shadow:var(--shadow-soft);
+      text-decoration:none; color:inherit; border:1px solid var(--bd);
+      display:grid; grid-template-rows:150px auto; overflow:hidden;
+      transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
     }
-    .spot-card:focus-visible { outline: 2px solid var(--ring-strong); outline-offset: 3px; }
-    .spot-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--bd-strong); }
+    .spot-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow); border-color:var(--bd-strong); }
+    .spot-media{ background:#0f172a; display:grid; place-items:center; overflow:hidden; }
+    .spot-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+    /* Fallback when there isn’t a thumbnail (e.g., PDF projects) */
+    .spot-fallback{
+      display:grid; place-items:center; color:#e5e7eb; font-weight:800; font-size:18px;
+      background:linear-gradient(135deg,#111827,#1f2937);
+    }
+    .spot-body{ padding:18px; background:var(--card-grad); }
+    .spot-title{ font-weight:800; font-size:20px; margin:0 0 8px; }
+    .spot-desc{ margin:0; color:var(--muted); line-height:1.55; }
 
-    .spot-media {
-      background: #000;
-      display: grid; place-items: center;
-      overflow: hidden;
+    .spot-btn{
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:42px; height:42px; border-radius:999px; border:1px solid var(--bd);
+      background:var(--panel); display:grid; place-items:center; box-shadow:var(--shadow-soft);
+      cursor:pointer;
     }
-    .spot-media img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .spot-body { padding: 18px; background: var(--card-grad); }
-    .spot-title { font-weight: 800; font-size: 20px; margin: 0 0 8px; }
-    .spot-desc { margin: 0; color: var(--muted); line-height: 1.55; }
-    .spot-rail-btn {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 42px; height: 42px; border-radius: 999px;
-      border: 1px solid var(--bd); background: var(--panel);
-      box-shadow: var(--shadow-soft); display: grid; place-items: center;
-      cursor: pointer;
-    }
-    .spot-rail-btn svg { width: 22px; height: 22px; }
-    .spot-left { left: -4px; }
-    .spot-right { right: -4px; }
-    @media (max-width: 780px){ .spot-left, .spot-right { display: none; } }
+    .spot-btn svg{ width:22px; height:22px; }
+    .spot-left{ left:-4px; } .spot-right{ right:-4px; }
+    @media (max-width:780px){ .spot-left,.spot-right{ display:none; } }
 
-    /* --- Theme toggle button --- */
-    .theme-toggle {
-      border: 1px solid var(--bd);
-      background: var(--panel);
-      border-radius: 999px;
-      padding: 8px 12px;
-      display: inline-flex; align-items: center; gap: 8px;
-      cursor: pointer; font-weight: 600;
-      box-shadow: var(--shadow-soft);
+    /* ---------- Theme toggle (kept minimal) ---------- */
+    .theme-toggle{
+      border:1px solid var(--bd); background:var(--panel); border-radius:999px;
+      padding:8px 12px; display:inline-flex; align-items:center; gap:8px;
+      cursor:pointer; font-weight:600; box-shadow:var(--shadow-soft);
     }
-    .theme-toggle .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--text); opacity: .6; }
+    .theme-toggle .dot{ width:8px; height:8px; border-radius:999px; background:var(--text); opacity:.6; }
   </style>
 </head>
 <body>
-  <!-- Nav -->
+  <!-- Top nav (unchanged from your site) -->
   <nav class="nav">
     <div class="narrow nav-inner">
       <a class="brand" href="./index.html">JAN</a>
@@ -105,8 +79,10 @@
     </div>
   </nav>
 
-  <!-- Hero (keep your current layout) -->
+  <!-- Keep your existing hero layout/classes -->
   <main class="page">
+    <!-- If your current hero uses different class names, keep those.
+         This block mirrors your last working structure. :contentReference[oaicite:0]{index=0} -->
     <section class="hero-split">
       <div class="hero-left">
         <div class="hello">cout &lt;&lt; "hello world";</div>
@@ -123,67 +99,72 @@
       </div>
     </section>
 
-    <!-- Spotlight carousel -->
+    <!-- ===== Project Spotlight (links to your real Work panels) ===== -->
     <section class="spotlight" aria-label="Project Spotlight">
       <h2>Project Spotlight</h2>
       <div class="spotlight-wrap">
-        <button class="spot-rail-btn spot-left" id="spotLeft" aria-label="Scroll left">
+        <button class="spot-btn spot-left" id="spotLeft" aria-label="Scroll left">
           <svg viewBox="0 0 24 24" fill="none"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
-        <div class="spotlight-row" id="spotRow">
-          <!-- Sage -->
-          <a class="spot-card" href="work.html#sage">
-            <div class="spot-media">
-              <img src="images/spotlight/sage.jpg" alt="Sage project thumbnail" loading="lazy" />
-            </div>
+        <div class="spot-row" id="spotRow">
+          <!-- Quokka (PDF – use fallback tile) -->
+          <a class="spot-card" href="work.html#quokka">
+            <div class="spot-media spot-fallback"><span>Quokka Brew</span></div>
             <div class="spot-body">
-              <div class="spot-title">Sage</div>
-              <p class="spot-desc">Intelligent legal workbench to streamline workflows and surface insights faster.</p>
+              <div class="spot-title">Quokka Brew — Design Research</div>
+              <p class="spot-desc">60+ interviews and iterative can designs that improved shelf recognition.</p>
             </div>
           </a>
 
-          <!-- Glance -->
-          <a class="spot-card" href="work.html#glance">
-            <div class="spot-media">
-              <img src="images/spotlight/glance.jpg" alt="Glance project thumbnail" loading="lazy" />
-            </div>
+          <!-- Clear Clinical (PDF – use fallback tile) -->
+          <a class="spot-card" href="work.html#clear-clinical">
+            <div class="spot-media spot-fallback"><span>Clear Clinical</span></div>
             <div class="spot-body">
-              <div class="spot-title">Glance</div>
-              <p class="spot-desc">Automated documentation that keeps teams aligned by killing knowledge silos.</p>
+              <div class="spot-title">Clear Clinical — Strategy &amp; UX</div>
+              <p class="spot-desc">Merged mid + final decks: research synthesis, roadmap, and proposals.</p>
             </div>
           </a>
 
-          <!-- Octavo -->
-          <a class="spot-card" href="work.html#octavo">
+          <!-- EY Workshop (gallery – use first image) -->
+          <a class="spot-card" href="work.html#ey-workshop">
             <div class="spot-media">
-              <img src="images/spotlight/octavo.jpg" alt="Octavo project thumbnail" loading="lazy" />
+              <img src="Projects/EY1.jpg" alt="EY workshop" loading="lazy" />
             </div>
             <div class="spot-body">
-              <div class="spot-title">Octavo</div>
-              <p class="spot-desc">Human-centered search powered by memory agents. UC Berkeley AI Hackathon winner.</p>
+              <div class="spot-title">EY Workshop — Design Thinking</div>
+              <p class="spot-desc">Hands-on session for students: problem framing, ideation, prototyping.</p>
             </div>
           </a>
 
-          <!-- Claude Cortex -->
-          <a class="spot-card" href="work.html#claude-cortex">
+          <!-- Policy Advocacy Day (gallery) -->
+          <a class="spot-card" href="work.html#advocacy-day">
             <div class="spot-media">
-              <img src="images/spotlight/claude.jpg" alt="Claude Cortex project thumbnail" loading="lazy" />
+              <img src="Projects/Partnership_Advocacy_Day1.jpg" alt="Policy Advocacy Day" loading="lazy" />
             </div>
             <div class="spot-body">
-              <div class="spot-title">Claude Cortex</div>
-              <p class="spot-desc">Secure reasoning agent that helps users think from more angles, more deeply.</p>
+              <div class="spot-title">Policy Advocacy Day — Sacramento</div>
+              <p class="spot-desc">Met with CA legislators to advocate for education &amp; youth policies.</p>
+            </div>
+          </a>
+
+          <!-- Magazine Feature (gallery) -->
+          <a class="spot-card" href="work.html#magazine">
+            <div class="spot-media">
+              <img src="Projects/Magazine1.jpg" alt="Magazine feature" loading="lazy" />
+            </div>
+            <div class="spot-body">
+              <div class="spot-title">Magazine Feature</div>
+              <p class="spot-desc">Press coverage of first-gen leadership, BTG projects, and community work.</p>
             </div>
           </a>
         </div>
 
-        <button class="spot-rail-btn spot-right" id="spotRight" aria-label="Scroll right">
+        <button class="spot-btn spot-right" id="spotRight" aria-label="Scroll right">
           <svg viewBox="0 0 24 24" fill="none"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </section>
-
-    <!-- Your existing content continues… -->
   </main>
 
   <footer>
@@ -191,18 +172,15 @@
   </footer>
 
   <script>
-    // Year
+    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // --- Spotlight rail buttons ---
-    const row = document.getElementById('spotRow');
-    const leftBtn = document.getElementById('spotLeft');
-    const rightBtn = document.getElementById('spotRight');
-    function scrollByCards(dir){ row.scrollBy({left: dir * row.clientWidth * 0.9, behavior: 'smooth'}); }
-    leftBtn.addEventListener('click', ()=>scrollByCards(-1));
-    rightBtn.addEventListener('click', ()=>scrollByCards(1));
+    // Spotlight scroll buttons
+    const spotRow = document.getElementById('spotRow');
+    document.getElementById('spotLeft').addEventListener('click', ()=> spotRow.scrollBy({left: -spotRow.clientWidth*0.9, behavior:'smooth'}));
+    document.getElementById('spotRight').addEventListener('click', ()=> spotRow.scrollBy({left:  spotRow.clientWidth*0.9, behavior:'smooth'}));
 
-    // --- Theme toggle (persists) ---
+    // Theme toggle (persist)
     const root = document.documentElement;
     const themeBtn = document.getElementById('themeBtn');
     const themeText = document.getElementById('themeText');
@@ -214,15 +192,12 @@
       if(mode === 'dark'){ themeText.textContent = 'Light'; themeIcon.textContent = '☀️'; }
       else { themeText.textContent = 'Dark'; themeIcon.textContent = '🌙'; }
     }
-    // init from storage or prefers-color-scheme
-    (function(){
+    (function initTheme(){
       const saved = localStorage.getItem('jan_theme');
       const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       applyTheme(saved || (preferDark ? 'dark' : 'light'));
     })();
-    themeBtn.addEventListener('click', ()=>{
-      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    });
+    themeBtn.addEventListener('click', ()=> applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
   </script>
 </body>
 </html>
