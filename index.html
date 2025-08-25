@@ -6,9 +6,22 @@
   <title>Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
 
-  <!-- Scoped styles: Spotlight + Theme toggle only -->
+  <!-- Scoped styles: Spotlight + theme switch + smooth transitions -->
   <style>
-    /* ---------- Project Spotlight ---------- */
+    /* ---------- Smooth theme transitions (no layout jitter) ---------- */
+    html, body, .nav, .btn, .btn-primary,
+    .spot-card, .spot-body, .hero-right img, footer, .theme-switch .label {
+      transition: background-color .25s ease, color .25s ease,
+                  border-color .25s ease, box-shadow .25s ease;
+    }
+    @media (prefers-reduced-motion: reduce){
+      html, body, .nav, .btn, .btn-primary,
+      .spot-card, .spot-body, .hero-right img, footer, .theme-switch .label {
+        transition: none !important;
+      }
+    }
+
+    /* ---------- Project Spotlight (unchanged behavior) ---------- */
     .spotlight { width:min(1200px,96vw); margin:40px auto 6px; }
     .spotlight h2 { font-size:28px; margin:0 0 16px; letter-spacing:.2px; }
     .spotlight-wrap { position:relative; }
@@ -31,7 +44,6 @@
     .spot-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow); border-color:var(--bd-strong); }
     .spot-media{ background:#0f172a; display:grid; place-items:center; overflow:hidden; }
     .spot-media img{ width:100%; height:100%; object-fit:cover; display:block; }
-    /* Fallback when there isn’t a thumbnail (e.g., PDF projects) */
     .spot-fallback{
       display:grid; place-items:center; color:#e5e7eb; font-weight:800; font-size:18px;
       background:linear-gradient(135deg,#111827,#1f2937);
@@ -39,7 +51,6 @@
     .spot-body{ padding:18px; background:var(--card-grad); }
     .spot-title{ font-weight:800; font-size:20px; margin:0 0 8px; }
     .spot-desc{ margin:0; color:var(--muted); line-height:1.55; }
-
     .spot-btn{
       position:absolute; top:50%; transform:translateY(-50%);
       width:42px; height:42px; border-radius:999px; border:1px solid var(--bd);
@@ -50,17 +61,37 @@
     .spot-left{ left:-4px; } .spot-right{ right:-4px; }
     @media (max-width:780px){ .spot-left,.spot-right{ display:none; } }
 
-    /* ---------- Theme toggle (kept minimal) ---------- */
-    .theme-toggle{
-      border:1px solid var(--bd); background:var(--panel); border-radius:999px;
-      padding:8px 12px; display:inline-flex; align-items:center; gap:8px;
-      cursor:pointer; font-weight:600; box-shadow:var(--shadow-soft);
+    /* ---------- Footer theme switch (pill slider) ---------- */
+    .theme-switch{
+      width:min(1200px,96vw);
+      margin:32px auto 0;
+      display:flex; align-items:center; justify-content:center; gap:12px;
     }
-    .theme-toggle .dot{ width:8px; height:8px; border-radius:999px; background:var(--text); opacity:.6; }
+    .theme-switch .label{
+      font-size:14px; color:var(--muted); user-select:none;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .switch{
+      position:relative; width:56px; height:30px; cursor:pointer; display:inline-block;
+    }
+    .switch input{ position:absolute; width:0; height:0; opacity:0; }
+    .slider{
+      position:absolute; inset:0;
+      background:var(--panel); border:1px solid var(--bd); border-radius:999px;
+      box-shadow:var(--shadow-soft);
+      transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .slider::after{
+      content:""; position:absolute; top:2px; left:2px;
+      width:26px; height:26px; border-radius:999px; background:var(--text);
+      transition: transform .25s ease, background-color .25s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    }
+    .switch input:checked + .slider::after{ transform: translateX(26px); }
   </style>
 </head>
 <body>
-  <!-- Top nav (unchanged from your site) -->
+  <!-- Nav (unchanged) -->
   <nav class="nav">
     <div class="narrow nav-inner">
       <a class="brand" href="./index.html">JAN</a>
@@ -70,19 +101,12 @@
         <a class="btn" href="bake.html">Bake</a>
         <a class="btn" href="travel.html">Travel</a>
         <a class="btn" href="#contact">Contact</a>
-        <button id="themeBtn" class="theme-toggle" type="button" aria-label="Toggle dark mode">
-          <span id="themeIcon" aria-hidden="true">🌙</span>
-          <span id="themeText">Dark</span>
-          <span class="dot"></span>
-        </button>
       </div>
     </div>
   </nav>
 
-  <!-- Keep your existing hero layout/classes -->
   <main class="page">
-    <!-- If your current hero uses different class names, keep those.
-         This block mirrors your last working structure. :contentReference[oaicite:0]{index=0} -->
+    <!-- Hero (your existing structure) -->
     <section class="hero-split">
       <div class="hero-left">
         <div class="hello">cout &lt;&lt; "hello world";</div>
@@ -108,7 +132,7 @@
         </button>
 
         <div class="spot-row" id="spotRow">
-          <!-- Quokka (PDF – use fallback tile) -->
+          <!-- Adjust these to match your actual panels (already added) -->
           <a class="spot-card" href="work.html#quokka">
             <div class="spot-media spot-fallback"><span>Quokka Brew</span></div>
             <div class="spot-body">
@@ -117,7 +141,6 @@
             </div>
           </a>
 
-          <!-- Clear Clinical (PDF – use fallback tile) -->
           <a class="spot-card" href="work.html#clear-clinical">
             <div class="spot-media spot-fallback"><span>Clear Clinical</span></div>
             <div class="spot-body">
@@ -126,10 +149,9 @@
             </div>
           </a>
 
-          <!-- EY Workshop (gallery – use first image) -->
           <a class="spot-card" href="work.html#ey-workshop">
             <div class="spot-media">
-              <img src="Projects/EY1.jpg" alt="EY workshop" loading="lazy" />
+              <img src="Projects/EY1.jpg" alt="EY workshop" loading="lazy" width="480" height="300" />
             </div>
             <div class="spot-body">
               <div class="spot-title">EY Workshop — Design Thinking</div>
@@ -137,10 +159,9 @@
             </div>
           </a>
 
-          <!-- Policy Advocacy Day (gallery) -->
           <a class="spot-card" href="work.html#advocacy-day">
             <div class="spot-media">
-              <img src="Projects/Partnership_Advocacy_Day1.jpg" alt="Policy Advocacy Day" loading="lazy" />
+              <img src="Projects/Partnership_Advocacy_Day1.jpg" alt="Policy Advocacy Day" loading="lazy" width="480" height="300" />
             </div>
             <div class="spot-body">
               <div class="spot-title">Policy Advocacy Day — Sacramento</div>
@@ -148,10 +169,9 @@
             </div>
           </a>
 
-          <!-- Magazine Feature (gallery) -->
           <a class="spot-card" href="work.html#magazine">
             <div class="spot-media">
-              <img src="Projects/Magazine1.jpg" alt="Magazine feature" loading="lazy" />
+              <img src="Projects/Magazine1.jpg" alt="Magazine feature" loading="lazy" width="480" height="300" />
             </div>
             <div class="spot-body">
               <div class="spot-title">Magazine Feature</div>
@@ -167,12 +187,21 @@
     </section>
   </main>
 
+  <!-- Footer with centered theme switch -->
+  <div class="theme-switch" role="group" aria-label="Color Theme">
+    <span class="label"><span id="modeWord">Light</span> Mode</span>
+    <label class="switch" aria-label="Toggle color theme">
+      <input id="themeChk" type="checkbox" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
   <footer>
     <div class="wide">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
   <script>
-    // Footer year
+    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
     // Spotlight scroll buttons
@@ -180,24 +209,42 @@
     document.getElementById('spotLeft').addEventListener('click', ()=> spotRow.scrollBy({left: -spotRow.clientWidth*0.9, behavior:'smooth'}));
     document.getElementById('spotRight').addEventListener('click', ()=> spotRow.scrollBy({left:  spotRow.clientWidth*0.9, behavior:'smooth'}));
 
-    // Theme toggle (persist)
+    // Theme init + sync to pill switch
     const root = document.documentElement;
-    const themeBtn = document.getElementById('themeBtn');
-    const themeText = document.getElementById('themeText');
-    const themeIcon = document.getElementById('themeIcon');
+    const chk  = document.getElementById('themeChk');
+    const word = document.getElementById('modeWord');
 
-    function applyTheme(mode){
+    function applyTheme(mode, {persist=true, sync=true} = {}){
       root.setAttribute('data-theme', mode);
-      localStorage.setItem('jan_theme', mode);
-      if(mode === 'dark'){ themeText.textContent = 'Light'; themeIcon.textContent = '☀️'; }
-      else { themeText.textContent = 'Dark'; themeIcon.textContent = '🌙'; }
+      if (persist) localStorage.setItem('jan_theme', mode);
+      if (sync){
+        const isDark = mode === 'dark';
+        chk.checked = isDark;
+        word.textContent = isDark ? 'Dark' : 'Light';
+      }
     }
+
     (function initTheme(){
       const saved = localStorage.getItem('jan_theme');
-      const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      applyTheme(saved || (preferDark ? 'dark' : 'light'));
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const mode = saved || (systemDark ? 'dark' : 'light');
+      applyTheme(mode, {persist:false});
     })();
-    themeBtn.addEventListener('click', ()=> applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+    chk.addEventListener('change', () => {
+      applyTheme(chk.checked ? 'dark' : 'light');
+    });
+
+    // Keep in sync if OS theme changes (optional)
+    if (window.matchMedia){
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+      mql.addEventListener?.('change', e => {
+        // Only auto-switch if user hasn't made an explicit choice
+        if (!localStorage.getItem('jan_theme')){
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    }
   </script>
 </body>
 </html>
