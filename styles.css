@@ -950,3 +950,55 @@ body.oscar-bg {
 }
 .spot-left{ left:-4px; } .spot-right{ right:-4px; }
 @media (max-width:780px){ .spot-left,.spot-right{ display:none; } }
+
+/* === Flip-card back: centered like the Oscar reference === */
+.flip-back .about-back{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;      /* vertically center content in the card */
+  text-align: center;
+  gap: 10px;
+  padding: 24px 18px;           /* a touch more breathing room */
+}
+
+.flip-back .about-avatar{
+  width: 116px;
+  height: 116px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 1px solid rgba(17,19,24,.12);
+  box-shadow: 0 6px 16px rgba(17,19,24,.08);
+}
+
+.flip-back .about-intro{
+  max-width: 520px;             /* readable line length */
+  margin: 4px 0 2px;
+  color: #111318;
+}
+
+.flip-back .about-bullets{
+  width: min(520px, 92%);
+  margin: 6px auto 0;
+  padding: 0;                   /* remove default left indent */
+  list-style-position: inside;  /* keep bullets visible while centered block */
+  text-align: left;             /* bullets read better left-aligned */
+  color: #60646c;
+}
+
+.flip-back .about-bullets li{ margin: 4px 0; }
+
+/* Clean text tiles for PDF-only projects */
+.spot-media.tile {
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: .2px;
+  color: #f3f4f6;  /* light gray text */
+  background: linear-gradient(135deg, #111827, #1f2937); /* dark gradient */
+}
+
+.spot-media.tile.alt {
+  background: linear-gradient(135deg, #141821, #202938);
+}
