@@ -882,3 +882,71 @@ background:rgba(17,19,24,.65); color:#fff; display:grid; place-items:center; }
 .react-chart{ border:1px solid rgba(17,19,24,.10); border-radius:12px; }
 .react-chart-legend{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
 .react-chip{ font-size:12px; padding:3px 6px; border:1px solid rgba(17,19,24,.12); border-radius:999px; background:#fff; color:#374151; }
+
+/* ==== Add-on: Oscar-style background (opt-in) ===================== */
+/* Apply only when you add class="oscar-bg" on <body> */
+body.oscar-bg {
+  background:
+    radial-gradient(900px 600px at 15% -10%, rgba(59,130,246,.08), transparent 55%),
+    radial-gradient(900px 600px at 115% 0%, rgba(2,132,199,.07), transparent 60%),
+    #f6f7f9;
+}
+
+/* If you don't already have a .container helper, this is safe. */
+.container { width: min(1100px, 92vw); margin-inline: auto; }
+
+/* ==== Add-on: Project Spotlight (namespaced) ====================== */
+.spotlight { padding: 40px 0 26px; }
+.spot-title { font-size: 24px; margin: 0 0 12px; font-weight: 700; }
+
+.spot-wrap { position: relative; }
+.spot-row{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 1fr);
+  gap: 18px;
+  overflow-x: auto;
+  padding: 6px 4px 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  mask-image: linear-gradient(90deg, transparent 0, #000 28px calc(100% - 28px), transparent 100%);
+}
+.spot-row::-webkit-scrollbar{ display: none; }
+
+.spot-card{
+  scroll-snap-align: start;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(17,19,24,.10);
+  box-shadow: 0 10px 26px rgba(17,19,24,.05);
+  text-decoration: none;
+  color: inherit;
+  display: grid;
+  grid-template-rows: 150px auto;
+  overflow: hidden;
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.spot-card:hover{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(17,19,24,.08); border-color: rgba(17,19,24,.14); }
+
+.spot-media{ background:#0f172a; display:grid; place-items:center; overflow:hidden; }
+.spot-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* Clean text tiles for projects without images (e.g., PDF-only) */
+.spot-media.tile{ color:#e5e7eb; font-weight:800; letter-spacing:.2px;
+  background: linear-gradient(135deg,#111827,#1f2937); display:grid; place-items:center; }
+.spot-media.tile.alt{ background: linear-gradient(135deg,#141821,#202938); }
+
+.spot-body{ padding: 14px 16px; background: linear-gradient(180deg,#fff,#fafafa); }
+.spot-card-title{ font-weight:800; font-size:18px; margin:0 0 6px; }
+.spot-desc{ margin:0; color:#60646c; font-size:14px; line-height:1.55; }
+
+/* Scroll buttons */
+.spot-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:42px; height:42px; border-radius:999px; border:1px solid rgba(17,19,24,.10);
+  background:#fff; display:grid; place-items:center; box-shadow:0 8px 18px rgba(17,19,24,.10);
+  cursor:pointer;
+}
+.spot-left{ left:-4px; } .spot-right{ right:-4px; }
+@media (max-width:780px){ .spot-left,.spot-right{ display:none; } }
