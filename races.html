@@ -1,621 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Races</title>
-
-  <!-- your site styles (cache-busted) -->
-  <link rel="stylesheet" href="styles.css?v=24"/>
-
-  <style>
-    /* ---------- scoped styles for the races widget ---------- */
-    .react-wrap{ display:block; }
-    .react-metrics{ display:grid; gap:14px; grid-template-columns: 1.2fr 1fr; }
-    @media (max-width:900px){ .react-metrics{ grid-template-columns:1fr; } }
-
-    .react-card{ background:#fff; border:1px solid rgba(17,19,24,.10); border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(17,19,24,.04); }
-
-    /* metric tiles */
-    .react-tiles{ display:grid; gap:10px; grid-template-columns:repeat(4, minmax(0,1fr)); }
-    @media (max-width:640px){ .react-tiles{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
-    .react-tile{ border:1px solid rgba(0,0,0,.06); border-radius:12px; padding:12px; background:#fff; }
-    .react-tile .n{ font-weight:800; font-size:22px; letter-spacing:.2px; background:linear-gradient(90deg,#1d4ed8,#06b6d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .react-tile .l{ font-size:12px; color:#6b7280; margin-top:4px; }
-
-    /* training bar chart */
-    .react-chart-title{ font-size:13px; font-weight:700; color:#374151; margin-bottom:8px; }
-    .react-bars-wrap{ border:1px solid rgba(17,19,24,.10); border-radius:12px; padding:10px; background:#fff; }
-    .react-bars{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; align-items:end; height:160px; gap:10px; padding:8px 8px 2px; }
-    .react-bar{ position:relative; background:#e6f0ff; border:1px solid #c7dbff; border-radius:6px 6px 0 0; }
-    .react-bar::after{ content:attr(data-miles) " mi"; position:absolute; left:50%; transform:translateX(-50%); bottom:100%; font-size:11px; color:#374151; margin-bottom:4px; white-space:nowrap; }
-    .react-x{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:10px; margin-top:6px; font-size:11px; color:#6b7280; text-align:center; }
-
-    /* strava card */
-    .react-strava{ display:flex; flex-direction:column; gap:12px; }
-    .react-strava .row{ display:flex; align-items:center; gap:12px; }
-    .react-strava .avatar{ width:48px; height:48px; border-radius:999px; overflow:hidden; background:#ffe5d6; display:grid; place-items:center; font-weight:800; color:#fc4c02; }
-    .react-strava .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .react-strava .btn{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; background:#fc4c02; color:#fff; border:0; font-weight:700; cursor:pointer; text-decoration:none; width:max-content; }
-    .react-strava .btn:hover{ filter:brightness(.95); }
-    .react-strava small{ color:#6b7280; }
-    .react-mini{ display:flex; gap:6px; margin-top:6px; }
-    .react-mini div{ width:14px; height:8px; border-radius:3px; background:#e5e7eb; }
-    .react-mini div.on{ background:#60a5fa; }
-    .strava-actions{ display:flex; gap:8px; flex-wrap:wrap; }
-    .copy-btn{ border:1px solid rgba(17,19,24,.12); background:#fff; border-radius:10px; padding:8px 10px; font-size:13px; cursor:pointer; }
-    .copy-btn:hover{ background:#f8fafc; }
-
-    /* race cards */
-    .react-stack{ display:grid; gap:16px; }
-    .react-bar-hdr{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
-    .react-bar-hdr h2{ margin:0; font-size:18px; }
-    .react-date{ color:#60646c; font-size:13px; }
-
-    .react-grid{ display:grid; gap:16px; grid-template-columns:minmax(0,58%) minmax(0,42%); align-items:stretch; }
-    @media (max-width:900px){ .react-grid{ grid-template-columns:1fr; } }
-    .react-col-media{ min-width:0; }
-    .react-col-notes{ min-width:0; display:flex; flex-direction:column; gap:10px; background:#fff; border:1px solid rgba(17,19,24,.10); border-radius:14px; padding:12px; }
-
-    .react-title{ margin:0; font-size:16px; }
-    .react-meta{ color:#6b7280; font-size:12px; }
-
-    .react-stats{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; }
-    .react-stat{ background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:10px; padding:8px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.05); }
-    .react-stat-number{ font-weight:800; letter-spacing:.2px; font-size:20px; background:linear-gradient(90deg,#1d4ed8,#06b6d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .react-stat-label{ font-size:12px; color:#6b7280; margin-top:2px; }
-
-    .react-tags{ display:flex; flex-wrap:wrap; gap:6px; }
-    .react-tag{ font-size:12px; padding:3px 6px; border:1px solid rgba(17,19,24,.12); border-radius:999px; background:#fff; color:#374151; }
-
-    .react-story p{ margin:8px 0; font-size:15px; line-height:1.6; color:#111318; }
-    .react-goal{ display:flex; align-items:center; gap:10px; }
-    .react-goalbar{ flex:1; height:8px; border-radius:999px; background:#eef2ff; overflow:hidden; border:1px solid #dbe3ff; }
-    .react-goalbar > span{ display:block; height:100%; background:linear-gradient(90deg,#22c55e,#3b82f6); width:0; transition:width .6s ease; }
-    .react-goal small{ color:#6b7280; }
-    .react-note{ font-size:12px; color:#6b7280; }
-
-    /* media slider (no crop) */
-    .react-slider{ position:relative; width:100%; border-radius:14px; overflow:hidden; background:#fff; }
-    .react-slides{ display:grid; grid-auto-flow:column; grid-auto-columns:100%; transition: transform .35s ease; }
-    .react-slide{ display:flex; align-items:flex-start; justify-content:center; }
-    .react-media{ width:100%; height:auto; object-fit:contain; display:block; background:#fff; border-radius:14px; max-height:80vh; }
-    .react-video{ background:#000; }
-    .react-nav{ position:absolute; top:50%; transform:translateY(-50%); z-index:2; width:36px; height:36px; border-radius:999px; border:0; cursor:pointer; background:rgba(17,19,24,.65); color:#fff; display:grid; place-items:center; }
-    .react-prev{ left:10px; } .react-next{ right:10px; }
-    .react-nav:hover{ background:rgba(17,19,24,.8); }
-    .react-dots{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); display:flex; gap:6px; z-index:2; }
-    .react-dot{ width:8px; height:8px; border-radius:999px; border:0; background:rgba(17,19,24,.25); cursor:pointer; }
-    .react-dot.on{ background:rgba(17,19,24,.6); }
-
-    /* tiny route spark + official course map image block */
-    .route{ margin-top:8px; border:1px solid rgba(0,0,0,.06); border-radius:10px; padding:8px; }
-    .route svg{ width:100%; height:64px; }
-    .route path{ fill:none; stroke:#3b82f6; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:400; stroke-dashoffset:400; animation:draw 1.8s ease forwards; }
-    @keyframes draw{ to{ stroke-dashoffset:0; } }
-
-    .course-map{ border:1px solid rgba(0,0,0,.06); border-radius:10px; overflow:hidden; }
-    .course-map img{ width:100%; height:auto; display:block; object-fit:contain; max-height:220px; background:#fff; }
-    .course-map .cm-bar{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 10px; border-top:1px solid rgba(0,0,0,.06); background:#fafafa; font-size:12px; color:#374151; }
-    .course-map .cm-bar a{ color:#2563eb; text-decoration:none; }
-    /* right column stacks two cards to reduce whitespace */
-    .react-metrics-right{ display:flex; flex-direction:column; gap:14px; }
-
-    /* goals card */
-    .goals-card .rings{ display:flex; gap:16px; justify-content:space-between; }
-    .goals-card .ring{ position:relative; width:110px; height:110px; display:grid; place-items:center; }
-    .goals-card svg{ width:110px; height:110px; transform:rotate(-90deg); }
-    .goals-card .pct{ position:absolute; font-weight:800; font-size:18px; }
-    .goals-card .caption{ text-align:center; font-size:12px; color:#6b7280; margin-top:4px; }
-
-    .next-card{display:flex;align-items:center;gap:12px}
-    .next-logo{width:56px;height:56px;border-radius:12px;object-fit:cover;background:#fff;border:1px solid rgba(0,0,0,.06)}
-    .next-meta .t{font-size:15px;font-weight:700;color:#111318}
-    .next-meta .s{font-size:13px;color:#374151;margin-top:2px}
-    .next-goal{display:inline-block;margin-top:6px;padding:4px 8px;border-radius:999px;font-weight:700;font-size:12px;background:#eef2ff;color:#1d4ed8;border:1px solid #dbe3ff}
-
-    /* Fix LA logo getting cut off */
-.next-logo{
-  height:60px;        /* keeps row height consistent */
-  width:auto;         /* let width grow/shrink based on aspect */
-  max-width:160px;    /* don't blow past the card */
-  object-fit:contain; /* no cropping */
-  padding:6px;        /* white framing around odd shapes */
-  background:#fff;
-  border:1px solid rgba(0,0,0,.06);
-  border-radius:12px;
-  display:block;
-}
-.next-card{ align-items:center; } /* keeps logo + text nicely aligned */
-
-.next-card{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.next-meta{flex:1}
-/* compact next-race timer */
-.next-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.next-timer-line{
-  display:flex;align-items:baseline;gap:6px;
-  padding:6px 10px;border-radius:999px;
-  background:#eef2ff;color:#1d4ed8;border:1px solid #dbe3ff;
-  font:700 17px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
-}
-.next-timer-line .num{min-width:2ch;text-align:center}
-.next-timer-line .sep{opacity:.6}
-.next-timer-line .lab{font-weight:600;font-size:12px;color:#1e3a8a;opacity:.85;margin-left:2px}
-
-.section-label{font-size:12px;color:#6b7280;font-weight:700;display:flex;align-items:center;gap:6px;margin:6px 0 6px}
-.section-label .icon{font-size:14px;opacity:.85}
-
-
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Races – Jan Arroyo</title>
+  <meta name="description" content="Marathons and races by Jan Arroyo" />
+  <!-- bump the version any time you change styles.css -->
+  <link href="styles.css?v=16" rel="stylesheet" />
 </head>
-
 <body class="plain-bg">
+  <!-- Navbar -->
   <nav class="nav">
     <div class="container nav-inner">
-      <a class="brand-logo" href="./" aria-label="Home">
-        <img src="Snoopy_Welcome.png" alt="Snoopy waving hi" />
-      </a>
+      <a class="brand" href="./">JAN</a>
       <div class="nav-links">
-        <a href="work.html">Projects</a>
-        <a href="races.html">Races</a>
-        <a href="bake.html">Bake</a>
-        <a href="travel.html">Travel</a>
-        <a href="#contact">Contact</a>
+        <a class="btn" href="work.html">Projects</a>
+        <a class="btn" href="races.html">Races</a>
+        <a class="btn" href="bake.html">Bake</a>
+        <a class="btn" href="travel.html">Travel</a>
+        <a class="btn" href="#contact">Contact</a>
       </div>
     </div>
   </nav>
-  
 
   <main class="container work">
     <h1 class="page-title">Races</h1>
-    <p class="tag">Marathons and distance events I’ve run.</p>
+    <p class="tag">Marathons & distance events I’ve run.</p>
 
-    <div id="races-app"></div>
-  </main>
-
-  <footer>© <span id="year"></span> Jan Arroyo — Thanks for visiting!</footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-
-  <!-- React + ReactDOM + Babel (CDN) -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Your app code (JSX compiled by Babel in the browser) -->
-  <script type="text/babel" data-presets="env,react">
-    const { useEffect, useRef, useState } = React;
-
-    /* ------------ CONFIG ------------- */
-    const STRAVA_ATHLETE_ID = "137523264";
-    const STRAVA_AVATAR_URL = ""; // optional: add a headshot URL if you want
-
-    /* ------------ DATA ------------- */
-    const RACES = [
-      {
-        id: "sf10k-2025",
-        dateISO: "2025-07-27",
-        dateLabel: "July 27, 2025",
-        title: "San Francisco 10K",
-        city: "San Francisco",
-        distance: 6.2,
-        trainingMiles: 36,
-        finishSeconds: 4237,           // 1:10:37
-        goalSeconds: 4200,             // 1:10:00
-        description: [
-          "We spent the summer in San Francisco, so this felt like a hometown race for a few months. Cool air came off the bay and the city felt generous—random claps from doorways, a cyclist ringing a bell, pockets of skyline between buildings. The plan was simple: stay together, keep the cadence easy, enjoy the morning.",
-          "We fell into pace early and didn’t chase the short rollers. Around mile four the streetcars were out, coffee was in the air, and the finish showed up faster than I expected. We crossed side by side and started tossing out other races we want to run."
-        ],
-        tags: ["Course: rolling city streets, cool air", "Fuel: water + one gel pre-start", "Shoes: Hoka Clifton 9"],
-        routePath: "M10,52 C40,40 60,38 90,30",
-        courseMapImg: "images/maps/sf10k-map.jpg",
-        courseMapSrc: "https://www.thesfmarathon.com/10k/",
-        media: [
-          { type: "img", src: "images/races/SF10K.JPG",  alt: "San Francisco 10K" },
-          { type: "img", src: "images/races/SF10K1.JPG", alt: "San Francisco 10K finish" },
-        ],
-      },
-      {
-        id: "surf-city-2025",
-        dateISO: "2025-02-02",
-        dateLabel: "February 2, 2025",
-        title: "Surf City Marathon",
-        city: "Huntington Beach",
-        distance: 26.2,
-        trainingMiles: 172,
-        finishSeconds: 14304,          // 3:58:24
-        goalSeconds: 14400,            // 4:00:00
-        description: [
-          "My first full. The start line felt like a block party—cowbells, flags, ocean wind pinning the bib to my shirt. Sub-four sat right on the edge for me, so the plan was patient: relax through halfway, stay honest to twenty, race whatever was left.",
-          "PCH kept changing moods. Some miles were free, then a turn would push back. I kept the gels steady and tried to be a metronome. At mile twenty-four the math said sub-four was still alive. The last mile was loud and shaky and perfect. I finished in 3:58:24 and let myself be proud for a minute."
-        ],
-        tags: ["Course: out and back along PCH", "Fuel: gels + electrolytes every 5–6 mi", "Shoes: Hoka Clifton 9"],
-        routePath: "M10,40 C30,34 50,34 70,40 S110,48 130,44",
-        courseMapImg: "images/maps/surfcity-map.jpg",
-        courseMapSrc: "https://www.runsurfcity.com/marathon",
-        media: [
-          { type: "img",   src: "images/races/SurfCity1.JPG", alt: "Surf City finish" },
-          { type: "img",   src: "images/races/SurfCity2.JPG", alt: "Surf City course" },
-          { type: "img",   src: "images/races/SurfCity3.JPG", alt: "Surf City friends" },
-          { type: "video", src: "images/races/SurfCity4.mp4", alt: "Surf City finish video" },
-        ],
-      },
-      {
-        id: "long-beach-2024",
-        dateISO: "2024-10-06",
-        dateLabel: "October 6, 2024",
-        title: "Long Beach Half Marathon",
-        city: "Long Beach",
-        distance: 13.1,
-        trainingMiles: 112,
-        finishSeconds: 7152,           // 1:59:12
-        goalSeconds: 7200,             // 2:00:00
-        description: [
-          "Emma talked me into this one and I’m glad she did. Training had gaps around school and late dinners, but race morning was calm—the ocean looked flat and silver and it felt like we had time.",
-          "I kept things easy until halfway, waited out the mile-10 doubts, and then counted light poles to the finish. We slid under two hours and went straight to breakfast. That’s a good day."
-        ],
-        tags: ["Course: flat waterfront with a light breeze", "Fuel: gels with water at stations", "Shoes: Hoka Clifton 9"],
-        routePath: "M10,50 L40,44 L70,46 L100,42 L130,46",
-        courseMapImg: "images/maps/longbeach-half-map.jpg",
-        courseMapSrc: "https://runlongbeach.com/events/half-marathon/",
-        media: [
-          { type: "img", src: "images/races/LongBeachHalf1.JPG", alt: "Long Beach Half medal" },
-          { type: "img", src: "images/races/LongBeachHalf2.JPG", alt: "Long Beach Half cheering squad" },
-          { type: "img", src: "images/races/LongBeachHalf3.JPG", alt: "Long Beach Half finish area" },
-        ],
-      },
-    ];
-
-    // realistic weekly miles
-    const TRAINING = [
-      { week: "2024-12-15", miles: 18 },
-      { week: "2024-12-22", miles: 21 },
-      { week: "2024-12-29", miles: 24 },
-      { week: "2025-01-05", miles: 26 },
-      { week: "2025-01-12", miles: 30 },
-      { week: "2025-01-19", miles: 32 },
-      { week: "2025-01-26", miles: 29 },
-      { week: "2025-02-02", miles: 12 },
-    ];
-
-    /* ------------ HELPERS ------------- */
-    const pad = (n)=>String(n).padStart(2,"0");
-    const formatTime = (totalSeconds) => {
-      const s = Math.round(totalSeconds);
-      const h = Math.floor(s / 3600);
-      const m = Math.floor((s % 3600) / 60);
-      const r = s % 60;
-      return h > 0 ? `${h}:${pad(m)}:${pad(r)}` : `${m}:${pad(r)}`;
-    };
-    const paceStr = (secsPerMile)=>{
-      const m = Math.floor(secsPerMile/60), s = Math.round(secsPerMile%60);
-      return `${m}:${pad(s)}/mi`;
-    };
-    const sum = (arr, key)=>arr.reduce((t,x)=>t+(typeof key==="function"?key(x):x[key]),0);
-    const minBy = (arr, f)=>arr.reduce((best,x)=>f(x)<f(best)?x:best, arr[0]);
-
-    /* ------------ bar chart ------------- */
-    function MilesBarChart({ data }) {
-      const max = Math.max(1, ...data.map(d=>d.miles));
-      return (
-        <div className="react-bars-wrap">
-          <div className="react-chart-title">Weekly training miles</div>
-          <div className="react-bars">
-            {data.map((d,i)=>(
-              <div key={i}
-                   className="react-bar"
-                   data-miles={d.miles}
-                   style={{ height: `${(d.miles/max)*100}%` }} />
-            ))}
-          </div>
-          <div className="react-x">
-            {data.map((d,i)=> <div key={i}>{d.week.slice(5)}</div>)}
-          </div>
+    <!-- ====================== SF 10K ====================== -->
+    <section class="race" data-date="2025-07-27" id="sf10k-2025">
+      <div class="race-grid panel">
+        <div class="race-bar">
+          <h2>San Francisco 10K</h2>
+          <span class="race-date">July 27, 2025</span>
         </div>
-      );
-    }
 
-    /* ------------ media slider (no crop) ------------- */
-    function MediaSlider({ media }) {
-      const [i, setI] = useState(0);
-      const trackRef = useRef(null);
-      const go = (n)=>setI(p=>(n+media.length)%media.length);
+        <div class="race-body">
+          <!-- LEFT: slider -->
+          <div class="race-slider" data-race="sf10k-2025">
+            <div class="slides">
+              <img src="images/races/SF10K.JPG" alt="San Francisco 10K – medal & bib">
+              <img src="images/races/SF10K1.JPG" alt="San Francisco 10K – after the finish">
+            </div>
+            <button class="nav prev" aria-label="Previous photo">‹</button>
+            <button class="nav next" aria-label="Next photo">›</button>
+            <div class="dots"></div>
+          </div>
 
-      const measure = ()=>{
-        const el=trackRef.current; if(!el) return;
-        const slide=el.children[i]; if(!slide) return;
-        const h = slide.getBoundingClientRect().height;
-        el.style.height = h ? `${h}px` : "auto";
-      };
-      useEffect(()=>{ requestAnimationFrame(measure); },[i, media]);
-      useEffect(()=>{ const on=()=>measure(); window.addEventListener('resize',on); return ()=>window.removeEventListener('resize',on); },[]);
+          <!-- RIGHT: caption panel -->
+          <div class="race-caption">
+            <h3 class="race-title">San Francisco 10K</h3>
+            <div class="race-meta">July 27, 2025 · 6.2 miles</div>
 
-      return (
-        <div className="react-slider">
-          <div ref={trackRef} className="react-slides" style={{ transform:`translateX(-${i*100}%)` }}>
-            {media.map((m,idx)=>(
-              <div key={idx} className="react-slide">
-                {m.type==="img" ? (
-                  <img src={m.src} alt={m.alt} className="react-media"
-                       loading={idx===0?"eager":"lazy"} onLoad={measure}/>
-                ) : (
-                  <video controls className="react-media react-video" onLoadedMetadata={measure}>
-                    <source src={m.src} type="video/mp4"/>
-                  </video>
-                )}
+            <div class="race-stats" data-animate>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="120" data-decimals="0">0</span></div>
+                <div class="stat-label">training miles</div>
               </div>
-            ))}
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-format="time" data-target="4200">0:00</span></div>
+                <div class="stat-label">finish</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="6.2" data-decimals="1">0</span></div>
+                <div class="stat-label">distance</div>
+              </div>
+            </div>
+
+            <p>
+              I spent the summer interning in San Francisco with my girlfriend, so this felt like a hometown race.
+              It was freezing and pouring rain, but the crowd made it fun. There were random claps from doorways,
+              a cyclist ringing a bell, and so much free food.
+            </p>
+            <p>
+              Our only plan was to finish together since it was her first race. We settled into a pace and didn’t chase
+              the dogs and the parents with kids who were definitely outrunning us. By mile four we were thinking about
+              coffee and the finish. Our legs were giving out, but it was the perfect way to close the summer. The medal
+              was the best souvenir, and I miss San Francisco every day.
+            </p>
+
+            <ul class="race-bullets">
+              <li>Course: rolling city streets with chilly rain</li>
+              <li>Fuel: light (water only) — gel pre-start</li>
+              <li>Shoes: (fill in)</li>
+              <li>Next goal: stronger middle miles</li>
+            </ul>
           </div>
-          <button className="react-nav react-prev" aria-label="Previous" onClick={()=>go(i-1)}>‹</button>
-          <button className="react-nav react-next" aria-label="Next" onClick={()=>go(i+1)}>›</button>
-          <div className="react-dots">
-            {media.map((_,idx)=>(
-              <button key={idx} className={("react-dot "+(idx===i?"on":""))} onClick={()=>setI(idx)} aria-label={`Go to slide ${idx+1}`}/>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    /* ------------ small pieces ------------- */
-    function StatTile({ label, value, isTime=false }) {
-      return (
-        <div className="react-stat">
-          <div className="react-stat-number">{isTime ? formatTime(value) : value}</div>
-          <div className="react-stat-label">{label}</div>
-        </div>
-      );
-    }
-
-    function TagRow({ tags }){
-      return (
-        <div className="react-tags">
-          {tags.map((t,i)=><span className="react-tag" key={i}>{t}</span>)}
-        </div>
-      );
-    }
-
-    function GoalMeter({ finishSeconds, goalSeconds }){
-  const pctRaw = goalSeconds ? (finishSeconds/goalSeconds)*100 : 0;
-  const pct = Math.min(100, Math.max(0, pctRaw));
-  const delta = finishSeconds - goalSeconds;
-  const sign = delta <= 0 ? "faster" : "slower";
-  const abs = Math.abs(delta);
-  return (
-    <div>
-      <div className="section-label"><span className="icon">🎯</span><span>Result vs goal</span></div>
-      <div className="react-goal">
-        <div className="react-goalbar" aria-hidden="true">
-          <span style={{ width: `${pct}%` }}></span>
-        </div>
-        <small>{formatTime(finishSeconds)} vs goal {formatTime(goalSeconds)} · {formatTime(abs)} {sign}</small>
-      </div>
-    </div>
-  );
-}
-
-function RouteSpark({ d }){
-  return (
-    <div>
-      <div className="section-label"><span className="icon">🗺️</span><span>Route preview</span></div>
-      <div className="route" title="Stylized route">
-        <svg viewBox="0 0 140 64" preserveAspectRatio="none">
-          <path d={d}/>
-        </svg>
-      </div>
-    </div>
-  );
-}
-
-function CourseMap({ img, src }){
-  const hasImg = !!img;
-  return (
-    <div className="course-map" title="Course map">
-      {hasImg
-        ? <img src={img} alt="Official course map"/>
-        : <div style={{padding:"16px", fontSize:"14px", color:"#374151"}}>Map image not added yet.</div>}
-      <div className="cm-bar">
-        <span>Course map</span>
-        <a href={src} target="_blank" rel="noreferrer">View official source</a>
-      </div>
-    </div>
-  );
-}
-
-
-
-
-    /* ------------ race card ------------- */
-    function RaceCard({ race }) {
-  const pace = race.finishSeconds / race.distance;
-  return (
-    <section className="react-card">
-      <div className="react-bar-hdr">
-        <h2>{race.title}</h2>
-        <span className="react-date">{race.dateLabel}</span>
-      </div>
-
-      <div className="react-grid">
-        <div className="react-col-media">
-          <MediaSlider media={race.media} />
-        </div>
-
-        <div className="react-col-notes">
-          <h3 className="react-title">{race.title}</h3>
-          <div className="react-meta">{race.city} · {race.distance} miles</div>
-
-          <div className="react-stats">
-            <StatTile label="training miles" value={race.trainingMiles} />
-            <StatTile label="finish" value={race.finishSeconds} isTime />
-            <StatTile label="avg pace" value={paceStr(pace)} />
-          </div>
-
-          <TagRow tags={race.tags} />
-          {race.goalSeconds && <GoalMeter finishSeconds={race.finishSeconds} goalSeconds={race.goalSeconds} />}
-
-          <CourseMap img={race.courseMapImg} src={race.courseMapSrc}/>
-
-          <div className="react-story">
-            {race.description.map((p,i)=><p key={i}>{p}</p>)}
-          </div>
-
-          <div className="react-note">Photos and videos show full size. No cropping.</div>
         </div>
       </div>
     </section>
-  );
-}
 
-
-    /* ------------ strava follow ------------- */
-    function StravaCard(){
-      const url = STRAVA_ATHLETE_ID ? `https://www.strava.com/athletes/${STRAVA_ATHLETE_ID}` : "#";
-      const totalsYTD = sum(TRAINING.filter(d=>d.week.startsWith("2025")), "miles");
-      const recent4 = TRAINING.slice(-4).map(d=>d.miles);
-      const max4 = Math.max(1, ...recent4);
-      const initials = "JA";
-      const copy = async () => {
-        try { await navigator.clipboard.writeText(url); alert("Strava link copied!"); } catch(e) {}
-      };
-      return (
-        <div className="react-card react-strava">
-          <div style={{fontSize:13, fontWeight:700, color:"#374151"}}>Follow me on Strava</div>
-          <div className="row">
-            <div className="avatar">
-              {STRAVA_AVATAR_URL
-                ? <img src={STRAVA_AVATAR_URL} alt="avatar"/>
-                : <span>{initials}</span>}
-            </div>
-            <div>
-              <div className="strava-actions">
-                <a className="btn" href={url} target="_blank" rel="noreferrer">
-                  <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M27.7 27.4l6.2 10.6 6.3-10.6h-4.8L33.9 34l-3.6-6.6h-2.6zm-6.7-19L4.7 42.3h9.8l3.4-6.3h8.7l-6.5-11.5 4.4-8.2 8.1 14.5h5L21 8.4z"/></svg>
-                  Follow on Strava
-                </a>
-                <button className="copy-btn" onClick={copy}>Copy link</button>
-              </div>
-              <div style={{marginTop:6, fontSize:13, color:"#374151"}}>Miles this year: <b>{totalsYTD}</b></div>
-              <div className="react-mini" aria-hidden="true">
-                {recent4.map((m,i)=>(
-                  <div key={i} className={m>0?"on":""} style={{height: 8 + (m/max4)*12}}></div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <small>Training logs live there. Routes and races show up when I remember to hit upload.</small>
+    <!-- ====================== Surf City ====================== -->
+    <section class="race" data-date="2025-02-02" id="surf-city-2025">
+      <div class="race-grid panel">
+        <div class="race-bar">
+          <h2>Surf City Marathon</h2>
+          <span class="race-date">February 2, 2025</span>
         </div>
-      );
-    }
 
+        <div class="race-body">
+          <!-- LEFT: slider -->
+          <div class="race-slider" data-race="surf-city-2025">
+            <div class="slides">
+              <img src="images/races/SurfCity1.JPG" alt="Surf City – family at the finish">
+              <img src="images/races/SurfCity2.JPG" alt="Surf City – course fence">
+              <img src="images/races/SurfCity3.JPG" alt="Surf City – friends at the finish">
+              <video controls>
+                <source src="images/races/SurfCity4.mp4" type="video/mp4">
+              </video>
+            </div>
+            <button class="nav prev" aria-label="Previous photo">‹</button>
+            <button class="nav next" aria-label="Next photo">›</button>
+            <div class="dots"></div>
+          </div>
+
+        <!-- RIGHT: caption panel -->
+          <div class="race-caption">
+            <h3 class="race-title">Surf City Marathon</h3>
+            <div class="race-meta">February 2, 2025 · 26.2 miles</div>
+
+            <div class="race-stats" data-animate>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="820" data-decimals="0">0</span></div>
+                <div class="stat-label">training miles</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-format="time" data-target="14280">0:00</span></div>
+                <div class="stat-label">finish</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="26.2" data-decimals="1">0</span></div>
+                <div class="stat-label">distance</div>
+              </div>
+            </div>
+
+            <p>
+              My first full marathon. It was a birthday gift from my girlfriend for my 20th, given before I had even
+              finished my first half. I don’t know if she was trying to tell me to get more fit, but it turned into
+              such a great experience. The course was right on the coast and flat. Amazing first marathon.
+            </p>
+            <p>
+              Huntington Beach kept changing moods. My longest run before this was 18 miles, so I was honestly wondering
+              if I could finish. Around mile 20 I was questioning everything, but I managed to pull through. At about
+              mile 24 my friends called and told me I was close to sub 4, which pushed me. I finished in 3:58:24 and let
+              myself be proud for a minute. Crossing the line and seeing family and friends at the end was the best part.
+            </p>
+
+            <ul class="race-bullets">
+              <li>Course: flat coastal out and back on PCH and beach path</li>
+              <li>Fuel: gels + electrolytes every 5–6 miles</li>
+              <li>Shoes: (fill in)</li>
+              <li>Next goal: stronger last 10K</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================== Long Beach Half ====================== -->
+    <section class="race" data-date="2024-10-06" id="long-beach-2024">
+      <div class="race-grid panel">
+        <div class="race-bar">
+          <h2>Long Beach Half Marathon</h2>
+          <span class="race-date">October 6, 2024</span>
+        </div>
+
+        <div class="race-body">
+          <!-- LEFT: slider -->
+          <div class="race-slider" data-race="long-beach-2024">
+            <div class="slides">
+              <img src="images/races/LongBeachHalf1.JPG" alt="Long Beach Half – medal">
+              <img src="images/races/LongBeachHalf2.JPG" alt="Long Beach Half – cheering squad">
+              <img src="images/races/LongBeachHalf3.JPG" alt="Long Beach Half – finish area">
+            </div>
+            <button class="nav prev" aria-label="Previous photo">‹</button>
+            <button class="nav next" aria-label="Next photo">›</button>
+            <div class="dots"></div>
+          </div>
+
+          <!-- RIGHT: caption panel -->
+          <div class="race-caption">
+            <h3 class="race-title">Long Beach Half Marathon</h3>
+            <div class="race-meta">October 6, 2024 · 13.1 miles</div>
+
+            <div class="race-stats" data-animate>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="471" data-decimals="0">0</span></div>
+                <div class="stat-label">training miles</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-format="time" data-target="7140">0:00</span></div>
+                <div class="stat-label">finish</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number"><span class="count" data-target="13.1" data-decimals="1">0</span></div>
+                <div class="stat-label">distance</div>
+              </div>
+            </div>
+
+            <p>
+              One of my best friends talked me into doing a half marathon and I’m glad she did. Training had gaps around
+              school and late dinners, but race morning was calm. All you could hear was the runners and the ocean.
+            </p>
+            <p>
+              I kept it easy until halfway, when I saw my friends impatiently telling me to hurry up, haha. We slipped
+              under two hours and went straight to breakfast. That’s where this running obsession started.
+            </p>
+
+            <ul class="race-bullets">
+              <li>Course: mostly flat waterfront with ocean breeze</li>
+              <li>Fuel: gels + water at every station</li>
+              <li>Shoes: (fill in)</li>
+              <li>Next time: aim for a negative split</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
+
+  <!-- ========== Slider JS (prev/next + dots) ========== -->
+  <!-- ========== Slider JS (prev/next + dots, auto-height measured from rendered slide) ========== -->
+<script>
+  (function(){
+    const MAX = 0; // you can raise/remove this if you want zero cap
+  
+    function setHeight(root){
+      const track = root.querySelector('.slides');
+      const slide = track.children[root._i || 0];
+      if(!slide) return;
+  
+      // let content size naturally, then measure actual rendered height
+      root.style.height = 'auto';
+      track.style.height = 'auto';
+  
+      requestAnimationFrame(()=>{
+        let h = Math.round(slide.getBoundingClientRect().height || 0);
+        if (window.matchMedia('(min-width:901px)').matches && MAX) h = Math.min(h, MAX);
+        root.style.height = h ? `${h}px` : 'auto';
+        track.style.height = '100%';
+      });
+    }
+  
+    function initSlider(root){
+      const track = root.querySelector('.slides');
+      const slides = Array.from(track.children);
+      const prev = root.querySelector('.nav.prev');
+      const next = root.querySelector('.nav.next');
+      const dotsWrap = root.querySelector('.dots');
+  
+      let i = 0;
+      function go(n){
+        i = (n + slides.length) % slides.length;
+        root._i = i;
+        track.style.transform = `translateX(-${i*100}%)`;
+        dotsWrap.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('on', idx===i));
+        setHeight(root);
+      }
+  
+      dotsWrap.innerHTML = '';
+      slides.forEach((_, idx)=>{
+        const b=document.createElement('button');
+        b.type='button';
+        if(idx===0) b.className='on';
+        b.addEventListener('click', ()=>go(idx));
+        dotsWrap.appendChild(b);
+      });
+  
+      prev.addEventListener('click', ()=>go(i-1));
+      next.addEventListener('click', ()=>go(i+1));
+  
+      // update height when media is ready + on resize
+      slides.forEach(s=>{
+        if(s.tagName==='IMG'){
+          if(s.complete) setHeight(root);
+          else s.addEventListener('load', ()=>setHeight(root), {once:true});
+        }else if(s.tagName==='VIDEO'){
+          s.addEventListener('loadedmetadata', ()=>setHeight(root), {once:true});
+        }
+      });
+      window.addEventListener('resize', ()=>setHeight(root));
+  
+      go(0);
+    }
+  
+    document.querySelectorAll('.race-slider').forEach(initSlider);
+  })();
+  </script>
+  
+    
+    
     
 
-    /* ------------ top area ------------- */
-    function TopBlock(){
-  const total2025 = sum(TRAINING.filter(d=>d.week.startsWith("2025")), "miles");
-  const races2025 = RACES.filter(r=>r.dateISO.startsWith("2025")).length;
-  const raceMilesAll = sum(RACES, "distance");
-  const fastest = minBy(RACES, r => r.finishSeconds/r.distance);
-  const fastestPace = fastest.finishSeconds/fastest.distance;
+  <!-- ========== Count-up stats (spring) ========== -->
+  <script>
+  (function(){
+    const spring = t => 1 - Math.pow(1 - t, 4);
 
-  return (
-    <div className="react-metrics">
-      <div className="react-card">
-        <div className="react-tiles">
-          <div className="react-tile"><div className="n">{total2025}</div><div className="l">miles in 2025</div></div>
-          <div className="react-tile"><div className="n">{races2025}</div><div className="l">races in 2025</div></div>
-          <div className="react-tile"><div className="n">{raceMilesAll.toFixed(1)}</div><div className="l">race miles all time</div></div>
-          <div className="react-tile"><div className="n">{paceStr(fastestPace)}</div><div className="l">fastest race pace</div></div>
-        </div>
-        <div style={{height:10}}></div>
-        <MilesBarChart data={TRAINING} />
-      </div>
-
-      <div className="react-right">
-        <StravaCard/>
-        <NextRaceCard/>
-      </div>
-    </div>
-  );
-}
-
-    function Donut({ value, total }) {
-  const r = 48, c = 2 * Math.PI * r;
-  const pct = Math.max(0, Math.min(1, total ? value/total : 0));
-  const dash = c * pct, gap = c - dash;
-  return (
-    <svg viewBox="0 0 120 120">
-      <circle cx="60" cy="60" r={r} fill="none" stroke="#eef2ff" strokeWidth="12"/>
-      <circle cx="60" cy="60" r={r} fill="none" stroke="#3b82f6" strokeWidth="12"
-              strokeLinecap="round" strokeDasharray={`${dash} ${gap}`}/>
-    </svg>
-  );
-}
-
-function NextRaceCard(){
-  const NEXT = {
-    title: "LA Marathon",
-    dateISO: "2026-03-08",
-    dateLabel: "March 8, 2026",
-    distance: 26.2,
-    goalSeconds: 12600, // 3:30:00
-    logo: "images/maps/LA - Marathaon.jpg"
-  };
-
-  const pace = NEXT.goalSeconds / NEXT.distance;
-  const logoSrc = encodeURI(NEXT.logo);
-
-  const getLeft = () => {
-    const target = new Date(NEXT.dateISO);
-    const ms = Math.max(0, target - new Date());
-    const d = Math.floor(ms / 86400000);
-    const h = Math.floor((ms % 86400000) / 3600000);
-    const m = Math.floor((ms % 3600000) / 60000);
-    const s = Math.floor((ms % 60000) / 1000);
-    return { d, h, m, s };
-  };
-
-  const [left, setLeft] = React.useState(getLeft());
-  React.useEffect(() => {
-    const id = setInterval(() => setLeft(getLeft()), 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <div className="react-card fill next-card">
-      <img className="next-logo" src={logoSrc} alt={`${NEXT.title} logo`} />
-      <div className="next-meta">
-        <div className="t">Next: {NEXT.title}</div>
-        <div className="s">Date: <b>{NEXT.dateLabel}</b></div>
-        <div className="next-goal">Goal: 3:30 ({paceStr(pace)})</div>
-      </div>
-      <div className="next-side">
-        <div className="next-timer-line">
-          <span className="num">{left.d}</span><span className="lab">days</span>
-          <span className="sep">·</span>
-          <span className="num">{pad(left.h)}</span><span className="sep">:</span>
-          <span className="num">{pad(left.m)}</span><span className="sep">:</span>
-          <span className="num">{pad(left.s)}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-
-    /* ------------ app ------------- */
-    function RacesApp(){
-      return (
-        <div className="react-wrap">
-          <TopBlock/>
-          <div style={{height:14}}></div>
-          <div className="react-stack">
-            {RACES.map(r => <RaceCard key={r.id} race={r} />)}
-          </div>
-        </div>
-      );
+    function formatTime(totalSeconds){
+      totalSeconds = Math.round(totalSeconds);
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      const mm = String(m).padStart(2,'0');
+      const ss = String(s).padStart(2,'0');
+      return h > 0 ? `${h}:${mm}:${ss}` : `${m}:${ss}`;
     }
 
-    ReactDOM.createRoot(document.getElementById("races-app")).render(<RacesApp />);
+    function animateCount(el, target, {decimals=0, duration=1400, isTime=false}={}){
+      const start = performance.now();
+      const from = 0;
+      const step = (now)=>{
+        const t = Math.min(1, (now - start)/duration);
+        const v = from + (target - from) * spring(t);
+        el.textContent = isTime ? formatTime(v) : v.toFixed(decimals);
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    const io = new IntersectionObserver((entries, obs)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const box = entry.target;
+        box.classList.add('on');
+        box.querySelectorAll('.count').forEach(span=>{
+          const target   = Number(span.getAttribute('data-target') || 0);
+          const decimals = Number(span.getAttribute('data-decimals') || 0);
+          const isTime   = span.getAttribute('data-format') === 'time';
+          animateCount(span, target, {decimals, isTime});
+        });
+        obs.unobserve(box);
+      });
+    }, { threshold: 0.25 });
+
+    document.querySelectorAll('.race-stats[data-animate]').forEach(el=>io.observe(el));
+    document.getElementById('y').textContent = new Date().getFullYear();
+  })();
   </script>
 </body>
 </html>
