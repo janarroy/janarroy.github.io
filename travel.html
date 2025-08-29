@@ -105,6 +105,15 @@
   padding:6px 10px;font-size:12px}
 .badge.gray{background:#f3f4f6;border-color:#e5e7eb;color:#374151}
 
+/* Tighten spacing inside the Next up widget */
+.next{ background:#fff; }                      /* no cream tint */
+.next h3{ padding:4px 14px; margin:0;          /* shorter header bar */
+          border-bottom:0; line-height:1.1; }  /* remove extra divider */
+.next-list{ margin:0; }                        /* no accidental gap */
+.next-item{ padding:6px 14px; }                /* tighter rows */
+.next-item:first-child{ border-top:1px solid var(--line); }  /* single divider right under header */
+.next-item:last-child{ padding-bottom:8px; }   /* trim extra air at the bottom */
+
 /* ---------- Section title ---------- */
 .section-title{margin:16px 0 10px;font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
 .section-title::after{content:"";height:1px;background:var(--line);flex:1}
