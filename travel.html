@@ -89,7 +89,8 @@
   background:repeating-linear-gradient(90deg,#111827 0 2px, transparent 2px 4px),#fff}
 
 /* ---------- NEXT UP ---------- */
-.next{    margin:4px 0 8px;
+.next{
+  margin:4px 0 8px;
   border-radius:18px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow);
   overflow:hidden;
 }
@@ -104,15 +105,6 @@
 .badge{justify-self:end;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:999px;font-weight:800;
   padding:6px 10px;font-size:12px}
 .badge.gray{background:#f3f4f6;border-color:#e5e7eb;color:#374151}
-
-/* Tighten spacing inside the Next up widget */
-.next{ background:#fff; }                      /* no cream tint */
-.next h3{ padding:4px 14px; margin:0;          /* shorter header bar */
-          border-bottom:0; line-height:1.1; }  /* remove extra divider */
-.next-list{ margin:0; }                        /* no accidental gap */
-.next-item{ padding:6px 14px; }                /* tighter rows */
-.next-item:first-child{ border-top:1px solid var(--line); }  /* single divider right under header */
-.next-item:last-child{ padding-bottom:8px; }   /* trim extra air at the bottom */
 
 /* ---------- Section title ---------- */
 .section-title{margin:16px 0 10px;font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
@@ -164,6 +156,25 @@
 
 .zoom-clone{position:fixed;z-index:40;border-radius:14px;object-fit:cover;box-shadow:0 16px 40px rgba(17,24,39,.25);
   transition:all .45s var(--bezier)}
+
+/* FINAL trim for the Next up card (removes the big white band) */
+.next{ background:#fff; }
+.next h3{
+  margin:0;
+  padding:2px 12px;
+  font-size:18px;
+  line-height:1;
+  border:0;
+}
+.next-list{
+  margin:0;
+  border-top:1px solid var(--line);
+}
+.next-item{
+  padding:8px 12px;
+  border-top:0;
+}
+.next-item:last-child{ padding-bottom:6px; }
 </style>
 </head>
 <body class="plain-bg">
@@ -475,4 +486,3 @@
 </script>
 </body>
 </html>
-
