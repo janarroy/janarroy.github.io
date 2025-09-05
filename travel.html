@@ -156,51 +156,6 @@
 
   .zoom-clone{position:fixed;z-index:40;border-radius:14px;object-fit:cover;box-shadow:0 16px 40px rgba(17,24,39,.25);
     transition:all .45s var(--bezier)}
-
-  /* -------------------- ADDED EFFECTS -------------------- */
-
-  /* (1) subtle card tilt + glow on hover */
-  .trip{
-    transform-style: preserve-3d;
-    outline: 0 solid transparent;
-    transition: transform .18s var(--bezier), box-shadow .18s var(--bezier), outline-color .18s;
-  }
-  .trip:hover{
-    transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
-    box-shadow: 0 18px 44px rgba(17,24,39,.18);
-    outline: 3px solid rgba(245,158,11,.18);
-  }
-
-  /* (3) animated countdown chips */
-  #eta-mex, #eta-seoul { animation: pulse 2.4s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
-
-  /* (4) blur-up image loading */
-  .trip img{ filter: blur(8px); transition: filter .5s ease; }
-  .trip img.loaded{ filter: blur(0); }
-
-  /* (6) flag wiggle on hover */
-  .flag img { transform-origin: 50% 80%; }
-  .next-item:hover .flag img { animation: wave .6s ease-in-out; }
-  @keyframes wave { 0%,100%{transform:rotate(0)} 50%{transform:rotate(-6deg)} }
-
-  /* (7) chip-style captions (applies if you add <p> in .meta later) */
-  .trip .meta p{
-    display:inline-block; margin-top:6px; padding:6px 10px; border:1px solid var(--line);
-    border-radius:999px; background:#fff; font-size:13px;
-  }
-
-  /* (8) sheen on boarding pass bar */
-  .ticket .bar{ position:relative; overflow:hidden; }
-  .ticket .bar::after{
-    content:""; position:absolute; inset:0;
-    background: linear-gradient(120deg, #0000, rgba(255,255,255,.25), #0000);
-    transform: translateX(-120%);
-    animation: sheen 3s ease-in-out infinite 1s;
-  }
-  @keyframes sheen { 0%{transform:translateX(-120%)} 60%{transform:translateX(120%)} 100%{transform:translateX(120%)} }
-
-  /* ------------------ END ADDED EFFECTS ------------------ */
 </style>
 </head>
 <body class="plain-bg">
@@ -508,14 +463,6 @@
 
   /* reveal in */
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-</script>
-
-<!-- (4) blur-up image loading: add loaded class when images finish -->
-<script>
-  document.querySelectorAll('.trip img').forEach(img=>{
-    if(img.complete) img.classList.add('loaded');
-    else img.addEventListener('load',()=>img.classList.add('loaded'));
-  });
 </script>
 </body>
 </html>
