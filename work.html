@@ -6,25 +6,27 @@
   <title>Work · Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
   <style>
-    html, body { background: #f6f7f9; }
+    html, body { background:#f6f7f9; }
 
     :root{
-      --sep: rgba(17,19,24,.16);
-      --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
-      --card:#ffffff; --bd:#e5e7eb;
-      --shadow: 0 18px 44px rgba(17,19,24,.12);
-      --panel-h: clamp(420px, 62vh, 760px);
+      --ink:#0f172a;
+      --muted:#6b7280;
+      --muted2:#64748b;
+      --bd:#e5e7eb;
+      --card:#ffffff;
+      --shadow: 0 22px 60px rgba(17,19,24,.14);
       --bezier:cubic-bezier(.22,.61,.36,1);
-    }
 
-    .brand{font-weight:900;letter-spacing:.08em;text-decoration:none;color:#111}
-    .btn{padding:8px 14px;border-radius:999px;background:#f3f4f6;text-decoration:none;color:#0f172a;font-weight:600;box-shadow:inset 0 0 0 1px rgba(17,24,39,.08)}
+      /* fresh accents for projects */
+      --accent:#2563eb;          /* blue */
+      --accent-2:#f59e0b;        /* amber */
+      --panel-h: clamp(460px, 64vh, 780px);
+    }
 
     .page{padding:20px 16px 32px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
     .wide{width:min(1200px,96vw);margin-inline:auto;}
-    .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
-    .hero + .narrow .section-title:first-child{margin-top:8px;}
+    .section-title{font-size:22px;margin:26px 0 14px;color:#1f2937;font-weight:800;letter-spacing:.15px}
 
     /* Snoopy hero */
     .hero{display:grid;place-items:center;margin:6px 0 0}
@@ -33,58 +35,79 @@
     .intro h1{margin:8px 0 6px;font-size:24px}
     .intro p{margin:0 auto;color:var(--muted);max-width:54ch;line-height:1.5}
 
-    /* ===== Work / Involvements ===== */
+    /* ===== Work & Involvements ===== */
     .list{margin:6px 0 0; padding:0; list-style:none;}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:16px;
-      padding:12px 0; border-bottom:1px dashed var(--sep);
+      padding:12px 0; border-bottom:1px dashed rgba(17,19,24,.16);
       text-decoration:none; color:inherit;
     }
     .row:focus-visible{outline:2px solid rgba(59,130,246,.5); outline-offset:4px; border-bottom-color:transparent;}
     .left{display:flex; align-items:center; gap:12px; min-width:0;}
-    .logo{width:24px;height:24px;display:block;object-fit:contain;border-radius:6px;image-rendering:-webkit-optimize-contrast;transform:translateZ(0)}
+    .logo{width:24px;height:24px;display:block;object-fit:contain;border-radius:6px;image-rendering:-webkit-optimize-contrast}
     .meta{display:flex; align-items:center; gap:10px; min-width:0;}
-    .co{font-weight:600; white-space:nowrap;}
+    .co{font-weight:700; white-space:nowrap;}
     .role{font-size:13px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .right{margin-left:auto; font-size:13px; color:var(--muted2); white-space:nowrap;}
     @media (max-width:560px){ .role{display:none;} }
 
-    /* ===== Projects (refreshed) ===== */
-    .projects{margin-top:36px;}
+    /* ===== Projects: refreshed layout ===== */
+    .projects{margin-top:40px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
 
-    .panels{display:flex;flex-direction:column;gap:46px;}
+    .panels{display:flex;flex-direction:column;gap:56px;}
 
     .panel{
-      position:relative; border-radius:28px; overflow:hidden; background:linear-gradient(180deg,#fff 0%,#fafafa 100%);
+      position:relative; border-radius:26px; overflow:hidden;
+      background:linear-gradient(180deg,#fff 0%,#fafafa 100%);
       border:1px solid var(--bd); box-shadow:var(--shadow);
-      opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease;
+      transform:translateY(28px) scale(.98); opacity:0;
+      filter:saturate(.92) contrast(.98);
+      transition:transform .7s var(--bezier), opacity .7s var(--bezier), filter .7s var(--bezier);
     }
-    .panel.revealed{opacity:1; transform:none;}
+    .panel.revealed{
+      transform:none; opacity:1; filter:saturate(1) contrast(1);
+    }
+
+    /* Top header strip with project name */
+    .panel-header{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 18px; color:#fff; font-weight:800; letter-spacing:.2px;
+      background:
+        radial-gradient(1200px 380px at 10% -40%, rgba(255,255,255,.14) 0%, transparent 60%),
+        linear-gradient(120deg, var(--accent) 0%, #3b82f6 60%, #60a5fa 100%);
+      border-bottom:1px solid rgba(255,255,255,.28);
+    }
+    .panel-header .sub{
+      font-weight:600; font-size:12px; opacity:.92;
+      padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.16);
+    }
 
     .panel-grid{
       display:grid; gap:0; align-items:stretch;
-      grid-template-columns: 1.35fr 0.9fr;
+      grid-template-columns: 1.25fr 0.95fr;
     }
     @media (max-width:1020px){ .panel-grid{grid-template-columns:1fr;} }
 
-    /* Media goes edge-to-edge with a soft mask */
+    /* media */
     .media{
       position:relative; overflow:hidden; background:#fff; min-height:var(--panel-h);
       border-right:1px solid var(--bd);
+      will-change:transform;
     }
-    .viewport{ width:100%; height:100%; display:grid; place-items:center; }
-    .pdf-canvas, .gallery-img{ width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity 220ms ease; }
-    .media-ready .pdf-canvas, .media-ready .gallery-img{ opacity:1; }
-    .media::after{
-      content:""; position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.18) 100%);
-      pointer-events:none;
-    }
+    .viewport{width:100%;height:100%;display:grid;place-items:center}
+    .gallery-img,.pdf-canvas,.viewport>video{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .28s ease, transform .8s var(--bezier)}
+    .media.media-ready .gallery-img,
+    .media.media-ready .pdf-canvas,
+    .media.media-ready .viewport>video{opacity:1}
     .media:hover .gallery-img,
-    .media:hover video{ transform:scale(1.02); }
-    .gallery-img, .viewport > video{ transition:transform .6s var(--bezier); }
+    .media:hover .viewport>video{transform:scale(1.03)}
 
+    .pill{
+      position:absolute; top:12px; right:12px; z-index:3;
+      font-size:12px; color:#1f2937; background:rgba(255,255,255,.96); border:1px solid var(--bd);
+      border-radius:999px; padding:4px 10px; box-shadow:0 6px 16px rgba(17,19,24,.12);
+    }
     .ctrl{
       position:absolute; top:50%; transform:translateY(-50%); z-index:3;
       width:46px; height:46px; border-radius:999px; border:1px solid var(--bd);
@@ -93,23 +116,21 @@
     }
     .ctrl.prev{left:14px} .ctrl.next{right:14px}
     .ctrl svg{width:20px;height:20px}
-    .pill{
-      position:absolute; top:12px; right:12px; z-index:3;
-      font-size:12px; color:#1f2937; background:rgba(255,255,255,.96); border:1px solid var(--bd);
-      border-radius:999px; padding:4px 10px; box-shadow:0 6px 16px rgba(17,19,24,.12);
-    }
 
-    /* Text side: roomy, readable, no tag chips */
+    /* text */
     .text{
-      padding:28px 26px; display:flex; flex-direction:column; justify-content:center;
-      min-height: var(--panel-h);
+      padding:28px 28px; display:flex; flex-direction:column; justify-content:center;
+      min-height:var(--panel-h);
     }
-    .text h3{margin:0 0 12px; font-size:26px; line-height:1.15; color:var(--title);}
-    .text p{margin:0; color:#374151; font-size:15px; line-height:1.6;}
+    .text h3{display:none;} /* title is in the header now */
+    .text p{
+      margin:0; color:#1f2937; font-size:16px; line-height:1.7;
+      max-width:none; /* let it fill */
+    }
 
     footer .wide{padding:28px 0; font-size:14px; color:var(--muted2);}
 
-    /* ===== Lightbox ===== */
+    /* ===== Lightbox (for decks & galleries) ===== */
     .lightbox{position:fixed;inset:0;display:none;place-items:center;z-index:100;background:rgba(17,24,39,.35);backdrop-filter:blur(4px) saturate(1.05)}
     .lightbox.open{display:grid;animation:fadeIn .25s ease forwards}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -304,13 +325,17 @@
       <div class="kicker">Projects &amp; Artifacts</div>
       <div class="panels">
 
-        <!-- 0) CRM Automation Project -->
+        <!-- CRM -->
         <article class="panel" id="crm-automation">
+          <div class="panel-header">
+            <div>CRM Automation — Email Outreach Platform</div>
+            <div class="sub">Python • Google Sheets API • Gmail API</div>
+          </div>
           <div class="panel-grid">
-            <div class="media" data-title="CRM Automation — Email Outreach Tool" tabindex="0" aria-label="Open CRM demo">
+            <div class="media" data-title="CRM demo" tabindex="0" aria-label="Open CRM demo">
               <div class="pill" data-role="indicator">Demo</div>
               <div class="viewport">
-                <video controls style="width:100%;height:100%;border-radius:0;">
+                <video controls playsinline style="width:100%;height:100%;border-radius:0;">
                   <source src="images/CRM_DEMO_small.mp4" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
@@ -319,14 +344,20 @@
             <div class="text">
               <h3>CRM Automation — Email Outreach Platform</h3>
               <p>
-                I built a CRM that ties Google Sheets and Gmail together with Python. It pulls fresh contact data, writes the email copy, and sends at scale without people babysitting a mailbox. We reached 15K+ contacts, responses bumped ~15%, and outreach speed went 3× for three committees. It wasn’t a one-off script — I structured it so new campaigns are plug-and-play. Lots of API work (Sheets + Gmail), JSON wrangling, and testing to keep it reliable, and it actually moved numbers — which is what I care about.
+                I built a CRM that connects Google Sheets and Gmail through Python so outreach runs itself. It pulls live rows from Sheets, writes the copy with merge fields, batches sends, and tracks status. With this in place we reached <b>15,000+ contacts</b>, responses lifted about <b>15%</b>, and outreach speed went roughly <b>3×</b> across three committees. The big win was making it reusable: new campaigns are just a new sheet and a template. Lots of API work, JSON wrangling, and testing — and the numbers moved, which is the point.
               </p>
             </div>
           </div>
         </article>
 
-        <!-- 1) Quokka -->
+        <!-- Quokka -->
         <article class="panel" id="quokka">
+          <div class="panel-header" style="background:
+            radial-gradient(1200px 380px at 10% -40%, rgba(255,255,255,.14) 0%, transparent 60%),
+            linear-gradient(120deg, var(--accent-2) 0%, #f59e0b 55%, #fbbf24 100%);">
+            <div>Quokka Brew — Can Design Research &amp; Iterations</div>
+            <div class="sub">Research • Testing • Visual System</div>
+          </div>
           <div class="panel-grid">
             <div class="media deck"
                  data-type="pdf-single"
@@ -345,14 +376,18 @@
             <div class="text">
               <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
               <p>
-                We ran 60+ interviews on campus, then pressure-tested can concepts with the 10-ft / 5-ft / 1-ft rule. A few things showed up fast: people want neutral, calming colors for coffee; the logo and key health info need to be obvious; and flavor cues should be clear without shouting. We compared Quokka to Rise, La Colombe, and Starbucks, mapped where Quokka wins and misses, and used that to build MVP designs. My role: synthesize the insights, push the layout changes (bigger logo, clean info segments, jitter-less story), and make the visuals easier to recognize on shelf. It’s the kind of work where research actually changes the can — not just a deck. 
+                We ran <b>60+ interviews</b>, then pressure-tested concept cans with the <b>10-ft / 5-ft / 1-ft</b> rule. The signal was clear: calmer neutrals read more “coffee,” the logo and key health info need to be obvious at 5 ft, and flavor cues should be simple at 1 ft. We benchmarked against three big players and turned that into <b>3 MVP layouts</b> plus testable variants. My role was synthesizing the insights and pushing the actual changes — bigger mark, cleaner info bands, and flavor hierarchy that you can catch in one glance. The deck is <b>67 pages</b> but the outcome is simple: easier shelf recognition and a system the team can keep iterating on.
               </p>
             </div>
           </div>
         </article>
 
-        <!-- 2) Clear Clinical (merged PDFs) -->
+        <!-- Clear Clinical (kept) -->
         <article class="panel" id="clear-clinical">
+          <div class="panel-header">
+            <div>Clear Clinical — Product Strategy &amp; UX</div>
+            <div class="sub">Interviews • Competitive Scan • Roadmap</div>
+          </div>
           <div class="panel-grid">
             <div class="media deck"
                  data-type="pdf-merged"
@@ -370,13 +405,19 @@
             </div>
             <div class="text">
               <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-              <p>Semester project pulling interviews, competitive scans, and a practical roadmap into one story. I focused on where the product could win quickly and how to stage the UX so clinical teams actually adopt it.</p>
+              <p>Semester project where I pulled interviews, a competitive scan, and a staged roadmap into one story. The focus was speed to adoption — ship the workflows clinicians hit every day first, then layer the advanced stuff so it earns its keep.</p>
             </div>
           </div>
         </article>
 
-        <!-- 3) EY Workshop -->
+        <!-- EY Workshop (kept) -->
         <article class="panel" id="ey-workshop">
+          <div class="panel-header" style="background:
+            radial-gradient(1200px 380px at 10% -40%, rgba(255,255,255,.14) 0%, transparent 60%),
+            linear-gradient(120deg, #16a34a 0%, #22c55e 60%, #4ade80 100%);">
+            <div>EY Workshop — Design Thinking</div>
+            <div class="sub">Hands-on session • Prototyping</div>
+          </div>
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="EY Workshop — Design Thinking for Low-Income Students"
@@ -393,13 +434,19 @@
             </div>
             <div class="text">
               <h3>EY Workshop — Design Thinking</h3>
-              <p>I put together a quick, hands-on session for high school students. We kept it simple — problem framing, fast sketches, test and learn — and made it feel doable for their own ideas.</p>
+              <p>I put together a fast, simple workshop for high school students — problem framing, quick sketches, test and learn. Kept it real and hands-on so they could take it home and run with it.</p>
             </div>
           </div>
         </article>
 
-        <!-- 4) Policy Advocacy Day -->
+        <!-- Advocacy Day (kept) -->
         <article class="panel" id="advocacy-day">
+          <div class="panel-header" style="background:
+            radial-gradient(1200px 380px at 10% -40%, rgba(255,255,255,.14) 0%, transparent 60%),
+            linear-gradient(120deg, #7c3aed 0%, #8b5cf6 60%, #a78bfa 100%);">
+            <div>Policy Advocacy Day — Sacramento</div>
+            <div class="sub">Student voices • Legislative meetings</div>
+          </div>
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="Policy Advocacy Day — Sacramento"
@@ -416,13 +463,19 @@
             </div>
             <div class="text">
               <h3>Policy Advocacy Day — Sacramento</h3>
-              <p>Met with legislators to share student stories and push for youth programs. Prepped the team, aligned the asks, and got people in the room who don’t usually get heard.</p>
+              <p>Met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices in our community got in the room.</p>
             </div>
           </div>
         </article>
 
-        <!-- 5) Magazine Feature -->
+        <!-- Magazine (kept) -->
         <article class="panel" id="magazine">
+          <div class="panel-header" style="background:
+            radial-gradient(1200px 380px at 10% -40%, rgba(255,255,255,.14) 0%, transparent 60%),
+            linear-gradient(120deg, #111827 0%, #374151 60%, #6b7280 100%);">
+            <div>Magazine Feature</div>
+            <div class="sub">Campus story • Community work</div>
+          </div>
           <div class="panel-grid">
             <div class="media gallery"
                  data-title="Magazine Feature"
@@ -439,7 +492,7 @@
             </div>
             <div class="text">
               <h3>Magazine Feature</h3>
-              <p>A nice write-up on campus work — first-gen programs, BTG projects, and the community stuff that keeps me grounded.</p>
+              <p>A campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside of a resume line.</p>
             </div>
           </div>
         </article>
@@ -730,7 +783,7 @@
 
     const io = new IntersectionObserver((ents)=>{
       ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); } });
-    }, {threshold:.2});
+    }, {threshold:.25, rootMargin:"0px 0px -10%"});
     document.querySelectorAll('.panel').forEach(p=>io.observe(p));
   </script>
 </body>
