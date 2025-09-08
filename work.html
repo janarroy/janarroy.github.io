@@ -6,30 +6,27 @@
   <title>Work · Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
   <style>
-    html, body {
-  background: #f6f7f9; /* soft gray you’re using across the site */
-}
+    html, body { background: #f6f7f9; }
 
     :root{
       --sep: rgba(17,19,24,.16);
       --muted:#6b7280; --muted2:#7a7f87; --title:#1f2937;
       --card:#ffffff; --bd:#e5e7eb;
-      --shadow: 0 24px 56px rgba(17,19,24,.12);
-      --panel-h: clamp(440px, 64vh, 760px);
+      --shadow: 0 18px 44px rgba(17,19,24,.12);
+      --panel-h: clamp(420px, 62vh, 760px);
       --bezier:cubic-bezier(.22,.61,.36,1);
     }
 
-   
     .brand{font-weight:900;letter-spacing:.08em;text-decoration:none;color:#111}
     .btn{padding:8px 14px;border-radius:999px;background:#f3f4f6;text-decoration:none;color:#0f172a;font-weight:600;box-shadow:inset 0 0 0 1px rgba(17,24,39,.08)}
-   
+
     .page{padding:20px 16px 32px;}
     .narrow{width:min(680px,92vw);margin-inline:auto;}
     .wide{width:min(1200px,96vw);margin-inline:auto;}
     .section-title{font-size:22px;margin:26px 0 14px;color:var(--title);font-weight:700;letter-spacing:.2px}
     .hero + .narrow .section-title:first-child{margin-top:8px;}
 
-    /* Snoopy hero (small + centered) */
+    /* Snoopy hero */
     .hero{display:grid;place-items:center;margin:6px 0 0}
     .snoopy{width:min(200px,42vw);height:auto;display:block;border-radius:18px;filter:drop-shadow(0 12px 28px rgba(17,19,24,.16))}
     .intro{margin-top:10px;text-align:center}
@@ -52,56 +49,63 @@
     .right{margin-left:auto; font-size:13px; color:var(--muted2); white-space:nowrap;}
     @media (max-width:560px){ .role{display:none;} }
 
-    /* ===== Projects ===== */
+    /* ===== Projects (refreshed) ===== */
     .projects{margin-top:36px;}
     .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
+
     .panels{display:flex;flex-direction:column;gap:46px;}
 
     .panel{
-      position:relative; border-radius:32px; overflow:hidden; background:var(--card);
+      position:relative; border-radius:28px; overflow:hidden; background:linear-gradient(180deg,#fff 0%,#fafafa 100%);
       border:1px solid var(--bd); box-shadow:var(--shadow);
-      opacity:0; transform:translateY(28px);
-      transition:opacity .6s ease, transform .6s ease;
+      opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease;
     }
     .panel.revealed{opacity:1; transform:none;}
-    .panel-grid{
-      display:grid; gap:24px; align-items:center;
-      grid-template-columns: 1.6fr 1fr; padding:22px;
-    }
-    @media (max-width:1020px){ .panel-grid{grid-template-columns:1fr; padding:16px} }
 
-    .media{ position:relative; border-radius:22px; overflow:hidden; background:#fff; border:1px solid var(--bd); cursor:pointer; }
-    .viewport{ width:100%; height:var(--panel-h); display:grid; place-items:center; background:#fff; }
-    .pdf-canvas{ width:100%; height:100%; display:block; background:#fff; opacity:0; transition:opacity 220ms ease; }
-    .gallery-img{ width:100%; height:100%; object-fit:cover; display:block; background:#fff; opacity:0; transition:opacity 220ms ease; }
+    .panel-grid{
+      display:grid; gap:0; align-items:stretch;
+      grid-template-columns: 1.35fr 0.9fr;
+    }
+    @media (max-width:1020px){ .panel-grid{grid-template-columns:1fr;} }
+
+    /* Media goes edge-to-edge with a soft mask */
+    .media{
+      position:relative; overflow:hidden; background:#fff; min-height:var(--panel-h);
+      border-right:1px solid var(--bd);
+    }
+    .viewport{ width:100%; height:100%; display:grid; place-items:center; }
+    .pdf-canvas, .gallery-img{ width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity 220ms ease; }
     .media-ready .pdf-canvas, .media-ready .gallery-img{ opacity:1; }
+    .media::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.18) 100%);
+      pointer-events:none;
+    }
+    .media:hover .gallery-img,
+    .media:hover video{ transform:scale(1.02); }
+    .gallery-img, .viewport > video{ transition:transform .6s var(--bezier); }
 
     .ctrl{
       position:absolute; top:50%; transform:translateY(-50%); z-index:3;
-      width:48px; height:48px; border-radius:999px; border:1px solid var(--bd);
+      width:46px; height:46px; border-radius:999px; border:1px solid var(--bd);
       background:rgba(255,255,255,.96); backdrop-filter:saturate(120%) blur(3px);
-      display:grid; place-items:center; user-select:none;
-      box-shadow:0 14px 28px rgba(17,19,24,.18);
+      display:grid; place-items:center; user-select:none; box-shadow:0 12px 24px rgba(17,19,24,.18);
     }
-    .ctrl.prev{left:14px}
-    .ctrl.next{right:14px}
-    .ctrl svg{width:22px;height:22px}
+    .ctrl.prev{left:14px} .ctrl.next{right:14px}
+    .ctrl svg{width:20px;height:20px}
     .pill{
       position:absolute; top:12px; right:12px; z-index:3;
       font-size:12px; color:#1f2937; background:rgba(255,255,255,.96); border:1px solid var(--bd);
       border-radius:999px; padding:4px 10px; box-shadow:0 6px 16px rgba(17,19,24,.12);
     }
 
+    /* Text side: roomy, readable, no tag chips */
     .text{
-      border-radius:22px; background:linear-gradient(180deg,#ffffff 0%,#fafafa 100%);
-      border:1px solid var(--bd); padding:24px 22px;
-      display:flex; flex-direction:column; justify-content:center;
-      min-height: min(var(--panel-h), 56vh);
+      padding:28px 26px; display:flex; flex-direction:column; justify-content:center;
+      min-height: var(--panel-h);
     }
-    .text h3{margin:0 0 12px; font-size:26px; line-height:1.15;}
-    .text p{margin:0 0 16px; color:var(--muted); font-size:15px; line-height:1.55;}
-    .tags{display:flex; gap:8px; flex-wrap:wrap}
-    .tag{font-size:12px; padding:6px 10px; border:1px solid var(--bd); border-radius:999px; background:#fff; color:#374151}
+    .text h3{margin:0 0 12px; font-size:26px; line-height:1.15; color:var(--title);}
+    .text p{margin:0; color:#374151; font-size:15px; line-height:1.6;}
 
     footer .wide{padding:28px 0; font-size:14px; color:var(--muted2);}
 
@@ -147,8 +151,6 @@
       </div>
     </div>
   </nav>
-  
-  
 
   <main class="page">
     <!-- Snoopy welcome -->
@@ -303,40 +305,25 @@
       <div class="panels">
 
         <!-- 0) CRM Automation Project -->
-<article class="panel" id="crm-automation">
-  <div class="panel-grid">
-    <div class="media"
-    data-title="CRM Automation — Email Outreach Tool"
-    tabindex="0" aria-label="Open CRM demo">
- <div class="pill" data-role="indicator">Demo</div>
- <div class="viewport">
-   <video controls style="width:100%;height:100%;border-radius:12px;">
-     <source src="images/CRM_DEMO_small.mp4" type="video/mp4">
-     Your browser does not support the video tag.
-   </video>
- </div>
-</div>
-    <div class="text">
-      <h3>CRM Automation — Email Outreach Platform</h3>
-      <p>
-        During my time at BTG I built a CRM tool that connected Google Sheets and Gmail through Python. 
-        The system automatically pulled contact data, generated personalized emails, and sent them out at scale. 
-        It ended up reaching over 15,000 contacts, boosted response rates by 15%, and sped up outreach by more than 300% 
-        across three committees. What made it valuable was that it wasn’t just a one-off script — I designed it so the process 
-        could be reused for future campaigns. Working with the Google Sheets API, Gmail API, and handling JSON data gave me 
-        real experience building something technical that also had a direct business impact.
-      </p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">Google Sheets API</span>
-        <span class="tag">Gmail API</span>
-        <span class="tag">Automation</span>
-        <span class="tag">Scalability</span>
-      </div>
-    </div>
-  </div>
-</article>
-
+        <article class="panel" id="crm-automation">
+          <div class="panel-grid">
+            <div class="media" data-title="CRM Automation — Email Outreach Tool" tabindex="0" aria-label="Open CRM demo">
+              <div class="pill" data-role="indicator">Demo</div>
+              <div class="viewport">
+                <video controls style="width:100%;height:100%;border-radius:0;">
+                  <source src="images/CRM_DEMO_small.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+            <div class="text">
+              <h3>CRM Automation — Email Outreach Platform</h3>
+              <p>
+                I built a CRM that ties Google Sheets and Gmail together with Python. It pulls fresh contact data, writes the email copy, and sends at scale without people babysitting a mailbox. We reached 15K+ contacts, responses bumped ~15%, and outreach speed went 3× for three committees. It wasn’t a one-off script — I structured it so new campaigns are plug-and-play. Lots of API work (Sheets + Gmail), JSON wrangling, and testing to keep it reliable, and it actually moved numbers — which is what I care about.
+              </p>
+            </div>
+          </div>
+        </article>
 
         <!-- 1) Quokka -->
         <article class="panel" id="quokka">
@@ -357,8 +344,9 @@
             </div>
             <div class="text">
               <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-              <p>60+ interviews, perception testing on brand + flavors, and an iterative visual system that improved shelf recognition and informed go-to-market assets.</p>
-              <div class="tags"><span class="tag">Deck</span><span class="tag">Consumer Insights</span><span class="tag">Design Research</span></div>
+              <p>
+                We ran 60+ interviews on campus, then pressure-tested can concepts with the 10-ft / 5-ft / 1-ft rule. A few things showed up fast: people want neutral, calming colors for coffee; the logo and key health info need to be obvious; and flavor cues should be clear without shouting. We compared Quokka to Rise, La Colombe, and Starbucks, mapped where Quokka wins and misses, and used that to build MVP designs. My role: synthesize the insights, push the layout changes (bigger logo, clean info segments, jitter-less story), and make the visuals easier to recognize on shelf. It’s the kind of work where research actually changes the can — not just a deck. 
+              </p>
             </div>
           </div>
         </article>
@@ -382,8 +370,7 @@
             </div>
             <div class="text">
               <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-              <p>Semester-long engagement synthesizing user interviews, competitive analysis, and roadmap proposals. Viewer merges both <em>Mid-Semester</em> and <em>Final</em> decks.</p>
-              <div class="tags"><span class="tag">Deck</span><span class="tag">Product Strategy</span><span class="tag">Research</span></div>
+              <p>Semester project pulling interviews, competitive scans, and a practical roadmap into one story. I focused on where the product could win quickly and how to stage the UX so clinical teams actually adopt it.</p>
             </div>
           </div>
         </article>
@@ -406,8 +393,7 @@
             </div>
             <div class="text">
               <h3>EY Workshop — Design Thinking</h3>
-              <p>Planned and facilitated a hands-on workshop introducing design-thinking tools to low-income high-school students; focused on problem framing, rapid ideation, and prototyping.</p>
-              <div class="tags"><span class="tag">Workshop</span><span class="tag">Education</span><span class="tag">Community</span></div>
+              <p>I put together a quick, hands-on session for high school students. We kept it simple — problem framing, fast sketches, test and learn — and made it feel doable for their own ideas.</p>
             </div>
           </div>
         </article>
@@ -430,8 +416,7 @@
             </div>
             <div class="text">
               <h3>Policy Advocacy Day — Sacramento</h3>
-              <p>Met with California legislators to advocate for education and youth-support policies alongside community partners; coordinated talking points and constituent stories.</p>
-              <div class="tags"><span class="tag">Advocacy</span><span class="tag">Policy</span><span class="tag">Community</span></div>
+              <p>Met with legislators to share student stories and push for youth programs. Prepped the team, aligned the asks, and got people in the room who don’t usually get heard.</p>
             </div>
           </div>
         </article>
@@ -454,8 +439,7 @@
             </div>
             <div class="text">
               <h3>Magazine Feature</h3>
-              <p>Coverage highlighting student leadership and community impact — including first-gen initiatives, BTG projects, and policy work.</p>
-              <div class="tags"><span class="tag">Press</span><span class="tag">Community</span><span class="tag">Feature</span></div>
+              <p>A nice write-up on campus work — first-gen programs, BTG projects, and the community stuff that keeps me grounded.</p>
             </div>
           </div>
         </article>
