@@ -2,231 +2,361 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jan Arroyo</title>
-  <meta name="description" content="Jan Arroyo – personal site" />
   <link href="styles.css" rel="stylesheet" />
+  <!-- Joanna-style minimal tweaks scoped to this page -->
+  <style>
+    :root{
+      --ink:#0f172a;
+      --muted:#6b7280;
+      --muted2:#6b7280;
+      --bd:#e5e7eb;
+      --card:#ffffff;
+      --shadow:0 10px 30px rgba(17,19,24,.10);
+      --shadow-hover:0 18px 50px rgba(17,19,24,.14);
+      --maxw: 1040px;
+    }
+    html,body{background:#fafbfc;color:#0f172a}
+    /* ===== Global layout (Joanna-like: clean, left-aligned, lots of air) ===== */
+    .container{width:min(var(--maxw),92vw);margin-inline:auto}
+    header.navbar{
+      position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid #f1f5f9;
+      backdrop-filter: saturate(140%) blur(6px);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 2px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
+    .brand img{width:30px;height:30px;border-radius:8px;object-fit:cover}
+    .nav-links a{
+      color:#111827; text-decoration:none; margin-left:18px; font-weight:600; font-size:14.5px;
+    }
+    .nav-links a:hover{opacity:.7}
+
+    /* Hero */
+    .hero{padding:56px 0 18px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
+    @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+    .hero h1{font-size: clamp(28px, 5vw, 44px); line-height:1.1; margin:0 0 10px; font-weight:800}
+    .hero p{color:var(--muted);font-size: clamp(15px, 2vw, 18px); line-height:1.6; margin:0}
+    .hero img{width:100%;border-radius:18px;box-shadow:0 18px 50px rgba(17,19,24,.16)}
+
+    /* Section heading (Joanna vibe: bold, left-aligned, roomy) */
+    .section{padding:18px 0 0}
+    .section h2{
+      font-weight:800; font-size: clamp(22px, 3.2vw, 30px);
+      margin:42px 0 12px; letter-spacing:.2px;
+    }
+    .section .kicker{color:#9aa3af;font-size:13px;margin-top:-6px}
+
+    /* Lists (Work / Involvements) — tidy rows w/ logos */
+    .list{list-style:none;margin:0;padding:0}
+    .row{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      padding:12px 0; border-bottom:1px solid #eef2f7; text-decoration:none; color:inherit;
+    }
+    .row:hover{background:transparent}
+    .left{display:flex; align-items:center; gap:12px; min-width:0;}
+    .logo{width:26px;height:26px;border-radius:6px;object-fit:cover;flex:0 0 auto}
+    .meta{min-width:0}
+    .co{font-weight:700; margin-right:10px}
+    .role{color:#6b7280; font-size:14px}
+    .right{font-size:13px; color:#94a3b8; white-space:nowrap}
+
+    /* Projects — case-study blocks (title → hero media → description) */
+    .project{
+      background:#fff;border:1px solid var(--bd);border-radius:16px;padding:22px;
+      box-shadow:var(--shadow); transition:box-shadow .25s ease, transform .25s ease;
+      margin:28px 0;
+    }
+    .project:hover{box-shadow:var(--shadow-hover); transform: translateY(-2px)}
+    .project h3{
+      font-size: clamp(20px, 3vw, 26px); font-weight:800; margin:4px 2px 10px;
+    }
+    .project .media{
+      position:relative; margin-top:10px; overflow:hidden; border-radius:12px; border:1px solid #eef2f7;
+    }
+    .project .media img,
+    .project .media video,
+    .project .media iframe{
+      display:block; width:100%; height:auto; aspect-ratio: 16/9; object-fit:cover;
+      transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .3s ease;
+    }
+    .project .media:hover img,
+    .project .media:hover video{ transform: scale(1.02); }
+    .project p{
+      font-size:16px; line-height:1.75; color:#111827; margin:14px 2px 0;
+    }
+    .project .actions{margin-top:10px}
+    .btn{
+      display:inline-block; font-weight:700; font-size:14px; text-decoration:none;
+      padding:10px 14px; border-radius:10px; border:1px solid #e5e7eb; color:#0f172a; background:#fff;
+    }
+    .btn:hover{background:#f8fafc}
+
+    /* Footer */
+    footer{padding:36px 0 60px;color:#94a3b8;font-size:14px}
+  </style>
 </head>
-<body class="oscar-bg">
-  <!-- Unified Navbar -->
-  <nav class="nav">
+<body>
+
+  <!-- ===== Sticky nav ===== -->
+  <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand-logo" href="./" aria-label="Home">
-        <img src="Snoopy_Welcome.png" alt="Snoopy waving hi" />
+      <a class="brand" href="#top">
+        <img src="Snoopy_Welcome.png" alt="Logo">
+        <span>Jan Arroyo</span>
       </a>
-      <div class="nav-links">
-        <a href="work.html">Projects</a>
+      <nav class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#involvements">Involvements</a>
+        <a href="#projects">Projects</a>
+        <a href="travel.html">Travel</a>
         <a href="races.html">Races</a>
         <a href="bake.html">Bake</a>
-        <a href="travel.html">Travel</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
-  </nav>
-  
-
-  <!-- HERO / SPLASH -->
-  <header class="container splash">
-    <!-- LEFT: intro + spotify -->
-    <div class="splash-left">
-      <div class="console-line">
-        <span id="console-txt" data-text='cout << "hello world";'></span><span class="caret">▍</span>
-      </div>
-
-      <h1 class="name">I’m <span>Jan Arroyo</span></h1>
-
-      <!-- rotating tagline (typing line) -->
-      <div class="rotate-line">
-        <span id="rotate-text"></span><span class="caret">▍</span>
-      </div>
-
-      <!-- (Removed TPM/APM line and See my work button) -->
-
-      <!-- Spotify moved to the left -->
-      <div class="spotify-wrap" style="max-width:520px;width:100%;margin-top:18px;">
-        <h3 class="spotify-title">My Current Playlist</h3>
-        <iframe style="border-radius:12px"
-          src="https://open.spotify.com/embed/playlist/5smyZhWovcHXWtWtTlRxQE?utm_source=generator&theme=0"
-          width="100%" height="152" frameborder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>
-      </div>
-    </div>
-
-    <!-- RIGHT: flip-card hub -->
-    <div class="splash-right">
-      <div class="flip-card" id="aboutFlip">
-        <div class="flip-inner">
-          <!-- FRONT -->
-          <div class="flip-face flip-front">
-            <img src="images/Hawaii.JPG" alt="Jan Arroyo at the beach" />
-          </div>
-
-          <!-- BACK (About hub, Oscar-style) -->
-          <div class="flip-face flip-back">
-            <div class="about-back">
-              <img class="about-avatar" src="images/headshot.jpg" alt="Jan – headshot" />
-
-              <p class="about-intro">
-                I’m Jan Arroyo — a builder and runner who blends business, CS, and design to ship useful products.
-                I love clear specs, fast feedback loops, and teams that care about users.
-              </p>
-              <p class="about-intro">
-                I’ve led student teams at USC and worked across projects with Amazon, Accenture, and Microsoft focused
-                on product strategy, research, and execution.
-              </p>
-
-              <ul class="about-bullets">
-                <li>🎓 Business + CS + AI @ USC ’26</li>
-                <li>🚀 TPM Intern @ Amazon</li>
-                <li>📄 Resume</li>
-                <li>📍 Los Angeles</li>
-              </ul>
-
-              <div class="contact-links">
-                <a class="ghost" href="mailto:janarroy@usc.edu">Email</a>
-                <a class="ghost" href="Jan_Arroyo_Resume.pdf" target="_blank" rel="noopener">Resume</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <!-- PROJECT SPOTLIGHT (moved up visually by removing extra content on the left) -->
-  <section class="container spotlight" aria-label="Project Spotlight">
-    <h2 class="spot-title">Project Spotlight</h2>
-
-    <div class="spot-wrap">
-      <button class="spot-btn spot-left" id="spotLeft" aria-label="Scroll left">
-        <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-
-      <div class="spot-row" id="spotRow" tabindex="0">
-        <!-- Deck-only projects use polished text tiles -->
-        <a class="spot-card" href="work.html#quokka">
-          <div class="spot-media tile">Quokka Brew</div>
-          <div class="spot-body">
-            <div class="spot-card-title">Quokka Brew — Design Research</div>
-            <p class="spot-desc">60+ interviews and iterative can designs that improved shelf recognition.</p>
-          </div>
-        </a>
-
-        <a class="spot-card" href="work.html#clear-clinical">
-          <div class="spot-media tile alt">Clear Clinical</div>
-          <div class="spot-body">
-            <div class="spot-card-title">Clear Clinical — Strategy &amp; UX</div>
-            <p class="spot-desc">Merged mid + final decks: research synthesis, roadmap, and proposals.</p>
-          </div>
-        </a>
-
-        <!-- Image-backed cards -->
-        <a class="spot-card" href="work.html#ey-workshop">
-          <div class="spot-media"><img src="Projects/EY1.JPG" alt="EY Workshop preview" loading="lazy" /></div>
-          <div class="spot-body">
-            <div class="spot-card-title">EY Workshop — Design Thinking</div>
-            <p class="spot-desc">Hands-on session for students: problem framing, ideation, prototyping.</p>
-          </div>
-        </a>
-
-        <a class="spot-card" href="work.html#advocacy-day">
-          <div class="spot-media"><img src="Projects/Partnership_Advocacy_Day1.JPG" alt="Policy Advocacy Day preview" loading="lazy" /></div>
-          <div class="spot-body">
-            <div class="spot-card-title">Policy Advocacy Day — Sacramento</div>
-            <p class="spot-desc">Met with CA legislators to advocate for education &amp; youth policies.</p>
-          </div>
-        </a>
-
-        <a class="spot-card" href="work.html#magazine">
-          <div class="spot-media"><img src="Projects/Magazine1.JPG" alt="Magazine preview" loading="lazy" /></div>
-          <div class="spot-body">
-            <div class="spot-card-title">Magazine Feature</div>
-            <p class="spot-desc">Press coverage of first-gen leadership, BTG projects, and community work.</p>
-          </div>
-        </a>
+  <!-- ===== Hero / Intro ===== -->
+  <section id="top" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Hey, what's up!</h1>
+        <p>I'm Jan Arroyo — studying CS &amp; Business at USC. I like building products, doing design &amp; research, and creating impact with community partners.</p>
       </div>
-
-      <button class="spot-btn spot-right" id="spotRight" aria-label="Scroll right">
-        <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
+      <div>
+        <img src="Snoopy_Welcome.png" alt="Welcome — Snoopy" />
+      </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ===== Work ===== -->
+  <section id="work" class="section">
+    <div class="container">
+      <h2>Work</h2>
+      <ul class="list" aria-label="Work experience">
+        <li>
+          <a class="row" href="#" aria-label="USC Marshall Peer Career Advisor – Tech">
+            <span class="left">
+              <img class="logo" src="images/Marshall.JPG" alt="">
+              <span class="meta"><span class="co">USC Marshall</span> <span class="role">Peer Career Advisor – Tech</span></span>
+            </span>
+            <span class="right">Aug 2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.amazon.jobs/content/en/teams/devices-and-services/lab126" target="_blank" rel="noopener" aria-label="Amazon">
+            <span class="left">
+              <img class="logo" src="images/Amazon.JPG" alt="">
+              <span class="meta"><span class="co">Amazon</span> <span class="role">Technical Program Manager Intern</span></span>
+            </span>
+            <span class="right">May–Aug 2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.accenture.com/us-en/services/ecosystem-partners/microsoft" target="_blank" rel="noopener" aria-label="Accenture">
+            <span class="left">
+              <img class="logo" src="images/Accenture.JPG" alt="">
+              <span class="meta"><span class="co">Accenture</span> <span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span></span>
+            </span>
+            <span class="right">Jun–Aug 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.apple.com/careers/us/work-at-apple/students.html" target="_blank" rel="noopener" aria-label="Apple">
+            <span class="left">
+              <img class="logo" src="images/Apple.JPG" alt="">
+              <span class="meta"><span class="co">Apple</span> <span class="role">Product Management Intern</span></span>
+            </span>
+            <span class="right">Aug 2023–Jan 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.microsoft.com/en-us/modernfinance/digitaltransformation.aspx" target="_blank" rel="noopener" aria-label="Microsoft">
+            <span class="left">
+              <img class="logo" src="images/Microsoft.JPG" alt="">
+              <span class="meta"><span class="co">Microsoft</span> <span class="role">Finance Data Analyst Intern</span></span>
+            </span>
+            <span class="right">May–Aug 2023</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://worldfitforkids.org/" target="_blank" rel="noopener" aria-label="A World Fit For Kids">
+            <span class="left">
+              <img class="logo" src="images/A-World-Fit-for-Kids.JPG" alt="">
+              <span class="meta"><span class="co">A World Fit For Kids</span> <span class="role">Strategy Consultant</span></span>
+            </span>
+            <span class="right">2022–2023</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="Los Angeles Rams">
+            <span class="left">
+              <img class="logo" src="images/LARAMS.JPG" alt="">
+              <span class="meta"><span class="co">Los Angeles Rams</span> <span class="role">Data &amp; Systems Analyst – Intern</span></span>
+            </span>
+            <span class="right">Jun–Aug 2021</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="LA Conservation Corps">
+            <span class="left">
+              <img class="logo" src="images/LACC.JPG" alt="">
+              <span class="meta"><span class="co">LA Conservation Corps</span> <span class="role">Project Lead</span></span>
+            </span>
+            <span class="right">Dec 2019–May 2020</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Involvements ===== -->
+  <section id="involvements" class="section">
+    <div class="container">
+      <h2>Involvements</h2>
+      <ul class="list" aria-label="Student & community involvement">
+        <li>
+          <a class="row" href="https://www.uscbtg.org/" target="_blank" rel="noopener" aria-label="Business Technology Group (USC)">
+            <span class="left">
+              <img class="logo" src="images/BTG.JPG" alt="">
+              <span class="meta"><span class="co">Business Technology Group (USC)</span> <span class="role">VP of Projects</span></span>
+            </span>
+            <span class="right">2024–Present</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.ey.com/en_us/about-us/corporate-responsibility/mentoring-of-the-future-workforce-strengthens-communities-and-careers" target="_blank" rel="noopener" aria-label="EY CMAP">
+            <span class="left">
+              <img class="logo" src="images/EY.JPG" alt="">
+              <span class="meta"><span class="co">EY CMAP</span> <span class="role">Education Strategy Consultant</span></span>
+            </span>
+            <span class="right">2023–Present</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://uscfgsa.carrd.co/" target="_blank" rel="noopener" aria-label="USC First-Generation Student Center">
+            <span class="left">
+              <img class="logo" src="images/FGSA.JPG" alt="">
+              <span class="meta"><span class="co">USC First-Generation Student Center</span> <span class="role">Program Manager</span></span>
+            </span>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.usclbsa.com/" target="_blank" rel="noopener" aria-label="Latino Business Student Association">
+            <span class="left">
+              <img class="logo" src="images/LBSA.JPG" alt="">
+              <span class="meta"><span class="co">Latino Business Student Association</span> <span class="role">Member</span></span>
+            </span>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.uscisa.org/" target="_blank" rel="noopener" aria-label="International Student Assembly">
+            <span class="left">
+              <img class="logo" src="images/ISA.JPG" alt="">
+              <span class="meta"><span class="co">International Student Assembly</span> <span class="role">Advocacy &amp; Program Manager Intern</span></span>
+            </span>
+            <span class="right">2023–2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://partnershipla.org/who-we-are/" target="_blank" rel="noopener" aria-label="The LA Partnership">
+            <span class="left">
+              <img class="logo" src="images/Partnership.JPG" alt="">
+              <span class="meta"><span class="co">The LA Partnership</span> <span class="role">Policy Advisory Board Member</span></span>
+            </span>
+            <span class="right">2021–2022</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Projects & Artifacts (Joanna-style case studies) ===== -->
+  <section id="projects" class="section">
+    <div class="container">
+      <h2>Projects &amp; Artifacts</h2>
+
+      <!-- CRM -->
+      <article class="project" id="crm-automation">
+        <h3>CRM Automation — Email Outreach Platform</h3>
+        <div class="media">
+          <video controls playsinline>
+            <source src="images/CRM_DEMO_small.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p>
+          I built a CRM that connects Google Sheets and Gmail so outreach basically runs itself. It pulls fresh rows from Sheets, fills a template with merge fields, batches sends to stay under Gmail limits, retries failures, and logs results back to the sheet. With it we hit <b>15,000+ contacts</b>, response rate lifted about <b>15%</b>, and total send time dropped to roughly <b>one-third</b> across three committees. New campaign = new sheet + a template. Simple, fast, and the team kept using it after I handed it off.
+        </p>
+      </article>
+
+      <!-- Quokka -->
+      <article class="project" id="quokka">
+        <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
+        <div class="media">
+          <!-- Use a good hero still; swap to your preferred image -->
+          <img src="Projects/EY1.jpg" alt="Quokka Brew research hero (swap to your Quokka hero image)" />
+        </div>
+        <p>
+          We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast. <a class="btn" href="Projects/Quokka%20Brew.pdf" target="_blank" rel="noopener">Open deck</a>
+        </p>
+      </article>
+
+      <!-- Clear Clinical -->
+      <article class="project" id="clear-clinical">
+        <h3>Clear Clinical — Product Strategy &amp; UX</h3>
+        <div class="media">
+          <img src="Projects/Magazine1.jpg" alt="Clear Clinical deck preview (use your preferred thumbnail)" />
+        </div>
+        <p>
+          Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and laid out the first shippable version so a small team could move. <a class="btn" href="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf" target="_blank" rel="noopener">Mid deck</a> <a class="btn" href="Projects/FINAL%20PRESENTATION%20CLEAR%20CLINICAL%20.pdf" target="_blank" rel="noopener">Final deck</a>
+        </p>
+      </article>
+
+      <!-- EY Workshop -->
+      <article class="project" id="ey-workshop">
+        <h3>EY Workshop — Design Thinking</h3>
+        <div class="media">
+          <img src="Projects/EY1.jpg" alt="EY workshop — design thinking session" />
+        </div>
+        <p>
+          I put together a quick, hands-on workshop for high school students — frame the problem, sketch, test. Kept it practical so they could run it on their own ideas after.
+        </p>
+      </article>
+
+      <!-- Advocacy Day -->
+      <article class="project" id="advocacy-day">
+        <h3>Policy Advocacy Day — Sacramento</h3>
+        <div class="media">
+          <img src="Projects/Partnership_Advocacy_Day1.jpg" alt="Policy Advocacy Day — Sacramento" />
+        </div>
+        <p>
+          Met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices in our community got in the room.
+        </p>
+      </article>
+
+      <!-- Magazine -->
+      <article class="project" id="magazine">
+        <h3>Magazine Feature</h3>
+        <div class="media">
+          <img src="Projects/Magazine2.jpg" alt="Magazine feature" />
+        </div>
+        <p>
+          A campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.
+        </p>
+      </article>
+
+    </div>
+  </section>
+
   <footer>
     <div class="container">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
-  <!-- SCRIPTS -->
   <script>
-    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Typewriter for "cout << hello world"
-    (function(){
-      const el = document.getElementById('console-txt');
-      if(!el) return;
-      const text = el.dataset.text || '';
-      let i = 0;
-      (function type(){
-        el.textContent = text.slice(0, i++);
-        if(i <= text.length) setTimeout(type, 40);
-      })();
-    })();
-
-    // Rotating tagline
-    (function(){
-      const el = document.getElementById('rotate-text');
-      if(!el) return;
-      const phrases = [
-        'a decent runner',
-        'shipping with kind teams',
-        'building products with clear specs'
-      ];
-      let i = 0, j = 0, typing = true;
-      (function tick(){
-        const s = phrases[i];
-        if (typing) {
-          j++; el.textContent = s.slice(0,j);
-          if (j === s.length){ typing = false; return setTimeout(tick, 1200); }
-          return setTimeout(tick, 34);
-        } else {
-          j--; el.textContent = s.slice(0,j);
-          if (j === 0){ typing = true; i = (i+1)%phrases.length; return setTimeout(tick, 280); }
-          return setTimeout(tick, 18);
-        }
-      })();
-    })();
-
-    // Flip card: tap to flip on touch devices
-    (function(){
-      const card = document.getElementById('aboutFlip');
-      if (!card) return;
-      card.addEventListener('click', function(){
-        if (matchMedia('(hover: none)').matches) card.classList.toggle('flipped');
-      });
-    })();
-
-    // Spotlight scroll buttons
-    (function(){
-      const row = document.getElementById('spotRow');
-      const left = document.getElementById('spotLeft');
-      const right = document.getElementById('spotRight');
-      if (!row || !left || !right) return;
-
-      function scrollByAmount(dir){
-        row.scrollBy({ left: dir * (row.clientWidth * 0.9), behavior: 'smooth' });
-      }
-      left.addEventListener('click', () => scrollByAmount(-1));
-      right.addEventListener('click', () => scrollByAmount(1));
-
-      // keyboard: arrow keys when focused
-      row.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') { e.preventDefault(); scrollByAmount(1); }
-        if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollByAmount(-1); }
-      });
-    })();
   </script>
 </body>
 </html>
