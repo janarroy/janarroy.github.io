@@ -10,7 +10,6 @@
     :root{
       --ink:#0f172a;
       --muted:#6b7280;
-      --muted2:#6b7280;
       --bd:#e5e7eb;
       --card:#ffffff;
       --shadow:0 10px 30px rgba(17,19,24,.10);
@@ -18,8 +17,9 @@
       --maxw: 1040px;
     }
     html,body{background:#fafbfc;color:#0f172a}
-    /* ===== Global layout (Joanna-like: clean, left-aligned, lots of air) ===== */
     .container{width:min(var(--maxw),92vw);margin-inline:auto}
+
+    /* ===== Sticky nav ===== */
     header.navbar{
       position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid #f1f5f9;
       backdrop-filter: saturate(140%) blur(6px);
@@ -32,29 +32,27 @@
     }
     .nav-links a:hover{opacity:.7}
 
-    /* Hero */
+    /* ===== Hero ===== */
     .hero{padding:56px 0 18px}
     .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
     @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
     .hero h1{font-size: clamp(28px, 5vw, 44px); line-height:1.1; margin:0 0 10px; font-weight:800}
     .hero p{color:var(--muted);font-size: clamp(15px, 2vw, 18px); line-height:1.6; margin:0}
-    .hero img{width:100%;border-radius:18px;box-shadow:0 18px 50px rgba(17,19,24,.16)}
+    .hero img{width:100%;border-radius:18px;box-shadow:0 18px 50px rgba(17,19,24,.16);object-fit:cover}
 
-    /* Section heading (Joanna vibe: bold, left-aligned, roomy) */
+    /* ===== Sections ===== */
     .section{padding:18px 0 0}
     .section h2{
       font-weight:800; font-size: clamp(22px, 3.2vw, 30px);
       margin:42px 0 12px; letter-spacing:.2px;
     }
-    .section .kicker{color:#9aa3af;font-size:13px;margin-top:-6px}
 
-    /* Lists (Work / Involvements) — tidy rows w/ logos */
+    /* ===== Lists (Work / Involvements) ===== */
     .list{list-style:none;margin:0;padding:0}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:18px;
       padding:12px 0; border-bottom:1px solid #eef2f7; text-decoration:none; color:inherit;
     }
-    .row:hover{background:transparent}
     .left{display:flex; align-items:center; gap:12px; min-width:0;}
     .logo{width:26px;height:26px;border-radius:6px;object-fit:cover;flex:0 0 auto}
     .meta{min-width:0}
@@ -62,7 +60,7 @@
     .role{color:#6b7280; font-size:14px}
     .right{font-size:13px; color:#94a3b8; white-space:nowrap}
 
-    /* Projects — case-study blocks (title → hero media → description) */
+    /* ===== Projects ===== */
     .project{
       background:#fff;border:1px solid var(--bd);border-radius:16px;padding:22px;
       box-shadow:var(--shadow); transition:box-shadow .25s ease, transform .25s ease;
@@ -76,24 +74,20 @@
       position:relative; margin-top:10px; overflow:hidden; border-radius:12px; border:1px solid #eef2f7;
     }
     .project .media img,
-    .project .media video,
-    .project .media iframe{
+    .project .media video{
       display:block; width:100%; height:auto; aspect-ratio: 16/9; object-fit:cover;
       transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .3s ease;
     }
     .project .media:hover img,
     .project .media:hover video{ transform: scale(1.02); }
-    .project p{
-      font-size:16px; line-height:1.75; color:#111827; margin:14px 2px 0;
-    }
-    .project .actions{margin-top:10px}
+    .project p{font-size:16px; line-height:1.75; color:#111827; margin:14px 2px 0;}
     .btn{
       display:inline-block; font-weight:700; font-size:14px; text-decoration:none;
-      padding:10px 14px; border-radius:10px; border:1px solid #e5e7eb; color:#0f172a; background:#fff;
+      padding:10px 14px; border-radius:10px; border:1px solid #e5e7eb; color:#0f172a; background:#fff; margin-left:8px;
     }
     .btn:hover{background:#f8fafc}
 
-    /* Footer */
+    /* ===== Footer ===== */
     footer{padding:36px 0 60px;color:#94a3b8;font-size:14px}
   </style>
 </head>
@@ -125,7 +119,14 @@
         <p>I'm Jan Arroyo — studying CS &amp; Business at USC. I like building products, doing design &amp; research, and creating impact with community partners.</p>
       </div>
       <div>
-        <img src="Snoopy_Welcome.png" alt="Welcome — Snoopy" />
+        <!-- Tries your headshot first, then graceful fallbacks so it never breaks -->
+        <img id="hero-photo"
+             src="images/IMG_8427.PNG"
+             alt="Jan Arroyo headshot"
+             onerror="(function(img){
+               const c=['images/Jan.JPG','images/Jan.jpg','images/headshot.jpg','Snoopy_Welcome.png'];
+               for(let i=0;i<c.length;i++){const t=new Image();t.onload=()=>{img.src=c[i]};t.src=c[i]}
+             })(this)" />
       </div>
     </div>
   </section>
@@ -274,7 +275,7 @@
     </div>
   </section>
 
-  <!-- ===== Projects & Artifacts (Joanna-style case studies) ===== -->
+  <!-- ===== Projects & Artifacts ===== -->
   <section id="projects" class="section">
     <div class="container">
       <h2>Projects &amp; Artifacts</h2>
@@ -284,7 +285,7 @@
         <h3>CRM Automation — Email Outreach Platform</h3>
         <div class="media">
           <video controls playsinline>
-            <source src="images/CRM_DEMO_small.mp4" type="video/mp4">
+            <source src="Projects/CRM_DEMO_small.mp4" type="video/mp4">
           </video>
         </div>
         <p>
@@ -296,8 +297,8 @@
       <article class="project" id="quokka">
         <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
         <div class="media">
-          <!-- Use a good hero still; swap to your preferred image -->
-          <img src="Projects/EY1.jpg" alt="Quokka Brew research hero (swap to your Quokka hero image)" />
+          <!-- Swap this to your actual Quokka hero image if you have one -->
+          <img src="Projects/EY1.JPG" alt="Quokka Brew research hero" />
         </div>
         <p>
           We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast. <a class="btn" href="Projects/Quokka%20Brew.pdf" target="_blank" rel="noopener">Open deck</a>
@@ -308,10 +309,12 @@
       <article class="project" id="clear-clinical">
         <h3>Clear Clinical — Product Strategy &amp; UX</h3>
         <div class="media">
-          <img src="Projects/Magazine1.jpg" alt="Clear Clinical deck preview (use your preferred thumbnail)" />
+          <img src="Projects/Magazine1.JPG" alt="Clear Clinical deck preview" />
         </div>
         <p>
-          Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and laid out the first shippable version so a small team could move. <a class="btn" href="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf" target="_blank" rel="noopener">Mid deck</a> <a class="btn" href="Projects/FINAL%20PRESENTATION%20CLEAR%20CLINICAL%20.pdf" target="_blank" rel="noopener">Final deck</a>
+          Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and laid out the first shippable version so a small team could move.
+          <a class="btn" href="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf" target="_blank" rel="noopener">Mid deck</a>
+          <a class="btn" href="Projects/FINAL%20PRESE...CLINICAL%20.pdf" target="_blank" rel="noopener">Final deck</a>
         </p>
       </article>
 
@@ -319,7 +322,7 @@
       <article class="project" id="ey-workshop">
         <h3>EY Workshop — Design Thinking</h3>
         <div class="media">
-          <img src="Projects/EY1.jpg" alt="EY workshop — design thinking session" />
+          <img src="Projects/EY2.JPG" alt="EY workshop — design thinking session" />
         </div>
         <p>
           I put together a quick, hands-on workshop for high school students — frame the problem, sketch, test. Kept it practical so they could run it on their own ideas after.
@@ -330,7 +333,7 @@
       <article class="project" id="advocacy-day">
         <h3>Policy Advocacy Day — Sacramento</h3>
         <div class="media">
-          <img src="Projects/Partnership_Advocacy_Day1.jpg" alt="Policy Advocacy Day — Sacramento" />
+          <img src="Projects/Partnership_Advocacy_Day1.JPG" alt="Policy Advocacy Day — Sacramento" />
         </div>
         <p>
           Met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices in our community got in the room.
@@ -341,7 +344,7 @@
       <article class="project" id="magazine">
         <h3>Magazine Feature</h3>
         <div class="media">
-          <img src="Projects/Magazine2.jpg" alt="Magazine feature" />
+          <img src="Projects/Magazine2.JPG" alt="Magazine feature" />
         </div>
         <p>
           A campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.
@@ -360,3 +363,4 @@
   </script>
 </body>
 </html>
+
