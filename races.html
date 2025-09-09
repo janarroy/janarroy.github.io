@@ -146,25 +146,103 @@
 .section-label .icon{font-size:14px;opacity:.85}
 
 
+/* ====== ADDED: background + navbar from index.html ====== */
+
+/* Dotted paper background + ink color */
+html,body{
+  background:
+    radial-gradient(circle at 1px 1px, #e8ecf1 1.2px, rgba(255,255,255,0) 1.3px) 0 0/12px 12px,
+    #fafbfc;
+  color:#0f172a;
+}
+
+/* Accent + WORK shift identical to index */
+:root{
+  --accent:#b91c1c;
+  --work-shift: 650px;
+}
+
+/* Sticky transparent header */
+header.navbar{
+  position:sticky; top:24px; z-index:20;
+  background:transparent; border-bottom:none; backdrop-filter:none;
+}
+header.navbar .container{ width:100%; margin:0; padding:0 40px; }
+
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
+.brand img{width:30px;height:30px;border-radius:8px;object-fit:cover}
+.brand span{display:none;}
+
+.nav-links{ position:relative; display:flex; align-items:center; gap:16px; width:100%; }
+.nav-links a,
+.nav-links button{
+  color:#111827; text-decoration:none; font-weight:700; font-size:14.5px; letter-spacing:.2px;
+  background:none; border:none; padding:0; cursor:pointer;
+}
+.nav-links a:hover, .nav-links button:hover{opacity:.75}
+
+.dropdown{position:relative}
+.dropdown-menu{
+  position:absolute; right:0; top:140%;
+  background:#fff; border:1px solid #e5e7eb; border-radius:10px;
+  box-shadow:0 10px 30px rgba(17,19,24,.10); min-width:180px; padding:8px; display:none;
+}
+.dropdown-menu a{
+  display:block; padding:10px 12px; border-radius:8px; font-weight:600; font-size:14px; color:#111827;
+}
+.dropdown-menu a:hover{background:#f8fafc}
+.dropdown[aria-expanded="true"] .dropdown-menu{display:block}
+
+/* active red + star */
+.nav-links .active{ color:var(--accent); position:relative; }
+.nav-links .active::before{
+  content:"✦"; position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  font-size:12px; line-height:1; color:var(--accent); opacity:.95;
+}
+
+/* Place WORK near the dropdown (same 650px shift) */
+.nav-links > a:first-child{
+  position:absolute;
+  left:50%;
+  transform: translateX(calc(-50% + var(--work-shift)));
+  font-weight:800; font-size:14.5px; letter-spacing:.2px;
+}
+.nav-links > .dropdown{ margin-left:auto; }
+
+/* Sparkle cursor dot */
+.hover-dot{
+  position:fixed; left:0; top:0; width:10px; height:10px; border-radius:999px;
+  background:#facc15; box-shadow:0 0 20px rgba(250,204,21,.5);
+  transform:translate3d(-100px,-100px,0); transition:transform .12s ease-out, width .15s ease, height .15s ease, opacity .2s ease;
+  mix-blend-mode:multiply; pointer-events:none; z-index:9999; opacity:.85;
+}
+.dot-grow{ width:18px !important; height:18px !important; }
   </style>
 </head>
 
-<body class="plain-bg">
-  <nav class="nav">
+<body>
+  <!-- NAV: identical to index.html -->
+  <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand-logo" href="./" aria-label="Home">
-        <img src="Snoopy_Welcome.png" alt="Snoopy waving hi" />
+      <a class="brand" href="#top">
+        <img src="Snoopy_Welcome.png" alt="Logo">
+        <span>Jan Arroyo</span>
       </a>
-      <div class="nav-links">
-        <a href="work.html">Projects</a>
-        <a href="races.html">Races</a>
-        <a href="bake.html">Bake</a>
-        <a href="travel.html">Travel</a>
-        <a href="#contact">Contact</a>
-      </div>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#work" aria-label="Work">WORK</a>
+        <div class="dropdown" aria-expanded="false">
+          <button type="button" aria-haspopup="true" aria-expanded="false" aria-label="Open Just for Fun menu">JUST FOR FUN ▾</button>
+          <div class="dropdown-menu" role="menu" aria-label="Just for Fun">
+            <a role="menuitem" href="races.html">Races</a>
+            <a role="menuitem" href="bake.html">Bake</a>
+            <a role="menuitem" href="travel.html">Travel</a>
+          </div>
+        </div>
+      </nav>
     </div>
-  </nav>
-  
+  </header>
 
   <main class="container work">
     <h1 class="page-title">Races</h1>
@@ -176,10 +254,47 @@
   <footer>© <span id="year"></span> Jan Arroyo — Thanks for visiting!</footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 
+  <!-- Sparkle cursor element -->
+  <div class="hover-dot" id="hoverDot" aria-hidden="true"></div>
+
   <!-- React + ReactDOM + Babel (CDN) -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Nav dropdown + active + sparkle cursor (same behavior as index) -->
+  <script>
+    // Dropdown open/close
+    (function(){
+      const dd = document.querySelector('.dropdown');
+      if(!dd) return;
+      const btn = dd.querySelector('button');
+      const menu = dd.querySelector('.dropdown-menu');
+      const set = (open)=>{ dd.setAttribute('aria-expanded', open?'true':'false'); btn.setAttribute('aria-expanded', open?'true':'false'); };
+      btn.addEventListener('click', (e)=>{ e.stopPropagation(); set(dd.getAttribute('aria-expanded')!=='true'); });
+      document.addEventListener('click', ()=> set(false));
+      btn.addEventListener('keydown', (e)=>{ if(e.key==='Escape') set(false); });
+      menu.addEventListener('keydown', (e)=>{ if(e.key==='Escape') set(false); });
+    })();
+
+    // Sparkle cursor follow + grow on interactive elements
+    (function(){
+      const dot = document.getElementById('hoverDot');
+      if(!dot) return;
+      window.addEventListener('mousemove', (e)=>{
+        dot.style.transform = `translate3d(${e.clientX - dot.offsetWidth/2}px, ${e.clientY - dot.offsetHeight/2}px, 0)`;
+      }, {passive:true});
+      const growTargets = 'a, button, .row, .nav-arrow, .btn';
+      document.addEventListener('mouseover', (e)=>{ if (e.target && e.target.closest && e.target.closest(growTargets)) dot.classList.add('dot-grow'); });
+      document.addEventListener('mouseout',  (e)=>{ if (e.target && e.target.closest && e.target.closest(growTargets)) dot.classList.remove('dot-grow'); });
+    })();
+
+    // Active nav: mark JUST FOR FUN on fun pages (like races)
+    (function(){
+      const funBtn = document.querySelector('.nav-links .dropdown > button');
+      if (funBtn) funBtn.classList.add('active');
+    })();
+  </script>
 
   <!-- Your app code (JSX compiled by Babel in the browser) -->
   <script type="text/babel" data-presets="env,react">
