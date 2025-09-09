@@ -114,7 +114,6 @@
   <!-- pdf.js (for reliable Prev/Next paging across browsers) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    // Use the same CDN for the worker
     if (window['pdfjsLib']) {
       pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
     }
@@ -353,7 +352,7 @@
         <h3>Clear Clinical — Product Strategy &amp; UX</h3>
         <div class="media" id="cc-viewer" data-pdf-files='[
           "Projects/MID SEMSESTER DELIVERABLE CLEAR CLINICAL.pdf",
-          "Projects/FINAL PRESE...CLINICAL .pdf"
+          "Projects/FINAL PRESENTATION CLEAR CLINICAL .pdf"
         ]'>
           <button class="nav-arrow left" aria-label="Previous slide">❮</button>
           <button class="nav-arrow right" aria-label="Next slide">❯</button>
@@ -428,6 +427,7 @@
       function show(i){
         idx = (i + imgs.length) % imgs.length;
         imgEl.src = imgs[idx];
+        imgEl.style.objectFit = 'contain';
         counter.textContent = (idx+1) + '/' + imgs.length;
       }
       media.querySelector('.nav-arrow.left').addEventListener('click', ()=>show(idx-1));
@@ -535,4 +535,3 @@
   </script>
 </body>
 </html>
-
