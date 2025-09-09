@@ -31,7 +31,7 @@
     min-height:100dvh; overflow-x:hidden;
     font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial;
   }
-  /* ↓ smaller top padding to trim space above the boarding pass */
+  /* container */
   .container{max-width:1120px;margin:0 auto;padding:8px 20px 100px}
 
   /* Decorative route + plane (background) */
@@ -71,8 +71,8 @@
     font-size:12px; line-height:1; color:var(--accent); opacity:.95;
   }
 
-  /* place WORK closer to the dropdown (same 650px shift) */
-  .nav-links > a:first-child{
+  /* place WORK closer to the dropdown (explicit class to avoid selector mismatch) */
+  .nav-links .work-link{
     position:absolute;
     left:50%;
     transform: translateX(calc(-50% + var(--work-shift)));
@@ -92,7 +92,6 @@
   /* ----- your original travel styles (unchanged) ----- */
 
   /* BOARDING PASS header */
-  /* ↓ smaller top/bottom margins to trim the gap above and before Next up */
   .ticket{
     margin:8px 0 2px;
     border-radius:26px;
@@ -135,25 +134,25 @@
 
   /* NEXT UP — tightened */
   .next{
-    margin:2px 0 6px;                  /* smaller gap above and below the card */
+    margin:2px 0 6px;
     border-radius:18px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow);
     overflow:hidden;
   }
   .next h3{
-    margin:0; padding:2px 12px;        /* short header */
+    margin:0; padding:2px 12px;
     font-size:18px; line-height:1; border:0;
   }
   .next-list{
     display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;
-    margin:0; border-top:1px solid var(--line); /* divider sits right under the title */
+    margin:0; border-top:1px solid var(--line);
   }
   @media (max-width:780px){.next-list{grid-template-columns:1fr}}
   .next-item{
     display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;
-    padding:6px 12px 4px;              /* tighter rows; trims below Mexico */
+    padding:6px 12px 4px;
     border-top:0;
   }
-  .next-item:last-child{ padding-bottom:4px; } /* trims bottom of the card */
+  .next-item:last-child{ padding-bottom:4px; }
   .flag{width:46px;height:28px;border-radius:6px;border:1px solid rgba(17,24,39,.18);overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(17,24,39,.08)}
   .flag img{width:100%;height:100%;object-fit:cover;display:block}
   .next-title{font-weight:800;margin:0}
@@ -216,7 +215,6 @@
 </head>
 <body>
 
-
   <!-- Navbar (matches index/races) -->
   <header class="navbar">
     <div class="container nav-inner">
@@ -225,7 +223,7 @@
         <span>Jan Arroyo</span>
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="index.html#work" aria-label="Work">WORK</a>
+        <a class="work-link" href="index.html#work" aria-label="Work">WORK</a>
         <div class="dropdown" aria-expanded="false">
           <button type="button" aria-haspopup="true" aria-expanded="false" aria-label="Open Just for Fun menu">JUST FOR FUN ▾</button>
           <div class="dropdown-menu" role="menu" aria-label="Just for Fun">
@@ -238,7 +236,7 @@
     </div>
   </header>
 
-  <!-- background dashed route + plane that rotates with the path -->
+  <!-- background dashed route + plane -->
   <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
     <path id="routeBG" class="route-dash" d="M80,650 C420,520 760,300 1360,360">
       <animate attributeName="stroke-dashoffset" from="0" to="-220" dur="12s" repeatCount="indefinite"/>
