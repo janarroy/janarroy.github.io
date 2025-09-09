@@ -87,6 +87,21 @@
     }
     .btn:hover{background:#f8fafc}
 
+    /* Minimal gallery arrows (images only) */
+    .ctrl{
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:40px; height:40px; border-radius:999px; border:1px solid rgba(15,23,42,.12);
+      background:rgba(255,255,255,.96); display:grid; place-items:center;
+      box-shadow:0 8px 18px rgba(17,19,24,.18);
+      cursor:pointer; opacity:0; transition:opacity .2s ease, transform .2s ease;
+      user-select:none;
+    }
+    .media:hover .ctrl{opacity:1}
+    .ctrl:disabled{opacity:.35; cursor:not-allowed}
+    .ctrl.prev{left:10px}
+    .ctrl.next{right:10px}
+    .ctrl svg{width:20px;height:20px}
+
     /* ===== Footer ===== */
     footer{padding:36px 0 60px;color:#94a3b8;font-size:14px}
   </style>
@@ -296,9 +311,9 @@
       <!-- Quokka -->
       <article class="project" id="quokka">
         <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-        <div class="media">
-          <!-- Swap this to your actual Quokka hero image if you have one -->
+        <div class="media" data-images="Projects/EY1.JPG,Projects/EY2.JPG,Projects/EY3.JPG,Projects/EY4.JPG">
           <img src="Projects/EY1.JPG" alt="Quokka Brew research hero" />
+          <!-- arrows will be injected by JS -->
         </div>
         <p>
           We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast. <a class="btn" href="Projects/Quokka%20Brew.pdf" target="_blank" rel="noopener">Open deck</a>
@@ -308,7 +323,7 @@
       <!-- Clear Clinical -->
       <article class="project" id="clear-clinical">
         <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-        <div class="media">
+        <div class="media" data-images="Projects/Magazine1.JPG,Projects/Magazine2.JPG,Projects/Magazine3.JPG">
           <img src="Projects/Magazine1.JPG" alt="Clear Clinical deck preview" />
         </div>
         <p>
@@ -321,7 +336,7 @@
       <!-- EY Workshop -->
       <article class="project" id="ey-workshop">
         <h3>EY Workshop — Design Thinking</h3>
-        <div class="media">
+        <div class="media" data-images="Projects/EY2.JPG,Projects/EY3.JPG,Projects/EY4.JPG">
           <img src="Projects/EY2.JPG" alt="EY workshop — design thinking session" />
         </div>
         <p>
@@ -332,7 +347,7 @@
       <!-- Advocacy Day -->
       <article class="project" id="advocacy-day">
         <h3>Policy Advocacy Day — Sacramento</h3>
-        <div class="media">
+        <div class="media" data-images="Projects/Partnership_Advocacy_Day1.JPG,Projects/Partnership_Advocacy_Day2.JPG">
           <img src="Projects/Partnership_Advocacy_Day1.JPG" alt="Policy Advocacy Day — Sacramento" />
         </div>
         <p>
@@ -343,7 +358,7 @@
       <!-- Magazine -->
       <article class="project" id="magazine">
         <h3>Magazine Feature</h3>
-        <div class="media">
+        <div class="media" data-images="Projects/Magazine2.JPG,Projects/Magazine1.JPG,Projects/Magazine3.JPG">
           <img src="Projects/Magazine2.JPG" alt="Magazine feature" />
         </div>
         <p>
@@ -360,7 +375,54 @@
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Minimal image gallery arrows (does not touch videos)
+    const LEFT = 'M15 18l-6-6 6-6';
+    const RIGHT = 'M9 6l6 6-6 6';
+
+    document.querySelectorAll('.project .media').forEach(media => {
+      const img = media.querySelector('img');
+      if(!img) return; // only for image galleries
+
+      // Build source list from data-images, fallback to current src
+      let sources = (media.dataset.images || '')
+        .split(',').map(s=>s.trim()).filter(Boolean);
+      if(!sources.length) sources = [img.getAttribute('src')];
+
+      // Create arrows
+      const prev = document.createElement('button');
+      prev.className = 'ctrl prev';
+      prev.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="${LEFT}" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      const next = document.createElement('button');
+      next.className = 'ctrl next';
+      next.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="${RIGHT}" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+      media.appendChild(prev);
+      media.appendChild(next);
+      media.tabIndex = 0; // keyboard focus
+      let i = 0;
+
+      function update(){
+        img.src = sources[i];
+        prev.disabled = (i===0);
+        next.disabled = (i===sources.length-1);
+        // Hide arrows entirely if there's only one image
+        prev.style.display = next.style.display = (sources.length>1) ? 'grid' : 'none';
+      }
+      function go(delta){
+        i = Math.max(0, Math.min(sources.length-1, i+delta));
+        update();
+      }
+
+      prev.addEventListener('click', e => { e.stopPropagation(); go(-1); });
+      next.addEventListener('click', e => { e.stopPropagation(); go(1); });
+      media.addEventListener('keydown', e => {
+        if(e.key === 'ArrowLeft'){ e.preventDefault(); go(-1); }
+        if(e.key === 'ArrowRight'){ e.preventDefault(); go(1); }
+      });
+
+      update();
+    });
   </script>
 </body>
 </html>
-
