@@ -37,16 +37,16 @@
     }
     /* NEW: make only the header container full-width so Snoopy is far left
        and the links align far right (page content container stays as-is) */
-    header.navbar .container{ width:100%; margin:0; padding:0 10px; }
+    header.navbar .container{ width:100%; margin:0; padding:0 24px; } /* was 0 10px */
 
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 2px}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px} /* was 14px 2px */
     .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
     .brand img{width:30px;height:30px;border-radius:8px;object-fit:cover}
     /* NEW: show only Snoopy (hide text) */
     .brand span{display:none;}
 
     /* ------- New: Joanna-style nav w/ dropdown ------- */
-    .nav-links{display:flex;align-items:center;gap:28px}
+    .nav-links{display:flex;align-items:center;gap:20px} /* was 28px */
     .nav-links a,
     .nav-links button{
       color:#111827; text-decoration:none; font-weight:700; font-size:14.5px; letter-spacing:.2px;
