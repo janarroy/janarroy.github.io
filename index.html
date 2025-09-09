@@ -83,16 +83,20 @@
     .project .media:hover img,
     .project .media:hover video{ transform: scale(1.01); }
 
-    /* PDF viewer iframe */
+    /* PDF viewer iframe (disable scroll; use arrows only) */
     .pdf-frame{
       width:100%; height:520px; border:0; display:block; background:#fff;
+      pointer-events:none; /* prevents user scrolling inside, arrows control pages */
     }
-    .pdf-controls{
-      display:flex; align-items:center; gap:8px; margin-top:10px; flex-wrap:wrap;
+    .pdf-controls,
+    .img-controls{
+      display:flex; align-items:center; gap:8px; margin:10px 0; flex-wrap:wrap;
     }
+
     .btn{
       display:inline-block; font-weight:700; font-size:14px; text-decoration:none;
       padding:10px 14px; border-radius:10px; border:1px solid #e5e7eb; color:#0f172a; background:#fff; margin-left:8px;
+      cursor:pointer;
     }
     .btn:hover{background:#f8fafc}
 
@@ -351,33 +355,54 @@
         </p>
       </article>
 
-      <!-- EY Workshop -->
+      <!-- EY Workshop (image slider) -->
       <article class="project" id="ey-workshop">
         <h3>EY Workshop — Design Thinking</h3>
         <div class="media">
-          <img src="Projects/EY2.JPG" alt="EY workshop — design thinking session" />
+          <div class="img-controls" data-viewer="ey-gallery">
+            <button class="btn" data-action="prev">Prev</button>
+            <button class="btn" data-action="next">Next</button>
+          </div>
+          <img id="ey-gallery"
+               src="Projects/EY2.JPG"
+               alt="EY workshop — design thinking session"
+               data-images='["Projects/EY1.JPG","Projects/EY2.JPG","Projects/EY3.JPG","Projects/EY4.JPG"]' />
         </div>
         <p>
           I put together a quick, hands-on workshop for high school students — frame the problem, sketch, test. Kept it practical so they could run it on their own ideas after.
         </p>
       </article>
 
-      <!-- Advocacy Day -->
+      <!-- Advocacy Day (image slider) -->
       <article class="project" id="advocacy-day">
         <h3>Policy Advocacy Day — Sacramento</h3>
         <div class="media">
-          <img src="Projects/Partnership_Advocacy_Day1.JPG" alt="Policy Advocacy Day — Sacramento" />
+          <div class="img-controls" data-viewer="advocacy-gallery">
+            <button class="btn" data-action="prev">Prev</button>
+            <button class="btn" data-action="next">Next</button>
+          </div>
+          <img id="advocacy-gallery"
+               src="Projects/Partnership_Advocacy_Day1.JPG"
+               alt="Policy Advocacy Day — Sacramento"
+               data-images='["Projects/Partnership_Advocacy_Day1.JPG","Projects/Partnership_Advocacy_Day2.JPG"]' />
         </div>
         <p>
           Met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices in our community got in the room.
         </p>
       </article>
 
-      <!-- Magazine -->
+      <!-- Magazine (image slider) -->
       <article class="project" id="magazine">
         <h3>Magazine Feature</h3>
         <div class="media">
-          <img src="Projects/Magazine2.JPG" alt="Magazine feature" />
+          <div class="img-controls" data-viewer="mag-gallery">
+            <button class="btn" data-action="prev">Prev</button>
+            <button class="btn" data-action="next">Next</button>
+          </div>
+          <img id="mag-gallery"
+               src="Projects/Magazine2.JPG"
+               alt="Magazine feature"
+               data-images='["Projects/Magazine1.JPG","Projects/Magazine2.JPG","Projects/Magazine3.JPG"]' />
         </div>
         <p>
           A campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.
@@ -395,20 +420,22 @@
     // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Simple PDF pager for elements with .pdf-controls
+    // ===== PDF pager (arrows only; iframe is non-interactive) =====
     (function(){
       function setPage(iframe, page){
         const src = new URL(iframe.getAttribute('src'), window.location.href);
-        // Rebuild with updated page while keeping other params
         const base = src.pathname + src.search + src.hash;
         const [path, hash=''] = base.split('#');
         const params = new URLSearchParams(hash);
-        params.set('page', page);
-        iframe.setAttribute('src', path + '#'+ params.toString());
-        iframe.dataset.page = String(page);
+        const current = Number(params.get('page') || 1);
+        const next = Math.max(1, page || current);
+        params.set('page', next);
+        iframe.setAttribute('src', path + '#' + params.toString());
       }
       function currentPage(iframe){
-        return Number(iframe.dataset.page || 1);
+        const hash = iframe.getAttribute('src').split('#')[1] || '';
+        const params = new URLSearchParams(hash);
+        return Number(params.get('page') || 1);
       }
       function switchDeck(iframe){
         const files = JSON.parse(iframe.dataset.files || '[]');
@@ -417,7 +444,6 @@
         idx = (idx + 1) % files.length;
         iframe.dataset.fileIndex = String(idx);
         iframe.setAttribute('src', files[idx] + '#view=FitH&toolbar=0&page=1');
-        iframe.dataset.page = '1';
       }
 
       document.querySelectorAll('.pdf-controls').forEach(ctrl=>{
@@ -428,12 +454,57 @@
           if(!btn) return;
           const action = btn.getAttribute('data-action');
           if(action==='prev'){
-            setPage(iframe, Math.max(1, currentPage(iframe)-1));
+            setPage(iframe, currentPage(iframe)-1);
           }else if(action==='next'){
             setPage(iframe, currentPage(iframe)+1);
           }else if(action==='switch'){
             switchDeck(iframe);
           }
+        });
+      });
+    })();
+
+    // ===== Simple image sliders (arrows + swipe) =====
+    (function(){
+      function show(img, idx){
+        const list = JSON.parse(img.dataset.images || '[]');
+        if(!list.length) return;
+        const i = (idx + list.length) % list.length;
+        img.src = list[i];
+        img.dataset.index = i;
+      }
+      document.querySelectorAll('.img-controls').forEach(ctrl=>{
+        const id = ctrl.getAttribute('data-viewer');
+        const img = document.getElementById(id);
+        if(!img) return;
+
+        // init index
+        img.dataset.index = '0';
+
+        ctrl.addEventListener('click', e=>{
+          const btn = e.target.closest('button');
+          if(!btn) return;
+          const action = btn.getAttribute('data-action');
+          const cur = Number(img.dataset.index || 0);
+          if(action==='prev') show(img, cur-1);
+          if(action==='next') show(img, cur+1);
+        });
+
+        // touch swipe
+        let sx=null, sy=null;
+        img.addEventListener('touchstart', e=>{
+          sx = e.touches[0].clientX;
+          sy = e.touches[0].clientY;
+        }, {passive:true});
+        img.addEventListener('touchend', e=>{
+          if(sx===null) return;
+          const dx = (e.changedTouches[0].clientX - sx);
+          const dy = Math.abs((e.changedTouches[0].clientY - (sy||0)));
+          if(Math.abs(dx) > 40 && dy < 40){
+            const cur = Number(img.dataset.index || 0);
+            if(dx < 0) show(img, cur+1); else show(img, cur-1);
+          }
+          sx = sy = null;
         });
       });
     })();
