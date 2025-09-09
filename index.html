@@ -72,9 +72,8 @@
     }
     .project .media{
       position:relative; margin-top:10px; overflow:hidden; border-radius:12px; border:1px solid #eef2f7;
-      background:#fff;
+      background:#fff; min-height:180px;
     }
-    /* Fit all assets without cropping */
     .project .media img,
     .project .media video{
       display:block; width:100%; height:auto; object-fit:contain; max-height:520px;
@@ -83,15 +82,24 @@
     .project .media:hover img,
     .project .media:hover video{ transform: scale(1.01); }
 
-    /* PDF viewer iframe (disable scroll; use arrows only) */
-    .pdf-frame{
-      width:100%; height:520px; border:0; display:block; background:#fff;
-      pointer-events:none; /* prevents user scrolling inside, arrows control pages */
+    /* Overlay arrows + counters (PDF & images) */
+    .nav-arrow{
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:42px; height:42px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      background:#fff; border:1px solid #e5e7eb; box-shadow:var(--shadow); cursor:pointer;
+      user-select:none;
     }
-    .pdf-controls,
-    .img-controls{
-      display:flex; align-items:center; gap:8px; margin:10px 0; flex-wrap:wrap;
+    .nav-arrow:hover{background:#f8fafc}
+    .nav-arrow.left{left:12px}
+    .nav-arrow.right{right:12px}
+    .badge{
+      position:absolute; top:10px; right:12px;
+      background:#111827; color:#fff; font-size:12px; padding:6px 10px; border-radius:999px; opacity:.9;
     }
+
+    /* Canvas for PDF */
+    .pdf-canvas{display:block; width:100%; height:auto; max-height:520px; background:#fff}
 
     .btn{
       display:inline-block; font-weight:700; font-size:14px; text-decoration:none;
@@ -100,9 +108,17 @@
     }
     .btn:hover{background:#f8fafc}
 
-    /* ===== Footer ===== */
     footer{padding:36px 0 60px;color:#94a3b8;font-size:14px}
   </style>
+
+  <!-- pdf.js (for reliable Prev/Next paging across browsers) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    // Use the same CDN for the worker
+    if (window['pdfjsLib']) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    }
+  </script>
 </head>
 <body>
 
@@ -318,37 +334,31 @@
         </p>
       </article>
 
-      <!-- Quokka -->
+      <!-- Quokka (PDF slider) -->
       <article class="project" id="quokka">
         <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-        <div class="media">
-          <div class="pdf-controls" data-viewer="quokka-viewer">
-            <button class="btn" data-action="prev">Prev</button>
-            <button class="btn" data-action="next">Next</button>
-          </div>
-          <iframe id="quokka-viewer" class="pdf-frame" src="Projects/Quokka Brew.pdf#view=FitH&toolbar=0&page=1"></iframe>
+        <div class="media" id="quokka-viewer" data-pdf-files='["Projects/Quokka Brew.pdf"]'>
+          <button class="nav-arrow left" aria-label="Previous slide">❮</button>
+          <button class="nav-arrow right" aria-label="Next slide">❯</button>
+          <div class="badge" data-counter>Page 1/1</div>
+          <!-- canvas injected by JS -->
         </div>
         <p>
           We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast.
         </p>
       </article>
 
-      <!-- Clear Clinical -->
+      <!-- Clear Clinical (combined Mid + Final, single slider) -->
       <article class="project" id="clear-clinical">
         <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-        <div class="media">
-          <div class="pdf-controls" data-viewer="cc-viewer" data-multi="1">
-            <button class="btn" data-action="prev">Prev</button>
-            <button class="btn" data-action="next">Next</button>
-            <button class="btn" data-action="switch">Switch Deck</button>
-          </div>
-          <!-- Combined viewer: Mid + Final -->
-          <iframe
-            id="cc-viewer"
-            class="pdf-frame"
-            src="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf#view=FitH&toolbar=0&page=1"
-            data-files='["Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf","Projects/FINAL%20PRESE...CLINICAL%20.pdf"]'
-            data-file-index="0"></iframe>
+        <div class="media" id="cc-viewer" data-pdf-files='[
+          "Projects/MID SEMSESTER DELIVERABLE CLEAR CLINICAL.pdf",
+          "Projects/FINAL PRESE...CLINICAL .pdf"
+        ]'>
+          <button class="nav-arrow left" aria-label="Previous slide">❮</button>
+          <button class="nav-arrow right" aria-label="Next slide">❯</button>
+          <div class="badge" data-counter>Page 1/1</div>
+          <!-- canvas injected by JS -->
         </div>
         <p>
           Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and laid out the first shippable version so a small team could move.
@@ -358,15 +368,11 @@
       <!-- EY Workshop (image slider) -->
       <article class="project" id="ey-workshop">
         <h3>EY Workshop — Design Thinking</h3>
-        <div class="media">
-          <div class="img-controls" data-viewer="ey-gallery">
-            <button class="btn" data-action="prev">Prev</button>
-            <button class="btn" data-action="next">Next</button>
-          </div>
-          <img id="ey-gallery"
-               src="Projects/EY2.JPG"
-               alt="EY workshop — design thinking session"
-               data-images='["Projects/EY1.JPG","Projects/EY2.JPG","Projects/EY3.JPG","Projects/EY4.JPG"]' />
+        <div class="media" data-gallery='["Projects/EY1.JPG","Projects/EY2.JPG","Projects/EY3.JPG","Projects/EY4.JPG"]'>
+          <button class="nav-arrow left" aria-label="Previous photo">❮</button>
+          <button class="nav-arrow right" aria-label="Next photo">❯</button>
+          <div class="badge" data-counter>1/4</div>
+          <img alt="EY workshop — design thinking session" />
         </div>
         <p>
           I put together a quick, hands-on workshop for high school students — frame the problem, sketch, test. Kept it practical so they could run it on their own ideas after.
@@ -376,15 +382,11 @@
       <!-- Advocacy Day (image slider) -->
       <article class="project" id="advocacy-day">
         <h3>Policy Advocacy Day — Sacramento</h3>
-        <div class="media">
-          <div class="img-controls" data-viewer="advocacy-gallery">
-            <button class="btn" data-action="prev">Prev</button>
-            <button class="btn" data-action="next">Next</button>
-          </div>
-          <img id="advocacy-gallery"
-               src="Projects/Partnership_Advocacy_Day1.JPG"
-               alt="Policy Advocacy Day — Sacramento"
-               data-images='["Projects/Partnership_Advocacy_Day1.JPG","Projects/Partnership_Advocacy_Day2.JPG"]' />
+        <div class="media" data-gallery='["Projects/Partnership_Advocacy_Day1.JPG","Projects/Partnership_Advocacy_Day2.JPG"]'>
+          <button class="nav-arrow left" aria-label="Previous photo">❮</button>
+          <button class="nav-arrow right" aria-label="Next photo">❯</button>
+          <div class="badge" data-counter>1/2</div>
+          <img alt="Policy Advocacy Day — Sacramento" />
         </div>
         <p>
           Met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices in our community got in the room.
@@ -394,15 +396,11 @@
       <!-- Magazine (image slider) -->
       <article class="project" id="magazine">
         <h3>Magazine Feature</h3>
-        <div class="media">
-          <div class="img-controls" data-viewer="mag-gallery">
-            <button class="btn" data-action="prev">Prev</button>
-            <button class="btn" data-action="next">Next</button>
-          </div>
-          <img id="mag-gallery"
-               src="Projects/Magazine2.JPG"
-               alt="Magazine feature"
-               data-images='["Projects/Magazine1.JPG","Projects/Magazine2.JPG","Projects/Magazine3.JPG"]' />
+        <div class="media" data-gallery='["Projects/Magazine1.JPG","Projects/Magazine2.JPG","Projects/Magazine3.JPG"]'>
+          <button class="nav-arrow left" aria-label="Previous photo">❮</button>
+          <button class="nav-arrow right" aria-label="Next photo">❯</button>
+          <div class="badge" data-counter>1/3</div>
+          <img alt="Magazine feature" />
         </div>
         <p>
           A campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.
@@ -420,94 +418,121 @@
     // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ===== PDF pager (arrows only; iframe is non-interactive) =====
-    (function(){
-      function setPage(iframe, page){
-        const src = new URL(iframe.getAttribute('src'), window.location.href);
-        const base = src.pathname + src.search + src.hash;
-        const [path, hash=''] = base.split('#');
-        const params = new URLSearchParams(hash);
-        const current = Number(params.get('page') || 1);
-        const next = Math.max(1, page || current);
-        params.set('page', next);
-        iframe.setAttribute('src', path + '#' + params.toString());
+    // ---------- Image sliders ----------
+    document.querySelectorAll('.media[data-gallery]').forEach(media=>{
+      const imgs = JSON.parse(media.getAttribute('data-gallery'));
+      const imgEl = media.querySelector('img');
+      const counter = media.querySelector('[data-counter]');
+      let idx = 0;
+
+      function show(i){
+        idx = (i + imgs.length) % imgs.length;
+        imgEl.src = imgs[idx];
+        counter.textContent = (idx+1) + '/' + imgs.length;
       }
-      function currentPage(iframe){
-        const hash = iframe.getAttribute('src').split('#')[1] || '';
-        const params = new URLSearchParams(hash);
-        return Number(params.get('page') || 1);
+      media.querySelector('.nav-arrow.left').addEventListener('click', ()=>show(idx-1));
+      media.querySelector('.nav-arrow.right').addEventListener('click', ()=>show(idx+1));
+
+      // swipe
+      let sx=null, sy=null;
+      media.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+      media.addEventListener('touchend', e=>{
+        if(sx===null) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        const dy = Math.abs(e.changedTouches[0].clientY - sy);
+        if(Math.abs(dx)>40 && dy<40){ dx<0 ? show(idx+1) : show(idx-1); }
+        sx=sy=null;
+      }, {passive:true});
+
+      show(0);
+    });
+
+    // ---------- PDF sliders (sequence across multiple PDFs) ----------
+    async function initPdfSlider(media){
+      if(!window['pdfjsLib']) return;
+      const files = JSON.parse(media.getAttribute('data-pdf-files')); // array of URLs
+      const counter = media.querySelector('[data-counter]');
+      const left = media.querySelector('.nav-arrow.left');
+      const right = media.querySelector('.nav-arrow.right');
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'pdf-canvas';
+      media.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+
+      let docs = [];
+      let fileIdx = 0;
+      let page = 1;
+      let totalAcross = 0;
+      let cumulativePages = []; // prefix sums to compute global page #
+
+      // load docs
+      for (let f of files){
+        const doc = await pdfjsLib.getDocument(encodeURI(f)).promise;
+        docs.push(doc);
+        totalAcross += doc.numPages;
+        cumulativePages.push(totalAcross);
       }
-      function switchDeck(iframe){
-        const files = JSON.parse(iframe.dataset.files || '[]');
-        if(!files.length) return;
-        let idx = Number(iframe.dataset.fileIndex || 0);
-        idx = (idx + 1) % files.length;
-        iframe.dataset.fileIndex = String(idx);
-        iframe.setAttribute('src', files[idx] + '#view=FitH&toolbar=0&page=1');
+
+      function globalPageNumber(){ // 1-based across all docs
+        const prevTotal = fileIdx===0 ? 0 : cumulativePages[fileIdx-1];
+        return prevTotal + page;
       }
 
-      document.querySelectorAll('.pdf-controls').forEach(ctrl=>{
-        const viewerId = ctrl.getAttribute('data-viewer');
-        const iframe = document.getElementById(viewerId);
-        ctrl.addEventListener('click', (e)=>{
-          const btn = e.target.closest('button');
-          if(!btn) return;
-          const action = btn.getAttribute('data-action');
-          if(action==='prev'){
-            setPage(iframe, currentPage(iframe)-1);
-          }else if(action==='next'){
-            setPage(iframe, currentPage(iframe)+1);
-          }else if(action==='switch'){
-            switchDeck(iframe);
-          }
-        });
-      });
-    })();
+      async function render(){
+        const doc = docs[fileIdx];
+        const pdfPage = await doc.getPage(page);
 
-    // ===== Simple image sliders (arrows + swipe) =====
-    (function(){
-      function show(img, idx){
-        const list = JSON.parse(img.dataset.images || '[]');
-        if(!list.length) return;
-        const i = (idx + list.length) % list.length;
-        img.src = list[i];
-        img.dataset.index = i;
+        // scale to container width
+        const viewport = pdfPage.getViewport({ scale: 1 });
+        const targetWidth = media.clientWidth || 900;
+        const scale = targetWidth / viewport.width;
+        const v = pdfPage.getViewport({ scale });
+
+        canvas.width = v.width;
+        canvas.height = v.height;
+
+        await pdfPage.render({ canvasContext: ctx, viewport: v }).promise;
+
+        counter.textContent = 'Page ' + globalPageNumber() + ' / ' + totalAcross;
       }
-      document.querySelectorAll('.img-controls').forEach(ctrl=>{
-        const id = ctrl.getAttribute('data-viewer');
-        const img = document.getElementById(id);
-        if(!img) return;
 
-        // init index
-        img.dataset.index = '0';
+      async function next(){
+        const doc = docs[fileIdx];
+        if(page < doc.numPages){ page++; }
+        else if(fileIdx < docs.length-1){ fileIdx++; page = 1; }
+        await render();
+      }
+      async function prev(){
+        if(page > 1){ page--; }
+        else if(fileIdx > 0){
+          fileIdx--;
+          page = docs[fileIdx].numPages;
+        }
+        await render();
+      }
 
-        ctrl.addEventListener('click', e=>{
-          const btn = e.target.closest('button');
-          if(!btn) return;
-          const action = btn.getAttribute('data-action');
-          const cur = Number(img.dataset.index || 0);
-          if(action==='prev') show(img, cur-1);
-          if(action==='next') show(img, cur+1);
-        });
+      left.addEventListener('click', prev);
+      right.addEventListener('click', next);
 
-        // touch swipe
-        let sx=null, sy=null;
-        img.addEventListener('touchstart', e=>{
-          sx = e.touches[0].clientX;
-          sy = e.touches[0].clientY;
-        }, {passive:true});
-        img.addEventListener('touchend', e=>{
-          if(sx===null) return;
-          const dx = (e.changedTouches[0].clientX - sx);
-          const dy = Math.abs((e.changedTouches[0].clientY - (sy||0)));
-          if(Math.abs(dx) > 40 && dy < 40){
-            const cur = Number(img.dataset.index || 0);
-            if(dx < 0) show(img, cur+1); else show(img, cur-1);
-          }
-          sx = sy = null;
-        });
-      });
-    })();
+      // swipe
+      let sx=null, sy=null;
+      media.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+      media.addEventListener('touchend', e=>{
+        if(sx===null) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        const dy = Math.abs(e.changedTouches[0].clientY - sy);
+        if(Math.abs(dx)>40 && dy<40){ dx<0 ? next() : prev(); }
+        sx=sy=null;
+      }, {passive:true});
+
+      await render();
+      // Re-render on resize for crisp fit
+      window.addEventListener('resize', ()=>render());
+    }
+
+    document.querySelectorAll('.media[data-pdf-files]').forEach(initPdfSlider);
   </script>
 </body>
 </html>
+
