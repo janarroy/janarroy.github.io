@@ -5,20 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
-  <!-- Joanna-style minimal tweaks, plus your deck/gallery viewer styles (scoped) -->
+  <!-- Joanna-style minimal tweaks scoped to this page -->
   <style>
     :root{
       --ink:#0f172a;
       --muted:#6b7280;
-      --muted2:#64748b;
       --bd:#e5e7eb;
       --card:#ffffff;
-      --shadow:0 18px 50px rgba(17,19,24,.12);
-      --shadow2:0 10px 30px rgba(17,19,24,.10);
+      --shadow:0 10px 30px rgba(17,19,24,.10);
       --shadow-hover:0 18px 50px rgba(17,19,24,.14);
-      --bezier:cubic-bezier(.22,.61,.36,1);
       --maxw: 1040px;
-      --panel-h: clamp(460px, 64vh, 780px);
     }
     html,body{background:#fafbfc;color:#0f172a}
     .container{width:min(var(--maxw),92vw);margin-inline:auto}
@@ -42,19 +38,7 @@
     @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
     .hero h1{font-size: clamp(28px, 5vw, 44px); line-height:1.1; margin:0 0 10px; font-weight:800}
     .hero p{color:var(--muted);font-size: clamp(15px, 2vw, 18px); line-height:1.6; margin:0}
-    .hero .photo-wrap{perspective:1200px}
-    .hero img{
-      width:100%;border-radius:18px;box-shadow:0 18px 50px rgba(17,19,24,.16);object-fit:cover;
-      transform: rotate(-.6deg) translateY(0);
-      animation: rock 9s ease-in-out infinite alternate;
-      will-change: transform;
-    }
-    .hero img:hover{transform: rotate(.6deg) translateY(-2px)}
-    @keyframes rock{
-      0%{ transform: rotate(-.8deg) translateY(0) }
-      50%{ transform: rotate(.3deg) translateY(-3px) }
-      100%{ transform: rotate(.9deg) translateY(0) }
-    }
+    .hero img{width:100%;border-radius:18px;box-shadow:0 18px 50px rgba(17,19,24,.16);object-fit:cover}
 
     /* ===== Sections ===== */
     .section{padding:18px 0 0}
@@ -76,78 +60,35 @@
     .role{color:#6b7280; font-size:14px}
     .right{font-size:13px; color:#94a3b8; white-space:nowrap}
 
-    /* ===== Projects (case-study panels with viewer) ===== */
-    .wide{width:min(1200px,96vw);margin-inline:auto}
-    .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
-    .panels{display:flex;flex-direction:column;gap:48px;}
-    .panel{
-      position:relative; border-radius:22px; overflow:hidden;
-      background:#fff; border:1px solid var(--bd); box-shadow:var(--shadow);
-      transform:translateY(22px); opacity:0;
-      transition:transform .55s var(--bezier), opacity .55s var(--bezier);
+    /* ===== Projects ===== */
+    .project{
+      background:#fff;border:1px solid var(--bd);border-radius:16px;padding:22px;
+      box-shadow:var(--shadow); transition:box-shadow .25s ease, transform .25s ease;
+      margin:28px 0;
     }
-    .panel.revealed{ transform:none; opacity:1; }
-    .panel-header{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 18px; color:#111; font-weight:800; letter-spacing:.2px;
-      background:linear-gradient(180deg,#ffffff 0%, #f8fafc 100%);
-      border-bottom:1px solid var(--bd);
+    .project:hover{box-shadow:var(--shadow-hover); transform: translateY(-2px)}
+    .project h3{
+      font-size: clamp(20px, 3vw, 26px); font-weight:800; margin:4px 2px 10px;
     }
-    .panel-grid{ display:grid; gap:0; align-items:stretch; grid-template-columns: 1.25fr .95fr; }
-    @media (max-width:1020px){ .panel-grid{grid-template-columns:1fr;} }
+    .project .media{
+      position:relative; margin-top:10px; overflow:hidden; border-radius:12px; border:1px solid #eef2f7;
+    }
+    .project .media img,
+    .project .media video{
+      display:block; width:100%; height:auto; aspect-ratio: 16/9; object-fit:cover;
+      transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .3s ease;
+    }
+    .project .media:hover img,
+    .project .media:hover video{ transform: scale(1.02); }
+    .project p{font-size:16px; line-height:1.75; color:#111827; margin:14px 2px 0;}
+    .btn{
+      display:inline-block; font-weight:700; font-size:14px; text-decoration:none;
+      padding:10px 14px; border-radius:10px; border:1px solid #e5e7eb; color:#0f172a; background:#fff; margin-left:8px;
+    }
+    .btn:hover{background:#f8fafc}
 
-    .media{
-      position:relative; overflow:hidden; background:#fff; min-height:var(--panel-h);
-      border-right:1px solid var(--bd);
-    }
-    .viewport{width:100%;height:100%;display:grid;place-items:center}
-    .gallery-img,.pdf-canvas{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .28s ease, transform .6s var(--bezier)}
-    .media.media-ready .gallery-img,.media.media-ready .pdf-canvas{opacity:1}
-    .viewport>video{width:100%;height:100%;object-fit:cover;display:block}
-
-    .pill{
-      position:absolute; top:12px; right:12px; z-index:3;
-      font-size:12px; color:#1f2937; background:rgba(255,255,255,.96); border:1px solid var(--bd);
-      border-radius:999px; padding:4px 10px; box-shadow:0 6px 16px rgba(17,19,24,.12);
-    }
-    .ctrl{
-      position:absolute; top:50%; transform:translateY(-50%); z-index:3;
-      width:44px; height:44px; border-radius:999px; border:1px solid var(--bd);
-      background:rgba(255,255,255,.96); backdrop-filter:saturate(120%) blur(3px);
-      display:grid; place-items:center; user-select:none; box-shadow:0 10px 22px rgba(17,19,24,.16);
-    }
-    .ctrl.prev{left:14px} .ctrl.next{right:14px}
-    .ctrl svg{width:20px;height:20px}
-
-    .text{ padding:28px; display:flex; flex-direction:column; justify-content:center; min-height:var(--panel-h); }
-    .text h3{display:none;}
-    .text p{ margin:0; color:#111827; font-size:16px; line-height:1.75; }
-
-    /* Lightbox */
-    .lightbox{position:fixed;inset:0;display:none;place-items:center;z-index:100;background:rgba(17,24,39,.35);backdrop-filter:blur(4px) saturate(1.05)}
-    .lightbox.open{display:grid;animation:fadeIn .25s ease forwards}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .lb-card{width:min(1080px,96vw);max-height:90vh;display:grid;grid-template-columns:1.2fr .8fr;gap:14px;
-      background:linear-gradient(180deg,#fff,#fafafa);border:1px solid var(--bd);border-radius:18px;
-      box-shadow:0 30px 80px rgba(17,24,39,.28);overflow:hidden;position:relative;
-      transform:translateY(8px) scale(.98);opacity:0;animation:cardIn .32s var(--bezier) forwards .1s}
-    @keyframes cardIn{to{transform:translateY(0) scale(1);opacity:1}}
-    @media (max-width:920px){.lb-card{grid-template-columns:1fr;max-height:92vh}}
-    .lb-left{padding:14px;display:grid;grid-template-rows:auto auto}
-    .lb-stage{background:#fff;border-radius:12px;border:1px solid var(--bd);display:grid;place-items:center;
-      position:relative;overflow:hidden;height:min(78vh,760px)}
-    .lb-stage canvas,.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;opacity:0;transition:opacity .2s ease}
-    .lb-stage canvas.show,.lb-stage img.show{opacity:1}
-    .navbtn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.75);color:#fff;border:none;border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer}
-    .navbtn.left{left:10px}.navbtn.right{right:10px}
-    .thumbs{display:flex;gap:8px;overflow:auto;margin-top:10px;padding-bottom:6px}
-    .thumbs img{width:62px;height:62px;border-radius:10px;object-fit:cover;border:2px solid transparent;cursor:pointer}
-    .thumbs img.active{border-color:#3b82f6}
-    .lb-right{padding:16px 18px 18px 6px}
-    .lb-title{font-weight:800;font-size:20px;margin:2px 0 2px}
-    .lb-sub{color:var(--muted);font-size:13px;margin-bottom:10px}
-    .lb-notes{line-height:1.6;font-size:15px;overflow:auto;max-height:calc(90vh - 190px)}
-    .lb-close{position:absolute;top:10px;right:10px;border:none;background:#111827;color:#fff;border-radius:999px;width:36px;height:36px;font-size:18px;cursor:pointer;box-shadow:0 8px 18px rgba(17,19,24,.2)}
+    /* ===== Footer ===== */
+    footer{padding:36px 0 60px;color:#94a3b8;font-size:14px}
   </style>
 </head>
 <body>
@@ -177,8 +118,8 @@
         <h1>Hey, what's up!</h1>
         <p>I'm Jan Arroyo — studying CS &amp; Business at USC. I like building products, doing design &amp; research, and creating impact with community partners.</p>
       </div>
-      <div class="photo-wrap">
-        <!-- Headshot with graceful fallbacks (keeps your “rotating” vibe) -->
+      <div>
+        <!-- Tries your headshot first, then graceful fallbacks so it never breaks -->
         <img id="hero-photo"
              src="images/IMG_8427.PNG"
              alt="Jan Arroyo headshot"
@@ -195,14 +136,78 @@
     <div class="container">
       <h2>Work</h2>
       <ul class="list" aria-label="Work experience">
-        <li><a class="row" href="#"><span class="left"><img class="logo" src="images/Marshall.JPG" alt=""><span class="meta"><span class="co">USC Marshall</span> <span class="role">Peer Career Advisor – Tech</span></span></span><span class="right">Aug 2025</span></a></li>
-        <li><a class="row" href="https://www.amazon.jobs/content/en/teams/devices-and-services/lab126" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/Amazon.JPG" alt=""><span class="meta"><span class="co">Amazon</span> <span class="role">Technical Program Manager Intern</span></span></span><span class="right">May–Aug 2025</span></a></li>
-        <li><a class="row" href="https://www.accenture.com/us-en/services/ecosystem-partners/microsoft" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/Accenture.JPG" alt=""><span class="meta"><span class="co">Accenture</span> <span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span></span></span><span class="right">Jun–Aug 2024</span></a></li>
-        <li><a class="row" href="https://www.apple.com/careers/us/work-at-apple/students.html" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/Apple.JPG" alt=""><span class="meta"><span class="co">Apple</span> <span class="role">Product Management Intern</span></span></span><span class="right">Aug 2023–Jan 2024</span></a></li>
-        <li><a class="row" href="https://www.microsoft.com/en-us/modernfinance/digitaltransformation.aspx" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/Microsoft.JPG" alt=""><span class="meta"><span class="co">Microsoft</span> <span class="role">Finance Data Analyst Intern</span></span></span><span class="right">May–Aug 2023</span></a></li>
-        <li><a class="row" href="https://worldfitforkids.org/" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/A-World-Fit-for-Kids.JPG" alt=""><span class="meta"><span class="co">A World Fit For Kids</span> <span class="role">Strategy Consultant</span></span></span><span class="right">2022–2023</span></a></li>
-        <li><a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/LARAMS.JPG" alt=""><span class="meta"><span class="co">Los Angeles Rams</span> <span class="role">Data &amp; Systems Analyst – Intern</span></span></span><span class="right">Jun–Aug 2021</span></a></li>
-        <li><a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/LACC.JPG" alt=""><span class="meta"><span class="co">LA Conservation Corps</span> <span class="role">Project Lead</span></span></span><span class="right">Dec 2019–May 2020</span></a></li>
+        <li>
+          <a class="row" href="#" aria-label="USC Marshall Peer Career Advisor – Tech">
+            <span class="left">
+              <img class="logo" src="images/Marshall.JPG" alt="">
+              <span class="meta"><span class="co">USC Marshall</span> <span class="role">Peer Career Advisor – Tech</span></span>
+            </span>
+            <span class="right">Aug 2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.amazon.jobs/content/en/teams/devices-and-services/lab126" target="_blank" rel="noopener" aria-label="Amazon">
+            <span class="left">
+              <img class="logo" src="images/Amazon.JPG" alt="">
+              <span class="meta"><span class="co">Amazon</span> <span class="role">Technical Program Manager Intern</span></span>
+            </span>
+            <span class="right">May–Aug 2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.accenture.com/us-en/services/ecosystem-partners/microsoft" target="_blank" rel="noopener" aria-label="Accenture">
+            <span class="left">
+              <img class="logo" src="images/Accenture.JPG" alt="">
+              <span class="meta"><span class="co">Accenture</span> <span class="role">Strategy Tech Apps &amp; Dev Analyst Intern</span></span>
+            </span>
+            <span class="right">Jun–Aug 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.apple.com/careers/us/work-at-apple/students.html" target="_blank" rel="noopener" aria-label="Apple">
+            <span class="left">
+              <img class="logo" src="images/Apple.JPG" alt="">
+              <span class="meta"><span class="co">Apple</span> <span class="role">Product Management Intern</span></span>
+            </span>
+            <span class="right">Aug 2023–Jan 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.microsoft.com/en-us/modernfinance/digitaltransformation.aspx" target="_blank" rel="noopener" aria-label="Microsoft">
+            <span class="left">
+              <img class="logo" src="images/Microsoft.JPG" alt="">
+              <span class="meta"><span class="co">Microsoft</span> <span class="role">Finance Data Analyst Intern</span></span>
+            </span>
+            <span class="right">May–Aug 2023</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://worldfitforkids.org/" target="_blank" rel="noopener" aria-label="A World Fit For Kids">
+            <span class="left">
+              <img class="logo" src="images/A-World-Fit-for-Kids.JPG" alt="">
+              <span class="meta"><span class="co">A World Fit For Kids</span> <span class="role">Strategy Consultant</span></span>
+            </span>
+            <span class="right">2022–2023</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="Los Angeles Rams">
+            <span class="left">
+              <img class="logo" src="images/LARAMS.JPG" alt="">
+              <span class="meta"><span class="co">Los Angeles Rams</span> <span class="role">Data &amp; Systems Analyst – Intern</span></span>
+            </span>
+            <span class="right">Jun–Aug 2021</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.therams.com/news/rams-la-promise-fund-create-summer-internship-program-for-inglewood-unified-stud" target="_blank" rel="noopener" aria-label="LA Conservation Corps">
+            <span class="left">
+              <img class="logo" src="images/LACC.JPG" alt="">
+              <span class="meta"><span class="co">LA Conservation Corps</span> <span class="role">Project Lead</span></span>
+            </span>
+            <span class="right">Dec 2019–May 2020</span>
+          </a>
+        </li>
       </ul>
     </div>
   </section>
@@ -212,466 +217,150 @@
     <div class="container">
       <h2>Involvements</h2>
       <ul class="list" aria-label="Student & community involvement">
-        <li><a class="row" href="https://www.uscbtg.org/" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/BTG.JPG" alt=""><span class="meta"><span class="co">Business Technology Group (USC)</span> <span class="role">VP of Projects</span></span></span><span class="right">2024–Present</span></a></li>
-        <li><a class="row" href="https://www.ey.com/en_us/about-us/corporate-responsibility/mentoring-of-the-future-workforce-strengthens-communities-and-careers" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/EY.JPG" alt=""><span class="meta"><span class="co">EY CMAP</span> <span class="role">Education Strategy Consultant</span></span></span><span class="right">2023–Present</span></a></li>
-        <li><a class="row" href="https://uscfgsa.carrd.co/" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/FGSA.JPG" alt=""><span class="meta"><span class="co">USC First-Generation Student Center</span> <span class="role">Program Manager</span></span></span><span class="right">2023–2025</span></a></li>
-        <li><a class="row" href="https://www.usclbsa.com/" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/LBSA.JPG" alt=""><span class="meta"><span class="co">Latino Business Student Association</span> <span class="role">Member</span></span></span><span class="right">2023–2025</span></a></li>
-        <li><a class="row" href="https://www.uscisa.org/" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/ISA.JPG" alt=""><span class="meta"><span class="co">International Student Assembly</span> <span class="role">Advocacy &amp; Program Manager Intern</span></span></span><span class="right">2023–2024</span></a></li>
-        <li><a class="row" href="https://partnershipla.org/who-we-are/" target="_blank" rel="noopener"><span class="left"><img class="logo" src="images/Partnership.JPG" alt=""><span class="meta"><span class="co">The LA Partnership</span> <span class="role">Policy Advisory Board Member</span></span></span><span class="right">2021–2022</span></a></li>
+        <li>
+          <a class="row" href="https://www.uscbtg.org/" target="_blank" rel="noopener" aria-label="Business Technology Group (USC)">
+            <span class="left">
+              <img class="logo" src="images/BTG.JPG" alt="">
+              <span class="meta"><span class="co">Business Technology Group (USC)</span> <span class="role">VP of Projects</span></span>
+            </span>
+            <span class="right">2024–Present</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.ey.com/en_us/about-us/corporate-responsibility/mentoring-of-the-future-workforce-strengthens-communities-and-careers" target="_blank" rel="noopener" aria-label="EY CMAP">
+            <span class="left">
+              <img class="logo" src="images/EY.JPG" alt="">
+              <span class="meta"><span class="co">EY CMAP</span> <span class="role">Education Strategy Consultant</span></span>
+            </span>
+            <span class="right">2023–Present</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://uscfgsa.carrd.co/" target="_blank" rel="noopener" aria-label="USC First-Generation Student Center">
+            <span class="left">
+              <img class="logo" src="images/FGSA.JPG" alt="">
+              <span class="meta"><span class="co">USC First-Generation Student Center</span> <span class="role">Program Manager</span></span>
+            </span>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.usclbsa.com/" target="_blank" rel="noopener" aria-label="Latino Business Student Association">
+            <span class="left">
+              <img class="logo" src="images/LBSA.JPG" alt="">
+              <span class="meta"><span class="co">Latino Business Student Association</span> <span class="role">Member</span></span>
+            </span>
+            <span class="right">2023–2025</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://www.uscisa.org/" target="_blank" rel="noopener" aria-label="International Student Assembly">
+            <span class="left">
+              <img class="logo" src="images/ISA.JPG" alt="">
+              <span class="meta"><span class="co">International Student Assembly</span> <span class="role">Advocacy &amp; Program Manager Intern</span></span>
+            </span>
+            <span class="right">2023–2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="https://partnershipla.org/who-we-are/" target="_blank" rel="noopener" aria-label="The LA Partnership">
+            <span class="left">
+              <img class="logo" src="images/Partnership.JPG" alt="">
+              <span class="meta"><span class="co">The LA Partnership</span> <span class="role">Policy Advisory Board Member</span></span>
+            </span>
+            <span class="right">2021–2022</span>
+          </a>
+        </li>
       </ul>
     </div>
   </section>
 
-  <!-- ===== Projects & Artifacts (with interactive decks/galleries) ===== -->
+  <!-- ===== Projects & Artifacts ===== -->
   <section id="projects" class="section">
-    <div class="wide">
+    <div class="container">
       <h2>Projects &amp; Artifacts</h2>
-      <div class="kicker">Keyboard friendly: use ← → to flip slides or photos. Click to open a lightbox.</div>
-      <div class="panels">
 
-        <!-- CRM video -->
-        <article class="panel" id="crm-automation">
-          <div class="panel-header"><div>CRM Automation — Email Outreach Platform</div></div>
-          <div class="panel-grid">
-            <div class="media" data-title="CRM demo" tabindex="0" aria-label="CRM demo">
-              <div class="pill" data-role="indicator">Demo</div>
-              <div class="viewport">
-                <video controls playsinline>
-                  <source src="Projects/CRM_DEMO_small.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-            <div class="text">
-              <h3>CRM Automation — Email Outreach Platform</h3>
-              <p>
-                I built a CRM that connects Google Sheets and Gmail with Python so outreach runs on its own. The flow pulls fresh rows from Sheets, fills a template with merge fields, queues sends to stay under Gmail limits, retries failures, and logs everything back to the sheet. With this live we hit <b>15,000+ contacts</b>, response rate lifted about <b>15%</b>, and send time dropped to roughly <b>one-third</b> across three committees. The nice part is the setup is reusable — new campaign = new sheet + a template — no re-coding.
-              </p>
-            </div>
-          </div>
-        </article>
+      <!-- CRM -->
+      <article class="project" id="crm-automation">
+        <h3>CRM Automation — Email Outreach Platform</h3>
+        <div class="media">
+          <video controls playsinline>
+            <source src="Projects/CRM_DEMO_small.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p>
+          I built a CRM that connects Google Sheets and Gmail so outreach basically runs itself. It pulls fresh rows from Sheets, fills a template with merge fields, batches sends to stay under Gmail limits, retries failures, and logs results back to the sheet. With it we hit <b>15,000+ contacts</b>, response rate lifted about <b>15%</b>, and total send time dropped to roughly <b>one-third</b> across three committees. New campaign = new sheet + a template. Simple, fast, and the team kept using it after I handed it off.
+        </p>
+      </article>
 
-        <!-- Quokka PDF (single deck) -->
-        <article class="panel" id="quokka">
-          <div class="panel-header"><div>Quokka Brew — Can Design Research &amp; Iterations</div></div>
-          <div class="panel-grid">
-            <div class="media deck"
-                 data-type="pdf-single"
-                 data-title="Quokka Brew — Design Research Deck"
-                 data-src="Projects/Quokka%20Brew.pdf"
-                 tabindex="0" aria-label="Open Quokka deck">
-              <div class="pill" data-role="indicator">Loading…</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
-            </div>
-            <div class="text">
-              <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-              <p>
-                We ran <b>60+ interviews</b> and then tested concepts with the <b>10-ft / 5-ft / 1-ft</b> rule. Clear takeaways: calmer neutrals feel more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against three majors and turned the insights into <b>3 MVP layouts</b> plus variants the team can keep testing. My part was pulling the signal out of the noise and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can spot fast.
-              </p>
-            </div>
-          </div>
-        </article>
+      <!-- Quokka -->
+      <article class="project" id="quokka">
+        <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
+        <div class="media">
+          <!-- Swap this to your actual Quokka hero image if you have one -->
+          <img src="Projects/EY1.JPG" alt="Quokka Brew research hero" />
+        </div>
+        <p>
+          We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast. <a class="btn" href="Projects/Quokka%20Brew.pdf" target="_blank" rel="noopener">Open deck</a>
+        </p>
+      </article>
 
-        <!-- Clear Clinical (merged 2 decks) -->
-        <article class="panel" id="clear-clinical">
-          <div class="panel-header"><div>Clear Clinical — Product Strategy &amp; UX</div></div>
-          <div class="panel-grid">
-            <div class="media deck"
-                 data-type="pdf-merged"
-                 data-title="Clear Clinical — Mid + Final Presentations"
-                 data-srcs="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf|Projects/FINAL%20PRESENTATION%20CLEAR%20CLINICAL%20.pdf"
-                 tabindex="0" aria-label="Open Clear Clinical merged deck">
-              <div class="pill" data-role="indicator">Loading…</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
-            </div>
-            <div class="text">
-              <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-              <p>
-                Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. My role was framing trade-offs and laying out the first shippable version so a small team could move.
-              </p>
-            </div>
-          </div>
-        </article>
+      <!-- Clear Clinical -->
+      <article class="project" id="clear-clinical">
+        <h3>Clear Clinical — Product Strategy &amp; UX</h3>
+        <div class="media">
+          <img src="Projects/Magazine1.JPG" alt="Clear Clinical deck preview" />
+        </div>
+        <p>
+          Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and laid out the first shippable version so a small team could move.
+          <a class="btn" href="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf" target="_blank" rel="noopener">Mid deck</a>
+          <a class="btn" href="Projects/FINAL%20PRESE...CLINICAL%20.pdf" target="_blank" rel="noopener">Final deck</a>
+        </p>
+      </article>
 
-        <!-- EY Workshop (image gallery with arrows + lightbox) -->
-        <article class="panel" id="ey-workshop">
-          <div class="panel-header"><div>EY Workshop — Design Thinking</div></div>
-          <div class="panel-grid">
-            <div class="media gallery"
-                 data-title="EY Workshop — Design Thinking for Low-Income Students"
-                 data-images="Projects/EY1.JPG|Projects/EY1.jpg,Projects/EY2.JPG|Projects/EY2.jpg,Projects/EY3.JPG|Projects/EY3.jpg,Projects/EY4.JPG|Projects/EY4.jpg"
-                 tabindex="0" aria-label="Open EY workshop gallery">
-              <div class="pill" data-role="indicator">1 / 4</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><img class="gallery-img" alt="EY workshop"></div>
-            </div>
-            <div class="text">
-              <h3>EY Workshop — Design Thinking</h3>
-              <p>
-                A quick, hands-on session for high school students. We kept it simple — frame the problem, sketch, test — and made it feel doable so they could run it on their own ideas after.
-              </p>
-            </div>
-          </div>
-        </article>
+      <!-- EY Workshop -->
+      <article class="project" id="ey-workshop">
+        <h3>EY Workshop — Design Thinking</h3>
+        <div class="media">
+          <img src="Projects/EY2.JPG" alt="EY workshop — design thinking session" />
+        </div>
+        <p>
+          I put together a quick, hands-on workshop for high school students — frame the problem, sketch, test. Kept it practical so they could run it on their own ideas after.
+        </p>
+      </article>
 
-        <!-- Advocacy Day (gallery) -->
-        <article class="panel" id="advocacy-day">
-          <div class="panel-header"><div>Policy Advocacy Day — Sacramento</div></div>
-          <div class="panel-grid">
-            <div class="media gallery"
-                 data-title="Policy Advocacy Day — Sacramento"
-                 data-images="Projects/Partnership_Advocacy_Day1.JPG|Projects/Partnership_Advocacy_Day1.jpg,Projects/Partnership_Advocacy_Day2.JPG|Projects/Partnership_Advocacy_Day2.jpg"
-                 tabindex="0" aria-label="Open Advocacy Day gallery">
-              <div class="pill" data-role="indicator">1 / 2</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><img class="gallery-img" alt="Policy advocacy"></div>
-            </div>
-            <div class="text">
-              <h3>Policy Advocacy Day — Sacramento</h3>
-              <p>
-                Met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices in our community got in the room.
-              </p>
-            </div>
-          </div>
-        </article>
+      <!-- Advocacy Day -->
+      <article class="project" id="advocacy-day">
+        <h3>Policy Advocacy Day — Sacramento</h3>
+        <div class="media">
+          <img src="Projects/Partnership_Advocacy_Day1.JPG" alt="Policy Advocacy Day — Sacramento" />
+        </div>
+        <p>
+          Met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices in our community got in the room.
+        </p>
+      </article>
 
-        <!-- Magazine (gallery) -->
-        <article class="panel" id="magazine">
-          <div class="panel-header"><div>Magazine Feature</div></div>
-          <div class="panel-grid">
-            <div class="media gallery"
-                 data-title="Magazine Feature"
-                 data-images="Projects/Magazine1.JPG|Projects/Magazine1.jpg,Projects/Magazine2.JPG|Projects/Magazine2.jpg,Projects/Magazine3.JPG|Projects/Magazine3.jpg"
-                 tabindex="0" aria-label="Open magazine gallery">
-              <div class="pill" data-role="indicator">1 / 3</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><img class="gallery-img" alt="Magazine page"></div>
-            </div>
-            <div class="text">
-              <h3>Magazine Feature</h3>
-              <p>
-                A campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.
-              </p>
-            </div>
-          </div>
-        </article>
+      <!-- Magazine -->
+      <article class="project" id="magazine">
+        <h3>Magazine Feature</h3>
+        <div class="media">
+          <img src="Projects/Magazine2.JPG" alt="Magazine feature" />
+        </div>
+        <p>
+          A campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.
+        </p>
+      </article>
 
-      </div>
     </div>
   </section>
-
-  <!-- Lightbox for decks & galleries -->
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <div class="lb-card" role="dialog" aria-modal="true">
-      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
-      <div class="lb-left">
-        <div class="lb-stage" id="stage">
-          <button class="navbtn left" id="lbPrev" aria-label="Previous">‹</button>
-          <canvas id="lbCanvas"></canvas>
-          <img id="lbImg" alt="">
-          <button class="navbtn right" id="lbNext" aria-label="Next">›</button>
-        </div>
-        <div class="thumbs" id="thumbs"></div>
-      </div>
-      <div class="lb-right">
-        <div class="lb-title" id="lbTitle">Viewer</div>
-        <div class="lb-sub" id="lbSub">—</div>
-        <div class="lb-notes" id="lbNotes">Use ← → to navigate. Esc to close.</div>
-      </div>
-    </div>
-  </div>
 
   <footer>
     <div class="container">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
-  <!-- pdf.js + viewer wiring copied/adapted from your previous Work page -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-    function viewportBounds(el){ const vp = el.querySelector('.viewport') || el; return { w: vp.clientWidth, h: vp.clientHeight }; }
-    function setIndicator(el, txt){ el.textContent = txt; }
-
-    function fitPdfToCanvas(pdf, pageNum, canvas, maxW, maxH){
-      return pdf.getPage(pageNum).then(page=>{
-        const v1 = page.getViewport({scale:1});
-        let scale = Math.min(maxW/v1.width, maxH/v1.height);
-        const vp = page.getViewport({scale});
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = Math.floor(vp.width * dpr);
-        canvas.height = Math.floor(vp.height * dpr);
-        canvas.style.width = Math.floor(vp.width) + 'px';
-        canvas.style.height = Math.floor(vp.height) + 'px';
-        const ctx = canvas.getContext('2d', {alpha:false});
-        const transform = dpr !== 1 ? [dpr,0,0,dpr,0,0] : null;
-        return page.render({canvasContext:ctx, viewport:vp, transform}).promise;
-      });
-    }
-
-    function pick(paths, cb){
-      const list=(paths||"").split('|').map(s=>s.trim()).filter(Boolean);
-      if(!list.length){ cb(""); return; }
-      let i=0, img=new Image();
-      (function tryNext(){
-        if(i>=list.length){ cb(list[0]); return; }
-        img=new Image();
-        img.onload=()=>cb(list[i]);
-        img.onerror=()=>{ i++; tryNext(); };
-        img.src=list[i];
-      })();
-    }
-    function preloadImages(paths){
-      return new Promise(resolve=>{
-        const good = []; let left = paths.length;
-        if(!left) return resolve(good);
-        paths.forEach(p=>{
-          pick(p, ok=>{
-            if(ok) good.push(ok);
-            if(--left===0) resolve(good);
-          });
-        });
-      });
-    }
-
-    /* ---------- Single PDF deck ---------- */
-    function wirePdfSingle(deck){
-      const file = deck.dataset.src;
-      const canvas = deck.querySelector('.pdf-canvas');
-      const ind = deck.querySelector('[data-role="indicator"]');
-      const prev = deck.querySelector('[data-act="prev"]');
-      const next = deck.querySelector('[data-act="next"]');
-      let pdf=null, page=1, total=1, rendering=false, hover=false;
-
-      function update(){ setIndicator(ind, 'Page '+page+' / '+total); }
-      function render(){
-        if(!pdf || rendering) return; rendering=true;
-        deck.classList.remove('media-ready');
-        const {w,h} = viewportBounds(deck);
-        fitPdfToCanvas(pdf,page,canvas,w,h).finally(()=>{
-          rendering=false; update();
-          requestAnimationFrame(()=>deck.classList.add('media-ready'));
-        });
-      }
-      function go(d){ page=Math.min(total,Math.max(1,page+d)); render(); }
-
-      deck.addEventListener('mouseenter',()=>hover=true);
-      deck.addEventListener('mouseleave',()=>hover=false);
-      deck.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
-      document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
-      prev.addEventListener('click',e=>{ e.stopPropagation(); go(-1); });
-      next.addEventListener('click',e=>{ e.stopPropagation(); go(1); });
-      deck.addEventListener('click',()=> openLBPdf(deck.dataset.title,file,page,total));
-
-      window.addEventListener('resize',render);
-      pdfjsLib.getDocument(file).promise.then(p=>{ pdf=p; total=p.numPages; render(); });
-    }
-
-    /* ---------- Merged PDFs (two decks navigated as one) ---------- */
-    function wirePdfMerged(deck){
-      const files = deck.dataset.srcs.split('|').map(s=>s.trim());
-      const canvas = deck.querySelector('.pdf-canvas');
-      const ind = deck.querySelector('[data-role="indicator"]');
-      const prev = deck.querySelector('[data-act="prev"]');
-      const next = deck.querySelector('[data-act="next"]');
-      let pdfs=[], pagesPer=[], total=0, curDoc=0, curPage=1, hover=false, rendering=false;
-
-      function absIndex(){ let idx=0; for(let i=0;i<curDoc;i++) idx+=pagesPer[i]; return idx+curPage; }
-      function update(){ setIndicator(ind, 'Page '+absIndex()+' / '+total); }
-      function render(){
-        if(!pdfs.length || rendering) return; rendering=true;
-        deck.classList.remove('media-ready');
-        const {w,h} = viewportBounds(deck);
-        const pdf = pdfs[curDoc];
-        fitPdfToCanvas(pdf,curPage,canvas,w,h).finally(()=>{
-          rendering=false; update();
-          requestAnimationFrame(()=>deck.classList.add('media-ready'));
-        });
-      }
-      function step(d){
-        let a = Math.min(total, Math.max(1, absIndex()+d));
-        let left=a, doc=0; while(left>pagesPer[doc]){ left-=pagesPer[doc]; doc++; }
-        curDoc=doc; curPage=left; render();
-      }
-
-      deck.addEventListener('mouseenter',()=>hover=true);
-      deck.addEventListener('mouseleave',()=>hover=false);
-      deck.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();step(1)} if(e.key==='ArrowLeft'){e.preventDefault();step(-1)} });
-      document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();step(1)} if(e.key==='ArrowLeft'){e.preventDefault();step(-1)} });
-      prev.addEventListener('click',e=>{ e.stopPropagation(); step(-1); });
-      next.addEventListener('click',e=>{ e.stopPropagation(); step(1); });
-      deck.addEventListener('click',()=> openLBPdfMerged(deck.dataset.title, files, absIndex(), total, pagesPer));
-
-      window.addEventListener('resize',render);
-      Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(arr=>{
-        pdfs = arr; pagesPer = arr.map(p=>p.numPages); total = pagesPer.reduce((a,b)=>a+b,0);
-        render();
-      });
-    }
-
-    /* ---------- Image gallery ---------- */
-    function wireGallery(gal){
-      const raw = gal.dataset.images.split(',').map(s=>s.trim());
-      const imgEl = gal.querySelector('.gallery-img');
-      const ind = gal.querySelector('[data-role="indicator"]');
-      const prev = gal.querySelector('[data-act="prev"]');
-      const next = gal.querySelector('[data-act="next"]');
-      let imgs = [], i=0, hover=false;
-
-      preloadImages(raw).then(valid=>{
-        imgs = valid;
-        if(!imgs.length){ ind.textContent = 'No images'; prev.disabled = next.disabled = true; return; }
-        set(true);
-      });
-
-      function set(initial=false){
-        gal.classList.remove('media-ready');
-        imgEl.onload = ()=>{ requestAnimationFrame(()=>gal.classList.add('media-ready')); };
-        imgEl.src = imgs[i];
-        ind.textContent = (i+1)+' / '+imgs.length;
-        prev.disabled=(i===0); next.disabled=(i===imgs.length-1);
-        if(initial) requestAnimationFrame(()=>gal.classList.add('media-ready'));
-      }
-      function go(d){ i=Math.min(imgs.length-1, Math.max(0, i+d)); set(); }
-
-      gal.addEventListener('mouseenter',()=>hover=true);
-      gal.addEventListener('mouseleave',()=>hover=false);
-      gal.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
-      document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
-
-      prev.addEventListener('click',e=>{ e.stopPropagation(); go(-1); });
-      next.addEventListener('click',e=>{ e.stopPropagation(); go(1); });
-
-      gal.addEventListener('click',()=> openLBImages(gal.dataset.title, imgs, i));
-    }
-
-    /* ---------- Lightbox ---------- */
-    const LB = document.getElementById('lightbox');
-    const LB_CLOSE = document.getElementById('lbClose');
-    const LB_TITLE = document.getElementById('lbTitle');
-    const LB_SUB = document.getElementById('lbSub');
-    const LB_NOTES = document.getElementById('lbNotes');
-    const LB_PREV = document.getElementById('lbPrev');
-    const LB_NEXT = document.getElementById('lbNext');
-    const LB_CANVAS = document.getElementById('lbCanvas');
-    const LB_IMG = document.getElementById('lbImg');
-    const LB_THUMBS = document.getElementById('thumbs');
-    const LB_STAGE = document.getElementById('stage');
-
-    function lbOpen(){ LB.classList.add('open'); LB.setAttribute('aria-hidden','false'); }
-    function lbClose(){ LB.classList.remove('open'); LB.setAttribute('aria-hidden','true'); LB_IMG.src=''; LB_IMG.classList.remove('show'); LB_CANVAS.classList.remove('show'); LB_THUMBS.innerHTML=''; }
-    LB_CLOSE.addEventListener('click',lbClose);
-    LB.addEventListener('click',e=>{ if(e.target===LB) lbClose(); });
-    document.addEventListener('keydown',e=>{
-      if(!LB.classList.contains('open')) return;
-      if(e.key==='Escape') lbClose();
-      if(e.key==='ArrowLeft') lbGo(-1);
-      if(e.key==='ArrowRight') lbGo(1);
-    });
-
-    function openLBPdf(title, file, page, total){
-      LB_MODE='pdf-single'; LB_STATE={file,page,total,pdf:null};
-      LB_TITLE.textContent = title || 'Deck';
-      LB_SUB.textContent = 'PDF deck';
-      LB_NOTES.textContent = 'Use ← → to navigate. Esc to close.';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block';
-      lbOpen();
-      pdfjsLib.getDocument(file).promise.then(p=>{LB_STATE.pdf=p; lbRenderPdf();});
-    }
-    function openLBPdfMerged(title, files, absIndex, total, pagesPer){
-      LB_MODE='pdf-merged'; LB_STATE={files,absIndex,total,pdfs:null,pagesPer};
-      LB_TITLE.textContent = title || 'Deck';
-      LB_SUB.textContent = 'Merged PDF';
-      LB_NOTES.textContent = 'Use ← → to navigate. Esc to close.';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block';
-      lbOpen();
-      Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(ps=>{LB_STATE.pdfs=ps; lbRenderPdfMerged();});
-    }
-    function openLBImages(title, imgs, idx){
-      LB_MODE='images'; LB_STATE={imgs,idx};
-      LB_TITLE.textContent = title || 'Gallery';
-      LB_SUB.textContent = 'Images';
-      LB_IMG.style.display='block'; LB_CANVAS.style.display='none';
-      lbOpen(); lbRenderImages(); renderThumbs();
-    }
-
-    function lbBounds(){ return { w: LB_STAGE.clientWidth-20, h: LB_STAGE.clientHeight-20 }; }
-    let LB_MODE=null; let LB_STATE=null;
-
-    function lbRenderPdf(){
-      const {w,h} = lbBounds();
-      fitPdfToCanvas(LB_STATE.pdf, LB_STATE.page, LB_CANVAS, w, h).then(()=>{
-        LB_CANVAS.classList.add('show'); LB_IMG.classList.remove('show');
-        LB_PREV.disabled=(LB_STATE.page<=1); LB_NEXT.disabled=(LB_STATE.page>=LB_STATE.total);
-      });
-    }
-    function lbRenderPdfMerged(){
-      function convert(abs){ let left=abs, d=0; while(left>LB_STATE.pagesPer[d]){ left-=LB_STATE.pagesPer[d]; d++; } return {doc:d, page:left}; }
-      const {w,h} = lbBounds(); const pos=convert(LB_STATE.absIndex);
-      fitPdfToCanvas(LB_STATE.pdfs[pos.doc], pos.page, LB_CANVAS, w, h).then(()=>{
-        LB_CANVAS.classList.add('show'); LB_IMG.classList.remove('show');
-        LB_PREV.disabled=(LB_STATE.absIndex<=1); LB_NEXT.disabled=(LB_STATE.absIndex>=LB_STATE.total);
-      });
-    }
-    function lbRenderImages(){
-      LB_IMG.classList.remove('show');
-      LB_IMG.onload=()=>LB_IMG.classList.add('show');
-      LB_IMG.src = LB_STATE.imgs[LB_STATE.idx];
-      LB_PREV.disabled=(LB_STATE.idx===0); LB_NEXT.disabled=(LB_STATE.idx===LB_STATE.imgs.length-1);
-    }
-    function renderThumbs(){
-      LB_THUMBS.innerHTML='';
-      LB_STATE.imgs.forEach((src,i)=>{
-        const im=new Image(); im.src=src; if(i===LB_STATE.idx) im.classList.add('active');
-        im.addEventListener('click',()=>{ LB_STATE.idx=i; lbRenderImages(); renderThumbs(); });
-        LB_THUMBS.appendChild(im);
-      });
-      LB_THUMBS.style.display = (LB_MODE==='images') ? 'flex' : 'none';
-    }
-    function lbGo(d){
-      if(LB_MODE==='pdf-single'){ LB_STATE.page=Math.min(LB_STATE.total,Math.max(1,LB_STATE.page+d)); lbRenderPdf(); }
-      else if(LB_MODE==='pdf-merged'){ LB_STATE.absIndex=Math.min(LB_STATE.total,Math.max(1,LB_STATE.absIndex+d)); lbRenderPdfMerged(); }
-      else if(LB_MODE==='images'){ LB_STATE.idx=Math.min(LB_STATE.imgs.length-1,Math.max(0,LB_STATE.idx+d)); lbRenderImages(); renderThumbs(); }
-    }
-    document.getElementById('lbPrev').addEventListener('click',()=>lbGo(-1));
-    document.getElementById('lbNext').addEventListener('click',()=>lbGo(1));
-
-    /* Wire viewers + reveal on scroll */
-    document.querySelectorAll('.media.deck[data-type="pdf-single"]').forEach(wirePdfSingle);
-    document.querySelectorAll('.media.deck[data-type="pdf-merged"]').forEach(wirePdfMerged);
-    document.querySelectorAll('.media.gallery').forEach(wireGallery);
-
-    const io = new IntersectionObserver((ents)=>{
-      ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); } });
-    }, {threshold:.22, rootMargin:"0px 0px -10%"});
-    document.querySelectorAll('.panel').forEach(p=>io.observe(p));
   </script>
 </body>
 </html>
+
