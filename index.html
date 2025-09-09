@@ -89,6 +89,8 @@
       display:flex; align-items:center; justify-content:center;
       background:#fff; border:1px solid #e5e7eb; box-shadow:var(--shadow); cursor:pointer;
       user-select:none;
+      /* >>> FIX: keep arrows above the image for clickable hits <<< */
+      z-index:3;
     }
     .nav-arrow:hover{background:#f8fafc}
     .nav-arrow.left{left:12px}
@@ -417,21 +419,23 @@
     // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ---------- Image sliders ----------
+    // ---------- Image sliders (only change: make arrows always click) ----------
     document.querySelectorAll('.media[data-gallery]').forEach(media=>{
       const imgs = JSON.parse(media.getAttribute('data-gallery'));
       const imgEl = media.querySelector('img');
       const counter = media.querySelector('[data-counter]');
+      const leftBtn = media.querySelector('.nav-arrow.left');
+      const rightBtn = media.querySelector('.nav-arrow.right');
       let idx = 0;
 
       function show(i){
         idx = (i + imgs.length) % imgs.length;
         imgEl.src = imgs[idx];
         imgEl.style.objectFit = 'contain';
-        counter.textContent = (idx+1) + '/' + imgs.length;
+        if (counter) counter.textContent = (idx+1) + '/' + imgs.length;
       }
-      media.querySelector('.nav-arrow.left').addEventListener('click', ()=>show(idx-1));
-      media.querySelector('.nav-arrow.right').addEventListener('click', ()=>show(idx+1));
+      leftBtn.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); show(idx-1); });
+      rightBtn.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); show(idx+1); });
 
       // swipe
       let sx=null, sy=null;
@@ -447,7 +451,7 @@
       show(0);
     });
 
-    // ---------- PDF sliders (sequence across multiple PDFs) ----------
+    // ---------- PDF sliders (leave as-is; they already work) ----------
     async function initPdfSlider(media){
       if(!window['pdfjsLib']) return;
       const files = JSON.parse(media.getAttribute('data-pdf-files')); // array of URLs
@@ -464,9 +468,8 @@
       let fileIdx = 0;
       let page = 1;
       let totalAcross = 0;
-      let cumulativePages = []; // prefix sums to compute global page #
+      let cumulativePages = [];
 
-      // load docs
       for (let f of files){
         const doc = await pdfjsLib.getDocument(encodeURI(f)).promise;
         docs.push(doc);
@@ -474,7 +477,7 @@
         cumulativePages.push(totalAcross);
       }
 
-      function globalPageNumber(){ // 1-based across all docs
+      function globalPageNumber(){
         const prevTotal = fileIdx===0 ? 0 : cumulativePages[fileIdx-1];
         return prevTotal + page;
       }
@@ -483,7 +486,6 @@
         const doc = docs[fileIdx];
         const pdfPage = await doc.getPage(page);
 
-        // scale to container width
         const viewport = pdfPage.getViewport({ scale: 1 });
         const targetWidth = media.clientWidth || 900;
         const scale = targetWidth / viewport.width;
@@ -527,7 +529,6 @@
       }, {passive:true});
 
       await render();
-      // Re-render on resize for crisp fit
       window.addEventListener('resize', ()=>render());
     }
 
