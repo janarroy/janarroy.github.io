@@ -72,15 +72,24 @@
     }
     .project .media{
       position:relative; margin-top:10px; overflow:hidden; border-radius:12px; border:1px solid #eef2f7;
+      background:#fff;
     }
+    /* Fit all assets without cropping */
     .project .media img,
     .project .media video{
-      display:block; width:100%; height:auto; aspect-ratio: 16/9; object-fit:cover;
+      display:block; width:100%; height:auto; object-fit:contain; max-height:520px;
       transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .3s ease;
     }
     .project .media:hover img,
-    .project .media:hover video{ transform: scale(1.02); }
-    .project p{font-size:16px; line-height:1.75; color:#111827; margin:14px 2px 0;}
+    .project .media:hover video{ transform: scale(1.01); }
+
+    /* PDF viewer iframe */
+    .pdf-frame{
+      width:100%; height:520px; border:0; display:block; background:#fff;
+    }
+    .pdf-controls{
+      display:flex; align-items:center; gap:8px; margin-top:10px; flex-wrap:wrap;
+    }
     .btn{
       display:inline-block; font-weight:700; font-size:14px; text-decoration:none;
       padding:10px 14px; border-radius:10px; border:1px solid #e5e7eb; color:#0f172a; background:#fff; margin-left:8px;
@@ -119,13 +128,25 @@
         <p>I'm Jan Arroyo — studying CS &amp; Business at USC. I like building products, doing design &amp; research, and creating impact with community partners.</p>
       </div>
       <div>
-        <!-- Tries your headshot first, then graceful fallbacks so it never breaks -->
+        <!-- Fallback that only swaps once -->
         <img id="hero-photo"
              src="images/IMG_8427.PNG"
              alt="Jan Arroyo headshot"
              onerror="(function(img){
-               const c=['images/Jan.JPG','images/Jan.jpg','images/headshot.jpg','Snoopy_Welcome.png'];
-               for(let i=0;i<c.length;i++){const t=new Image();t.onload=()=>{img.src=c[i]};t.src=c[i]}
+               if(img.dataset.swapDone) return;
+               const candidates=['images/Jan.JPG','images/Jan.jpg','images/headshot.jpg','Snoopy_Welcome.png'];
+               let swapped=false;
+               candidates.forEach(function(path){
+                 const t=new Image();
+                 t.onload=function(){
+                   if(!swapped){
+                     swapped=true;
+                     img.src=path;
+                     img.dataset.swapDone='1';
+                   }
+                 };
+                 t.src=path;
+               });
              })(this)" />
       </div>
     </div>
@@ -297,11 +318,14 @@
       <article class="project" id="quokka">
         <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
         <div class="media">
-          <!-- Swap this to your actual Quokka hero image if you have one -->
-          <img src="Projects/EY1.JPG" alt="Quokka Brew research hero" />
+          <div class="pdf-controls" data-viewer="quokka-viewer">
+            <button class="btn" data-action="prev">Prev</button>
+            <button class="btn" data-action="next">Next</button>
+          </div>
+          <iframe id="quokka-viewer" class="pdf-frame" src="Projects/Quokka Brew.pdf#view=FitH&toolbar=0&page=1"></iframe>
         </div>
         <p>
-          We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast. <a class="btn" href="Projects/Quokka%20Brew.pdf" target="_blank" rel="noopener">Open deck</a>
+          We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast.
         </p>
       </article>
 
@@ -309,12 +333,21 @@
       <article class="project" id="clear-clinical">
         <h3>Clear Clinical — Product Strategy &amp; UX</h3>
         <div class="media">
-          <img src="Projects/Magazine1.JPG" alt="Clear Clinical deck preview" />
+          <div class="pdf-controls" data-viewer="cc-viewer" data-multi="1">
+            <button class="btn" data-action="prev">Prev</button>
+            <button class="btn" data-action="next">Next</button>
+            <button class="btn" data-action="switch">Switch Deck</button>
+          </div>
+          <!-- Combined viewer: Mid + Final -->
+          <iframe
+            id="cc-viewer"
+            class="pdf-frame"
+            src="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf#view=FitH&toolbar=0&page=1"
+            data-files='["Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf","Projects/FINAL%20PRESE...CLINICAL%20.pdf"]'
+            data-file-index="0"></iframe>
         </div>
         <p>
           Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and laid out the first shippable version so a small team could move.
-          <a class="btn" href="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf" target="_blank" rel="noopener">Mid deck</a>
-          <a class="btn" href="Projects/FINAL%20PRESE...CLINICAL%20.pdf" target="_blank" rel="noopener">Final deck</a>
         </p>
       </article>
 
@@ -359,8 +392,51 @@
   </footer>
 
   <script>
+    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Simple PDF pager for elements with .pdf-controls
+    (function(){
+      function setPage(iframe, page){
+        const src = new URL(iframe.getAttribute('src'), window.location.href);
+        // Rebuild with updated page while keeping other params
+        const base = src.pathname + src.search + src.hash;
+        const [path, hash=''] = base.split('#');
+        const params = new URLSearchParams(hash);
+        params.set('page', page);
+        iframe.setAttribute('src', path + '#'+ params.toString());
+        iframe.dataset.page = String(page);
+      }
+      function currentPage(iframe){
+        return Number(iframe.dataset.page || 1);
+      }
+      function switchDeck(iframe){
+        const files = JSON.parse(iframe.dataset.files || '[]');
+        if(!files.length) return;
+        let idx = Number(iframe.dataset.fileIndex || 0);
+        idx = (idx + 1) % files.length;
+        iframe.dataset.fileIndex = String(idx);
+        iframe.setAttribute('src', files[idx] + '#view=FitH&toolbar=0&page=1');
+        iframe.dataset.page = '1';
+      }
+
+      document.querySelectorAll('.pdf-controls').forEach(ctrl=>{
+        const viewerId = ctrl.getAttribute('data-viewer');
+        const iframe = document.getElementById(viewerId);
+        ctrl.addEventListener('click', (e)=>{
+          const btn = e.target.closest('button');
+          if(!btn) return;
+          const action = btn.getAttribute('data-action');
+          if(action==='prev'){
+            setPage(iframe, Math.max(1, currentPage(iframe)-1));
+          }else if(action==='next'){
+            setPage(iframe, currentPage(iframe)+1);
+          }else if(action==='switch'){
+            switchDeck(iframe);
+          }
+        });
+      });
+    })();
   </script>
 </body>
 </html>
-
