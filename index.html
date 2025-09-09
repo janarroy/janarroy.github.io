@@ -16,21 +16,48 @@
       --shadow-hover:0 18px 50px rgba(17,19,24,.14);
       --maxw: 1040px;
     }
-    html,body{background:#fafbfc;color:#0f172a}
+
+    /* === Page background: subtle dotted paper === */
+    html,body{
+      background:
+        radial-gradient(circle at 1px 1px, #e8ecf1 1.2px, rgba(255,255,255,0) 1.3px) 0 0/12px 12px,
+        #fafbfc;
+      color:#0f172a;
+    }
+
     .container{width:min(var(--maxw),92vw);margin-inline:auto}
 
     /* ===== Sticky nav ===== */
     header.navbar{
-      position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid #f1f5f9;
+      position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid #f1f5f9;
       backdrop-filter: saturate(140%) blur(6px);
     }
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 2px}
     .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
     .brand img{width:30px;height:30px;border-radius:8px;object-fit:cover}
-    .nav-links a{
-      color:#111827; text-decoration:none; margin-left:18px; font-weight:600; font-size:14.5px;
+
+    /* ------- New: Joanna-style nav w/ dropdown ------- */
+    .nav-links{display:flex;align-items:center;gap:28px}
+    .nav-links a,
+    .nav-links button{
+      color:#111827; text-decoration:none; font-weight:700; font-size:14.5px; letter-spacing:.2px;
+      background:none; border:none; padding:0; cursor:pointer;
     }
-    .nav-links a:hover{opacity:.7}
+    .nav-links a:hover,
+    .nav-links button:hover{opacity:.75}
+
+    .dropdown{position:relative}
+    .dropdown-menu{
+      position:absolute; right:0; top:140%;
+      background:#fff; border:1px solid #e5e7eb; border-radius:10px;
+      box-shadow:var(--shadow); min-width:180px; padding:8px; display:none;
+    }
+    .dropdown-menu a{
+      display:block; padding:10px 12px; border-radius:8px; font-weight:600; font-size:14px;
+      color:#111827;
+    }
+    .dropdown-menu a:hover{background:#f8fafc}
+    .dropdown[aria-expanded="true"] .dropdown-menu{display:block}
 
     /* ===== Hero ===== */
     .hero{padding:56px 0 18px}
@@ -89,7 +116,6 @@
       display:flex; align-items:center; justify-content:center;
       background:#fff; border:1px solid #e5e7eb; box-shadow:var(--shadow); cursor:pointer;
       user-select:none;
-      /* >>> FIX: keep arrows above the image for clickable hits <<< */
       z-index:3;
     }
     .nav-arrow:hover{background:#f8fafc}
@@ -111,6 +137,17 @@
     .btn:hover{background:#f8fafc}
 
     footer{padding:36px 0 60px;color:#94a3b8;font-size:14px}
+
+    /* ===== Hover “sparkle/dot” cursor ===== */
+    .hover-dot{
+      position:fixed; left:0; top:0; width:10px; height:10px; border-radius:999px;
+      background:#facc15; /* warm subtle yellow */
+      box-shadow:0 0 20px rgba(250,204,21,.5);
+      transform:translate3d(-100px,-100px,0); transition:transform .12s ease-out, width .15s ease, height .15s ease, opacity .2s ease;
+      mix-blend-mode:multiply; pointer-events:none; z-index:9999; opacity:.85;
+    }
+    a:hover ~ .hover-dot, button:hover ~ .hover-dot{ /* keeps priority; fallback if DOM order changes */ }
+    .dot-grow{ width:18px !important; height:18px !important; }
   </style>
 
   <!-- pdf.js (for reliable Prev/Next paging across browsers) -->
@@ -130,13 +167,19 @@
         <img src="Snoopy_Welcome.png" alt="Logo">
         <span>Jan Arroyo</span>
       </a>
-      <nav class="nav-links">
-        <a href="#work">Work</a>
-        <a href="#involvements">Involvements</a>
-        <a href="#projects">Projects</a>
-        <a href="travel.html">Travel</a>
-        <a href="races.html">Races</a>
-        <a href="bake.html">Bake</a>
+
+      <!-- New: two-item nav like Joanna; dropdown holds fun pages -->
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#work" aria-label="Work">WORK</a>
+
+        <div class="dropdown" aria-expanded="false">
+          <button type="button" aria-haspopup="true" aria-expanded="false" aria-label="Open Just for Fun menu">JUST FOR FUN ▾</button>
+          <div class="dropdown-menu" role="menu" aria-label="Just for Fun">
+            <a role="menuitem" href="races.html">Races</a>
+            <a role="menuitem" href="bake.html">Bake</a>
+            <a role="menuitem" href="travel.html">Travel</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -406,7 +449,6 @@
   </p>
 </article>
 
-
     </div>
   </section>
 
@@ -414,11 +456,56 @@
     <div class="container">© <span id="y"></span> Jan Arroyo</div>
   </footer>
 
+  <!-- Hover “sparkle/dot” element -->
+  <div class="hover-dot" id="hoverDot" aria-hidden="true"></div>
+
   <script>
     // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ---------- Image sliders (only change: make arrows always click) ----------
+    // ---------- Dropdown (JUST FOR FUN) ----------
+    (function(){
+      const dd = document.querySelector('.dropdown');
+      if(!dd) return;
+      const btn = dd.querySelector('button');
+      const menu = dd.querySelector('.dropdown-menu');
+
+      function set(open){
+        dd.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      btn.addEventListener('click', (e)=>{ e.stopPropagation(); set(dd.getAttribute('aria-expanded')!=='true'); });
+      document.addEventListener('click', ()=> set(false));
+      btn.addEventListener('keydown', (e)=>{ if(e.key==='Escape') set(false); });
+      menu.addEventListener('keydown', (e)=>{ if(e.key==='Escape') set(false); });
+    })();
+
+    // ---------- Hover “sparkle/dot” that follows cursor ----------
+    (function(){
+      const dot = document.getElementById('hoverDot');
+      if(!dot) return;
+      let x = -100, y = -100;
+
+      window.addEventListener('mousemove', (e)=>{
+        x = e.clientX; y = e.clientY;
+        dot.style.transform = `translate3d(${x - dot.offsetWidth/2}px, ${y - dot.offsetHeight/2}px, 0)`;
+      }, {passive:true});
+
+      // Grow on interactive targets
+      const growTargets = 'a, button, .row, .nav-arrow, .btn';
+      document.addEventListener('mouseover', (e)=>{
+        if (e.target && (e.target.closest && e.target.closest(growTargets))) {
+          dot.classList.add('dot-grow');
+        }
+      });
+      document.addEventListener('mouseout', (e)=>{
+        if (e.target && (e.target.closest && e.target.closest(growTargets))) {
+          dot.classList.remove('dot-grow');
+        }
+      });
+    })();
+
+    // ---------- Image sliders ----------
     document.querySelectorAll('.media[data-gallery]').forEach(media=>{
       const imgs = JSON.parse(media.getAttribute('data-gallery'));
       const imgEl = media.querySelector('img');
@@ -450,7 +537,7 @@
       show(0);
     });
 
-    // ---------- PDF sliders (leave as-is; they already work) ----------
+    // ---------- PDF sliders ----------
     async function initPdfSlider(media){
       if(!window['pdfjsLib']) return;
       const files = JSON.parse(media.getAttribute('data-pdf-files')); // array of URLs
