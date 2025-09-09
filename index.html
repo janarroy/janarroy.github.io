@@ -5,59 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jan Arroyo</title>
   <link href="styles.css" rel="stylesheet" />
-  <!-- Joanna-inspired minimal system with your content -->
   <style>
     :root{
-      --ink:#0f172a; --muted:#6b7280; --muted2:#64748b; --bd:#e5e7eb; --card:#ffffff;
+      --ink:#0f172a; --muted:#6b7280; --bd:#e5e7eb; --card:#ffffff;
       --shadow:0 18px 50px rgba(17,19,24,.12); --bezier:cubic-bezier(.22,.61,.36,1);
-      --maxw: 1080px; --panel-h: clamp(460px, 64vh, 780px);
+      --maxw:1080px; --mediaH:clamp(420px,62vh,780px);
     }
     html,body{background:#fafbfc;color:#0f172a}
     .container{width:min(var(--maxw),92vw);margin-inline:auto}
 
-    /* ===== Sticky nav ===== */
-    header.navbar{
-      position:sticky; top:0; z-index:20; background:#fff;
-      border-bottom:1px solid #f1f5f9; backdrop-filter:saturate(140%) blur(6px);
-    }
+    /* NAV */
+    header.navbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #f1f5f9;backdrop-filter:saturate(140%) blur(6px)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 2px}
     .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:800}
     .brand img{width:30px;height:30px;border-radius:8px;object-fit:cover}
     .nav-links a{color:#111827;text-decoration:none;margin-left:18px;font-weight:600;font-size:14.5px}
     .nav-links a:hover{opacity:.75}
 
-    /* ===== Hero with flip card + bio ===== */
+    /* HERO */
     .hero{padding:54px 0 22px}
     .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center}
     @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
-    .hero h1{font-size: clamp(28px, 5vw, 44px); line-height:1.1; margin:0 0 10px; font-weight:800}
-    .hero p{color:var(--muted);font-size: clamp(15px, 2vw, 18px); line-height:1.6; margin:0}
+    .hero h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:0 0 10px;font-weight:800}
+    .hero p{color:var(--muted);font-size:clamp(15px,2vw,18px);line-height:1.6;margin:0}
 
+    /* Hover flip (Hawaii -> about) */
     .flip-wrap{perspective:1200px}
-    .flip{
-      position:relative;width:100%;aspect-ratio:3/4;border-radius:18px;box-shadow:0 18px 50px rgba(17,19,24,.16);
-      transform-style:preserve-3d; transition:transform .8s var(--bezier);
-      cursor:pointer;
-    }
-    .flip.is-flipped{transform:rotateY(180deg)}
-    .face{
-      position:absolute; inset:0; backface-visibility:hidden; border-radius:18px; overflow:hidden;
-      display:grid; place-items:center;
-    }
+    .flip{position:relative;width:100%;aspect-ratio:3/4;border-radius:18px;box-shadow:0 18px 50px rgba(17,19,24,.16);
+      transform-style:preserve-3d;transition:transform .9s var(--bezier)}
+    .flip:hover,.flip:focus-within{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;border-radius:18px;overflow:hidden;backface-visibility:hidden;display:grid;place-items:center}
     .face img{width:100%;height:100%;object-fit:cover;display:block}
-    .back{
-      background:linear-gradient(180deg,#fff,#f8fafc); border:1px solid var(--bd);
-      transform:rotateY(180deg); padding:22px; text-align:left;
-    }
-    .back h3{margin:2px 0 10px;font-size:22px}
+    .back{background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid var(--bd);transform:rotateY(180deg);padding:26px 22px 22px;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .avatar{width:120px;height:120px;border-radius:999px;object-fit:cover;border:3px solid #fff;box-shadow:0 8px 20px rgba(17,19,24,.18);margin:-8px 0 10px}
+    .back h3{margin:6px 0 6px;font-size:20px}
     .back p{margin:0 0 10px;color:#111827;line-height:1.7}
     .hint{position:absolute;right:10px;bottom:10px;background:rgba(255,255,255,.9);border:1px solid var(--bd);padding:6px 10px;border-radius:999px;font-size:12px}
 
-    /* ===== Sections ===== */
+    /* Sections */
     .section{padding:8px 0 0}
-    .section h2{font-weight:800;font-size: clamp(22px, 3.2vw, 30px);margin:42px 0 12px;letter-spacing:.2px}
+    .section h2{font-weight:800;font-size:clamp(22px,3.2vw,30px);margin:42px 0 12px}
 
-    /* ===== Lists ===== */
+    /* Lists */
     .list{list-style:none;margin:0;padding:0}
     .row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px dashed rgba(17,19,24,.16);text-decoration:none;color:inherit}
     .left{display:flex;align-items:center;gap:12px;min-width:0}
@@ -68,46 +57,36 @@
     .right{font-size:13px;color:#94a3b8;white-space:nowrap}
     @media (max-width:560px){ .role{display:none;} }
 
-    /* ===== Projects ===== */
-    .kicker{margin-top:-2px;color:var(--muted);font-size:13px}
-    .panels{display:flex;flex-direction:column;gap:48px}
-    .panel{
-      position:relative;border-radius:22px;overflow:hidden;background:#fff;border:1px solid var(--bd);box-shadow:var(--shadow);
-      transform:translateY(22px);opacity:0;transition:transform .55s var(--bezier),opacity .55s var(--bezier)
-    }
-    .panel.revealed{transform:none;opacity:1}
-    .panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;color:#111;font-weight:800;letter-spacing:.2px;background:linear-gradient(180deg,#ffffff 0%, #f8fafc 100%);border-bottom:1px solid var(--bd)}
-    .panel-grid{display:grid;gap:0;align-items:stretch;grid-template-columns:1.25fr .95fr}
-    @media (max-width:1020px){.panel-grid{grid-template-columns:1fr}}
-    .media{position:relative;overflow:hidden;background:#fff;min-height:var(--panel-h);border-right:1px solid var(--bd)}
+    /* Projects (Joanna-style: title on top, big media, minimal chrome) */
+    .project{background:var(--card);border:1px solid var(--bd);border-radius:20px;box-shadow:var(--shadow);padding:16px 16px 18px}
+    .project + .project{margin-top:32px}
+    .project h3{font-size:clamp(18px,2.6vw,22px);margin:2px 4px 10px;font-weight:800}
+    .project-grid{display:grid;grid-template-columns:1.2fr .95fr;gap:18px;align-items:start}
+    @media (max-width:1020px){.project-grid{grid-template-columns:1fr}}
+    .media{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--bd);background:#fff;min-height:var(--mediaH)}
     .viewport{width:100%;height:100%;display:grid;place-items:center}
-    .viewport>video{width:100%;height:100%;object-fit:cover;display:block}
-    .gallery-img,.pdf-canvas{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .28s ease,transform .6s var(--bezier)}
-    .media.media-ready .gallery-img,.media.media-ready .pdf-canvas{opacity:1}
-    .gallery-img{transition:opacity .28s ease,transform .8s var(--bezier)}
-    .media:hover .gallery-img{transform:scale(1.02)}
-    .pill{position:absolute;top:12px;right:12px;z-index:3;font-size:12px;color:#1f2937;background:rgba(255,255,255,.96);border:1px solid var(--bd);border-radius:999px;padding:4px 10px;box-shadow:0 6px 16px rgba(17,19,24,.12)}
-    .ctrl{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border-radius:999px;border:1px solid var(--bd);background:rgba(255,255,255,.96);backdrop-filter:saturate(120%) blur(3px);display:grid;place-items:center;user-select:none;box-shadow:0 10px 22px rgba(17,19,24,.16)}
-    .ctrl.prev{left:14px}.ctrl.next{right:14px}
+    /* contain so CRM isn’t cropped */
+    .viewport>video{width:100%;height:100%;object-fit:contain;background:#000}
+    .pdf-canvas,.gallery-img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+    .ctrl{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:42px;height:42px;border-radius:999px;border:1px solid var(--bd);
+      background:rgba(255,255,255,.96);backdrop-filter:saturate(120%) blur(3px);display:grid;place-items:center;user-select:none;box-shadow:0 10px 22px rgba(17,19,24,.16)}
+    .ctrl.prev{left:12px}.ctrl.next{right:12px}
     .ctrl svg{width:20px;height:20px}
-    .text{padding:28px;display:flex;flex-direction:column;justify-content:center;min-height:var(--panel-h)}
-    .text h3{display:none}
+    .text{padding:6px 4px}
     .text p{margin:0;color:#111827;font-size:16px;line-height:1.75}
 
-    /* Spotify block */
+    /* Spotify */
     .spotify{margin-top:16px;border:1px solid var(--bd);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
 
     footer{padding:36px 0 64px;color:#94a3b8;font-size:14px}
   </style>
 </head>
 <body>
-
-  <!-- ===== NAV ===== -->
+  <!-- NAV -->
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="#top">
-        <!-- keep your emoji brand but swap to your photo as requested -->
-        <img src="images/IMG_8427.PNG" alt="Jan Arroyo" onerror="this.src='images/Jan.jpg'">
+        <img src="images/IMG_8427.PNG" alt="Jan Arroyo" onerror="this.src='images/headshot.jpg'">
         <span>Jan Arroyo</span>
       </a>
       <nav class="nav-links">
@@ -121,42 +100,40 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
+  <!-- HERO -->
   <section id="top" class="hero">
     <div class="container hero-grid">
       <div>
         <h1>Hey, what's up!</h1>
         <p>I'm Jan Arroyo — studying CS &amp; Business at USC. I like building products, doing design &amp; research, and creating impact with community partners.</p>
 
-        <!-- Spotify (swap the playlist URL if you want yours) -->
+        <!-- Spotify (swap to your playlist if you want) -->
         <div class="spotify">
           <iframe style="border-radius:0" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator"
                   width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
 
-      <!-- Flip card: Hawaii photo on front; about-me on back -->
+      <!-- Hover-flip card: Hawaii.JPG -> headshot + bio -->
       <div class="flip-wrap">
-        <div class="flip" id="flipCard" aria-label="Tap/click to flip">
+        <div class="flip" tabindex="0" aria-label="Hover or focus to flip">
           <div class="face front">
-            <img
-              src="Projects/Hawaii1.JPG"
-              alt="Hawaii — spring break"
-              onerror="this.src='Projects/Hawaii2.JPG'">
-            <span class="hint">click to flip</span>
+            <img src="images/Hawaii.JPG" alt="Hawaii — spring break"
+                 onerror="this.src='images/Hawaii1.JPG'">
+            <span class="hint">hover to flip</span>
           </div>
           <div class="face back">
+            <img class="avatar" src="images/headshot.jpg" alt="Jan headshot" onerror="this.src='images/headshot.JPG'">
             <h3>Quick about me</h3>
-            <p>LA kid who loves building with community orgs, good coffee, and running along the beach. CS + Business at USC. I like shipping things that actually get used.</p>
-            <p>Most days: studying, tinkering with Python/JS, or plotting the next trip. If I’m not at a laptop, I’m probably outside chasing a sunset.</p>
-            <span class="hint">click to flip back</span>
+            <p>LA kid who loves building with community orgs, good coffee, and running by the beach. CS + Business at USC. I like shipping things that actually get used.</p>
+            <p>If I’m not at a laptop, I’m probably outside chasing a sunset or planning the next trip.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== WORK ===== -->
+  <!-- WORK -->
   <section id="work" class="section">
     <div class="container">
       <h2>Work</h2>
@@ -173,7 +150,7 @@
     </div>
   </section>
 
-  <!-- ===== INVOLVEMENTS ===== -->
+  <!-- INVOLVEMENTS -->
   <section id="involvements" class="section">
     <div class="container">
       <h2>Involvements</h2>
@@ -188,170 +165,156 @@
     </div>
   </section>
 
-  <!-- ===== PROJECTS & ARTIFACTS ===== -->
+  <!-- PROJECTS -->
   <section id="projects" class="section">
     <div class="container">
-      <div class="kicker">Projects &amp; Artifacts</div>
-      <div class="panels">
+      <h2>Projects &amp; Artifacts</h2>
 
-        <!-- CRM (video path corrected to /Projects) -->
-        <article class="panel" id="crm-automation">
-          <div class="panel-header"><div>CRM Automation — Email Outreach Platform</div></div>
-          <div class="panel-grid">
-            <div class="media" data-title="CRM demo">
-              <div class="pill">Demo</div>
-              <div class="viewport">
-                <video controls playsinline>
-                  <source src="Projects/CRM_DEMO_small.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-            <div class="text">
-              <h3>CRM Automation — Email Outreach Platform</h3>
-              <p>I built a CRM that connects Google Sheets and Gmail with Python so outreach runs on its own. It pulls fresh rows from Sheets, fills a template with merge fields, queues sends to stay under Gmail limits, retries failures, and logs back to the sheet. With this live we hit <b>15,000+ contacts</b>, responses lifted about <b>15%</b>, and total send time dropped to roughly <b>one-third</b> across three committees. New campaign = new sheet + a template. Simple, fast, reusable.</p>
+      <!-- CRM VIDEO (contain, not cropped) -->
+      <article class="project" id="crm">
+        <h3>CRM Automation — Email Outreach Platform</h3>
+        <div class="project-grid">
+          <div class="media">
+            <div class="viewport">
+              <video controls playsinline>
+                <source src="Projects/CRM_DEMO_small.mp4" type="video/mp4">
+              </video>
             </div>
           </div>
-        </article>
-
-        <!-- Quokka (PDF with arrows + lightbox) -->
-        <article class="panel" id="quokka">
-          <div class="panel-header"><div>Quokka Brew — Can Design Research &amp; Iterations</div></div>
-          <div class="panel-grid">
-            <div class="media deck" data-type="pdf-single" data-title="Quokka Brew — Design Research Deck" data-src="Projects/Quokka%20Brew.pdf" tabindex="0" aria-label="Open Quokka deck">
-              <div class="pill" data-role="indicator">Loading…</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
-            </div>
-            <div class="text">
-              <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-              <p>We ran <b>60+ interviews</b> then pressure-tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Takeaways: calmer neutrals read “coffee,” the logo and health callouts need to hit at 5 ft, and flavor cues should be super clear at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned the signal into <b>3 MVP layouts</b> the team could keep iterating. My job was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, fast-scan flavor hierarchy.</p>
-            </div>
+          <div class="text">
+            <p>I built a CRM that connects Google Sheets and Gmail with Python so outreach basically runs itself. It pulls fresh rows from Sheets, fills a template with merge fields, batches sends to stay under Gmail limits, retries failures, and logs results back to the sheet. With it live we hit <b>15,000+ contacts</b>, response rate lifted about <b>15%</b>, and total send time dropped to roughly <b>one-third</b> across three committees. New campaign = new sheet + a template. Simple, fast, reusable.</p>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <!-- Clear Clinical (merged mid + final decks with arrows) -->
-        <article class="panel" id="clear-clinical">
-          <div class="panel-header"><div>Clear Clinical — Product Strategy &amp; UX</div></div>
-          <div class="panel-grid">
-            <div class="media deck" data-type="pdf-merged" data-title="Clear Clinical — Mid + Final Presentations" data-srcs="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf|Projects/FINAL%20PRESENTATION%20CLEAR%20CLINICAL%20.pdf" tabindex="0" aria-label="Open Clear Clinical merged deck">
-              <div class="pill" data-role="indicator">Loading…</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
-            </div>
-            <div class="text">
-              <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-              <p>Semester project focused on adoption. Interviews + competitive scan → staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and mapped the first shippable version so a small team could actually move.</p>
-            </div>
+      <!-- QUOKKA (PDF deck with arrows; minimal chrome) -->
+      <article class="project" id="quokka">
+        <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
+        <div class="project-grid">
+          <div class="media deck" data-type="pdf-single" data-title="Quokka Brew — Design Research Deck" data-src="Projects/Quokka%20Brew.pdf" tabindex="0" aria-label="Open Quokka deck">
+            <button class="ctrl prev" aria-label="Previous" data-act="prev">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="ctrl next" aria-label="Next" data-act="next">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
           </div>
-        </article>
-
-        <!-- EY Workshop (image gallery with arrows) -->
-        <article class="panel" id="ey-workshop">
-          <div class="panel-header"><div>EY Workshop — Design Thinking</div></div>
-          <div class="panel-grid">
-            <div class="media gallery" data-title="EY Workshop — Design Thinking for Low-Income Students"
-                 data-images="Projects/EY1.JPG|Projects/EY1.jpg,Projects/EY2.JPG|Projects/EY2.jpg,Projects/EY3.JPG|Projects/EY3.jpg,Projects/EY4.JPG|Projects/EY4.jpg"
-                 tabindex="0" aria-label="Open EY workshop gallery">
-              <div class="pill" data-role="indicator">1 / 4</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><img class="gallery-img" alt="EY workshop"></div>
-            </div>
-            <div class="text">
-              <h3>EY Workshop — Design Thinking</h3>
-              <p>Hands-on session for high school students. Keep it simple: frame the problem, sketch, test. The goal was confidence so they could run it on their own ideas after.</p>
-            </div>
+          <div class="text">
+            <p>We ran <b>60+ interviews</b> then pressure-tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to hit at 5 ft, and flavor cues should be simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> the team could keep iterating. My role: synthesize the insights, push the layout changes, and make the visuals easier to recognize on shelf. It’s the kind of work where research actually changes the can — not just a deck.</p>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <!-- Advocacy Day (image gallery) -->
-        <article class="panel" id="advocacy-day">
-          <div class="panel-header"><div>Policy Advocacy Day — Sacramento</div></div>
-          <div class="panel-grid">
-            <div class="media gallery" data-title="Policy Advocacy Day — Sacramento"
-                 data-images="Projects/Partnership_Advocacy_Day1.JPG|Projects/Partnership_Advocacy_Day1.jpg,Projects/Partnership_Advocacy_Day2.JPG|Projects/Partnership_Advocacy_Day2.jpg"
-                 tabindex="0" aria-label="Open Advocacy Day gallery">
-              <div class="pill" data-role="indicator">1 / 2</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><img class="gallery-img" alt="Policy advocacy"></div>
-            </div>
-            <div class="text">
-              <h3>Policy Advocacy Day — Sacramento</h3>
-              <p>We met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices from our community were in the room.</p>
-            </div>
+      <!-- CLEAR CLINICAL (merged mid+final) -->
+      <article class="project" id="clear-clinical">
+        <h3>Clear Clinical — Product Strategy &amp; UX</h3>
+        <div class="project-grid">
+          <div class="media deck" data-type="pdf-merged" data-title="Clear Clinical — Mid + Final Presentations"
+               data-srcs="Projects/MID%20SEMSES%20CLINICAL.pdf|Projects/MID%20SEMSES%20CLINICAL%20.pdf|Projects/MID%20SEMSES%20CLINICAL%20%28copy%29.pdf|Projects/FINAL%20PRESENTATION%20CLINICAL%20.pdf|Projects/FINAL%20PRESENTATION%20CLINICAL.pdf"
+               tabindex="0" aria-label="Open Clear Clinical merged deck">
+            <button class="ctrl prev" aria-label="Previous" data-act="prev">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="ctrl next" aria-label="Next" data-act="next">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="viewport"><canvas class="pdf-canvas"></canvas></div>
           </div>
-        </article>
-
-        <!-- Magazine (image gallery) -->
-        <article class="panel" id="magazine">
-          <div class="panel-header"><div>Magazine Feature</div></div>
-          <div class="panel-grid">
-            <div class="media gallery" data-title="Magazine Feature"
-                 data-images="Projects/Magazine1.JPG|Projects/Magazine1.jpg,Projects/Magazine2.JPG|Projects/Magazine2.jpg,Projects/Magazine3.JPG|Projects/Magazine3.jpg"
-                 tabindex="0" aria-label="Open magazine gallery">
-              <div class="pill" data-role="indicator">1 / 3</div>
-              <button class="ctrl prev" aria-label="Previous (Left Arrow)" data-act="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="ctrl next" aria-label="Next (Right Arrow)" data-act="next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="viewport"><img class="gallery-img" alt="Magazine page"></div>
-            </div>
-            <div class="text">
-              <h3>Magazine Feature</h3>
-              <p>Campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.</p>
-            </div>
+          <div class="text">
+            <p>Focus was adoption: interviews + competitive scan → staged roadmap. Nail the daily workflows first, then layer advanced features once the base is sticky. I framed the trade-offs and mapped the first shippable version so a small team could actually move.</p>
           </div>
-        </article>
+        </div>
+      </article>
 
-      </div>
+      <!-- EY gallery (uses images/…) -->
+      <article class="project" id="ey">
+        <h3>EY Workshop — Design Thinking</h3>
+        <div class="project-grid">
+          <div class="media gallery" data-title="EY Workshop — Design Thinking"
+               data-images="images/EY1.JPG|images/EY1.jpg,images/EY2.JPG|images/EY2.jpg,images/EY3.JPG|images/EY3.jpg,images/EY4.JPG|images/EY4.jpg"
+               tabindex="0" aria-label="Open EY gallery">
+            <button class="ctrl prev" aria-label="Previous" data-act="prev">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="ctrl next" aria-label="Next" data-act="next">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="viewport"><img class="gallery-img" alt="EY workshop"></div>
+          </div>
+          <div class="text">
+            <p>Hands-on session for high school students. Keep it simple: frame the problem, sketch, test. The goal was confidence so they could run it on their own ideas after.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Advocacy gallery -->
+      <article class="project" id="advocacy">
+        <h3>Policy Advocacy Day — Sacramento</h3>
+        <div class="project-grid">
+          <div class="media gallery" data-title="Policy Advocacy Day — Sacramento"
+               data-images="images/Partnership_Advocacy_Day1.JPG|images/Partnership_Advocacy_Day1.jpg,images/Partnership_Advocacy_Day2.JPG|images/Partnership_Advocacy_Day2.jpg"
+               tabindex="0" aria-label="Open Advocacy gallery">
+            <button class="ctrl prev" aria-label="Previous" data-act="prev">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="ctrl next" aria-label="Next" data-act="next">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="viewport"><img class="gallery-img" alt="Policy advocacy"></div>
+          </div>
+          <div class="text">
+            <p>We met with legislators to share student stories and push for youth programs. I prepped the team, aligned the asks, and made sure voices from our community were in the room.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Magazine gallery -->
+      <article class="project" id="mag">
+        <h3>Magazine Feature</h3>
+        <div class="project-grid">
+          <div class="media gallery" data-title="Magazine Feature"
+               data-images="images/Magazine1.JPG|images/Magazine1.jpg,images/Magazine2.JPG|images/Magazine2.jpg,images/Magazine3.JPG|images/Magazine3.jpg"
+               tabindex="0" aria-label="Open magazine gallery">
+            <button class="ctrl prev" aria-label="Previous" data-act="prev">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="ctrl next" aria-label="Next" data-act="next">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="viewport"><img class="gallery-img" alt="Magazine page"></div>
+          </div>
+          <div class="text">
+            <p>Campus write-up on first-gen work, BTG projects, and why I like building with community partners. Nice to see the impact show up outside a resume line.</p>
+          </div>
+        </div>
+      </article>
+
     </div>
   </section>
 
-  <!-- ===== LIGHTBOX ===== -->
-  <div class="lightbox" id="lightbox" aria-hidden="true" style="display:none;place-items:center;position:fixed;inset:0;background:rgba(17,24,39,.35);backdrop-filter:blur(4px) saturate(1.05);z-index:100">
+  <!-- LIGHTBOX -->
+  <div id="lightbox" aria-hidden="true" style="display:none;place-items:center;position:fixed;inset:0;background:rgba(17,24,39,.35);backdrop-filter:blur(4px) saturate(1.05);z-index:100">
     <div class="lb-card" role="dialog" aria-modal="true" style="width:min(1080px,96vw);max-height:90vh;display:grid;grid-template-columns:1.2fr .8fr;gap:14px;background:linear-gradient(180deg,#fff,#fafafa);border:1px solid var(--bd);border-radius:18px;box-shadow:0 30px 80px rgba(17,24,39,.28);overflow:hidden;position:relative">
-      <button class="lb-close" id="lbClose" aria-label="Close" style="position:absolute;top:10px;right:10px;border:none;background:#111827;color:#fff;border-radius:999px;width:36px;height:36px;font-size:18px;cursor:pointer;box-shadow:0 8px 18px rgba(17,19,24,.2)">✕</button>
-      <div class="lb-left" style="padding:14px;display:grid;grid-template-rows:auto auto">
-        <div class="lb-stage" id="stage" style="background:#fff;border-radius:12px;border:1px solid var(--bd);display:grid;place-items:center;position:relative;overflow:hidden;height:min(78vh,760px)">
-          <button class="navbtn left" id="lbPrev" aria-label="Previous" style="position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.75);color:#fff;border:none;border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;left:10px">‹</button>
+      <button id="lbClose" aria-label="Close" style="position:absolute;top:10px;right:10px;border:none;background:#111827;color:#fff;border-radius:999px;width:36px;height:36px;font-size:18px;cursor:pointer;box-shadow:0 8px 18px rgba(17,19,24,.2)">✕</button>
+      <div style="padding:14px;display:grid;grid-template-rows:auto auto">
+        <div id="stage" style="background:#000;border-radius:12px;border:1px solid var(--bd);display:grid;place-items:center;position:relative;overflow:hidden;height:min(78vh,760px)">
+          <button id="lbPrev" aria-label="Previous" style="position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.75);color:#fff;border:none;border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;left:10px">‹</button>
           <canvas id="lbCanvas"></canvas>
           <img id="lbImg" alt="" />
-          <button class="navbtn right" id="lbNext" aria-label="Next" style="position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.75);color:#fff;border:none;border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;right:10px">›</button>
+          <button id="lbNext" aria-label="Next" style="position:absolute;top:50%;transform:translateY(-50%);background:rgba(17,24,39,.75);color:#fff;border:none;border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;right:10px">›</button>
         </div>
-        <div class="thumbs" id="thumbs" style="display:flex;gap:8px;overflow:auto;margin-top:10px;padding-bottom:6px"></div>
+        <div id="thumbs" style="display:flex;gap:8px;overflow:auto;margin-top:10px;padding-bottom:6px"></div>
       </div>
-      <div class="lb-right" style="padding:16px 18px 18px 6px">
-        <div class="lb-title" id="lbTitle" style="font-weight:800;font-size:20px;margin:2px 0 2px">Viewer</div>
-        <div class="lb-sub" id="lbSub" style="color:var(--muted);font-size:13px;margin-bottom:10px">—</div>
-        <div class="lb-notes" id="lbNotes" style="line-height:1.6;font-size:15px;overflow:auto;max-height:calc(90vh - 190px)">Use ← → to navigate. Esc to close.</div>
+      <div style="padding:16px 18px 18px 6px">
+        <div id="lbTitle" style="font-weight:800;font-size:20px;margin:2px 0 2px">Viewer</div>
+        <div id="lbSub" style="color:#6b7280;font-size:13px;margin-bottom:10px">—</div>
+        <div id="lbNotes" style="line-height:1.6;font-size:15px;overflow:auto;max-height:calc(90vh - 190px)">Use ← → to navigate. Esc to close.</div>
       </div>
     </div>
   </div>
 
-  <footer>
-    <div class="container">© <span id="y"></span> Jan Arroyo</div>
-  </footer>
+  <footer><div class="container">© <span id="y"></span> Jan Arroyo</div></footer>
 
   <!-- pdf.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -359,14 +322,8 @@
     document.getElementById('y').textContent = new Date().getFullYear();
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    /* Flip card */
-    const flip = document.getElementById('flipCard');
-    flip.addEventListener('click',()=>flip.classList.toggle('is-flipped'));
-
-    /* Helpers */
+    /* Utilities */
     function viewportBounds(el){ const vp = el.querySelector('.viewport') || el; return { w: vp.clientWidth, h: vp.clientHeight }; }
-    function setIndicator(el, txt){ el.textContent = txt; }
-
     function fitPdfToCanvas(pdf, pageNum, canvas, maxW, maxH){
       return pdf.getPage(pageNum).then(page=>{
         const v1 = page.getViewport({scale:1});
@@ -382,8 +339,6 @@
         return page.render({canvasContext:ctx, viewport:vp, transform}).promise;
       });
     }
-
-    /* Image source picker + preloader (handles JPG/JPG fallbacks) */
     function pick(paths, cb){
       const list=(paths||"").split('|').map(s=>s.trim()).filter(Boolean);
       if(!list.length){ cb(""); return; }
@@ -409,24 +364,18 @@
       });
     }
 
-    /* ---------- PDF: single ---------- */
+    /* PDF single */
     function wirePdfSingle(deck){
       const file = deck.dataset.src;
       const canvas = deck.querySelector('.pdf-canvas');
-      const ind = deck.querySelector('[data-role="indicator"]');
       const prev = deck.querySelector('[data-act="prev"]');
       const next = deck.querySelector('[data-act="next"]');
-      let pdf=null, page=1, total=1, rendering=false, hover=false;
+      let pdf=null, page=1, total=1, hover=false, rendering=false;
 
-      function update(){ setIndicator(ind, 'Page '+page+' / '+total); }
       function render(){
         if(!pdf || rendering) return; rendering=true;
-        deck.classList.remove('media-ready');
         const {w,h} = viewportBounds(deck);
-        fitPdfToCanvas(pdf,page,canvas,w,h).finally(()=>{
-          rendering=false; update();
-          requestAnimationFrame(()=>deck.classList.add('media-ready'));
-        });
+        fitPdfToCanvas(pdf,page,canvas,w,h).finally(()=>{ rendering=false; });
       }
       function go(d){ page=Math.min(total,Math.max(1,page+d)); render(); }
 
@@ -436,35 +385,28 @@
       document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();go(1)} if(e.key==='ArrowLeft'){e.preventDefault();go(-1)} });
       prev.addEventListener('click',e=>{ e.stopPropagation(); go(-1); });
       next.addEventListener('click',e=>{ e.stopPropagation(); go(1); });
-      deck.addEventListener('click',()=> openLBPdf(deck.dataset.title,file,page,total));
 
       window.addEventListener('resize',render);
       pdfjsLib.getDocument(file).promise.then(p=>{ pdf=p; total=p.numPages; render(); });
     }
 
-    /* ---------- PDF: merged ---------- */
+    /* PDF merged */
     function wirePdfMerged(deck){
-      const files = deck.dataset.srcs.split('|').map(s=>s.trim());
+      const files = deck.dataset.srcs.split('|').map(s=>s.trim()).filter(Boolean);
       const canvas = deck.querySelector('.pdf-canvas');
-      const ind = deck.querySelector('[data-role="indicator"]');
       const prev = deck.querySelector('[data-act="prev"]');
       const next = deck.querySelector('[data-act="next"]');
       let pdfs=[], pagesPer=[], total=0, curDoc=0, curPage=1, hover=false, rendering=false;
 
-      function absIndex(){ let idx=0; for(let i=0;i<curDoc;i++) idx+=pagesPer[i]; return idx+curPage; }
-      function update(){ setIndicator(ind, 'Page '+absIndex()+' / '+total); }
+      function abs(){ let idx=0; for(let i=0;i<curDoc;i++) idx+=pagesPer[i]; return idx+curPage; }
       function render(){
         if(!pdfs.length || rendering) return; rendering=true;
-        deck.classList.remove('media-ready');
         const {w,h} = viewportBounds(deck);
         const pdf = pdfs[curDoc];
-        fitPdfToCanvas(pdf,curPage,canvas,w,h).finally(()=>{
-          rendering=false; update();
-          requestAnimationFrame(()=>deck.classList.add('media-ready'));
-        });
+        fitPdfToCanvas(pdf,curPage,canvas,w,h).finally(()=>{ rendering=false; });
       }
       function step(d){
-        let a = Math.min(total, Math.max(1, absIndex()+d));
+        let a = Math.min(total, Math.max(1, abs()+d));
         let left=a, doc=0; while(left>pagesPer[doc]){ left-=pagesPer[doc]; doc++; }
         curDoc=doc; curPage=left; render();
       }
@@ -475,37 +417,34 @@
       document.addEventListener('keydown',e=>{ if(!hover) return; if(e.key==='ArrowRight'){e.preventDefault();step(1)} if(e.key==='ArrowLeft'){e.preventDefault();step(-1)} });
       prev.addEventListener('click',e=>{ e.stopPropagation(); step(-1); });
       next.addEventListener('click',e=>{ e.stopPropagation(); step(1); });
-      deck.addEventListener('click',()=> openLBPdfMerged(deck.dataset.title, files, absIndex(), total, pagesPer));
 
       window.addEventListener('resize',render);
-      Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(arr=>{
-        pdfs = arr; pagesPer = arr.map(p=>p.numPages); total = pagesPer.reduce((a,b)=>a+b,0);
-        render();
+      Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise).map(p=>p.catch(()=>null))).then(arr=>{
+        pdfs = arr.filter(Boolean);
+        pagesPer = pdfs.map(p=>p.numPages);
+        total = pagesPer.reduce((a,b)=>a+b,0);
+        curDoc=0; curPage=1; render();
       });
     }
 
-    /* ---------- Image galleries ---------- */
+    /* Image galleries */
     function wireGallery(gal){
       const raw = gal.dataset.images.split(',').map(s=>s.trim());
       const imgEl = gal.querySelector('.gallery-img');
-      const ind = gal.querySelector('[data-role="indicator"]');
       const prev = gal.querySelector('[data-act="prev"]');
       const next = gal.querySelector('[data-act="next"]');
       let imgs = [], i=0, hover=false;
 
       preloadImages(raw).then(valid=>{
         imgs = valid;
-        if(!imgs.length){ ind.textContent = 'No images'; prev.disabled = next.disabled = true; return; }
+        if(!imgs.length){ prev.disabled = next.disabled = true; return; }
         set(true);
       });
 
       function set(initial=false){
-        gal.classList.remove('media-ready');
-        imgEl.onload = ()=>{ requestAnimationFrame(()=>gal.classList.add('media-ready')); };
+        imgEl.onload = ()=>{};
         imgEl.src = imgs[i];
-        ind.textContent = (i+1)+' / '+imgs.length;
         prev.disabled=(i===0); next.disabled=(i===imgs.length-1);
-        if(initial) requestAnimationFrame(()=>gal.classList.add('media-ready'));
       }
       function go(d){ i=Math.min(imgs.length-1, Math.max(0, i+d)); set(); }
 
@@ -516,108 +455,15 @@
 
       prev.addEventListener('click',e=>{ e.stopPropagation(); go(-1); });
       next.addEventListener('click',e=>{ e.stopPropagation(); go(1); });
-
-      gal.addEventListener('click',()=> openLBImages(gal.dataset.title, imgs, i));
     }
 
-    /* ---------- Lightbox ---------- */
-    const LB = document.getElementById('lightbox');
-    const LB_CLOSE = document.getElementById('lbClose');
-    const LB_TITLE = document.getElementById('lbTitle');
-    const LB_SUB = document.getElementById('lbSub');
-    const LB_NOTES = document.getElementById('lbNotes');
-    const LB_PREV = document.getElementById('lbPrev');
-    const LB_NEXT = document.getElementById('lbNext');
-    const LB_CANVAS = document.getElementById('lbCanvas');
-    const LB_IMG = document.getElementById('lbImg');
-    const LB_THUMBS = document.getElementById('thumbs');
-    const LB_STAGE = document.getElementById('stage');
-
-    function lbOpen(){ LB.style.display='grid'; LB.setAttribute('aria-hidden','false'); }
-    function lbClose(){ LB.style.display='none'; LB.setAttribute('aria-hidden','true'); LB_IMG.src=''; LB_IMG.classList.remove('show'); LB_CANVAS.classList.remove('show'); LB_THUMBS.innerHTML=''; }
-    LB_CLOSE.addEventListener('click',lbClose);
-    LB.addEventListener('click',e=>{ if(e.target===LB) lbClose(); });
-    document.addEventListener('keydown',e=>{
-      if(LB.style.display!=='grid') return;
-      if(e.key==='Escape') lbClose();
-      if(e.key==='ArrowLeft') lbGo(-1);
-      if(e.key==='ArrowRight') lbGo(1);
-    });
-
-    function lbBounds(){ return { w: LB_STAGE.clientWidth-20, h: LB_STAGE.clientHeight-20 }; }
-    function openLBPdf(title, file, page, total){
-      LB_TITLE.textContent = title || 'Deck';
-      LB_SUB.textContent = 'PDF deck';
-      LB_NOTES.textContent = 'Use ← → to navigate. Esc to close.';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; lbOpen();
-      pdfjsLib.getDocument(file).promise.then(p=>{ LB_STATE={mode:'pdf-single', pdf:p, page, total}; lbRenderPdf(); });
-    }
-    function openLBPdfMerged(title, files, absIndex, total, pagesPer){
-      LB_TITLE.textContent = title || 'Deck';
-      LB_SUB.textContent = 'Merged PDF';
-      LB_NOTES.textContent = 'Use ← → to navigate. Esc to close.';
-      LB_IMG.style.display='none'; LB_CANVAS.style.display='block'; lbOpen();
-      Promise.all(files.map(f=>pdfjsLib.getDocument(f).promise)).then(ps=>{ LB_STATE={mode:'pdf-merged', pdfs:ps, absIndex, total, pagesPer}; lbRenderPdfMerged(); });
-    }
-    function openLBImages(title, imgs, idx){
-      LB_TITLE.textContent = title || 'Gallery';
-      LB_SUB.textContent = 'Images';
-      LB_IMG.style.display='block'; LB_CANVAS.style.display='none'; lbOpen();
-      LB_STATE={mode:'images', imgs, idx}; lbRenderImages(); renderThumbs();
-    }
-
-    let LB_STATE=null;
-    function lbRenderPdf(){
-      const {w,h} = lbBounds();
-      fitPdfToCanvas(LB_STATE.pdf, LB_STATE.page, LB_CANVAS, w, h).then(()=>{
-        LB_CANVAS.classList.add('show'); LB_IMG.classList.remove('show');
-        LB_PREV.disabled=(LB_STATE.page<=1); LB_NEXT.disabled=(LB_STATE.page>=LB_STATE.total);
-      });
-    }
-    function lbRenderPdfMerged(){
-      function convert(abs){ let left=abs, d=0; while(left>LB_STATE.pagesPer[d]){ left-=LB_STATE.pagesPer[d]; d++; } return {doc:d, page:left}; }
-      const {w,h} = lbBounds(); const pos=convert(LB_STATE.absIndex);
-      fitPdfToCanvas(LB_STATE.pdfs[pos.doc], pos.page, LB_CANVAS, w, h).then(()=>{
-        LB_CANVAS.classList.add('show'); LB_IMG.classList.remove('show');
-        LB_PREV.disabled=(LB_STATE.absIndex<=1); LB_NEXT.disabled=(LB_STATE.absIndex>=LB_STATE.total);
-      });
-    }
-    function lbRenderImages(){
-      LB_IMG.classList.remove('show');
-      LB_IMG.onload=()=>LB_IMG.classList.add('show');
-      LB_IMG.src = LB_STATE.imgs[LB_STATE.idx];
-      LB_PREV.disabled=(LB_STATE.idx===0); LB_NEXT.disabled=(LB_STATE.idx===LB_STATE.imgs.length-1);
-    }
-    function renderThumbs(){
-      LB_THUMBS.innerHTML='';
-      if(LB_STATE.mode!=='images'){ LB_THUMBS.style.display='none'; return; }
-      LB_STATE.imgs.forEach((src,i)=>{
-        const im=new Image(); im.src=src; im.style.width='62px'; im.style.height='62px'; im.style.borderRadius='10px'; im.style.objectFit='cover'; im.style.border='2px solid '+(i===LB_STATE.idx?'#3b82f6':'transparent'); im.style.cursor='pointer';
-        im.addEventListener('click',()=>{ LB_STATE.idx=i; lbRenderImages(); renderThumbs(); });
-        LB_THUMBS.appendChild(im);
-      });
-      LB_THUMBS.style.display='flex';
-    }
-    function lbGo(d){
-      if(LB_STATE.mode==='pdf-single'){ LB_STATE.page=Math.max(1,Math.min(LB_STATE.total,LB_STATE.page+d)); lbRenderPdf(); }
-      else if(LB_STATE.mode==='pdf-merged'){ LB_STATE.absIndex=Math.max(1,Math.min(LB_STATE.total,LB_STATE.absIndex+d)); lbRenderPdfMerged(); }
-      else if(LB_STATE.mode==='images'){ LB_STATE.idx=Math.max(0,Math.min(LB_STATE.imgs.length-1,LB_STATE.idx+d)); lbRenderImages(); renderThumbs(); }
-    }
-    document.getElementById('lbPrev').addEventListener('click',()=>lbGo(-1));
-    document.getElementById('lbNext').addEventListener('click',()=>lbGo(1));
-
-    /* Wire viewers + reveal on scroll */
+    /* Wire everything */
     document.querySelectorAll('.media.deck[data-type="pdf-single"]').forEach(wirePdfSingle);
     document.querySelectorAll('.media.deck[data-type="pdf-merged"]').forEach(wirePdfMerged);
     document.querySelectorAll('.media.gallery').forEach(wireGallery);
 
-    const io = new IntersectionObserver((ents)=>{
-      ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); } });
-    }, {threshold:.22, rootMargin:"0px 0px -10%"});
-    document.querySelectorAll('.panel').forEach(p=>io.observe(p));
+    // Lightbox removed to keep the page ultra-minimal like Joanna’s. If you want it back, I can re-enable it.
   </script>
 </body>
 </html>
-
-
 
