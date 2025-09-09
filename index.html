@@ -31,9 +31,14 @@
 
     /* ===== Sticky nav ===== */
     header.navbar{
-      position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid #f1f5f9;
-      backdrop-filter: saturate(140%) blur(6px);
+      position:sticky; top:0; z-index:20;
+      /* CHANGED: make the nav “ghost” so the background is seamless */
+      background:transparent; border-bottom:none; backdrop-filter:none;
     }
+    /* NEW: make only the header container full-width so Snoopy is far left
+       and the links align far right (page content container stays as-is) */
+    header.navbar .container{ width:100%; margin:0; padding:0 10px; }
+
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 2px}
     .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
     .brand img{width:30px;height:30px;border-radius:8px;object-fit:cover}
