@@ -75,9 +75,12 @@
     }
     .project .media img,
     .project .media video{
-      display:block; width:100%; height:auto; aspect-ratio: 16/9; object-fit:cover;
+      display:block; width:100%; height:auto; object-fit:cover;
       transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .3s ease;
     }
+    /* keep videos 16:9, give images a slightly taller 3:2 so they fill nicely */
+    .project .media video{ aspect-ratio:16/9; }
+    .project .media img{ aspect-ratio:3/2; }
     .project .media:hover img,
     .project .media:hover video{ transform: scale(1.02); }
     .project p{font-size:16px; line-height:1.75; color:#111827; margin:14px 2px 0;}
@@ -308,24 +311,26 @@
         </p>
       </article>
 
-      <!-- Quokka -->
+      <!-- Quokka (clickable image -> deck) -->
       <article class="project" id="quokka">
         <h3>Quokka Brew — Can Design Research &amp; Iterations</h3>
-        <div class="media" data-images="Projects/EY1.JPG,Projects/EY2.JPG,Projects/EY3.JPG,Projects/EY4.JPG">
+        <a class="media" href="Projects/Quokka%20Brew.pdf" target="_blank" rel="noopener"
+           data-images="Projects/EY1.JPG,Projects/EY2.JPG,Projects/EY3.JPG,Projects/EY4.JPG">
           <img src="Projects/EY1.JPG" alt="Quokka Brew research hero" />
           <!-- arrows will be injected by JS -->
-        </div>
+        </a>
         <p>
           We ran <b>60+ interviews</b> then tested concepts with the <b>10-ft / 5-ft / 1-ft rule</b>. Signal was clear: calmer neutrals read more “coffee,” the logo and health callouts need to read at 5 ft, and flavor cues should be dead simple at 1 ft. We benchmarked against Rise, La Colombe, and Starbucks and turned that into <b>3 MVP layouts</b> plus variants the team could keep testing. My role was pulling the insights and pushing changes that actually show up on the can — bigger mark, clean info bands, and a flavor hierarchy you can catch fast. <a class="btn" href="Projects/Quokka%20Brew.pdf" target="_blank" rel="noopener">Open deck</a>
         </p>
       </article>
 
-      <!-- Clear Clinical -->
+      <!-- Clear Clinical (clickable image -> mid deck) -->
       <article class="project" id="clear-clinical">
         <h3>Clear Clinical — Product Strategy &amp; UX</h3>
-        <div class="media" data-images="Projects/Magazine1.JPG,Projects/Magazine2.JPG,Projects/Magazine3.JPG">
+        <a class="media" href="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf" target="_blank" rel="noopener"
+           data-images="Projects/Magazine1.JPG,Projects/Magazine2.JPG,Projects/Magazine3.JPG">
           <img src="Projects/Magazine1.JPG" alt="Clear Clinical deck preview" />
-        </div>
+        </a>
         <p>
           Semester project focused on adoption. Interviews + competitive scan → a staged roadmap: nail the daily workflows first, then layer advanced features once the base is sticky. I framed trade-offs and laid out the first shippable version so a small team could move.
           <a class="btn" href="Projects/MID%20SEMSESTER%20DELIVERABLE%20CLEAR%20CLINICAL.pdf" target="_blank" rel="noopener">Mid deck</a>
