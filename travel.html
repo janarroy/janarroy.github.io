@@ -38,7 +38,16 @@
     position:sticky; top:24px; z-index:20;
     background:transparent; border-bottom:none; backdrop-filter:none;
   }
-  header.navbar .container{ width:100%; margin:0; padding:0 40px; }
+/* Sticky nav — same as index/races */
+header.navbar .container{
+  width:100%;
+  /* add these two lines */
+  max-width: 1040px;
+  margin: 0 auto;
+
+  padding:0 40px;
+}
+
   .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px}
 
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
