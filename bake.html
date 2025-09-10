@@ -415,6 +415,27 @@ header.navbar .container{
 
 /* keep the dropdown pinned to the right edge */
 .nav-links > .dropdown{ margin-left:auto; }
+/* Blend the bake navbar into the background (remove the seam) */
+.nav,
+.nav .container,
+.nav .nav-inner {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Paint the same dotted paper behind the sticky nav area */
+.nav { position: sticky; top: 16px; z-index: 30; isolation: isolate; }
+.nav::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 1px 1px, #e8ecf1 1.2px, rgba(255,255,255,0) 1.3px) 0 0/12px 12px,
+    #fafbfc;
+}
+
 
   </style>
 </head>
