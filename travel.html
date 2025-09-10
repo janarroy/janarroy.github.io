@@ -42,7 +42,7 @@
 header.navbar .container{
   width:100%;
   /* add these two lines */
-  max-width: 1040px;
+  max-width: none;
   margin: 0 auto;
 
   padding:0 40px;
@@ -55,7 +55,7 @@ header.navbar .container{
   .brand span{display:none;}
 
   /* Keep brand left, dropdown on right, and shift WORK toward dropdown (exactly like index) */
-  .nav-links{ position:relative; display:flex; align-items:center; gap:16px; width:100%; }
+  .nav-links{ position:relative; display:flex; align-items:center; gap:16px; flex:1; }
   .nav-links > a:first-child{
     position:absolute;
     left:50%;
