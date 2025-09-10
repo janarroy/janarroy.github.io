@@ -135,6 +135,28 @@
   color:var(--accent); margin-left:6px; font-size:16px;
 }
 
+/* --- quick link buttons under hero text --- */
+.hero .text p.intro{
+  font-size: clamp(16px, 2.1vw, 19px);
+  line-height: 1.75;
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+.quick-links{
+  display:flex; gap:14px; margin-top:14px;
+}
+.quick-links a{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:44px; height:44px;
+  border:1px solid var(--bd); border-radius:10px; background:#fff;
+  box-shadow:var(--shadow);
+  text-decoration:none; font-size:22px; color:#111827;
+  transition:box-shadow .2s ease, transform .15s ease, opacity .2s ease;
+}
+.quick-links a:hover{ box-shadow:var(--shadow-hover); transform:translateY(-1px); opacity:.9; }
+.quick-links a:focus{ outline:2px solid var(--accent); outline-offset:2px; }
+
 
     /* ===== Sections ===== */
     .section{padding:18px 0 0}
@@ -304,9 +326,22 @@
     <!-- Text right -->
     <div class="text">
       <h1>Hey, I'm Jan! <span class="plus">+</span></h1>
-      <p>I'm Jan Arroyo — studying CS &amp; Business at USC. I like building products, doing design &amp; research, and creating impact with community partners.</p>
+    
+      <p class="intro">
+        I’m a senior at <b>USC</b> studying computer science and business. I focus on building useful, human-centered products and
+        systems—mixing design, data, and program management. I’ve worked on projects at <b>Amazon</b>, <b>Accenture</b>, and more.
+      </p>
+    
+      <div class="quick-links" aria-label="Quick links">
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/janarroyo" target="_blank" rel="noopener" aria-label="LinkedIn">🔗</a>
+        <!-- Email -->
+        <a href="mailto:janarroy@usc.edu" aria-label="Email">✉️</a>
+        <!-- Resume (update the href to your file path) -->
+        <a href="Projects/Jan_Arroyo_Resume.pdf" target="_blank" rel="noopener" aria-label="Resume">📄</a>
+      </div>
     </div>
-  </div>
+    
 </section>
 
   <!-- ===== Work ===== -->
