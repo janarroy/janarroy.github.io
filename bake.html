@@ -436,6 +436,27 @@ header.navbar .container{
     #fafbfc;
 }
 
+/* Make bake nav match races/index exactly */
+
+/* 1) Same sticky offset as other pages */
+.nav { top: 24px; }
+
+/* 2) Same container width + side padding as other pages */
+.nav .container{
+  width: 100%;
+  max-width: none;   /* allow the dropdown to reach the far right */
+  margin: 0;
+  padding: 0 40px;   /* 40px side padding */
+}
+
+/* 3) Same row padding as other pages */
+.nav-inner{ padding: 18px 0 8px; }
+
+/* 4) Same logo size as other pages */
+.brand-logo img{ width: 30px; height: 30px; }
+
+/* keep your existing --work-shift: 650px; and .nav-links rules */
+
 
   </style>
 </head>
