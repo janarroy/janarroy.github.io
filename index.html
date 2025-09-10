@@ -272,49 +272,42 @@
     </div>
   </header>
 
-  <section id="top" class="hero">
-    <div class="container hero-grid">
-      <!-- Photo left -->
-      <div class="photo">
-        <div class="portrait-wrap">
-          <img id="hero-photo"
-               src="images/IMG_8427.PNG"
-               alt="Jan Arroyo headshot"
-               onerror="(function(img){
-                 if(img.dataset.swapDone) return;
-                 const candidates=['images/headshot.jpg'];
-                 let swapped=false;
-                 candidates.forEach(function(path){
-                   const t=new Image();
-                   t.onload=function(){
-                     if(!swapped){
-                       swapped=true;
-                       img.src=path;
-                       img.dataset.swapDone='1';
-                     }
-                   };
-                   t.src=path;
-                 });
-               })(this)" />
-        </div>
-      </div>
-  
-      <!-- Text right -->
-      <div class="text">
-        <h1>Hey! I’m Jan</h1>
-        <p>
-          I grew up in South Central Los Angeles where I learned to stay curious and resourceful. That curiosity is what got me hooked on how people, business, and technology all fit together, and it eventually brought me to the USC. I am now a senior studying Business Administration with a minor in Artificial Intelligence Applications, and along the way I have developed skills in computer science, finance, data analytics, and project management. I love pulling all of that together to build things that actually make an impact!
-        </p>
-        <p>
-          What I enjoy most is taking an idea and turning it into something real. I get excited about thinking through users, asking the right questions, and pulling together the details that make projects come alive. Through consulting, product work, and design research I have found that being in the middle of it all is where I feel most at home, and it is so rewarding to see something I worked on come to life!
-        </p>
-        <p>
-          In my free time I am usually managing and creating projects, playing around with code, or chasing ideas just to see where they go. A lot of that shows up in the "Just For Fun" side of my site where I share my races, baking experiments, and travels! When I am not working on a project you will probably catch me out on a long run, in the kitchen testing a recipe, or exploring a new neighborhood for food and coffee.
-        </p>
+  <!-- ===== Hero / Intro ===== -->
+<section id="top" class="hero">
+  <div class="container hero-grid">
+    <!-- Photo left -->
+    <div class="photo">
+      <div class="portrait-wrap">
+        <!-- same image element & fallback logic you already had -->
+        <img id="hero-photo"
+             src="images/IMG_8427.PNG"
+             alt="Jan Arroyo headshot"
+             onerror="(function(img){
+               if(img.dataset.swapDone) return;
+               const candidates=['images/headshot.jpg'];
+               let swapped=false;
+               candidates.forEach(function(path){
+                 const t=new Image();
+                 t.onload=function(){
+                   if(!swapped){
+                     swapped=true;
+                     img.src=path;
+                     img.dataset.swapDone='1';
+                   }
+                 };
+                 t.src=path;
+               });
+             })(this)" />
       </div>
     </div>
-  </section>
-  
+
+    <!-- Text right -->
+    <div class="text">
+      <h1>Hey, I'm Jan! <span class="plus">+</span></h1>
+      <p>I'm Jan Arroyo — studying CS &amp; Business at USC. I like building products, doing design &amp; research, and creating impact with community partners.</p>
+    </div>
+  </div>
+</section>
 
   <!-- ===== Work ===== -->
   <section id="work" class="section">
