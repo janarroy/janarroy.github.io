@@ -17,9 +17,8 @@
     --header:#f3d8b3;
     --bezier:cubic-bezier(.22,.61,.36,1);
     --accent:#b91c1c;
-    /* amount to shift WORK to the right from center (same as index) */
-    --work-shift: 650px;
   }
+
   html,body{
     margin:0;padding:0;
     background:
@@ -29,33 +28,34 @@
     min-height:100dvh; overflow-x:hidden;
     font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial;
   }
+
   .container{max-width:1120px;margin:0 auto;padding:8px 20px 100px}
 
-  /* ===== Sticky nav (EXACTLY like index.html) ===== */
-  header.navbar{position:sticky; top:24px; z-index:20; background:transparent; border-bottom:none; backdrop-filter:none;}
+  /* ===== Navbar (matches landing page visually; robust layout) ===== */
+  header.navbar{
+    position:sticky; top:24px; z-index:20;
+    background:transparent; border-bottom:none; backdrop-filter:none;
+  }
   header.navbar .container{ width:100%; margin:0; padding:0 40px; }
   .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0 8px}
+
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
   .brand img{width:30px;height:30px;border-radius:8px;object-fit:cover}
   .brand span{display:none;}
 
-  /* Keep brand left, dropdown on right, and shift WORK toward dropdown */
-  .nav-links{ position:relative; display:flex; align-items:center; gap:16px; width:100%; }
-  .nav-links > a:first-child{
-    position:absolute;
-    left:50%;
-    transform: translateX(calc(-50% + var(--work-shift)));
-    font-weight:800; font-size:14.5px; letter-spacing:.2px;
-    text-decoration:none; color:#111827;
+  /* Right-side nav block */
+  .nav-links{
+    display:flex; align-items:center; gap:16px;
+    margin-left:auto;            /* push the two links to the far right */
   }
-  .nav-links > .dropdown{ margin-left:auto; }
+  .nav-links a,
   .nav-links button{
     color:#111827; text-decoration:none; font-weight:700; font-size:14.5px; letter-spacing:.2px;
     background:none; border:none; padding:0; cursor:pointer;
   }
   .nav-links a:hover, .nav-links button:hover{opacity:.75}
 
-  /* Dropdown */
+  /* Keep order: WORK then dropdown on the far right */
   .dropdown{position:relative}
   .dropdown-menu{
     position:absolute; right:0; top:140%;
@@ -68,14 +68,14 @@
   .dropdown-menu a:hover{background:#f8fafc}
   .dropdown[aria-expanded="true"] .dropdown-menu{display:block}
 
-  /* Active (red + star) — same as index */
+  /* Active (red + star) */
   .nav-links .active{ color:var(--accent); position:relative; }
   .nav-links .active::before{
     content:"✦"; position:absolute; top:-14px; left:50%; transform:translateX(-50%);
     font-size:12px; line-height:1; color:var(--accent); opacity:.95;
   }
 
-  /* ===== Page-specific styles (unchanged) ===== */
+  /* ===== Page-specific styles (unchanged from your travel page) ===== */
   .scene{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
   .route-dash{stroke:rgba(17,24,39,.22);stroke-width:1.6;stroke-dasharray:7 9;fill:none}
 
@@ -155,23 +155,18 @@
 
   .zoom-clone{position:fixed;z-index:40;border-radius:14px;object-fit:cover;box-shadow:0 16px 40px rgba(17,24,39,.25); transition:all .45s var(--bezier)}
 </style>
-
-<!-- (index uses pdf.js; not needed here) -->
 </head>
 <body>
 
-  <!-- ===== Sticky nav (copied) ===== -->
+  <!-- ===== Navbar ===== -->
   <header class="navbar">
     <div class="container nav-inner">
-      <a class="brand" href="#top">
+      <a class="brand" href="index.html#top">
         <img src="Snoopy_Welcome.png" alt="Logo">
         <span>Jan Arroyo</span>
       </a>
-
-      <!-- two-item nav like Joanna; dropdown holds fun pages -->
       <nav class="nav-links" aria-label="Primary">
-        <a href="#work" aria-label="Work">WORK</a>
-
+        <a href="index.html#work" aria-label="Work">WORK</a>
         <div class="dropdown" aria-expanded="false">
           <button type="button" aria-haspopup="true" aria-expanded="false" aria-label="Open Just for Fun menu">JUST FOR FUN ▾</button>
           <div class="dropdown-menu" role="menu" aria-label="Just for Fun">
@@ -359,13 +354,12 @@
   <div class="hover-dot" id="hoverDot" aria-hidden="true"></div>
 
 <script>
-  // ---------- Dropdown (JUST FOR FUN) ---------- (same as index)
+  // Dropdown toggle
   (function(){
     const dd = document.querySelector('.dropdown');
     if(!dd) return;
     const btn = dd.querySelector('button');
     const menu = dd.querySelector('.dropdown-menu');
-
     function set(open){
       dd.setAttribute('aria-expanded', open ? 'true' : 'false');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -376,7 +370,7 @@
     menu.addEventListener('keydown', (e)=>{ if(e.key==='Escape') set(false); });
   })();
 
-  // ---------- Hover “sparkle/dot” that follows cursor ---------- (same as index)
+  // Cursor sparkle
   (function(){
     const dot = document.getElementById('hoverDot');
     if(!dot) return;
@@ -385,44 +379,22 @@
     }, {passive:true});
     const growTargets = 'a, button, .row, .nav-arrow, .btn';
     document.addEventListener('mouseover', (e)=>{
-      if (e.target && (e.target.closest && e.target.closest(growTargets))) {
-        dot.classList.add('dot-grow');
-      }
+      if (e.target && (e.target.closest && e.target.closest(growTargets))) dot.classList.add('dot-grow');
     });
     document.addEventListener('mouseout', (e)=>{
-      if (e.target && (e.target.closest && e.target.closest(growTargets))) {
-        dot.classList.remove('dot-grow');
-      }
+      if (e.target && (e.target.closest && e.target.closest(growTargets))) dot.classList.remove('dot-grow');
     });
   })();
 
-  // ---------- Active nav behavior ---------- (same as index)
+  // Active state: star on fun pages
   (function(){
-    const path = (location.pathname || '').toLowerCase();
-    const workLink = document.querySelector('.nav-links a[href="#work"]');
-    const funBtn   = document.querySelector('.nav-links .dropdown > button');
-
-    // On fun pages (this page), highlight JUST FOR FUN (matches index behavior)
-    const onFunPage = /races\.html|bake\.html|travel\.html/.test(path);
-    if (onFunPage && funBtn) {
-      funBtn.classList.add('active');
-    } else if (workLink) {
-      const work = document.getElementById('work');
-      if (work) {
-        const io = new IntersectionObserver((entries)=>{
-          entries.forEach(en=>{
-            if (en.isIntersecting && en.intersectionRatio > 0.35) workLink.classList.add('active');
-            else workLink.classList.remove('active');
-          });
-        }, {threshold:[0,0.35,1]});
-        io.observe(work);
-      }
-    }
+    const funBtn = document.querySelector('.nav-links .dropdown > button');
+    if (funBtn) funBtn.classList.add('active');
   })();
 </script>
 
 <script>
-  /* ===== original travel JS (unchanged) ===== */
+  /* your original gallery/lightbox JS — unchanged */
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
   },{threshold:.2, rootMargin:"-10% 0px -10% 0px"});
