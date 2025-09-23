@@ -582,18 +582,14 @@ header.navbar .container{
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
 
-  <!-- ===== Your original recipes / rendering / modal / confetti scripts (unchanged) ===== -->
+  <!-- ===== Your original recipes / rendering / modal / confetti scripts (unchanged except image paths + two filename fixes) ===== -->
   <script>
-    // Repo-safe image path helper
-    const BASE = (() => {
-      const seg = location.pathname.split('/')[1];
-      return seg ? `/${seg}` : '';
-    })();
-    const p = (name) => `${BASE}/images/${name}`;
+    // simplified image path helper
+    const p = (name) => `images/${name}`;
 
     // ===== Recipes (Top 3 are ranked) =====
     const RECIPES = [
-      /* --- everything below is exactly your original data --- */
+      /* --- everything below is your original data, with two filename fixes --- */
       {
         id:"lemon",
         rank: 1,
@@ -639,7 +635,7 @@ header.navbar .container{
         title:"Thumbprint Cookies",
         img1:p("ThumbPrint_1.jpg"),
         img2:p("ThumbPrint_2.jpg"),
-        img2Fallback:p("ThumPrint_2.jpg"),
+        img2Fallback:p("ThumbPrint_2.jpg"),
         ingredientsHTML: `
           <li><strong>Dough</strong>
             <ul>
@@ -670,7 +666,7 @@ header.navbar .container{
         rank: 3,
         title:"Focaccia Bread",
         meta:"Olive oil rich • Dimpled top",
-        img1:p("Foccacia.JPG"),
+        img1:p("Focaccia.JPG"),
         ingredientsHTML: `
           <li><strong>Dough</strong>
             <ul>
